@@ -2,7 +2,7 @@
 DROP TABLE shez_customers CASCADE CONSTRAINTS;
 CREATE TABLE shez_customers (
     customer_id     VARCHAR2(50)    PRIMARY KEY,            -- 고객 ID (회원 ID)
-    password        VARCHAR2(255)   NOT NULL,               -- 비밀번호 (암호화 저장) 무슨 용도?
+    password        VARCHAR2(255)   NOT NULL,               -- 비밀번호 (암호화 저장)
     name            VARCHAR2(100)   NOT NULL,               -- 고객 이름
     birth_date      DATE            NOT NULL,               -- 생년월일
     gender          CHAR(1)         NOT NULL 
@@ -23,7 +23,6 @@ COMMENT ON COLUMN shez_customers.gender IS '성별 (M:남, F:여)';
 COMMENT ON COLUMN shez_customers.phone IS '연락처';
 COMMENT ON COLUMN shez_customers.email IS '이메일';
 COMMENT ON COLUMN shez_customers.address IS '주소';
-COMMENT ON COLUMN shez_customers.role IS '권한';
 COMMENT ON COLUMN shez_customers.reg_date IS '등록일';
 
 -- ============================================= 상품 | insurances ============================================= 
