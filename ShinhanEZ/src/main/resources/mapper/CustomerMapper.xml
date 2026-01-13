@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.CustomerMapper">
+    
+    <!-- 전체 고객 목록 -->
+    <select id="findAll" resultType="com.shinhanez.admin.domain.Customer">
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, role, reg_date
+        FROM customer 
+        ORDER BY reg_date DESC
+    </select>
+    
+    <!-- 고객 상세 조회 -->
+    <select id="findById" parameterType="String" resultType="com.shinhanez.admin.domain.Customer">
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, role, reg_date
+        FROM customer 
+        WHERE customer_id = #{customerId}
+    </select>
+    
+    <!-- 고객 등록 -->
+    <insert id="insert" parameterType="com.shinhanez.admin.domain.Customer">
+        INSERT INTO customer (customer_id, password, name, birth_date, gender, phone, email, address, role)
+        VALUES (#{customerId}, #{password}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'ROLE_USER')
+    </insert>
+    
+    <!-- 고객 수정 -->
+    <update id="update" parameterType="com.shinhanez.admin.domain.Customer">
+        UPDATE customer SET
+            name = #{name},
+            birth_date = #{birthDate},
+            gender = #{gender},
+            phone = #{phone},
+            email = #{email},
+            address = #{address}
+        WHERE customer_id = #{customerId}
+    </update>
+    
+    <!-- 고객 삭제 -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM customer WHERE customer_id = #{customerId}
+    </delete>
+    
+    <!-- 고객 수 카운트 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM customer
+    </select>
+    
+</mapper>

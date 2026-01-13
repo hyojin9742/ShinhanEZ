@@ -1,6 +1,35 @@
+# Maven build output
+target/
+bin/
+
+# Eclipse / IntelliJ IDEA project files
 .classpath
 .project
-.springBeans
+.settings/
+.factorypath
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+
+# SQL build artifacts (if generated)
+sql/*.log
+
+# Node.js / frontend build (if used)
+node_modules/
+dist/
+
+# Ignore compiled classes
 *.class
-*/.settings/
-*/target/
+
+# Ignore generated sources
+generated/

@@ -1,0 +1,188 @@
+/* ============================================
+   payment.css - 납입내역 관리 전용 스타일
+   담당: HSK
+   ============================================ */
+
+/* ============================================
+   페이지 타이틀 영역
+   ============================================ */
+.page-title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* ============================================
+   납입내역 테이블
+   ============================================ */
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-table thead {
+    background: var(--sidebar-bg);
+    color: var(--white);
+}
+
+.payment-table th {
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.payment-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+    text-align: center;
+}
+
+.payment-table tbody tr:hover {
+    background: var(--bg-light);
+}
+
+/* ============================================
+   납입내역 검색 영역
+   ============================================ */
+.payment-search {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.payment-search .search-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.payment-search .form-group {
+    margin-bottom: 0;
+}
+
+/* 검색 폼 사이즈 클래스 */
+.select-sm { width: 130px; }
+.select-xs { width: 100px; }
+.input-md { width: 180px; }
+
+/* ============================================
+   카드 유틸리티
+   ============================================ */
+.no-padding { padding: 0; }
+.total-count { font-size: 13px; font-weight: 400; }
+
+/* ============================================
+   납입내역 상세 - 정보 테이블
+   ============================================ */
+.payment-info-table {
+    width: 100%;
+}
+
+.payment-info-table th {
+    width: 150px;
+    padding: 12px 15px;
+    background: var(--bg-light);
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.payment-info-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ============================================
+   납입내역 등록 폼
+   ============================================ */
+.payment-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .payment-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   납입내역 페이지네이션
+   ============================================ */
+.payment-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.payment-pagination a,
+.payment-pagination span {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.payment-pagination a:hover {
+    background: var(--bg-light);
+}
+
+.payment-pagination .active {
+    background: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+/* ============================================
+   납입 상태별 스타일
+   ============================================ */
+.status-paid { color: var(--success); }
+.status-pending { color: var(--warning); }
+.status-overdue { color: var(--danger); }
+
+/* ============================================
+   납입내역 금액 강조
+   ============================================ */
+.payment-amount {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+
+/* ============================================
+   폼 관련 유틸리티
+   ============================================ */
+.input-with-btn {
+    display: flex;
+    gap: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.btn-area {
+    text-align: right;
+    margin-top: 20px;
+}
