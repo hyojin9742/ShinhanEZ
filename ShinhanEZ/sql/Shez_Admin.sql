@@ -62,12 +62,12 @@ CREATE TABLE shez_contracts (
     payment_cycle       VARCHAR2(15)    NOT NULL                -- 납입주기
         CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납', '일시납')),   
     contract_status     VARCHAR2(10)    NOT NULL 
-        CHECK(payment_cycle IN('활성','만료','해지')),            -- 계약상태
+        CHECK(contract_status IN('활성','만료','해지')),            -- 계약상태
     update_date         DATE            DEFAULT SYSDATE,        -- 수정일
     admin_id            NUMBER(30)      NOT NULL,               -- 관리자 번호
     CONSTRAINT fk_shez_contract_customer FOREIGN KEY (customer_id) REFERENCES shez_customers(customer_id),
     CONSTRAINT fk_shez_contract_insured FOREIGN KEY (insured_id) REFERENCES shez_customers(customer_id),
-    CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_no) REFERENCES SHEZ_INSURANCES(PRODUCT_NO),
+    CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_id) REFERENCES SHEZ_INSURANCES(PRODUCT_NO),
     CONSTRAINT fk_shez_contract_admin FOREIGN KEY (admin_id) REFERENCES shez_admins(admin_id)
 );
 -- 시퀀스
