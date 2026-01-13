@@ -6,27 +6,27 @@
     
     <!-- 전체 고객 목록 -->
     <select id="findAll" resultType="com.shinhanez.admin.domain.Customer">
-        SELECT customer_id, password, name, birth_date, gender, phone, email, address, role, reg_date
-        FROM customer 
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, reg_date
+        FROM shez_customers 
         ORDER BY reg_date DESC
     </select>
     
     <!-- 고객 상세 조회 -->
     <select id="findById" parameterType="String" resultType="com.shinhanez.admin.domain.Customer">
-        SELECT customer_id, password, name, birth_date, gender, phone, email, address, role, reg_date
-        FROM customer 
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, reg_date
+        FROM shez_customers 
         WHERE customer_id = #{customerId}
     </select>
     
     <!-- 고객 등록 -->
     <insert id="insert" parameterType="com.shinhanez.admin.domain.Customer">
-        INSERT INTO customer (customer_id, password, name, birth_date, gender, phone, email, address, role)
-        VALUES (#{customerId}, #{password}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'ROLE_USER')
+        INSERT INTO shez_customers (customer_id, password, name, birth_date, gender, phone, email, address)
+        VALUES (#{customerId}, #{password}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address})
     </insert>
     
     <!-- 고객 수정 -->
     <update id="update" parameterType="com.shinhanez.admin.domain.Customer">
-        UPDATE customer SET
+        UPDATE shez_customers SET
             name = #{name},
             birth_date = #{birthDate},
             gender = #{gender},
@@ -38,12 +38,12 @@
     
     <!-- 고객 삭제 -->
     <delete id="delete" parameterType="String">
-        DELETE FROM customer WHERE customer_id = #{customerId}
+        DELETE FROM shez_customers WHERE customer_id = #{customerId}
     </delete>
     
     <!-- 고객 수 카운트 -->
     <select id="count" resultType="int">
-        SELECT COUNT(*) FROM customer
+        SELECT COUNT(*) FROM shez_customers
     </select>
     
 </mapper>
