@@ -1,4 +1,4 @@
-package com.shinhanez.mapper;
+package com.shinhanez.admin.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,8 +16,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
-import com.shinhanez.admin.mapper.ClaimsMapper;
-
 import lombok.extern.log4j.Log4j2;
 @SpringBootTest
 @Log4j2
