@@ -24,7 +24,7 @@
 	</resultMap>
 	
 	<!-- 계약 목록 조회 -->
-	<select id="allContractList" resultMap="contractListMap">
+	<select id="selectAllContractList" resultMap="contractListMap">
 		<![CDATA[
 		SELECT 
 		    contract_id,
@@ -78,7 +78,7 @@
 	</select>
 	
 	<!-- 계약 단건 조회 -->
-	<select id="getContract" resultMap="contractListMap">
+	<select id="selectOneContract" resultMap="contractListMap">
 		<![CDATA[
 		SELECT 
 		    *
@@ -111,7 +111,7 @@
 	</select>
 	
 	<!-- 계약 등록 -->
-	<insert id="registerContract">
+	<insert id="insertContract">
 		<selectKey keyProperty="contractId" order="BEFORE" resultType="int">
   	 		SELECT SEQ_SHEZCONTRACTS.nextval FROM dual
   	 	</selectKey>
@@ -124,7 +124,7 @@
 	</insert>
 	
 	<!-- 계약 수정 -->
-	<update id="reviseContract">
+	<update id="updateContract">
 		UPDATE shez_contracts SET 
 		    insured_id = #{insuredId}, product_id = #{productId}, contract_coverage = #{contractCoverage}, 
 		    premium_amount = #{premiumAmount}, payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_id = #{adminId}
