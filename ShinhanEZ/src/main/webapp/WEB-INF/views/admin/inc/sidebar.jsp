@@ -27,7 +27,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="${param.menu == 'product' ? 'active' : ''}">
+            <a href="${ctx}/admin/insurance/list" class="${param.menu == 'product' ? 'active' : ''}">
                 <i class="bi bi-box-seam"></i> 상품관리
             </a>
         </li>

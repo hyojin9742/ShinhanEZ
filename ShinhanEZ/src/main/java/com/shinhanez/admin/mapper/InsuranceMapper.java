@@ -1,0 +1,29 @@
+package com.shinhanez.admin.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.shinhanez.admin.domain.Customer;
+import com.shinhanez.admin.domain.Insurance;
+
+@Mapper
+public interface InsuranceMapper {
+	
+	//전체 상품 목록
+	List<Insurance> allGet();
+	
+	//상품 상세 조회
+	Insurance get(Long productNo);
+	
+	// 고객 등록
+    int insert(Insurance insurance);
+    
+    // 고객 수정
+    int update(Insurance insurance);
+    
+    // 고객 삭제
+    int delete(Insurance insurance);
+
+
+}

@@ -20,7 +20,7 @@
     <description>ShinhanEZ Insurance Website - Spring Boot</description>
     
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     
     <dependencies>
@@ -35,6 +35,8 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
+        
+       
         
         <!-- JSTL -->
         <dependency>
