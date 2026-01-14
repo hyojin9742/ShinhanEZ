@@ -18,15 +18,21 @@ CREATE TABLE shez_contracts (
     CONSTRAINT pk_shez_contractid PRIMARY KEY (contract_id),
     CONSTRAINT fk_shez_contract_customer FOREIGN KEY (customer_id) REFERENCES shez_customers(customer_id),
     CONSTRAINT fk_shez_contract_insured FOREIGN KEY (insured_id) REFERENCES shez_customers(customer_id),
-    CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_id) REFERENCES SHEZ_INSURANCES(PRODUCT_NO),
+    CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_id) REFERENCES SHEZ_INSURANCES(PRODUCTNO),
     CONSTRAINT fk_shez_contract_admin FOREIGN KEY (admin_id) REFERENCES shez_admins(admin_id)
 );
 -- 시퀀스
+DROP SEQUENCE seq_shezContracts;
 CREATE SEQUENCE seq_shezContracts
     START WITH 1
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
+-- 인덱스
+CREATE INDEX idx_contracts_regdate_desc ON SHEZ_CONTRACTS(REG_DATE DESC, CONTRACT_ID DESC);
+CREATE INDEX idx_contracts_customer ON SHEZ_CONTRACTS(CUSTOMER_ID, REG_DATE DESC);
+CREATE INDEX idx_contracts_status_regdate ON SHEZ_CONTRACTS(CONTRACT_STATUS, REG_DATE DESC);
+
 -- 더미데이터
 -- 계약 더미데이터 4건
 INSERT INTO shez_contracts (
@@ -35,7 +41,7 @@ INSERT INTO shez_contracts (
     premium_amount, payment_cycle, contract_status,
     update_date, admin_id
 ) VALUES (
-    1, 'C001', 'C001', 1,
+    SEQ_SHEZCONTRACTS.nextval, 'C001', 'C001', 1,
     '암 진단비 5천만원 보장', DATE '2024-01-01', DATE '2029-01-01',
     50000, '월납', '활성',
     SYSDATE, 1
@@ -47,7 +53,7 @@ INSERT INTO shez_contracts (
     premium_amount, payment_cycle, contract_status,
     update_date, admin_id
 ) VALUES (
-    2, 'C002', 'C002', 2,
+    SEQ_SHEZCONTRACTS.nextval, 'C002', 'C002', 2,
     '교통사고 입원비 보장', DATE '2023-06-15', DATE '2028-06-15',
     30000, '분기납', '활성',
     SYSDATE, 2
@@ -59,7 +65,7 @@ INSERT INTO shez_contracts (
     premium_amount, payment_cycle, contract_status,
     update_date, admin_id
 ) VALUES (
-    3, 'C003', 'C003', 3,
+    SEQ_SHEZCONTRACTS.nextval, 'C003', 'C003', 3,
     '실손 의료비 보장', DATE '2022-03-10', DATE '2027-03-10',
     45000, '연납', '만료',
     SYSDATE, 1
@@ -71,7 +77,7 @@ INSERT INTO shez_contracts (
     premium_amount, payment_cycle, contract_status,
     update_date, admin_id
 ) VALUES (
-    4, 'C004', 'C004', 4,
+    SEQ_SHEZCONTRACTS.nextval, 'C004', 'C004', 4,
     '재해 사망 보장', DATE '2025-01-01', DATE '2030-01-01',
     100000, '일시납', '활성',
     SYSDATE, 3
@@ -79,3 +85,108 @@ INSERT INTO shez_contracts (
 
 commit;
 SELECT * FROM shez_contracts;
+
+-- ==================================================================================================
+-- 계약 목록 조회
+SELECT 
+contract_id,
+customer_id,
+customer_name,
+insured_id,
+insured_name,
+product_id,
+product_name,
+reg_date,
+expired_date,
+contract_status,
+premium_amount,
+payment_cycle,
+admin_id,
+admin_name
+FROM (
+SELECT 
+    c.contract_id,
+    c.customer_id,
+    cu.name AS customer_name,
+    c.insured_id,
+    ins.name AS insured_name,
+    c.product_id,
+    p.productname AS product_name,
+    c.reg_date,
+    c.expired_date,
+    c.contract_status,
+    c.premium_amount,
+    c.payment_cycle,
+    c.admin_id,
+    ad.name AS admin_name,
+    ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
+FROM 
+    shez_contracts c
+    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+    INNER JOIN shez_insurances p ON c.product_id = p.productno
+    INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+)
+WHERE rn BETWEEN 0 + 1 AND 10;
+
+-- 계약 건수 조회
+SELECT COUNT(*) FROM 
+    shez_contracts c
+    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+    INNER JOIN shez_insurances p ON c.product_id = p.productno;
+    
+-- 계약 단건 조회
+SELECT 
+    *
+FROM (
+    SELECT 
+        c.contract_id,
+        c.customer_id,
+        cu.name AS customer_name,
+        c.insured_id,
+        ins.name AS insured_name,
+        c.product_id,
+        p.productname AS product_name,
+        c.contract_coverage,
+        c.reg_date,
+        c.expired_date,
+        c.premium_amount,
+        c.payment_cycle,
+        c.contract_status,
+        c.admin_id,
+        ad.name AS admin_name
+    FROM 
+        shez_contracts c
+        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+        INNER JOIN shez_insurances p ON c.product_id = p.productno
+        INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+)
+WHERE contract_id = 1;
+
+-- 계약 등록
+INSERT INTO shez_contracts 
+    (contract_id, customer_id, insured_id, product_id, contract_coverage,
+    reg_date, expired_date, premium_amount, payment_cycle, contract_status, admin_id )
+VALUES 
+    (SEQ_SHEZCONTRACTS.nextval,'C005','C010',2,'암 진단비 보장',
+    DATE '2026-01-15', DATE '2040-01-30',70000,'분기납','활성',4);
+
+COMMIT;
+SELECT * FROM shez_contracts;
+
+-- 계약 수정
+UPDATE shez_contracts SET 
+    insured_id = 'C007',product_id = 4, contract_coverage = '재해 사망 보장', 
+    premium_amount = 90000, payment_cycle = '일시납', contract_status = '해지',admin_id = 2 
+WHERE contract_id = 5;
+
+COMMIT;
+SELECT * FROM shez_contracts;
+
+-- 계약 삭제 | 무결성 위반
+-- DELETE FROM shez_contracts WHERE contract_id = 1;
+
+SELECT * FROM shez_customers ORDER BY customer_id;
+SELECT * FROM shez_admins ORDER BY admin_id;
+SELECT * FROM shez_insurances ORDER BY productno;
