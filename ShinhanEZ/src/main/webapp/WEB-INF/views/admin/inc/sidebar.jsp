@@ -32,7 +32,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="${param.menu == 'contract' ? 'active' : ''}">
+            <a href="/admin/contract/list" class="${param.menu == 'contract' ? 'active' : ''}">
                 <i class="bi bi-file-earmark-text"></i> 계약관리
             </a>
         </li>

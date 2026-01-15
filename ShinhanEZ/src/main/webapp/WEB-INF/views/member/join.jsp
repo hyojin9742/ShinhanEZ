@@ -6,7 +6,7 @@
 <html lang="ko">
 
 <head id="inc-head">
-	<jsp:include page="/inc/head.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/inc/head.jsp"></jsp:include>
 </head>
 <c:if test="${param.msg=='0' }">
 	<script type="text/javascript">
@@ -25,7 +25,7 @@
     <div id="page" data-page-main="true">
       <!-- header -->
       <header id="header" class="header">
-      	<jsp:include page="/inc/header.jsp"></jsp:include>
+      	<jsp:include page="/WEB-INF/views/inc/header.jsp"></jsp:include>
       </header>
       <!--// header -->
 
@@ -212,7 +212,7 @@
 
       <!--footer-->
       <footer id="footer" class="footer">
-      	<jsp:include page="/inc/footer.jsp"></jsp:include>
+      	<jsp:include page="/WEB-INF/views/inc/footer.jsp"></jsp:include>
       </footer>
       <!--//footer-->
     </div>
@@ -222,7 +222,7 @@
   </div>
 
   <div id="sitemap" class="sitemapArea">
-  	<jsp:include page="/inc/sitemap.jsp"></jsp:include>
+  	<jsp:include page="/WEB-INF/views/inc/sitemap.jsp"></jsp:include>
   </div>
 </body>
 
