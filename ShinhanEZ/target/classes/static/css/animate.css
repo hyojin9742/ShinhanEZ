@@ -1,0 +1,155 @@
+@charset "utf-8";
+
+/*
+  animate.css - https://animate.style/
+  애니메이션 효과
+*/
+
+/* 기본 애니메이션 설정 */
+.animated,
+.animate__animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.animated.faster {
+  animation-duration: 500ms;
+}
+
+.animated.fast {
+  animation-duration: 800ms;
+}
+
+.animated.slow {
+  animation-duration: 2s;
+}
+
+.animated.slower {
+  animation-duration: 3s;
+}
+
+/* ========================================
+   cssAnimate - 스크롤 트리거 애니메이션
+   ======================================== */
+
+/* 기본 상태: 숨김 (우선순위 높임) */
+.cssAnimate,
+#main .cssAnimate,
+.txt-cont.cssAnimate {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* active 상태: 애니메이션 실행 */
+.cssAnimate.active,
+#main .cssAnimate.active,
+.txt-cont.cssAnimate.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+/* ========================================
+   fadeIn
+   ======================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 즉시 실행용 (animate__animated와 함께 사용) */
+.animated.fadeIn,
+.animate__animated.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+/* 스크롤 트리거용 (cssAnimate와 함께 사용) */
+.cssAnimate.fadeIn.active,
+#main .cssAnimate.fadeIn.active,
+.txt-cont.cssAnimate.fadeIn.active {
+  animation-name: fadeIn;
+}
+
+/* ========================================
+   fadeInUp
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 즉시 실행용 */
+.animated.fadeInUp,
+.animate__animated.animate__fadeInUp {
+  animation-name: fadeInUp;
+}
+
+/* 스크롤 트리거용 */
+.cssAnimate.fadeInUp.active,
+#main .cssAnimate.fadeInUp.active,
+.txt-cont.cssAnimate.fadeInUp.active {
+  animation-name: fadeInUp;
+}
+
+/* ========================================
+   fadeInLeft
+   ======================================== */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 즉시 실행용 */
+.animated.fadeInLeft,
+.animate__animated.animate__fadeInLeft {
+  animation-name: fadeInLeft;
+}
+
+/* 스크롤 트리거용 */
+.cssAnimate.fadeInLeft.active,
+#main .cssAnimate.fadeInLeft.active {
+  animation-name: fadeInLeft;
+}
+
+/* ========================================
+   fadeInRight
+   ======================================== */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(50px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 즉시 실행용 */
+.animated.fadeInRight,
+.animate__animated.animate__fadeInRight {
+  animation-name: fadeInRight;
+}
+
+/* 스크롤 트리거용 */
+.cssAnimate.fadeInRight.active,
+#main .cssAnimate.fadeInRight.active {
+  animation-name: fadeInRight;
+}

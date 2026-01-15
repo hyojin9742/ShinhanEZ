@@ -1,0 +1,403 @@
+/* ============================================
+   common.css - 공통 레이아웃 & 변수
+   ============================================ */
+
+/* 변수 */
+:root {
+    /* 색상 */
+    --sidebar-bg: #1a2b4a;
+    --sidebar-hover: #243754;
+    --sidebar-active: #2d4263;
+    --accent-yellow: #ffc107;
+    --primary-blue: #0d6efd;
+    --text-dark: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --bg-light: #f8f9fa;
+    --bg-body: #f4f6f9;
+    --success: #198754;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --white: #fff;
+    
+    /* 사이즈 */
+    --sidebar-width: 250px;
+    --header-height: 60px;
+}
+
+/* 폰트 */
+body.admin-page {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* ============================================
+   레이아웃
+   ============================================ */
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    color: var(--white);
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.admin-main {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.admin-header {
+    background: var(--white);
+    padding: 15px 30px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header-height);
+}
+
+.admin-content {
+    flex: 1;
+    padding: 30px;
+}
+
+.admin-footer {
+    background: var(--sidebar-bg);
+    color: rgba(255,255,255,0.7);
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* ============================================
+   사이드바
+   ============================================ */
+.sidebar-logo {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-logo .logo-img {
+    width: 180px;
+    height: auto;
+}
+
+.sidebar-menu {
+    padding: 10px 0;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-menu li a:hover {
+    background: var(--sidebar-hover);
+    color: var(--white);
+}
+
+.sidebar-menu li a.active {
+    background: var(--sidebar-active);
+    color: var(--accent-yellow);
+    border-left-color: var(--accent-yellow);
+}
+
+.sidebar-menu li a i {
+    width: 24px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.sidebar-divider {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 10px 0;
+}
+
+.sidebar-section-title {
+    padding: 10px 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-bottom a {
+    display: block;
+    padding: 10px 15px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.sidebar-bottom a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ============================================
+   헤더
+   ============================================ */
+.header-breadcrumb {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.header-breadcrumb a {
+    color: var(--primary-blue);
+}
+
+.header-search {
+    display: flex;
+    align-items: center;
+    background: var(--bg-light);
+    border-radius: 20px;
+    padding: 5px 15px;
+}
+
+.header-search input {
+    border: none;
+    background: transparent;
+    padding: 8px;
+    width: 200px;
+    outline: none;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icons a {
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.header-icons a:hover {
+    color: var(--text-dark);
+}
+
+/* ============================================
+   공통 컴포넌트 - 카드
+   ============================================ */
+.card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--sidebar-bg);
+    color: var(--white);
+    border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* ============================================
+   공통 컴포넌트 - 버튼
+   ============================================ */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-primary { background: var(--primary-blue); color: var(--white); }
+.btn-primary:hover { background: #0b5ed7; }
+.btn-success { background: var(--success); color: var(--white); }
+.btn-warning { background: var(--warning); color: #000; }
+.btn-danger { background: var(--danger); color: var(--white); }
+.btn-secondary { background: #6c757d; color: var(--white); }
+.btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-dark); }
+.btn-outline:hover { background: var(--bg-light); }
+
+/* ============================================
+   공통 컴포넌트 - 뱃지
+   ============================================ */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-success { background: #d1e7dd; color: #0f5132; }
+.badge-warning { background: #fff3cd; color: #664d03; }
+.badge-danger { background: #f8d7da; color: #842029; }
+.badge-info { background: #cff4fc; color: #055160; }
+.badge-primary { background: #cfe2ff; color: #084298; }
+
+/* ============================================
+   공통 컴포넌트 - 폼
+   ============================================ */
+.form-group { margin-bottom: 15px; }
+.form-label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 14px; }
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+.form-select {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    background: var(--white);
+}
+
+/* ============================================
+   유틸리티
+   ============================================ */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.d-flex { display: flex; }
+.gap-10 { gap: 10px; }
+.gap-15 { gap: 15px; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+
+
+/* ============================================
+   테이블
+   ============================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background: var(--sidebar-bg);
+    color: var(--white);
+}
+
+.admin-table th {
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+    text-align: center;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--bg-light);
+}
+
+
+/* ============================================
+   사이드바 하단 버튼 개선
+   ============================================ */
+.sidebar-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-bottom a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.sidebar-bottom a:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+}
+
+.sidebar-bottom .logout-btn {
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 0;
+}
+
+
+/* ============================================
+   헤더 우측 영역
+   ============================================ */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: var(--bg-light);
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.header-user i {
+    font-size: 18px;
+    color: var(--primary-blue);
+}

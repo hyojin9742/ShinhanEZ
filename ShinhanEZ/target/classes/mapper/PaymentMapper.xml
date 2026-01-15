@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.PaymentMapper">
+
+    <!-- 페이징 + 검색 조회 -->
+    <select id="findAllWithPaging" parameterType="map" resultType="com.shinhanez.admin.domain.Payment">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+                SELECT payment_id, contract_id, payment_date, due_date, 
+                       amount, method, status, reg_date
+                FROM shez_payments
+                <where>
+                    <if test="status != null and status != ''">
+                        AND status = #{status}
+                    </if>
+                    <if test="searchType == 'paymentId' and keyword != null and keyword != ''">
+                        AND payment_id = #{keyword}
+                    </if>
+                    <if test="searchType == 'contractId' and keyword != null and keyword != ''">
+                        AND contract_id = #{keyword}
+                    </if>
+                </where>
+                ORDER BY payment_id DESC
+            ) t
+            WHERE ROWNUM &lt;= #{endRow}
+        )
+        WHERE rn &gt; #{startRow}
+    </select>
+    
+    <!-- 총 건수 (검색 포함) -->
+    <select id="countWithSearch" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM shez_payments
+        <where>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="searchType == 'paymentId' and keyword != null and keyword != ''">
+                AND payment_id = #{keyword}
+            </if>
+            <if test="searchType == 'contractId' and keyword != null and keyword != ''">
+                AND contract_id = #{keyword}
+            </if>
+        </where>
+    </select>
+    
+    <!-- 단건 조회 -->
+    <select id="findById" resultType="com.shinhanez.admin.domain.Payment">
+        SELECT payment_id, contract_id, payment_date, due_date, 
+               amount, method, status, reg_date
+        FROM shez_payments
+        WHERE payment_id = #{paymentId}
+    </select>
+    
+    <!-- 등록 -->
+    <insert id="insert">
+        INSERT INTO shez_payments (payment_id, contract_id, payment_date, due_date, amount, method, status)
+        VALUES (payment_seq.NEXTVAL, #{contractId}, #{paymentDate}, #{dueDate}, #{amount}, #{method}, #{status})
+    </insert>
+    
+    <!-- 수정 -->
+    <update id="update">
+        UPDATE shez_payments
+        SET contract_id = #{contractId},
+            payment_date = #{paymentDate},
+            due_date = #{dueDate},
+            amount = #{amount},
+            method = #{method},
+            status = #{status}
+        WHERE payment_id = #{paymentId}
+    </update>
+    
+    <!-- 삭제 -->
+    <delete id="delete">
+        DELETE FROM shez_payments WHERE payment_id = #{paymentId}
+    </delete>
+    
+    <!-- 상태별 건수 -->
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM shez_payments WHERE status = #{status}
+    </select>
+
+</mapper>

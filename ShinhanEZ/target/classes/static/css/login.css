@@ -1,0 +1,789 @@
+@charset "utf-8";
+
+/* ===== 로그인 컨테이너 ===== */
+.login_inner {
+  width: 460px;
+  margin: 50px auto;
+}
+
+.login_wrap {
+  width: 460px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ===== 탭 radio 숨김 ===== */
+.menu_chk {
+  display: none;
+}
+
+/* ===== 탭 메뉴 ===== */
+.menu_wrap {
+  display: flex;
+  justify-content: space-between;
+  height: 63px;
+  text-align: center;
+  line-height: 63px;
+  background: #f5f6f4;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
+}
+
+.menu_wrap li {
+  flex: 1;
+}
+
+.menu_tab {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 15px;
+  color: #888;
+  background: #f5f6f4;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menu_id {
+  border-top-left-radius: 12px;
+}
+
+.menu_qr {
+  border-top-right-radius: 12px;
+}
+
+/* 탭 선택 상태 */
+#chk_id:checked ~ .menu_wrap .menu_id,
+#chk_num:checked ~ .menu_wrap .menu_num,
+#chk_qr:checked ~ .menu_wrap .menu_qr {
+  background: #fff;
+  color: #333;
+  border-top: 1px solid #e1e3e5;
+  border-left: 1px solid #e1e3e5;
+  border-right: 1px solid #e1e3e5;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* ===== 패널 영역 (CSS Only 탭 전환) ===== */
+.panel_area {
+  position: relative;
+}
+
+/* 패널 기본: 숨김 */
+.panel {
+  display: none;
+}
+
+/* radio checked 상태에 따라 패널 표시 */
+#chk_id:checked ~ .panel_area .panel_id,
+#chk_num:checked ~ .panel_area .panel_num,
+#chk_qr:checked ~ .panel_area .panel_qr {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel_inner {
+  padding: 24px;
+  border: 1px solid #e1e3e5;
+  border-top: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: #fff;
+}
+
+/* ===== 플로팅 라벨 인풋 ===== */
+.input_item {
+  position: relative;
+}
+
+.input_item input[type="text"],
+.input_item input[type="password"] {
+  width: 100%;
+  height: 56px;
+  padding: 22px 44px 8px 15px;
+  border: 1px solid #e1e3e5;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input_item.id input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input_item.pw input {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.input_item.single input {
+  border-radius: 6px;
+}
+
+/* 라벨 기본 */
+.input_item > label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  font-weight: 400;
+  color: #999;
+  cursor: text;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: #fff;
+  padding: 0 4px;
+  z-index: 2;
+}
+
+/* 포커스 상태 */
+.input_item.is-focused input[type="text"],
+.input_item.is-focused input[type="password"] {
+  border-color: var(--color-primary);
+}
+
+.input_item.is-focused > label {
+  top: 8px;
+  transform: translateY(0);
+  font-size: 11px;
+  color: var(--color-primary);
+}
+
+/* 값 있는 상태 */
+.input_item.has-value > label {
+  top: 5px;
+  transform: translateY(0);
+  font-size: 11px;
+  background: transparent;
+}
+
+.input_item.has-value:not(.is-focused) > label {
+  color: #666;
+}
+
+/* ID + PW 연결 시 보더 처리 */
+.input_item.id.is-focused input {
+  border-color: var(--color-primary);
+  z-index: 1;
+  position: relative;
+}
+
+.input_item.pw.is-focused input {
+  border-color: var(--color-primary);
+  border-top: 1px solid var(--color-primary);
+}
+
+/* ===== X 버튼 (클리어) ===== */
+.btn_clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.btn_clear:hover {
+  background: #999;
+}
+
+.btn_clear::before,
+.btn_clear::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: #fff;
+}
+
+.btn_clear::before {
+  transform: rotate(45deg);
+}
+
+.btn_clear::after {
+  transform: rotate(-45deg);
+}
+
+/* 값 있을 때 X 버튼 표시 */
+.input_item.has-value .btn_clear {
+  display: flex;
+}
+
+/* ===== 로그인 옵션 (체크박스 + IP보안) ===== */
+.login_option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+/* 커스텀 체크박스 */
+.keep_check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.keep_check input {
+  display: none;
+}
+
+.check_icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.check_icon::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.keep_check input:checked + .check_icon {
+  border-color: var(--color-primary);
+}
+
+.keep_check input:checked + .check_icon::after {
+  background: var(--color-primary);
+}
+
+.keep_text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* IP보안 토글 */
+.ip_check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ip_text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 토글 스위치 */
+.toggle_switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.toggle_switch input {
+  display: none;
+}
+
+.toggle_slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ccc;
+  border-radius: 26px;
+  transition: background 0.3s ease;
+  overflow: hidden;
+}
+
+.toggle_slider::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.toggle_label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.toggle_label.on {
+  left: 6px;
+  color: #fff;
+  opacity: 0;
+}
+
+.toggle_label.off {
+  right: 6px;
+  color: #999;
+  opacity: 1;
+}
+
+/* 토글 ON 상태 */
+.toggle_switch input:checked + .toggle_slider {
+  background: var(--color-primary);
+}
+
+.toggle_switch input:checked + .toggle_slider::before {
+  transform: translateX(26px);
+}
+
+.toggle_switch input:checked + .toggle_slider .toggle_label.on {
+  opacity: 1;
+}
+
+.toggle_switch input:checked + .toggle_slider .toggle_label.off {
+  opacity: 0;
+}
+
+/* ===== 패스키 구분선 ===== */
+.passkey_divider {
+  width: 100%;
+  height: 62px;
+  padding: 31px 0 30px;
+  text-align: center;
+  position: relative;
+}
+
+.passkey_divider::before {
+  content: "";
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  top: 31px;
+  left: 0;
+  background: #efeff0;
+}
+
+.divider_text {
+  display: inline-block;
+  color: #999;
+  font-size: 13px;
+  padding: 0 12px;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 공통 버튼 ===== */
+.btn_login {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #e1e3e5;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn_login:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+/* 로그인 버튼 */
+.login_btn_wrap {
+  margin-top: 18px;
+}
+
+.login_btn_wrap .btn_login {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.login_btn_wrap .btn_login:disabled {
+  background: #e5e5e5;
+  border-color: #e5e5e5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* 패스키 버튼 */
+.passkey_login_wrap .btn_login {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  background: #fff;
+}
+
+/* ===== 안내 텍스트 ===== */
+.guide_text {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.once_hint {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+}
+
+/* ===== QR 패널 ===== */
+.qr_inner {
+  text-align: center;
+}
+
+.qr_box {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 20px;
+  background: #f5f6f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.qr_img {
+  max-width: 140px;
+  max-height: 140px;
+  transition: opacity 0.3s ease;
+}
+
+/* QR 만료 시 흐리게 */
+.qr_box.is-expired .qr_img {
+  opacity: 0.3;
+}
+
+.qr_side {
+  margin-bottom: 20px;
+}
+
+.qr_time_title {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 4px;
+}
+
+.qr_time {
+  font-size: 18px;
+  color: #333;
+}
+
+/* 타이머 경고 (30초 이하) */
+.qr_time.is-warning {
+  color: #ff9800;
+}
+
+/* 타이머 만료 */
+.qr_time.is-expired {
+  color: #e53935;
+}
+
+.qr_expired {
+  display: none;
+  color: #e53935;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.qr_expired.is-show {
+  display: block;
+}
+
+.qr_guide {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.qr_guide_sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #999;
+}
+
+.qr_actions {
+  margin-top: 16px;
+}
+
+/* QR 새로고침 버튼 */
+.qr_refresh_btn {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #f5f6f8;
+  color: var(--color-primary);
+  border: 1px solid #e1e3e5;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.qr_refresh_btn:hover {
+  background: #eee;
+}
+
+/* ===== 하단 링크 ===== */
+.find_wrap {
+  width: 100%;
+  padding: 20px 0 48px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.find_text {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.find_wrap li {
+  padding-left: 28px;
+  position: relative;
+}
+
+.find_wrap li:first-child {
+  padding-left: 0;
+}
+
+.find_text a {
+  font-size: 14px;
+  color: #888;
+}
+
+.find_wrap li + li::before {
+  content: "";
+  background: #dadada;
+  width: 1px;
+  height: 12px;
+  position: absolute;
+  top: 6px;
+  left: 14px;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 480px) {
+  .login_inner,
+  .login_wrap {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .menu_tab {
+    font-size: 13px;
+    height: 48px;
+  }
+
+  .panel_inner {
+    padding: 20px 16px;
+  }
+
+  .login_option {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+
+/* ========================================
+   반응형 - 375px 이하 (소형 모바일)
+   ======================================== */
+@media (max-width: 375px) {
+  .login_inner {
+    margin: 30px auto;
+  }
+
+  .login_inner,
+  .login_wrap {
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .menu_wrap {
+    height: 48px;
+    line-height: 48px;
+  }
+
+  .menu_tab {
+    font-size: 12px;
+  }
+
+  .panel_inner {
+    padding: 16px 12px;
+  }
+
+  /* 인풋 */
+  .input_item input[type="text"],
+  .input_item input[type="password"] {
+    height: 50px;
+    padding: 20px 40px 6px 12px;
+    font-size: 14px;
+  }
+
+  .input_item > label {
+    left: 12px;
+    font-size: 14px;
+  }
+
+  .input_item.is-focused > label,
+  .input_item.has-value > label {
+    font-size: 10px;
+  }
+
+  .btn_clear {
+    right: 10px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn_clear::before,
+  .btn_clear::after {
+    width: 8px;
+  }
+
+  /* 로그인 옵션 */
+  .login_option {
+    gap: 10px;
+  }
+
+  .keep_text,
+  .ip_text {
+    font-size: 13px;
+  }
+
+  .check_icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .check_icon::after {
+    width: 8px;
+    height: 8px;
+  }
+
+  .toggle_switch {
+    width: 46px;
+    height: 24px;
+  }
+
+  .toggle_slider::before {
+    width: 20px;
+    height: 20px;
+  }
+
+  .toggle_switch input:checked + .toggle_slider::before {
+    transform: translateX(22px);
+  }
+
+  /* 버튼 */
+  .btn_login {
+    height: 46px;
+    font-size: 15px;
+  }
+
+  /* 패스키 구분선 */
+  .passkey_divider {
+    height: 50px;
+    padding: 25px 0 24px;
+  }
+
+  .passkey_divider::before {
+    top: 25px;
+  }
+
+  .divider_text {
+    font-size: 12px;
+  }
+
+  /* QR 패널 */
+  .qr_box {
+    width: 140px;
+    height: 140px;
+  }
+
+  .qr_img {
+    max-width: 120px;
+    max-height: 120px;
+  }
+
+  .qr_time {
+    font-size: 16px;
+  }
+
+  .qr_guide {
+    font-size: 13px;
+  }
+
+  .qr_refresh_btn {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  /* 하단 링크 */
+  .find_wrap {
+    padding: 16px 0 32px;
+  }
+
+  .find_wrap li {
+    padding-left: 20px;
+  }
+
+  .find_text a {
+    font-size: 13px;
+  }
+
+  .find_wrap li + li::before {
+    left: 10px;
+  }
+
+  /* 안내 텍스트 */
+  .guide_text {
+    font-size: 13px;
+  }
+
+  .once_hint {
+    font-size: 12px;
+  }
+}

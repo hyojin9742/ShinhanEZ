@@ -1,0 +1,822 @@
+﻿@charset "utf-8";
+
+#join_inner {
+  width: 496px;
+  margin: 50px auto;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+#join_form {
+  width: 456px;
+  margin: 0 auto;
+}
+
+#join_form input {
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px 0 45px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+#join_form input:focus {
+  outline: none;
+}
+
+
+.join_content {
+  width: 100%;
+}
+
+.form_list {
+  border: 1px solid #dfdfdf;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px 0;
+  background: #fff;
+}
+
+
+.form_list#name_birth {
+  overflow: visible;
+}
+
+.form_item {
+  position: relative;
+  width: 100%;
+  border-bottom: 1px solid #dfdfdf;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+.form_item.id::before,
+.form_item.pw::before,
+.form_item.email::before,
+.form_item.name::before,
+.form_item.birth::before,
+.form_item.telecom::before,
+.form_item.phone::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 30px;
+  height: 30px;
+  background: url(../images/icon/ico-module.png) no-repeat;
+  background-size: 208px 176px;
+  filter: invert(1);
+}
+
+
+.form_item.id::before,
+.form_item.name::before {
+  background-position: 0 -50px;
+}
+
+.form_item.pw::before {
+  background-position: -32px -146px;
+}
+
+.form_item.email::before {
+  background-position: -114px -32px;
+}
+
+.form_item.birth::before {
+  background-position: -82px -32px;
+}
+
+.form_item.telecom::before {
+  background-position: -82px 0;
+}
+
+.form_item.phone::before {
+  background-position: -178px 0;
+}
+
+.form_item:last-child {
+  border-bottom: 0;
+}
+
+.icon_arrow::before {
+  content: "";
+  position: absolute;
+  top: 35%;
+  left: 410px;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(../images/icon/ico-common-sm.svg);
+}
+
+.icon_arrow.down::before {
+  background-position: -31px -15px;
+}
+
+.icon_arrow.up::before {
+  background-position: -48px -15px;
+}
+
+/* telecom */
+.telecom_view {
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0 50px 0 45px;
+  background: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.telecom_view.is-placeholder {
+  color: #929294;
+}
+
+
+#telecomArrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 56px;
+  height: 100%;
+  pointer-events: none;
+}
+
+#telecomArrow::before {
+  left: auto;
+  right: 20px;
+  top: 35%;
+}
+
+.tel_itemDiv {
+  position: absolute;
+  width: 202px;
+  border-radius: 6px;
+  left: 50px;
+  top: 100%;
+  transform: translateY(8px);
+  z-index: 999;
+  display: none;
+}
+
+.tel_item {
+  width: 100%;
+  border-radius: inherit;
+  background: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.tel_item li {
+  border: 1px solid #dfdfdf;
+  width: 50%;
+  padding: 11px 8px;
+  text-align: left;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.tel_item li:nth-child(1) {
+  border-top-left-radius: 6px;
+}
+
+.tel_item li:nth-child(2) {
+  border-top-right-radius: 6px;
+}
+
+.tel_item li:nth-child(5) {
+  border-bottom-left-radius: 6px;
+}
+
+.tel_item li:nth-child(6) {
+  border-bottom-right-radius: 6px;
+}
+
+.tel_item button {
+  width: 100%;
+  height: 100%;
+  font-size: 1.4rem;
+  letter-spacing: -0.8px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+
+.form_item.errBorder {
+  border-bottom: 0;
+  z-index: 2;
+}
+
+.form_item.errBorder::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #f00;
+  border-radius: 0;
+  pointer-events: none;
+}
+
+.form_list>.form_item:first-child.errBorder::after {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.form_list>.form_item:last-child.errBorder::after {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.errMsg {
+  width: 100%;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.err_item span {
+  font-size: 1.4rem;
+  color: #f00;
+}
+
+.err_item {
+  display: none;
+}
+
+.form_item:focus-within::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid var(--color-primary);
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 泥?踰덉㎏ ??ぉ ?ъ빱????*/
+.form_list>.form_item:first-child:focus-within::after {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* 留덉?留???ぉ ?ъ빱????*/
+.form_list>.form_item:last-child:focus-within::after {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* ?먮윭媛 ?덉쓣 ?뚮뒗 ?먮윭 ?됱긽 ?곗꽑 */
+.form_item.errBorder:focus-within::after {
+  border-color: #f00;
+}
+
+/* ?먮뒗 ?먮윭 ???ъ빱???④낵 ?쒓굅?섎젮硫?*/
+.form_item.errBorder::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #f00;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 2;
+  /* ?ъ빱?ㅻ낫???꾩뿉 */
+}
+
+/* gender_nation */
+.gender_nation {
+  width: 100%;
+  height: 100%;
+  padding: 0 10px 0 1px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.gender_nation input {
+  display: none;
+}
+
+.gender_nation ul {
+  width: 50%;
+  height: 32px;
+  padding-left: 9px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.gender_nation li {
+  width: 50%;
+  height: 100%;
+}
+
+.gender_nation label {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 32px;
+  color: #929294;
+  position: relative;
+  cursor: pointer;
+}
+
+.gender_nation ul li:first-child label {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.gender_nation ul li:last-child label {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.gender_nation label::after {
+  content: "";
+  border: 1px solid #dfdfdf;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.gender_nation input:checked+label {
+  color: var(--color-primary);
+}
+
+.gender_nation input:checked+label::after {
+  border: 1px solid var(--color-primary);
+}
+
+/* buttons */
+.form_list.btn button {
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: inherit;
+  border: 0;
+  cursor: pointer;
+}
+
+.form_list#form_joinBtn {
+  display: none;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  background: #fff;
+}
+
+/* term */
+.form_item.term {
+  height: 100%;
+  text-align: left;
+  padding:0;
+}
+
+.form_item.term div {
+  padding: 15px 10px 15px 20px;
+}
+
+.form_item.term input {
+  display: none;
+}
+
+.form_item.term label {
+  cursor: pointer;
+}
+
+.form_item.term .term_title {
+  position: relative;
+}
+
+.form_item.term .term_title label {
+  margin-left: 15px;
+}
+
+.term_item {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.form_item.term li {
+  width: 46%;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 15px;
+}
+
+.term_item li:last-child {
+  margin-bottom: 0;
+}
+
+.term_title span {
+  color: var(--color-primary);
+}
+
+
+.term_list {
+  border-top: 1px solid #dfdfdf;
+}
+
+.mainCheck::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: 19px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: url(../images/icon/ico-common-sm.svg);
+}
+
+.all_check::before {
+  background-position: -17px -48px;
+}
+
+.subCheck::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -18px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: url(../images/icon/ico-common-sm.svg);
+}
+
+.uncheck::before {
+  background-position: 0 -65px;
+}
+
+.check::before {
+  background-position: -15px -65px;
+}
+
+.term_title button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.term_title button.icon_arrow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(../images/icon/ico-common-sm.svg);
+}
+
+.term_title button.icon_arrow.down::before {
+  background-position: -31px -15px;
+}
+
+.term_title button.icon_arrow.up::before {
+  background-position: -48px -15px;
+}
+
+/* ========================================
+   泥댄겕諛뺤뒪 泥댄겕 ?곹깭 ?ㅽ???(?쒖씤??媛쒖꽑)
+   ======================================== */
+
+/* ?꾩껜?숈쓽 泥댄겕 ??*/
+.all_check {
+  font-weight: 700;
+  /* color: var(--color-primary); */
+}
+
+/* ?섏쐞 ??ぉ 泥댄겕 ??*/
+.check label {
+  font-weight: 600;
+  /* color: var(--color-primary); */
+}
+
+/* 誘몄껜???곹깭 */
+.uncheck label {
+  font-weight: 400;
+  color: #666;
+}
+
+/* ?꾩껜?숈쓽 誘몄껜???곹깭 */
+.mainCheck.uncheck {
+  font-weight: 400;
+  color: #333;
+}
+
+/* ========================================
+   ??대㉧ & ?몄쬆踰덊샇 ?ㅽ???
+   ======================================== */
+.form_item.phone {
+  position: relative;
+}
+
+.form_item.phone .timer {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 600;
+  color: #e53935;
+}
+
+.form_item.auth input {
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.err_item.auth_fail span,
+.err_item.auth_code span {
+  color: #e53935;
+}
+
+/* ?몄쬆?꾨즺 ?곹깭 */
+.form_item.phone .timer[style*="color"] {
+  color: #0066cc !important;
+}
+
+
+/* ========================================
+   ?쒖씤??媛쒖꽑 - input placeholder
+   ======================================== */
+input::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+input:focus::placeholder {
+  color: #bbb;
+}
+
+/* ========================================
+   ?쒖씤??媛쒖꽑 - 踰꾪듉 ?ㅽ???
+   ======================================== */
+.authBtn,
+.joinBtn {
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.authBtn {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.authBtn:hover {
+  background: #0052a3;
+}
+
+.joinBtn {
+  background: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.joinBtn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ========================================
+   ?쒖씤??媛쒖꽑 - ?깅퀎/?댁쇅援?씤 ?좏깮
+   ======================================== */
+.gender_nation input:checked+label {
+  font-weight: 600;
+  background: rgba(0, 102, 204, 0.05);
+}
+
+/* ========================================
+   ?쒖씤??媛쒖꽑 - ?먮윭 硫붿떆吏
+   ======================================== */
+.errMsg .err_item span {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #e53935;
+}
+
+
+
+
+
+@media screen and (max-width: 768px) {
+  #join_inner {
+    width: 100%;
+    padding: 0 20px;
+    margin: 30px auto;
+    box-sizing: border-box;
+  }
+
+  #join_form {
+    width: 100%;
+  }
+
+  #join_form input {
+    font-size: 14px;
+  }
+
+  .telecom_view {
+    padding: 0 40px 0 16px;
+    font-size: 14px;
+  }
+
+  .icon_arrow::before {
+    left: auto;
+    right: 16px;
+  }
+
+  .tel_itemDiv {
+    width: calc(100% - 32px);
+    left: 16px;
+  }
+
+  .tel_item button {
+    font-size: 1.3rem;
+  }
+
+  /* ?깅퀎/?댁쇅援?씤 */
+  .gender_nation {
+    padding: 0 8px;
+  }
+
+  .gender_nation ul {
+    padding-left: 4px;
+  }
+
+  .gender_nation label {
+    font-size: 14px;
+    line-height: 30px;
+  }
+
+  .gender_nation ul {
+    height: 30px;
+  }
+
+  /* ?쎄? */
+  .form_item.term div {
+    padding: 12px 10px 12px 16px;
+  }
+
+  .form_item.term .term_title label {
+    font-size: 14px;
+  }
+
+  .term_item {
+    flex-direction: column;
+  }
+
+  .form_item.term li {
+    width: 100%;
+    margin-left: 10px;
+    margin-bottom: 8px;
+  }
+
+  .mainCheck::before {
+    left: 14px;
+    top: 16px;
+  }
+
+  /* ?먮윭 硫붿떆吏 */
+  .errMsg {
+    margin-left: 16px;
+  }
+
+  .errMsg .err_item span {
+    font-size: 1.2rem;
+  }
+
+  /* 踰꾪듉 */
+  .authBtn,
+  .joinBtn {
+    height: 48px;
+    font-size: 15px;
+  }
+
+  /* ??대㉧ */
+  .form_item.phone .timer {
+    right: 12px;
+    font-size: 14px;
+  }
+
+  .form_item.auth input {
+    font-size: 16px;
+    letter-spacing: 3px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  #join_inner {
+    padding: 0 12px;
+    margin: 16px auto;
+  }
+
+  #join_form input {
+ 
+    font-size: 14px;
+  }
+
+  .telecom_view {
+    padding: 0 36px 0 12px;
+    font-size: 14px;
+  }
+
+  .form_item {
+    padding: 10px 0;
+  }
+
+  .tel_itemDiv {
+    width: calc(100% - 24px);
+    left: 12px;
+  }
+
+  .tel_item li {
+    padding: 9px 6px;
+  }
+
+  .tel_item button {
+    font-size: 1.2rem;
+  }
+
+  /* ?깅퀎/?댁쇅援?씤 ???묎쾶 */
+  .gender_nation {
+    padding: 0 4px;
+  }
+
+  .gender_nation ul {
+    height: 28px;
+    padding-left: 2px;
+  }
+
+  .gender_nation label {
+    font-size: 12px;
+    line-height: 28px;
+  }
+
+
+  .form_item.term .term_title label {
+    font-size: 14px;
+  }
+
+  .form_item.term li {
+    margin-left: 8px;
+    font-size: 14px;
+  }
+
+  .mainCheck::before {
+    left: 10px;
+    top: 18px;
+  }
+
+  .subCheck::before {
+    left: -16px;
+  }
+
+  /* ?먮윭 硫붿떆吏 */
+  .errMsg {
+    margin-left: 12px;
+  }
+
+  /* 踰꾪듉 */
+  .authBtn,
+  .joinBtn {
+    height: 44px;
+    font-size: 14px;
+  }
+}

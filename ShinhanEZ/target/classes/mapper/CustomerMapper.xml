@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.CustomerMapper">
+
+    <!-- 전체 고객 목록 (활성화된 고객만) -->
+    <select id="findAll" resultType="com.shinhanez.admin.domain.Customer">
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        FROM shez_customers
+        WHERE status = 'Y'
+        ORDER BY reg_date DESC
+    </select>
+
+    <!-- 고객 목록 (페이징 + 검색 + 정렬) - Oracle 11g 호환 -->
+    <select id="findByPage" parameterType="map" resultType="com.shinhanez.admin.domain.Customer">
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        FROM (
+            SELECT ROWNUM AS rn, t.*
+            FROM (
+                SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+                FROM shez_customers
+                WHERE status = 'Y'
+                <if test="searchType != null and keyword != null and keyword != ''">
+                    <choose>
+                        <when test="searchType == 'customerId'">
+                            AND customer_id LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="searchType == 'name'">
+                            AND name LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="searchType == 'phone'">
+                            AND phone LIKE '%' || #{keyword} || '%'
+                        </when>
+                        <when test="searchType == 'email'">
+                            AND email LIKE '%' || #{keyword} || '%'
+                        </when>
+                    </choose>
+                </if>
+                <choose>
+                    <when test="sortType == 'oldest'">
+                        ORDER BY reg_date ASC
+                    </when>
+                    <when test="sortType == 'name'">
+                        ORDER BY name ASC
+                    </when>
+                    <otherwise>
+                        ORDER BY reg_date DESC
+                    </otherwise>
+                </choose>
+            ) t
+            WHERE ROWNUM &lt;= #{offset} + #{size}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <!-- 검색 조건에 맞는 고객 수 카운트 -->
+    <select id="countBySearch" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM shez_customers
+        WHERE status = 'Y'
+        <if test="searchType != null and keyword != null and keyword != ''">
+            <choose>
+                <when test="searchType == 'customerId'">
+                    AND customer_id LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="searchType == 'name'">
+                    AND name LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="searchType == 'phone'">
+                    AND phone LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="searchType == 'email'">
+                    AND email LIKE '%' || #{keyword} || '%'
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <!-- 고객 상세 조회 -->
+    <select id="findById" parameterType="String" resultType="com.shinhanez.admin.domain.Customer">
+        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        FROM shez_customers
+        WHERE customer_id = #{customerId}
+    </select>
+
+    <!-- 고객 ID 중복 체크 -->
+    <select id="existsById" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM shez_customers WHERE customer_id = #{customerId}
+    </select>
+
+    <!-- 고객 등록 -->
+    <insert id="insert" parameterType="com.shinhanez.admin.domain.Customer">
+        INSERT INTO shez_customers (customer_id, password, name, birth_date, gender, phone, email, address, status)
+        VALUES (#{customerId}, #{password}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'Y')
+    </insert>
+
+    <!-- 고객 수정 -->
+    <update id="update" parameterType="com.shinhanez.admin.domain.Customer">
+        UPDATE shez_customers SET
+            name = #{name},
+            birth_date = #{birthDate},
+            gender = #{gender},
+            phone = #{phone},
+            email = #{email},
+            address = #{address}
+        WHERE customer_id = #{customerId}
+    </update>
+
+    <!-- 고객 비활성화 (삭제 대신) -->
+    <update id="deactivate" parameterType="String">
+        UPDATE shez_customers SET status = 'N' WHERE customer_id = #{customerId}
+    </update>
+
+    <!-- 고객 삭제 (실제 삭제 - 사용 안함) -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM shez_customers WHERE customer_id = #{customerId}
+    </delete>
+
+    <!-- 활성화된 고객 수 카운트 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM shez_customers WHERE status = 'Y'
+    </select>
+
+</mapper>
