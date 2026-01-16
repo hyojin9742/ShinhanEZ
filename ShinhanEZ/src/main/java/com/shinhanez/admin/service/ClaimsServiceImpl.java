@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
+import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.ClaimsMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,12 @@ public class ClaimsServiceImpl implements ClaimsService{
 	@Override
 	public int deleteClaim(int adminId, Long claimId) {
 		return claimsMapper.deleteClaim(adminId, claimId);
+	}
+
+	// customer_id로 계약조회
+	@Override
+	public List<Contracts> getListContractsByCustomerId(String custormerId) {
+		return claimsMapper.getListContractsByCustomerId(custormerId);
 	}
 
 }

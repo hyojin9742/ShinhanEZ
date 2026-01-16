@@ -37,7 +37,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="${param.menu == 'insured' ? 'active' : ''}">
+            <a href="${ctx}/admin/claims" class="${param.menu == 'claims' ? 'active' : ''}">
                 <i class="bi bi-clipboard-check"></i> 청구관리
             </a>
         </li>

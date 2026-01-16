@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
+import com.shinhanez.admin.domain.Contracts;
 
 public interface ClaimsService {
 
@@ -20,5 +21,7 @@ public interface ClaimsService {
 	public int deleteClaim(
 			@Param("adminId") int adminId,
 			@Param("claimId") Long claimId);
+	// customer_id로 계약조회
+	public List<Contracts> getListContractsByCustomerId(String customerId);
 
 }

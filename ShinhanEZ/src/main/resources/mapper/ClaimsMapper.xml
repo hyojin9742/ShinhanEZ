@@ -132,14 +132,13 @@ SELECT
 	    <if test="accidentDate != null">ACCIDENT_DATE = #{accidentDate},</if>
 	    <if test="claimAmount != null">CLAIM_AMOUNT = #{claimAmount},</if>
 	
-	    <!-- 문자열은 빈문자열도 들어올 수 있어서 '' 처리까지 하고 싶으면 아래 참고 -->
 	    <if test="documentList != null and documentList != ''">DOCUMENT_LIST = #{documentList},</if>
 	
 	    <!-- 결정/지급/완료 -->
 	    <if test="status != null">STATUS = #{status},</if>
 	    <if test="paidAt != null">PAID_AT = #{paidAt, jdbcType=DATE},</if>
 	    <if test="paidAmount != null">PAID_AMOUNT = #{paidAmount, jdbcType=NUMERIC},</if>
-	    <if test="completedAt != null">COMPLETED_AT = #{completedAt, jdbcType=DATE},</if>	
+	    <if test="status == 'COMPLETED' or status == 'REJECTED'">COMPLETED_AT = SYSDATE,</if>	
 	    <if test="adminId != null">ADMIN_ID = #{adminId},</if>
 	  </set>
 	  WHERE CLAIM_ID = #{claimId}
@@ -156,5 +155,43 @@ SELECT
 	        AND a.ROLE = 'super'
 	    )
 	</delete>
+
+  <!-- 7) 고객의 계약 리스트 조회 -->
+	<select id="getListContractsByCustomerId" resultType="com.shinhanez.admin.domain.Contracts">
+		<![CDATA[
+		SELECT 
+		    c.contract_id,
+		    c.customer_id,
+		    cu.name AS customer_name,
+		    c.insured_id,
+		    ins.name AS insured_name,
+		    c.product_id,
+		    p.productname AS product_name,
+		    c.reg_date,
+		    c.expired_date,
+		    c.contract_status,
+		    c.premium_amount,
+		    c.payment_cycle,
+		    c.admin_id,
+		    ad.name AS admin_name
+		FROM 
+		    shez_contracts c
+		    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+		    INNER JOIN shez_insurances p ON c.product_id = p.productno
+		    INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+		WHERE 
+		    c.customer_id = #{customerId}
+		ORDER BY 
+		    CASE c.contract_status
+		        WHEN 'ACTIVE' THEN 1
+		        WHEN 'EXPIRED' THEN 2
+		        WHEN 'TERMINATED' THEN 3
+		        ELSE 99
+		    END,
+		    c.reg_date DESC,
+		    c.contract_id DESC
+		]]>
+	</select>
 
 </mapper>

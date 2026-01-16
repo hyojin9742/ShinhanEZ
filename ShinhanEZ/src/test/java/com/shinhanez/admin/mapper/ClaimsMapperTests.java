@@ -16,6 +16,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
+import com.shinhanez.admin.domain.Contracts;
+
 import lombok.extern.log4j.Log4j2;
 @SpringBootTest
 @Log4j2
@@ -108,8 +110,20 @@ public class ClaimsMapperTests {
     	Long claimId = 1L;
     	int result = claimsMapper.deleteClaim(adminId, claimId);
     	log.info("삭제결과........"+result);
-
     }
+    
+    // [customer_id 기준으로 계약 리스트 조회 테스트]
+    @Test
+    void getListContractsByCustomerIdTests() {
+    	// 테스트 customer_id
+    	String customerId = "C001";
+    	
+    	List<Contracts> list = claimsMapper.getListContractsByCustomerId(customerId);
+    	list.forEach((contracts)->{
+    		log.info("customer_id로 조회결과........."+contracts);
+    	});
+    }
+    
     
     
 }// end of class

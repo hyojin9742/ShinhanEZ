@@ -1,5 +1,7 @@
 package com.shinhanez.admin.controller;
 
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -19,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.service.ClaimsService;
+import com.shinhanez.admin.service.ContractService;
 
 @WebMvcTest(controllers = ClaimsController.class)
 @ContextConfiguration(classes = ClaimsController.class)
@@ -29,6 +32,12 @@ public class ClaimsControllerTests {
 	
 	@MockBean
 	private ClaimsService claimsService;
+	
+	// 계약조회서비스 주입
+	@MockBean
+	private ContractService contractService;
+	
+	
 	
 	/* GET /admin/claims"" */ 
 	@Test
@@ -49,7 +58,7 @@ public class ClaimsControllerTests {
  * */		
 		mockMvc.perform(get("/admin/claims"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("claims_list"))
+				.andExpect(view().name("admin/claims_list"))
 				.andExpect(model().attributeExists("list"))
 				.andExpect(model().attribute("list", list));
 	}
@@ -65,7 +74,7 @@ public class ClaimsControllerTests {
 		when(claimsService.getClaimList()).thenReturn(list);
 		mockMvc.perform(get("/admin/claims/"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("claims_list"))
+				.andExpect(view().name("admin/claims_list"))
 				.andExpect(model().attributeExists("list"))
 				.andExpect(model().attribute("list", list));
 	}
@@ -80,7 +89,7 @@ public class ClaimsControllerTests {
 		
 		mockMvc.perform(get("/admin/claims/{claimId}",claimId))
 				.andExpect(status().isOk())
-				.andExpect(view().name("claims_view"))
+				.andExpect(view().name("admin/claims_view"))
 				.andExpect(model().attributeExists("claimsDTO"))
 				.andExpect(model().attribute("claimsDTO", claimsDTO));
 	}
@@ -90,7 +99,7 @@ public class ClaimsControllerTests {
     void claimsInsertPageTests() throws Exception {
         mockMvc.perform(get("/admin/claims/insert"))
                .andExpect(status().isOk())
-               .andExpect(view().name("claims_insert"))
+               .andExpect(view().name("admin/claims_insert"))
                .andExpect(model().attributeExists("claimsDTO"));
     }
 	
@@ -103,7 +112,6 @@ public class ClaimsControllerTests {
         mockMvc.perform(post("/admin/claims/insert")
                     .param("claimId", "100")
                )
-        		// is3xx = redirect 인지?
                .andExpect(status().is3xxRedirection())
                .andExpect(redirectedUrl("/admin/claims/100"))
                .andExpect(flash().attribute("msgType", "success"))
@@ -187,4 +195,5 @@ public class ClaimsControllerTests {
                .andExpect(flash().attribute("msgType", "error"))
                .andExpect(flash().attribute("msg", "삭제 권한이 없습니다."));
     }
+    
 } // end of class
