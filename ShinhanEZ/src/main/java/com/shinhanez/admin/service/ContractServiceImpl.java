@@ -23,13 +23,22 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 목록 조회
 	@Override
 	public Map<String, Object> readAllList(int pageNum, int pageSize) {
+		
 		log.info("전체 계약 조회 | 페이지 번호 : "+pageNum+" 페이지 크기 : "+pageSize);
+		
 		int totalDB = mapper.countAllContracts();
-		Paging paging = new Paging(pageNum, pageSize, totalDB, 5);
-		List<Contracts> allList = mapper.selectAllContractList(paging.startRow(), paging.endRow());
+		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
+		Map<String, Object> paging = new HashMap<>();
+		paging.put("paging", pagingObj);
+		paging.put("hasPrev", pagingObj.hasPrev());
+		paging.put("hasNext", pagingObj.hasNext());
+		
+		List<Contracts> allList = mapper.selectAllContractList(pagingObj.startRow(), pagingObj.endRow());
+		
 		Map<String, Object> contractLists = new HashMap<>();
 		contractLists.put("paging", paging);
 		contractLists.put("allList", allList);
+		
 		return contractLists;
 	}	
 	// 계약 단건 조회

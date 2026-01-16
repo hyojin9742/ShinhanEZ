@@ -101,6 +101,7 @@ expired_date,
 contract_status,
 premium_amount,
 payment_cycle,
+update_date,
 admin_id,
 admin_name
 FROM (
@@ -117,6 +118,7 @@ SELECT
     c.contract_status,
     c.premium_amount,
     c.payment_cycle,
+    c.update_date,
     c.admin_id,
     ad.name AS admin_name,
     ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
@@ -153,6 +155,7 @@ FROM (
         c.premium_amount,
         c.payment_cycle,
         c.contract_status,
+        c.update_date,
         c.admin_id,
         ad.name AS admin_name
     FROM 
