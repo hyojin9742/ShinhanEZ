@@ -33,9 +33,8 @@
 	            
 	            <!-- 검색 영역 -->
 	            <div class="payment-search">
-	                <form class="search-row" action="#" method="get">
+	                <form class="search-row" action="/admin/contract/list" method="get">
 	                	<div class="form-group searchCondition">
-		                	
 		                	<div class="form-group contractSearchType">
 			                    <div class="form-group">
 			                        <label class="form-label">검색조건</label>
@@ -49,7 +48,7 @@
 			                    </div>
 			                    <div class="form-group">
 			                        <label class="form-label">검색어</label>
-			                        <input type="text" class="form-control input-md" name="" placeholder="검색어 입력" value="">
+			                        <input type="text" class="form-control input-md" name="searchKeyword" placeholder="검색어 입력" value="${searchKeyword}">
 			                    </div>
 		                	</div>
 		                	<div class="form-group searchContractDate">
@@ -63,7 +62,7 @@
 			                    </div>
 			                    <div class="form-group">
 			                        <label class="form-label">일자</label>
-			                        <input type="date" class="form-control input-md" name="stardDate" value="">
+			                        <input type="date" class="form-control input-md" name="startDate" value="">
 			                        <span>&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;</span>
 			                        <input type="date" class="form-control input-md" name="endDate" value="">
 			                    </div>
@@ -133,24 +132,98 @@
 	            		<!-- 이전 페이지 그룹 -->
 	            		<li><a href="#">&laquo;</a></li>
 	            		<!-- 페이지 번호 -->
-	            		<li><a href="#" class="active">활성 페이지</a></li>
+	            		<li><a href="#" class="activePage">활성 페이지</a></li>
 	            		<li><a href="#">비활성 페이지</a></li>
 	            		<!-- 다음 페이지 그룹 -->
 	            		<li><a href="#">&raquo;</a></li>
 	            	</ul>
-	            	<div class="pageSize">
+	            	<div class="selectPageSize">
             			<select class="form-select select-sm" name="pageSize">
-                            <option value="10" ${pageSize == '20' ? 'selected' : ''}>10개씩 보기</option>
+                            <option value="10" ${pageSize == '10' ? 'selected' : ''}>10개씩 보기</option>
                             <option value="20" ${pageSize == '20' ? 'selected' : ''}>20개씩 보기</option>
                             <option value="30" ${pageSize == '30' ? 'selected' : ''}>30개씩 보기</option>
            				</select>
 	            	</div>
 	            </div>
-	            	            
+	            
+	            <!-- 모달 -->
+	            <div class="modal-overlay" id="contractModalOverlay"></div>
+		        <div class="modal modal-lg" id="contractModal">
+		            <div class="modal-header">
+		                <h3 class="modal-title">${contractId ? '계약 수정' : '계약 등록'}</h3>
+		                <button class="modal-close" id="closeContractModal">&times;</button>
+		            </div>
+		            <div class="modal-body">
+		                <form id="contractForm" class="modal-form">
+		                    <div class="modal-grid">
+		                        <div class="form-group">
+		                            <label class="form-label">계약자명 <span>*</span></label>
+		                            <input type="text" class="form-control" name="customerName" id="customerName" required>
+		                            <input type="hidden" id="customerId" name="customerId">
+                            <div class="autocomplete-results" id="customerResults"></div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label class="form-label">피보험자명 <span>*</span></label>
+		                            <input type="text" class="form-control" name="insuredName" id="insuredName" required>
+		                            <input type="hidden" id="insuredId" name="insuredId">
+                            		<div class="autocomplete-results" id="insuredResults"></div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label class="form-label">상품명 <span>*</span></label>
+		                            <input type="text" class="form-control" id="productName" name="productName" autocomplete="off" required>
+		                            <input type="hidden" id="productId" name="productId">
+		                            <div class="autocomplete-results" id="productResults"></div>
+		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">보장내용 <span>*</span></label>
+		                        	<input type="checkbox" name="contractCoverage" />
+		                        	<!-- AJAX 로드 -->
+	                        	</div>
+		                        <div class="form-group">
+		                            <label class="form-label">계약일 <span>*</span></label>
+		                            <input type="date" class="form-control" name="contractDate" required>
+		                        </div>
+		                        <div class="form-group">
+		                            <label class="form-label">만료일 <span>*</span></label>
+		                            <input type="date" class="form-control" name="expiredDate" required>
+		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">보험료 <span>*</span></label>
+		                        	<input type="number" class="form-control" name="premium" placeholder="0">
+		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">납부주기 <span>*</span></label>
+		                        	<select class="form-control" name="productId" required>
+		                                <option value="">주기 선택</option>
+		                                <option value="월납">월납</option>
+		                                <option value="분기납">분기납</option>
+		                                <option value="반기납">반기납</option>
+		                                <option value="연납">연납</option>
+		                                <option value="일시납">일시납</option>
+		                            </select>
+		                        </div>
+		                       
+		                       	<input type="hidden" name="contractStatus" value="활성"/>
+		                        <div class="form-group">
+		                            <label class="form-label">담당관리자 <span>*</span></label>
+		                            <select class="form-control" name="adminId" required>
+		                                <option value="">관리자 선택</option>
+		                                <!-- 관리자 목록은 AJAX로 로드 -->
+		                            </select>
+		                        </div>
+		                    </div>
+		                </form>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-outline" id="cancelContract">취소</button>
+		                <button type="button" class="btn btn-primary" id="saveContract">
+		                    ${contractId ? '수정' : '등록'}
+		                </button>
+		            </div>
+		        </div>
+	        	            
 	        </main>
-	        
 	        <jsp:include page="inc/footer.jsp"/>
-	        
 	    </div>
 	</div>
 </body>
