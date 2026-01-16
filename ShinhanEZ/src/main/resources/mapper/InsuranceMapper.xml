@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.InsuranceMapper">
+	
+	<!--전체 목록  -->
+	<select id="allGet" resultType="com.shinhanez.admin.domain.Insurance">
+		select * from SHEZ_INSURANCES order by productNo desc
+	</select>
+	
+	<!--상품 상세  -->
+	<select id="get" parameterType="Long" resultType="com.shinhanez.admin.domain.Insurance">
+		select * from SHEZ_INSURANCES where productNo=#{productNo}
+	</select>
+	
+	<!-- 상품 추가 -->
+	<insert id="insert" parameterType="com.shinhanez.admin.domain.Insurance">
+        INSERT INTO SHEZ_INSURANCES (
+            PRODUCTNO,
+            PRODUCTNAME,
+            CATEGORY,
+            BASEPREMIUM,
+            COVERAGERANGE,
+            COVERAGEPERIOD,
+            STATUS,
+            CREATEDDATE,
+            UPDATEDDATE,
+            CREATEDUSER,
+            UPDATEDUSER
+        ) VALUES (
+            seq_shezInsuraces.NEXTVAL,
+            #{productName},
+            #{category},
+            #{basePremium},
+            #{coverageRange},
+            #{coveragePeriod},
+            #{status},
+            SYSDATE,
+            SYSDATE,
+            #{createdUser},
+            #{updatedUser}
+        )
+    </insert>
+	
+
+    
+
+</mapper>
