@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
+import com.shinhanez.admin.domain.Contracts;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -88,6 +89,17 @@ public class ClaimsServiceTests {
     	int result = claimsService.deleteClaim(adminId, claimId);
     	log.info("삭제결과........"+result);
     	log.info("삭제 행 조회...null이면 성공"+claimsService.getClaim(claimId));
-
 	}
-}
+	
+	// CID로 계약 조회 테스트
+	@Test
+	void getListContractsByCustomerIdTests() {
+		// 테스트 파라미터 customer_id
+    	String customerId = "C001";
+    	List<Contracts> list = claimsService.getListContractsByCustomerId(customerId);
+    	list.forEach((contracts)->{
+    		log.info("customer_id로 조회결과........."+contracts);
+    	});
+	}
+	
+} // end of class

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.ClaimsDTO;
+import com.shinhanez.admin.domain.Contracts;
 
 public interface ClaimsMapper {
 
@@ -25,5 +26,7 @@ public interface ClaimsMapper {
 			@Param("adminId") int adminId,
 			@Param("claimId") Long claimId);
 
-	
+	// cutomerId로 계약 리스트조회
+	List<Contracts> getListContractsByCustomerId(String customerId);
+
 }
