@@ -34,6 +34,8 @@
                 <h2>상품 목록</h2>
                 <p>등록된 보험상품 정보를 관리합니다.</p>
             </div>
+            
+            <button id="aa">aaa</button>
 
             <!-- 상품 목록 카드 -->
             <div class="card">
@@ -45,7 +47,19 @@
                     <a href="${ctx}/admin/insurance/register" class="btn btn-sm btn-primary">
                         <i class="bi bi-plus-lg"></i> 상품 등록
                     </a>
+                     <a href="${ctx}/admin/insurance/register" class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus-lg"></i> 활성
+                    </a>
+                     <a href="${ctx}/admin/insurance/register" class="btn btn-sm btn-primary">
+                        <i class="bi bi-plus-lg"></i> 비활성
+                    </a>
                 </div>
+                        
+                
+				
+                <button onclick="statustChange()">상태변경버튼</button>
+                입력: <input type="text" id="input"/>
+				
 
                 <div class="card-body" style="padding:0;">
                     <table class="admin-table">
@@ -57,13 +71,15 @@
                             <th style="width:110px;">기본 보험료</th>
                             <th>보장 범위</th>
                             <th style="width:90px;">기간</th>
-                            <th style="width:90px;">상태</th>
+                            <th style="width:90px;">상태
+                            	<button class="badge badge-success">All</button>
+                            </th>
                             <th style="width:120px;">등록일</th>
                             <th style="width:140px;">관리</th>
                         </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="plan-board">
                         <c:forEach var="insurance" items="${insurances}">
                             <tr>
                                 <td><strong>${insurance.productNo}</strong></td>
@@ -116,13 +132,66 @@
         <jsp:include page="inc/footer.jsp"/>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function deleteInsurance(productNo) {
         if (confirm('정말 삭제하시겠습니까?\n상품번호: ' + productNo)) {
             location.href = '${ctx}/admin/insurance/delete?productNo=' + productNo;
         }
     }
+    
+    
+    const btn= Document.getElementById("aa");
+    // 리스트 만들기
+    function statustChange() {
+	    fetch("/admin/insurance/list2", { method: "POST", headers:{"Content-Type": "application/x-www-form-urlencoded"},body:"status=INACTIVE" })
+	        .then(res => res.json())
+	        .then(data =>{
+	        	console.log(data);
+	        	const tbody=document.getElementById("plan-board");
+	        	tbody.innerHTML="";
+	        	let html="";
+	        	data.forEach(insurance=>{
+	        		html+=`<tr>
+                        <td><strong>\${insurance.productNo}</strong></td>
+                        <td>\${insurance.productName}</td>
+                        <td>\${insurance.category}</td>
+                        <td>
+                            \${Number(insurance.basePremium).toLocaleString()}원
+                        </td>
+                        <td>\${insurance.coverageRange}</td>
+                        <td>\${insurance.coveragePeriod}개월</td>
+                        <td>
+                        	\${insurance.status=='ACTIVE'
+                        		?	'<span class="badge badge-success">ACTIVE</span>'
+								:	'<span class="badge badge-secondary">INACTIVE</span>'                                				
+                        	}    
+                        </td>
+                        <td>
+                        	\${insurance.createdDate.substring(0,10)}
+                        </td>
+                        <td>
+                            <a href="/admin/insurance/get?productNo=\${insurance.productNo}"
+                               class="btn btn-sm btn-outline" title="상세">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/admin/insurance/edit?productNo=\${insurance.productNo}""
+                               class="btn btn-sm btn-outline" title="수정">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="deleteInsurance('${insurance.productNo}')"
+                                    title="삭제">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`
+	        	});
+	        	tbody.innerHTML = html;
+	        });
+	}
+      
 </script>
 </body>
 </html>

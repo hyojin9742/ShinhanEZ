@@ -39,67 +39,114 @@
                 </div>
                 <div class="card-body">
                     <form action="${ctx}/admin/insurance/edit" method="post" class="admin-form">
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>고객 ID</label>
-                                <input type="text" name="productNo" value="${insurance.productNo}" 
-                                       class="form-control" readonly>
-                                <small>상품 ID는 수정할 수 없습니다.</small>
-                            </div>
-                            <div class="form-group">
-                                <label>상품명 <span class="required">*</span></label>
-                                <input type="text" name="name" value="${insurance.productName}" 
-                                       class="form-control" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>분류 <span class="required">*</span></label>
-                                <p>${insurance.category}</p>
-                                <div class="radio-group">
-                                <select name="category" size="4">
-								    <option value="생명보험">생명보험</option>
-								    <option value="손해보험">손해보험</option>
-								    <option value="건강보험">건강보험</option>
-								  </select>    
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>기본 보험료 <span class="required">*</span></label>
-                                <input type="text" name="basePremium" value="${insurance.basePremium}" 
-                                       class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>보장범위</label>
-                                <input type="text" name="coverageRange" value="${insurance.coverageRange}" 
-                                       class="form-control">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group full">
-                                <label>보장기간</label>
-                                <input type="number" name="coveragePeriod" value="${insurance.coveragePeriod}" 
-                                       class="form-control">
-                            </div>
-                        </div>
-                        
-                        <!-- 버튼 영역 -->
-                        <div class="btn-area">
-                            <a href="${ctx}/admin/customer/list" class="btn btn-outline">
-                                <i class="bi bi-x-lg"></i> 취소
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg"></i> 수정 완료
-                            </button>
-                        </div>
-                        
-                    </form>
+					    <!-- 상품 번호 (PK) -->
+					    <div class="form-row">
+					        <div class="form-group">
+					            <label>상품 번호</label>
+					            <input type="text" name="productNo"
+					                   value="${insurance.productNo}"
+					                   class="form-control" readonly>
+					            <small>상품 번호는 수정할 수 없습니다.</small>
+					        </div>
+					        
+					        <!-- 상품명 -->
+					        <div class="form-group">
+					            <label>상품명 <span class="required">*</span></label>
+					            <input type="text" name="productName"
+					                   value="${insurance.productName}"
+					                   class="form-control" required>
+					        </div>
+					    </div>
+					
+					    
+					  
+					
+					    <!-- 분류 -->
+					    <div class="form-row">
+					        <div class="form-group">
+					            <label>분류 <span class="required">*</span></label>
+					            <select name="category" class="form-control" required>
+					                <option value="생명보험"
+					                    <c:if test="${insurance.category eq '생명보험'}">selected</c:if>>
+					                    생명보험
+					                </option>
+					                <option value="손해보험"
+					                    <c:if test="${insurance.category eq '손해보험'}">selected</c:if>>
+					                    손해보험
+					                </option>
+					                <option value="건강보험"
+					                    <c:if test="${insurance.category eq '건강보험'}">selected</c:if>>
+					                    건강보험
+					                </option>
+					            </select>
+					        </div>
+					        <!-- 기본 보험료 -->
+					        <div class="form-group">
+					            <label>기본 보험료 <span class="required">*</span></label>
+					            <input type="number" name="basePremium"
+					                   value="${insurance.basePremium}"
+					                   class="form-control" required>
+					        </div>
+					        
+					        
+					        
+					    </div>
+					
+					    
+					    <div class="form-row">
+					        <div class="form-group">
+					            <label>보장 범위</label>
+					            <input type="text" name="coverageRange"
+					                   value="${insurance.coverageRange}"
+					                   class="form-control">
+					        </div>
+					        <!-- 보장 기간 -->
+					        <div class="form-group">
+					            <label>보장 기간 (개월)</label>
+					            <input type="number" name="coveragePeriod"
+					                   value="${insurance.coveragePeriod}"
+					                   class="form-control">
+					        </div>
+					    </div>
+					
+					    
+					    
+					
+					    <!-- 상태 -->
+					    <div class="form-row">
+					        <div class="form-group">
+                                    <label class="form-label">상태</label>
+                                    <div class="radio-group">
+                                        <label>
+                                            <input type="radio" name="status" value="ACTIVE" 
+                                            <c:if test="${insurance.status eq 'ACTIVE'}">checked</c:if>
+                                            > 활성
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="status" value="INACTIVE"
+                                            <c:if test="${insurance.status eq 'INACTIVE'}">checked</c:if>
+                                            > 비활성
+                                        </label>
+                                    </div>
+                                </div>
+					    </div>
+					    
+					    <input type="hidden" name="updatedUser" value="${insurance.updatedUser} "/>
+					
+					    <!-- 버튼 -->
+					    <div class="btn-area">
+					        <a href="${ctx}/admin/insurance/list" class="btn btn-outline">
+					            <i class="bi bi-x-lg"></i> 취소
+					        </a>
+					        <button type="submit" class="btn btn-primary">
+					            <i class="bi bi-check-lg"></i> 수정 완료
+					        </button>
+					    </div>
+					
+					</form>
+                    
+                    
                 </div>
             </div>
             
