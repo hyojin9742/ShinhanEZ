@@ -195,17 +195,37 @@ SELECT * FROM shez_contracts;
 SELECT id, name
 FROM (
     SELECT 
-        customer_id AS id,
+        customer_id AS customerId,
         name AS name
     FROM shez_customers
     WHERE LOWER(name) LIKE '%' || LOWER('김') || '%'
     ORDER BY name
 )
 WHERE ROWNUM <= 50;
-
-
-
-
+-- 보험검색
+SELECT productNo, productName, coverageRange
+FROM (
+    SELECT 
+        productno AS productNo,
+        productname AS productName,
+        coveragerange AS coverageRange
+    FROM shez_insurances
+    WHERE LOWER(productName) LIKE '%' || LOWER('보험') || '%'
+    ORDER BY productName
+)
+WHERE ROWNUM <= 50;
+-- 관리자 검색
+SELECT adminId, name, role
+FROM (
+    SELECT 
+        admin_id AS adminId,
+        name,
+        role
+    FROM shez_admins
+    WHERE LOWER(name) LIKE '%' || LOWER('김') || '%'
+    ORDER BY name
+)
+WHERE ROWNUM <= 50;
 
 SELECT * FROM shez_customers ORDER BY customer_id;
 SELECT * FROM shez_admins ORDER BY admin_id;

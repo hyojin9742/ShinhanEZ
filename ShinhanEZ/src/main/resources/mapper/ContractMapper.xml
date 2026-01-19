@@ -153,5 +153,39 @@
 		WHERE ROWNUM <![CDATA[<= ]]>50
 	</select>
 	<!-- 상품 -->
+	<select id="searchInsuranceByName" resultType="com.shinhanez.admin.domain.Insurance">
+		SELECT productNo, productName, coverageRange
+		FROM (
+		    SELECT 
+		        productno AS productNo,
+		        productname AS productName,
+		        coveragerange AS coverageRange
+		    FROM shez_insurances
+	    <where>
+			<if test="productName != null and productName != ''">
+			    LOWER(productName) LIKE '%' || LOWER(#{productName}) || '%'
+			</if>
+		</where>
+		    ORDER BY productName
+		)
+		WHERE ROWNUM <![CDATA[<=]]> 50
+	</select>
 	<!-- 관리자 -->
+	<select id="searchAdminsByName" resultType="com.shinhanez.admin.domain.Admins">
+		SELECT adminId, name, role
+		FROM (
+		    SELECT 
+		        admin_id AS adminId,
+		        name,
+		        role
+		    FROM shez_admins
+	    <where>
+			<if test="name != null and name != ''">
+			    LOWER(name) LIKE '%' || LOWER(#{name}) || '%'
+			</if>
+		</where>
+		    ORDER BY name
+		)
+		WHERE ROWNUM <![CDATA[<=]]> 50
+	</select>
 </mapper>

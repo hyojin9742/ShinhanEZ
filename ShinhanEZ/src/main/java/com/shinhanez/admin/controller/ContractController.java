@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
+import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.ContractServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -73,4 +75,17 @@ public class ContractController {
 		List<Customer> searchResult =  service.searchCustomerByName(customerName);
 		return ResponseEntity.ok(searchResult);
 	}
+	// 상품 검색
+	@GetMapping(value = "/search/insurances", produces = "application/json")
+	public ResponseEntity<List<Insurance>> searchInsuranceByName(@RequestParam String productName){
+		List<Insurance> searchResult =  service.searchInsuranceByName(productName);
+		return ResponseEntity.ok(searchResult);
+	}
+	// 관리자 검색
+	@GetMapping(value = "/search/admins", produces = "application/json")
+	public ResponseEntity<List<Admins>> searchSdminsByName(@RequestParam String name){
+		List<Admins> searchResult =  service.searchAdminsByName(name);
+		return ResponseEntity.ok(searchResult);
+	}
+	
 }

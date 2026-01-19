@@ -1,6 +1,7 @@
 $(document).ready(()=>{
 	let pageNum = 1;
 	let pageSize = 10;
+	let products = [];
 	/* ajax 처리 */
 	/* 계약 목록 조회 */
 
@@ -122,9 +123,36 @@ $(document).ready(()=>{
 	        timer = setTimeout(() => func.apply(this, args), delay);
 	    };
 	}
+	// 보장내용 체크박스 생성 함수
+	function coverageChk(productNo) {
+	    const product = products.find(p =>  p.productNo === productNo);
+	    const riderList = $('.riderList');
+	    
+        riderList.empty();
+	    if (!product || !product.coverageRange) {
+	        return;
+	    }
 
+	    const coverages = product.coverageRange.split(',').map(c => c.trim());
+
+	    let rider = '';
+	    coverages.forEach((coverage, index) => {
+	        rider += `
+	            <div class="coverage-item">
+	                <input type="checkbox" 
+	                       id="coverage_${index}" 
+	                       name="contractCoverage" 
+	                       value="${coverage}">
+	                <label for="coverage_${index}">${coverage}</label>
+	            </div>
+	        `;
+	    });
+	    
+	    riderList.html(rider);
+	}
+			
 	// 자동완성 함수
-	function autocomplete(inputName, resultsId, hiddenId, ajaxUrl) {
+	function autocomplete(inputName, resultsId, hiddenId, ajaxUrl, paramName) {
 	    const input = $('#' + inputName);
 	    const results = $('#' + resultsId);
 	    const hidden = $('#' + hiddenId);
@@ -137,24 +165,33 @@ $(document).ready(()=>{
 	            hidden.val('');
 	            return;
 	        }
+			
+			const params = {};
+	        params[paramName] = value;
+			
 			contractService.ajaxAutoComplete(
 				ajaxUrl,
-				{ customerName: value },
+				params,
 				function (list) {
 	                if (!list || list.length === 0) {
 	                    results.removeClass('active').empty();
 	                    return;
 	                }
-	
-	                const html = list.map(item => `
+					if (inputName === 'productName') {
+			            products = list;
+			        }
+	                const html = list.map(item => {
+						const id = item.customerId ?? item.productNo ?? item.adminId;
+					    const name = item.name ?? item.productName ?? item.adminName;
+					return `
 	                    <div class="autocomplete-item"
-	                         data-id="${item.customerId}"
-	                         data-name="${item.name}">
-	                        <div class="autocomplete-id">${item.customerId}</div>
-	                        <div class="autocomplete-name">${item.name}</div>
+	                         data-id="${id}"
+	                         data-name="${name}">
+	                        <div class="autocomplete-id">${id}</div>
+	                        <div class="autocomplete-name">${name}</div>
 	                    </div>
-	                `).join('');
-	
+	                `}).join('');
+					
 	                results.html(html).addClass('active');
 	            }
 			);
@@ -173,35 +210,6 @@ $(document).ready(()=>{
 	            results.removeClass('active');
 	        }, 150);
 	    });
-		
-		
-		// 보장내용 체크박스 생성 함수
-		function coverageChk(productId) {
-		    const product = products.find(p => p.id === productId);
-		    const riderList = $('.riderList');
-		    
-		    if (!product || !product.contractCoverage) {
-		        riderList.empty().append('');
-		        return;
-		    }
-
-		    const coverages = product.contractCoverage.split(',').map(c => c.trim());
-
-		    let rider = '';
-		    coverages.forEach((coverage, index) => {
-		        rider += `
-		            <div class="coverage-item">
-		                <input type="checkbox" 
-		                       id="coverage_${index}" 
-		                       name="contractCoverage" 
-		                       value="${coverage}">
-		                <label for="coverage_${index}">${coverage}</label>
-		            </div>
-		        `;
-		    });
-		    
-		    riderList.html(rider);
-		}
 		
 	    // 자동완성 항목 클릭
 	    results.on('click', '.autocomplete-item', function () {
@@ -232,12 +240,16 @@ $(document).ready(()=>{
 	}
 
 	// 자동완성 초기화
-    autocomplete('customerName', 'customerResults', 'customerId', '/admin/contract/search/customers');
-    autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers');
-	//autocomplete('productName', 'productResults', 'productId', products);
+    autocomplete('customerName', 'customerResults', 'customerId', '/admin/contract/search/customers','customerName');
+    autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers','customerName');
+	autocomplete('productName', 'productResults', 'productId', '/admin/contract/search/insurances','productName');
+	autocomplete('adminName', 'adminResults', 'adminId', '/admin/contract/search/admins','name');
 	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
+		closeContractModal();
+	});
+	function closeContractModal(){
 		$('#contractModal, #contractModalOverlay').removeClass('active');
 		// 모달 닫을 때 내용 초기화
 	    const formEl = $('#contractForm')[0];
@@ -252,12 +264,12 @@ $(document).ready(()=>{
 	    $('.riderList').empty();
 
 	    $('input[type="checkbox"][value="주계약"]').prop('checked', true);
-	});
+	}
 	
 	/* 계약 등록 */
-	$('#contractForm').on('click', '#saveContract', function() {
+	$(document).on('click', '#saveContract', function() {
 		const form = $('#contractForm');
-        
+		
         if (!form[0].checkValidity()) {
             form[0].reportValidity();
             return;
@@ -296,9 +308,9 @@ $(document).ready(()=>{
 		}, 800);
 	}
 	// 폼 -> JSON 변환
-	function formToJson($form) {
+	function formToJson(form) {
 	    const jsonForm = {};
-	    $form.serializeArray().forEach(item => {
+	    form.serializeArray().forEach(item => {
 	        jsonForm[item.name] = item.value;
 	    });
 	    return jsonForm;

@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
+import com.shinhanez.admin.domain.Insurance;
 
 @Mapper
 public interface ContractMapper {
@@ -25,5 +27,7 @@ public interface ContractMapper {
 	// 계약자, 피보험자 검색
 	public List<Customer> searchCustomerByName(@Param("customerName") String customerName);
 	// 보험 상품 검색
+	public List<Insurance> searchInsuranceByName(@Param("productName") String productName);
 	// 관리자 검색
+	public List<Admins> searchAdminsByName(@Param("name") String name);
 }
