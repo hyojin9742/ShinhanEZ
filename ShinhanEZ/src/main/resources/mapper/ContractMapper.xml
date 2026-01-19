@@ -133,4 +133,25 @@
 		    premium_amount = #{premiumAmount}, payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_id = #{adminId}
 		WHERE contract_id = #{contractId}
 	</update>
+	
+	<!-- 자동완성 -->
+	<!-- 계약자, 피보험자 -->
+	<select id="searchCustomerByName" resultType="com.shinhanez.admin.domain.Customer">
+		SELECT customerId, name
+		FROM (
+		    SELECT 
+		        customer_id AS customerId,
+		        name AS name
+		    FROM shez_customers
+		<where>
+			<if test="customerName != null and customerName != ''">
+			    LOWER(name) LIKE '%' || LOWER(#{customerName}) || '%'
+			</if>    
+		</where>
+		    ORDER BY name
+		)
+		WHERE ROWNUM <![CDATA[<= ]]>50
+	</select>
+	<!-- 상품 -->
+	<!-- 관리자 -->
 </mapper>

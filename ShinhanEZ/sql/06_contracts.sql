@@ -190,6 +190,23 @@ SELECT * FROM shez_contracts;
 -- 계약 삭제 | 무결성 위반
 -- DELETE FROM shez_contracts WHERE contract_id = 1;
 
+-- 자동완성
+-- 고객 검색
+SELECT id, name
+FROM (
+    SELECT 
+        customer_id AS id,
+        name AS name
+    FROM shez_customers
+    WHERE LOWER(name) LIKE '%' || LOWER('김') || '%'
+    ORDER BY name
+)
+WHERE ROWNUM <= 50;
+
+
+
+
+
 SELECT * FROM shez_customers ORDER BY customer_id;
 SELECT * FROM shez_admins ORDER BY admin_id;
 SELECT * FROM shez_insurances ORDER BY productno;
