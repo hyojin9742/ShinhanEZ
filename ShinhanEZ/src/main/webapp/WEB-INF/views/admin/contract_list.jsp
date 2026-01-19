@@ -8,6 +8,7 @@
     <jsp:include page="inc/head.jsp"/>
     <link rel="stylesheet" href="${ctx}/css/admin/contract.css">
     <script src="${ctx}/js/jquery-3.7.1.min.js"></script>
+    <script src="${ctx}/js/admin/contractAjaxModule.js"></script>
     <script src="${ctx}/js/admin/contract.js"></script>
 </head>
 <body class="admin-page">
@@ -176,7 +177,9 @@
 		                        </div>
 		                        <div class="form-group">
 		                        	<label class="form-label">보장내용 <span>*</span></label>
-		                        	<input type="checkbox" name="contractCoverage" />
+		                        	<input type="hidden" name="contractCoverage" value="주계약"/>
+		                        	<input type="checkbox" value="주계약" checked disabled/>주계약 <span>*</span>
+		                        	<div class="riderList"></div>
 		                        	<!-- AJAX 로드 -->
 	                        	</div>
 		                        <div class="form-group">

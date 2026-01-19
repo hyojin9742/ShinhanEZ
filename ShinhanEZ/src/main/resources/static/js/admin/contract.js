@@ -1,123 +1,6 @@
 $(document).ready(()=>{
 	let pageNum = 1;
 	let pageSize = 10;
-	/* ajax 모듈 */
-	let contractService = (function(){
-		
-		/* 계약 목록 조회 */
-		function getList(params, callback, error) { 
-			$.ajax({ 
-				url: '/admin/contract/rest', 
-				type: 'GET', 
-				data: params, 
-				dataType: 'json', 
-				success: function(response) { 
-					if (response) { 
-						if (callback) { 
-							callback(
-								response.paging,
-								response.allList,
-								response.paging.paging.totalDB
-							); 
-						} 
-					} else { 
-						if (error) error(response.message || '데이터 조회 실패'); 
-					} 
-				}, 
-				error: function(xhr, status, err) { 
-					if (error) error('서버 오류가 발생했습니다.'); 
-				} 
-			}); 
-		}
-		
-		/* 계약 단건 읽기 | 처리 필요*/
-		function get(ctrId, callback, error) {
-			$.ajax({
-				type: "get",
-				url: "/rest/" + ctrId,
-				success: function (result, status, xhr) {
-					if (callback) {
-						callback(result);
-					} else { 
-						if (error) error(response.message || '데이터 조회 실패'); 
-					} 
-				},
-				error: function (xhr, status, error) {
-					if (error) {
-						if (error) error('서버 오류가 발생했습니다.'); 
-					}
-				}
-			});
-		}
-		
-		/* 계약 등록 */
-		function save(contract, callback, error){ 
-			$.ajax({
-				type: "post",
-				url: "/rest/register",
-				data: JSON.stringify(contract),
-				contentType: "application/json; charset=utf-8",
-				success: function (result, status, xhr) {
-					if (callback) {
-						callback(result);
-					} else { 
-						if (error) error(response.message || '저장실패'); 
-					} 
-				},
-				error: function (xhr, status, error) {
-					if (error) {
-						if (error) error('서버 오류가 발생했습니다.'); 
-					}
-				}
-			});
-		}
-	   
-		/* 계약 수정 */
-		function update(reply, callback, error) {
-			$.ajax({
-				type: "put",
-				url: "/replies/" + reply.rno,
-				data: JSON.stringify(reply),
-				contentType: "application/json; charset=utf-8",
-				success: function (result2, status, xhr) {
-				if (callback) {
-					callback(result2);
-					}
-				},
-				error: function (xhr, status, er) {
-					if (error) {
-						error(er);
-					}
-				},
-			});
-		}
-		
-		/* 시간 처리 */
-		function displayTime(timeValue) { 
-			let today = new Date();
-			let gap = today.getTime() - timeValue;
-			let dateObj = new Date(timeValue); 
-			if(gap < (1000 * 60 * 60 * 24)) { 
-				let hh = dateObj.getHours();
-				let mi = dateObj.getMinutes();
-				let ss = dateObj.getSeconds();
-				return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss > 9 ? '' : '0') + ss ].join('');
-			}else {
-				let yy = dateObj.getFullYear();
-				let mm = dateObj.getMonth() + 1;
-				let dd = dateObj.getDate();
-				return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/', (dd > 9 ? '' : '0') + dd ].join('');
-			}
-		}
-		return {
-			getList: getList,
-			get: get,
-			save: save,
-			update: update,
-			displayTime: displayTime,
-		};
-	})();
-	
 	/* ajax 처리 */
 	/* 계약 목록 조회 */
 
@@ -190,11 +73,9 @@ $(document).ready(()=>{
 	function renderPagination(paging) {
 	    const pgUl = $('.contract-pagination');
 	    pgUl.empty();
-
+		
 	    if (paging.hasPrev) {
 	        pgUl.append(`<li><a href="#" data-page="${paging.startPage - 1}">&laquo;</a></li>`);
-	    } else {
-	        pgUl.append(`<li><a href="#" class="disabled">&laquo;</a></li>`);
 	    }
 		
 	    for (let i = paging.paging.pageNum; i <= paging.paging.endPage; i++) {
@@ -204,16 +85,14 @@ $(document).ready(()=>{
 
 	    if (paging.hasNext) {
 	        pgUl.append(`<li><a href="#" data-page="${paging.paging.endPage + 1}">&raquo;</a></li>`);
-	    } else {
-	        pgUl.append(`<li><a href="#" class="disabled">&raquo;</a></li>`);
 	    }
 	}
 
 	// 총 건수 업데이트
 	function updateTotalCount(totalCount) {
 	    $('.totalContractInner').text(totalCount.toLocaleString());
-	}	
-	
+	}
+
 	/* 모달 */
     // 계약 등록 버튼 클릭
     $('.page-title-area .btn-primary').on('click', function(e) {
@@ -233,104 +112,151 @@ $(document).ready(()=>{
 	        loadContractData(contractId);
 	    }
 	}
-		
-	// 모달 폼 데이터
-	// 샘플 데이터
-    const customers = [
-        { id: 'C001', name: '김철수' },
-        { id: 'C002', name: '이영희' },
-        { id: 'C003', name: '박민수' },
-        { id: 'C004', name: '최지현' },
-        { id: 'C005', name: '정수진' }
-    ];
-
-    const insureds = [
-        { id: 'I001', name: '김철수' },
-        { id: 'I002', name: '이영희' },
-        { id: 'I003', name: '박민수' },
-        { id: 'I004', name: '홍길동' },
-        { id: 'I005', name: '강감찬' }
-    ];
-
-    const products = [
-        { id: 'P001', name: '종합보험 플러스' },
-        { id: 'P002', name: '암보험 프리미엄' },
-        { id: 'P003', name: '실손의료보험' },
-        { id: 'P004', name: '운전자보험' },
-        { id: 'P005', name: '연금저축보험' }
-    ];
 	
+	/* 자동완성 */	
+	// 디바운스 함수
+	function debounce(func, delay = 300) {
+	    let timer;
+	    return function (...args) {
+	        clearTimeout(timer);
+	        timer = setTimeout(() => func.apply(this, args), delay);
+	    };
+	}
+
+	// 자동완성 함수
+	function autocomplete(inputName, resultsId, hiddenId, ajaxUrl) {
+	    const input = $('#' + inputName);
+	    const results = $('#' + resultsId);
+	    const hidden = $('#' + hiddenId);
+		
+		const debounceSearch = debounce(function(){
+	        const value = $.trim(input.val());
+			
+			if (value === '') {
+	            results.removeClass('active').empty();
+	            hidden.val('');
+	            return;
+	        }
+			contractService.ajaxAutoComplete(
+				ajaxUrl,
+				{ customerName: value },
+				function (list) {
+	                if (!list || list.length === 0) {
+	                    results.removeClass('active').empty();
+	                    return;
+	                }
+	
+	                const html = list.map(item => `
+	                    <div class="autocomplete-item"
+	                         data-id="${item.customerId}"
+	                         data-name="${item.name}">
+	                        <div class="autocomplete-id">${item.customerId}</div>
+	                        <div class="autocomplete-name">${item.name}</div>
+	                    </div>
+	                `).join('');
+	
+	                results.html(html).addClass('active');
+	            }
+			);
+		},300);
+		
+	    // 입력 이벤트
+	    input.on('input', debounceSearch);
+		
+		// 유효성 검증
+	    input.on('blur', function () {
+	        setTimeout(() => {
+	            if (input.val() && !hidden.val()) {
+	                alert('목록에서 선택해주세요.');
+	                input.val('');
+	            }
+	            results.removeClass('active');
+	        }, 150);
+	    });
+		
+		
+		// 보장내용 체크박스 생성 함수
+		function coverageChk(productId) {
+		    const product = products.find(p => p.id === productId);
+		    const riderList = $('.riderList');
+		    
+		    if (!product || !product.contractCoverage) {
+		        riderList.empty().append('');
+		        return;
+		    }
+
+		    const coverages = product.contractCoverage.split(',').map(c => c.trim());
+
+		    let rider = '';
+		    coverages.forEach((coverage, index) => {
+		        rider += `
+		            <div class="coverage-item">
+		                <input type="checkbox" 
+		                       id="coverage_${index}" 
+		                       name="contractCoverage" 
+		                       value="${coverage}">
+		                <label for="coverage_${index}">${coverage}</label>
+		            </div>
+		        `;
+		    });
+		    
+		    riderList.html(rider);
+		}
+		
+	    // 자동완성 항목 클릭
+	    results.on('click', '.autocomplete-item', function () {
+	        const id = $(this).data('id');
+	        const name = $(this).data('name');
+
+	        input.val(name);
+	        hidden.val(id);
+	        results.removeClass('active');
+			
+			// 보장내용
+			if (inputName === 'productName') {
+	        	coverageChk(id);
+	        }
+
+	    });
+
+	    // 외부 클릭 시 자동완성 닫기
+	    $(document).on('click', function (e) {
+	        if (
+	            !input.is(e.target) &&
+	            !results.is(e.target) &&
+	            results.has(e.target).length === 0
+	        ) {
+	            results.removeClass('active');
+	        }
+	    });
+	}
+
 	// 자동완성 초기화
-    function initAutocomplete(inputName, resultsId, hiddenId, dataSource) {
-        const input = document.getElementById(inputName);
-        const results = document.getElementById(resultsId);
-        const hidden = document.getElementById(hiddenId);
-
-        input.addEventListener('input', function() {
-            const value = this.value.trim();
-            
-            if (value === '') {
-                results.classList.remove('active');
-                hidden.value = '';
-                return;
-            }
-
-            const filtered = dataSource.filter(item => 
-                item.name.toLowerCase().includes(value.toLowerCase()) ||
-                item.id.toLowerCase().includes(value.toLowerCase())
-            );
-
-            if (filtered.length > 0) {
-                results.innerHTML = filtered.map(item => `
-                    <div class="autocomplete-item" data-id="${item.id}" data-name="${item.name}">
-                        <div class="autocomplete-id">${item.id}</div>
-                        <div class="autocomplete-name">${item.name}</div>
-                    </div>
-                `).join('');
-                results.classList.add('active');
-            } else {
-                results.classList.remove('active');
-            }
-        });
-
-        results.addEventListener('click', function(e) {
-            const item = e.target.closest('.autocomplete-item');
-            if (item) {
-                const id = item.dataset.id;
-                const name = item.dataset.name;
-                input.value = name;
-                hidden.value = id;
-                results.classList.remove('active');
-            }
-        });
-
-        // 외부 클릭시 자동완성 닫기
-        document.addEventListener('click', function(e) {
-            if (!input.contains(e.target) && !results.contains(e.target)) {
-                results.classList.remove('active');
-            }
-        });
-    }
-	// 자동완성 초기화
-    initAutocomplete('customerName', 'customerResults', 'customerId', customers);
-    initAutocomplete('insuredName', 'insuredResults', 'insuredId', insureds);
-	initAutocomplete('productName', 'productResults', 'productId', products);
+    autocomplete('customerName', 'customerResults', 'customerId', '/admin/contract/search/customers');
+    autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers');
+	//autocomplete('productName', 'productResults', 'productId', products);
 	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
-		closeContractModal();
-	});
-	
-	function closeContractModal() {
 		$('#contractModal, #contractModalOverlay').removeClass('active');
-		document.getElementById('customerId').value = '';
-	    document.getElementById('insuredId').value = '';
-	    document.getElementById('productId').value = '';
-	}
+		// 모달 닫을 때 내용 초기화
+	    const formEl = $('#contractForm')[0];
+	    formEl.reset();
+
+	    $('#customerId').val('');
+	    $('#insuredId').val('');
+	    $('#productId').val('');
+
+	    $('.autocomplete-results').removeClass('active').empty();
+
+	    $('.riderList').empty();
+
+	    $('input[type="checkbox"][value="주계약"]').prop('checked', true);
+	});
 	
 	/* 계약 등록 */
 	$('#contractForm').on('click', '#saveContract', function() {
-        const form = $('#contractForm');
+		const form = $('#contractForm');
         
         if (!form[0].checkValidity()) {
             form[0].reportValidity();

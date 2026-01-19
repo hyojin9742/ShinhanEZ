@@ -1,5 +1,6 @@
 package com.shinhanez.admin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.service.ContractServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -63,4 +65,12 @@ public class ContractController {
 
         return ResponseEntity.ok(Map.of("message", "계약 수정 성공","updateResult",updateResult));
     }
+	
+	/* ================================== 자동완성 ================================== */
+	// 계약자, 피보험자 검색
+	@GetMapping(value = "/search/customers", produces = "application/json")
+	public ResponseEntity<List<Customer>> searchCustomerByName(@RequestParam String customerName){
+		List<Customer> searchResult =  service.searchCustomerByName(customerName);
+		return ResponseEntity.ok(searchResult);
+	}
 }
