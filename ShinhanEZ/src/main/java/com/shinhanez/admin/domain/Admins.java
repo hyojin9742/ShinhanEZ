@@ -2,18 +2,18 @@ package com.shinhanez.admin.domain;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
 @Data
 public class Admins {
-	int adminId;
-	String id;
-	String pw;
-	String role;
-	String name;
+	int adminIdx;
+	String adminId;
+	String adminPw;
+	String adminRole;
+	String adminName;
 	String department;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date last_login;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	Date lastLogin;
 }
