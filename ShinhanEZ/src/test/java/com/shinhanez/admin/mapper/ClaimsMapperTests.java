@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
@@ -43,10 +44,22 @@ public class ClaimsMapperTests {
 	// [청구 전체 조회]
 	@Test
 	void ClaimsListTest() {
-		List<ClaimsDTO> Claimslist = claimsMapper.getClaimList();
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		claimsCriteria.setPageNum(2);
+		claimsCriteria.setPageSize(10);
+		List<ClaimsDTO> Claimslist = claimsMapper.getClaimList(claimsCriteria);
 		Claimslist.forEach((claimsDTO) -> {
 			log.info("리스트조회......"+claimsDTO);
 		});
+	}
+	
+	// [청구 전체 count]
+	@Test
+	void ClaimsTotalCountTests() {
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		
+		int total = claimsMapper.getClaimTotalCount(claimsCriteria);
+		log.info("전체 totalCount.................."+total);
 	}
 	
 	// [청구 단건 조회]

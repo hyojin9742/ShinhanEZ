@@ -4,36 +4,31 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <jsp:include page="inc/head.jsp"/>
     <link rel="stylesheet" href="${ctx}/css/admin/payment.css">
+	<!-- 토스트 표시 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
-
     <jsp:include page="inc/sidebar.jsp">
         <jsp:param name="menu" value="claims"/>
     </jsp:include>
-
     <div class="admin-main">
-
         <jsp:include page="inc/header.jsp"/>
-
         <main class="admin-content">
-
             <div class="page-title-area">
                 <h2 class="page-title">청구 등록</h2>
             </div>
-
             <div class="card">
                 <div class="card-header">
                     <span>청구 등록</span>
                 </div>
-
                 <div class="card-body">
+					<!-- 청구 등록 폼 -->
                     <form action="${ctx}/admin/claims/insert" method="post">
                         <div class="payment-form">
                             <div>
@@ -44,7 +39,6 @@
                                            placeholder="청구인"
                                            disabled>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="form-label">피보험자</label>
                                     <input type="text" class="form-control"
@@ -52,7 +46,6 @@
                                            placeholder="피보험자"
 										   disabled>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="form-label">계약ID</label>
                                     <input type="text" class="form-control"
@@ -60,7 +53,6 @@
                                            placeholder="계약ID"
 										   readonly>
                                 </div>
-
 								<div class="form-group" style="width: 200%;">
 								  <label class="form-label">제출 서류</label>
 								  <textarea class="form-control"
@@ -68,18 +60,14 @@
 								            rows="4"
 								            placeholder="예: 진단서, 입원확인서, 신분증 사본, 특이사항"></textarea>
 								</div>
-								
                             </div>
-
                             <div>
-								
                                 <div class="form-group">
                                     <label class="form-label">사고일</label>
                                     <input type="date" class="form-control"
                                            name="accidentDate"
                                            value="${today}">
                                 </div>
-                                
                                 <div class="form-group">
                                     <label class="form-label">청구금액</label>
                                     <input type="number" class="form-control"
@@ -87,32 +75,27 @@
                                            placeholder="청구금액"
                                            required>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="form-label">처리 상태</label>
                                     <div class="radio-group">
                                         <label><input type="radio" name="status" value="PENDING" checked> 대기</label>
                                     </div>
                                 </div>
-								
                             </div>
-
 							<input type="hidden" name="customerId" id="claimCustomerId">
 							<input type="hidden" name="insuredId" id="claimInsuredId">
 							<input type="hidden" name="contractId" id="claimContractIdHidden">
                         </div>
-
                         <div class="btn-area" style="display: flex; justify-content: end;">
                             <button type="button" id="getListContract" class="btn btn-outline" style="margin-right:1vw;">청구인 계약조회</button>
                             <a href="${ctx}/admin/claims" class="btn btn-secondary" style="margin-right: 1vw;" >목록</a>
                             <button type="submit" class="btn btn-primary">등록</button>
                         </div>
                     </form>
+					<!-- /청구 등록 폼 -->
                 </div>
             </div>
-			
         </main>
-		
         <jsp:include page="inc/footer.jsp"/>
     </div>
 </div>
@@ -131,20 +114,19 @@
 			x
 		</button>
     </div>
-
+	
     <div style="padding:16px 18px;">
+		<!-- 고객ID 입력 + 조회 버튼 -->
         <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
-            <div style="font-size:13px; color:#666;">
-                고객 ID
-            </div>
-			
+            <div style="font-size:13px; color:#666;">고객 ID</div>
 			<input type="text" id="modalCustomerIdInput" class="form-control" placeholder="예: C001" style="max-width:220px;">
 			<button type="button" class="btn btn-outline" id="btnModalSearchContracts">조회</button>
-			
         </div>
 
+		<!-- 모달 내부 메시지 -->
         <div id="contractModalMsg" style="display:none; margin:10px 0; padding:10px 12px; border-radius:10px; background:#f6f7fb; color:#333;"></div>
 
+		<!-- 계약 리스트 테이블 -->
         <table style="width:100%; border-collapse:collapse;">
             <thead>
             <tr style="text-align:left; border-bottom:1px solid #eee;">
@@ -157,6 +139,7 @@
                 <th style="padding:10px 8px;">상태</th>
             </tr>
             </thead>
+			<!-- JS로 행 추가 -->
             <tbody id="contractTbody">
             <!-- JS로 채움 -->
             </tbody>
@@ -167,10 +150,42 @@
         </div>
     </div>
 </div>
+<!-- /계약 선택 모달 -->
 
-<script>
-	window.APP_CTX = "${ctx}";
-</script>
+<!-- 토스트(성공/실패 메시지 표시): msg 있을 때만 렌더링 -->
+<c:if test="${not empty msg}">
+	<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"style="z-index:20000;">
+		<div id="appToast" class="toast align-items-center text-bg-${msgType == 'success' ? 'success' : (msgType == 'error' ? 'danger' : 'secondary') } border-0" role="alert" aria-live="assertive" aria-atomic="true">
+		    <div class="d-flex">
+		    	<div class="toast-body">${msg}</div>
+		    	<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+		    </div>
+		</div>
+	</div>
+</c:if>
+
+<!-- Bootstrap JS 번들(Toast 동작 필요) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 전역 컨텍스트 경로: 외부 JS에서 사용 -->
+<script>window.APP_CTX = "${ctx}";</script>
+
+<!-- 페이지 전용 JS(계약 조회/모달 제어/hidden 채우기 등) -->
 <script src="${ctx}/js/claims_insert.js"></script>
+
+<!-- 토스트 자동 표시 -->
+<script>
+	(function () {
+    	const el = document.getElementById("appToast");
+    	if (!el) return;
+
+    	const isError = "${msgType}" === "error";
+    	bootstrap.Toast.getOrCreateInstance(el, {
+      		delay: isError ? 4000 : 2200,
+      		autohide: true
+    	}).show();
+  	})();
+</script>
+
 </body>
 </html>

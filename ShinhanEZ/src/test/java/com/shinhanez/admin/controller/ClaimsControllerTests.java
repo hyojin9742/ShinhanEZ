@@ -19,6 +19,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.service.ClaimsService;
 import com.shinhanez.admin.service.ContractService;
@@ -42,13 +44,14 @@ public class ClaimsControllerTests {
 	/* GET /admin/claims"" */ 
 	@Test
 	void claimsListTests() throws Exception{
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
 		// 테스트용 객체 생성하여 불변 list 생성하여 아이템 할당
 		ClaimsDTO claimsDTO1 = new ClaimsDTO();
 		ClaimsDTO claimsDTO2 = new ClaimsDTO();
 		List<ClaimsDTO> list = List.of(claimsDTO1,claimsDTO2);
 		// 메서드가 호출되면 list를 반환
-		when(claimsService.getClaimList()).thenReturn(list);
-		
+		when(claimsService.getClaimTotalCount(any(ClaimsCriteria.class))).thenReturn(2);
+		when(claimsService.getClaimList(any(ClaimsCriteria.class))).thenReturn(list);
 /*
 		컨트롤러 응답검증 -> get /admin/claims
 		  1. HTTP 상태코드 200 OK 확인
@@ -60,23 +63,36 @@ public class ClaimsControllerTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("admin/claims_list"))
 				.andExpect(model().attributeExists("list"))
+				.andExpect(model().attributeExists("paging"))
+				.andExpect(model().attributeExists("claimsCriteria"))
 				.andExpect(model().attribute("list", list));
 	}
 	
 	/* GET /admin/claims/ */ 
 	@Test
-	void claimsListTests2() throws Exception{
-		// 테스트용 객체 생성하여 불변 list 생성하여 아이템 할당
-		ClaimsDTO claimsDTO1 = new ClaimsDTO();
-		ClaimsDTO claimsDTO2 = new ClaimsDTO();
-		List<ClaimsDTO> list = List.of(claimsDTO1,claimsDTO2);
-		// 메서드가 호출되면 list를 반환
-		when(claimsService.getClaimList()).thenReturn(list);
-		mockMvc.perform(get("/admin/claims/"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("admin/claims_list"))
-				.andExpect(model().attributeExists("list"))
-				.andExpect(model().attribute("list", list));
+	void claimsListWithKeywordControllerTest() throws Exception {
+
+	    ClaimsDTO dto1 = new ClaimsDTO();
+	    ClaimsDTO dto2 = new ClaimsDTO();
+	    List<ClaimsDTO> list = List.of(dto1, dto2);
+
+	    when(claimsService.getClaimTotalCount(any(ClaimsCriteria.class)))
+	            .thenReturn(2);
+	    when(claimsService.getClaimList(any(ClaimsCriteria.class)))
+	            .thenReturn(list);
+
+	    mockMvc.perform(
+	            get("/admin/claims")
+	                .param("keyword", "김")
+	                .param("pageNum", "1")
+	                .param("pageSize", "10")
+	        )
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("admin/claims_list"))
+	        .andExpect(model().attributeExists("list"))
+	        .andExpect(model().attributeExists("paging"))
+	        .andExpect(model().attributeExists("claimsCriteria"))
+	        .andExpect(model().attribute("list", list));
 	}
 	
 	/* GET /admin/claims/{claimId} */

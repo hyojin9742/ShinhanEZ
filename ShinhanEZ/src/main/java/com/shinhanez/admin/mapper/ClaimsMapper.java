@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
 public interface ClaimsMapper {
 
 	// 청구 목록 조회
-	List<ClaimsDTO> getClaimList();
+	List<ClaimsDTO> getClaimList(ClaimsCriteria claimsCriteria);
+	
+	// 청구 전체 count
+	int getClaimTotalCount(ClaimsCriteria claimsCriteria);
 
 	// 청구 단건 조회
 	ClaimsDTO getClaim(Long claimId);

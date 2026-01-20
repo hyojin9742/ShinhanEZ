@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.service.ClaimsService;
 import com.shinhanez.admin.service.ContractService;
+import com.shinhanez.domain.Paging;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,9 +39,22 @@ public class ClaimsController {
 	
 	// 청구 List
 	@GetMapping({"/",""})
-	public String claimsList(Model model) {
-		List<ClaimsDTO> claimsList = claimsService.getClaimList();
+	public String claimsList(ClaimsCriteria claimsCriteria, Model model) {
+		int totalCount = claimsService.getClaimTotalCount(claimsCriteria);
+	    int start = (claimsCriteria.getPageNum() - 1) * claimsCriteria.getPageSize() + 1;
+	    int end = Math.min(claimsCriteria.getPageNum() * claimsCriteria.getPageSize(), totalCount);
+		Paging paging = new Paging(
+				claimsCriteria.getPageNum(), 
+				claimsCriteria.getPageSize(), 
+				totalCount, 
+				10);
+		List<ClaimsDTO> claimsList = claimsService.getClaimList(claimsCriteria);
 		model.addAttribute("list", claimsList);
+		model.addAttribute("paging", paging);
+		model.addAttribute("claimsCriteria", claimsCriteria);
+	    model.addAttribute("totalCount", totalCount);
+	    model.addAttribute("startRow", totalCount == 0 ? 0 : start);
+	    model.addAttribute("endRow", end);
 		return "admin/claims_list";
 	} 
 	
@@ -99,7 +114,7 @@ public class ClaimsController {
 		model.addAttribute("claimsDTO", claimsDTO);
 	    model.addAttribute("msgType", "error");
 	    model.addAttribute("msg", "청구 수정에 실패했습니다. 다시 확인해 주세요.");
-	    return "claims_view";
+	    return "admin/claims_view";
 	}
 	
 	// 청구 delete
@@ -111,7 +126,7 @@ public class ClaimsController {
 		if(result > 0) {
 			redirectAttributes.addFlashAttribute("msgType", "success");
 			redirectAttributes.addFlashAttribute("msg", "정상 삭제 되었습니다.");
-			return "redirect:/admin/claims/list";
+			return "redirect:/admin/claims";
 		}
 		redirectAttributes.addFlashAttribute("msgType", "error");
 		redirectAttributes.addFlashAttribute("msg", "삭제 권한이 없습니다.");

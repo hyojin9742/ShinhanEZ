@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.ClaimsMapper;
@@ -23,10 +24,16 @@ public class ClaimsServiceImpl implements ClaimsService{
 	
 	// 청구 리스트
 	@Override
-	public List<ClaimsDTO> getClaimList() {
-		return claimsMapper.getClaimList();
+	public List<ClaimsDTO> getClaimList(ClaimsCriteria claimsCriteria) {
+		return claimsMapper.getClaimList(claimsCriteria);
 	}
 
+	// 청구 count
+	@Override
+	public int getClaimTotalCount(ClaimsCriteria claimsCriteria) {
+		return claimsMapper.getClaimTotalCount(claimsCriteria);
+	};
+	
 	// 청구 단일 조회
 	@Override
 	public ClaimsDTO getClaim(Long claimId) {
