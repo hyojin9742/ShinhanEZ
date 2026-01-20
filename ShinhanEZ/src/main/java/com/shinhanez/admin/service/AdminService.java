@@ -12,7 +12,7 @@ public interface AdminService {
 	// 단건 조회
 	public Admins readOneAdmin(int adminIdx);
 	// 등록
-	public int registerAdmin(Admins admin);
+	public int registerAdmin(Admins admin, HttpSession session);
 	// 수정
 	public int modifyAdmin(Admins admin, HttpSession session);
 	// 삭제
@@ -20,6 +20,8 @@ public interface AdminService {
 	
 	// 아이디로 관리자 가져오기
 	public Admins readOneAdminById(String adminId);
+	// 마지막 로그인
+	public int lastLogin(int adminIdx);
 	// 권한 체크
 	public boolean hasPermission(Admins admin, HttpSession session);
 }

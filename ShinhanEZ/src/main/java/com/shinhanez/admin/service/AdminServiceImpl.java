@@ -1,6 +1,5 @@
 package com.shinhanez.admin.service;
 
-import java.net.Authenticator.RequestorType;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -36,19 +35,21 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.selectOneAdmin(adminIdx);
 	}
 	// 등록
-	@Override
 	@Transactional
-	public int registerAdmin(Admins admin) {
-		int result1 = mapper.insertAdmin(admin);
-        int result2 = mapper.insertUser(admin);
-
-        if (result1 != 1 || result2 != 1) {
-            throw new RuntimeException("관리자 등록 실패");
-        }
-
-        return 1;
+	@Override
+	public int registerAdmin(Admins admin,HttpSession session) {
+		if(hasPermission(admin, session)) {
+			int result1 = mapper.insertAdmin(admin);
+			int result2 = mapper.insertUser(admin);
+			if (result1 != 1 || result2 != 1) {
+				throw new RuntimeException("관리자 등록 실패");
+			}
+			return 1;
+		}
+        return 0;
 	}
 	// 수정
+	@Transactional
 	@Override
 	public int modifyAdmin(Admins admin, HttpSession session) {
 		Integer adminIdx = (Integer) session.getAttribute("adminIdx");
@@ -77,6 +78,11 @@ public class AdminServiceImpl implements AdminService {
 	public Admins readOneAdminById(String adminId) {
 		Admins adminById = mapper.selectOneAdminById(adminId);
 		return adminById;
+	}
+	// 마지막 로그인
+	@Override
+	public int lastLogin(int adminIdx) {
+		return mapper.lastLogin(adminIdx);
 	}
 	// 권한 체크
 	@Override

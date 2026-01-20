@@ -28,4 +28,7 @@
 	<select id="selectOneAdminById" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT * FROM shez_admins WHERE admin_id = #{adminId}
 	</select>
+	<update id="lastLogin">
+		UPDATE shez_admins SET last_login = SYSDATE WHERE admin_idx = #{adminIdx}
+	</update>
 </mapper>

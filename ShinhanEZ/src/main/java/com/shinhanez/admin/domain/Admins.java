@@ -15,5 +15,5 @@ public class Admins {
 	String adminName;
 	String department;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	Date last_login;
+	Date lastLogin;
 }

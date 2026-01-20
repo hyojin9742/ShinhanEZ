@@ -21,4 +21,6 @@ public interface AdminMapper {
 	public int deleteAdmin(int adminIdx);
 	// 아이디로 관리자 가져오기
 	public Admins selectOneAdminById(String adminId);
+	// 마지막 로그인 처리
+	public int lastLogin(int adminIdx);
 }

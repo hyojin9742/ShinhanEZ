@@ -56,8 +56,8 @@
         <div class="sidebar-section-title">관리자 설정</div>
         
         <li>
-            <a href="#" class="${param.menu == 'system' ? 'active' : ''}">
-                <i class="bi bi-gear"></i> 시스템 설정
+            <a href="/admin/employee" class="${param.menu == 'system' ? 'active' : ''}">
+                <i class="bi bi-gear"></i> 관리자 목록
             </a>
         </li>
     </ul>
