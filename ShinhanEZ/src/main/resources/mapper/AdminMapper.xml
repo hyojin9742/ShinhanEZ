@@ -6,22 +6,23 @@
 	<select id="selectAllAdmins" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT * FROM shez_admins ORDER BY admin_idx
 	</select>
-	<select id="selectOneAdmins" resultType="com.shinhanez.admin.domain.Admins">
+	<select id="selectOneAdmin" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT * FROM shez_admins WHERE admin_idx = #{adminIdx}
 	</select>
-	<insert id="insertAdimins">
+	<insert id="insertAdimin">
 		INSERT INTO shez_admins(admin_idx,admin_id, admin_pw, admin_role, admin_name, department) 
 		VALUES (seq_shezAdmins.NEXTVAL,#{adminId},#{adminPw},#{adminRole},#{adminName},#{department})
 	</insert>
-	<insert id="insertAdimins">
-		INSERT INTO shez_user VALUES (#{adminId},#{adminPw},'admin@shinhanez.com',#{adminName},
+	<insert id="insertUser">
+		INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)
+		VALUES (#{adminId},#{adminPw},'admin@shinhanez.com',#{adminName}, 
 		TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN')
 	</insert>
-	<update id="updateAdmins">
+	<update id="updateAdmin">
 		UPDATE shez_admins SET admin_id = #{adminId}, admin_pw = #{adminPw}, admin_role = #{adminRole}, 
 		admin_name = #{adminName}, department = #{department} WHERE admin_idx = #{adminIdx}
 	</update>
-	<delete id="deleteAdmins">
+	<delete id="deleteAdmin">
 		DELETE FROM shez_admins WHERE admin_idx = #{adminIdx}
 	</delete>
 </mapper>

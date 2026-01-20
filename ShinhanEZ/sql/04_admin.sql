@@ -55,8 +55,8 @@ SELECT * FROM shez_admins WHERE admin_idx = 1;
 -- 등록
 INSERT INTO shez_admins(admin_idx,admin_id, admin_pw, admin_role, admin_name, department) 
 VALUES (seq_shezAdmins.NEXTVAL,'admin','1111','super','황청구','보험청구팀');
-INSERT INTO shez_user VALUES ('manager02','1111','admin@shinhanez.com','김철수',
-TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)
+VALUES ('manager02','1111','admin@shinhanez.com','김철수', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 
 COMMIT;
 SELECT * FROM shez_user;

@@ -11,11 +11,12 @@ public interface AdminMapper {
 	// 관리자 목록
 	public List<Admins> selectAllAdmins();
 	// 관리자 상세
-	public Admins selectOneAdmins(int adminIdx);
+	public Admins selectOneAdmin(int adminIdx);
 	// 등록
-	public int insertAdimins(Admins admin);
+	public int insertAdimin(Admins admin);
+	public int insertUser(Admins admin);
 	// 수정
-	public int updateAdmins(Admins admin);
+	public int updateAdmin(Admins admin);
 	// 삭제
-	public int deleteAdmins(int adminIdx);
+	public int deleteAdmin(int adminIdx);
 }
