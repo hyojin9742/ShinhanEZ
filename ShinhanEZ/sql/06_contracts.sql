@@ -118,7 +118,7 @@ SELECT
     c.payment_cycle,
     c.update_date,
     c.admin_idx,
-    ad.name AS admin_name,
+    ad.admin_name AS admin_name,
     ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
 FROM 
     shez_contracts c
@@ -155,7 +155,7 @@ FROM (
         c.contract_status,
         c.update_date,
         c.admin_idx,
-        ad.name AS admin_name
+        ad.admin_name AS admin_name
     FROM 
         shez_contracts c
         INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
@@ -213,7 +213,7 @@ FROM (
 )
 WHERE ROWNUM <= 50;
 -- 관리자 검색
-SELECT adminIdx, name, role
+SELECT adminIdx, adminName, adminRole
 FROM (
     SELECT 
         admin_idx AS adminIdx,

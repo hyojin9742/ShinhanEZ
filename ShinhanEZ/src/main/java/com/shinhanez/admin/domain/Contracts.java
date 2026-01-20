@@ -17,14 +17,14 @@ public class Contracts {
 	private Integer productId;
 	private String productName;
     private String contractCoverage;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date regDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expiredDate;
     private Integer premiumAmount;
     private String paymentCycle;
     private String contractStatus;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
     private Integer adminId;
     private String adminName;

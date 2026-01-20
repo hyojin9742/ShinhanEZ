@@ -24,5 +24,5 @@ public interface ContractService {
 	// 보험 검색
 	public List<Insurance> searchInsuranceByName(String productName);
 	// 관리자 검색
-	public List<Admins> searchAdminsByName(String name);
+	public List<Admins> searchAdminsByName(String adminName);
 }

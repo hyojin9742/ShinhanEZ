@@ -93,8 +93,8 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Admins> searchAdminsByName(String name) {
-		return mapper.searchAdminsByName(name);
+	public List<Admins> searchAdminsByName(String adminName) {
+		return mapper.searchAdminsByName(adminName);
 	}
 	
 	// 유효성 검증

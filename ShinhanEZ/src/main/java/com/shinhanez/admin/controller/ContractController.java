@@ -83,8 +83,8 @@ public class ContractController {
 	}
 	// 관리자 검색
 	@GetMapping(value = "/search/admins", produces = "application/json")
-	public ResponseEntity<List<Admins>> searchSdminsByName(@RequestParam String name){
-		List<Admins> searchResult =  service.searchAdminsByName(name);
+	public ResponseEntity<List<Admins>> searchSdminsByName(@RequestParam String adminName){
+		List<Admins> searchResult =  service.searchAdminsByName(adminName);
 		return ResponseEntity.ok(searchResult);
 	}
 	
