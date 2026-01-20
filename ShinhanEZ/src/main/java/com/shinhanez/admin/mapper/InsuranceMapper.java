@@ -1,6 +1,7 @@
 package com.shinhanez.admin.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,14 +14,22 @@ public interface InsuranceMapper {
 	//전체 상품 목록
 	List<Insurance> allGet();
 	
-	
-	
 	//전체 상품 목록22
 	List<Insurance> allGet2(String status);
 	
 	
 	
 	
+	// 리스트 조회
+    List<Insurance> selectInsuranceList(Map<String, Object> params);
+
+    // 전체 개수 조회
+    int countInsurance(Map<String, Object> params);
+	
+
+
+    
+    
 	//상품 상세 조회, 수정페이지 상세
 	Insurance get(Long productNo);
 	

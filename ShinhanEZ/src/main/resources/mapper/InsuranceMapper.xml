@@ -17,6 +17,40 @@
 	
 	
 	
+	
+	<sql id="searchCriteria">
+        <where>
+            <if test="status != null and status != '' and status != 'all'">
+                AND status = #{status}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND product_name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectInsuranceList" resultType="com.shinhanez.admin.domain.Insurance">
+        SELECT *
+        FROM insurance
+        <include refid="searchCriteria" />
+        ORDER BY product_no DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countInsurance" resultType="int">
+        SELECT COUNT(*)
+        FROM insurance
+        <include refid="searchCriteria" />
+    </select>
+	
+	
+      
+	
+	
+	
+	
+	
+	
 	<!--상품 상세, 수정 페이지 포함  -->
 	<select id="get" parameterType="Long" resultType="com.shinhanez.admin.domain.Insurance">
 		select * from SHEZ_INSURANCES where productNo=#{productNo}

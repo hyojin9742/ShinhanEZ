@@ -1,6 +1,8 @@
 package com.shinhanez.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.CustomerService;
 import com.shinhanez.admin.service.InsuranceService;
+import com.shinhanez.domain.Paging;
 
 @Controller
 @RequestMapping("/admin/insurance")
@@ -25,15 +28,23 @@ public class InsuranceController {
 
   
 	// 목록
-	
-	  @GetMapping("/list") public String list(Model model) { List<Insurance>
-	  insurances= insuranceService.getList();
-	  model.addAttribute("insurances",insurances); return "admin/insurances_list";
+	/*
+	 * @GetMapping("/list") public String list(Model model) { List<Insurance>
+	 * insurances= insuranceService.getList();
+	 * model.addAttribute("insurances",insurances); return "admin/insurances_list";
+	 * }
+	 */
+	  
+	  @GetMapping("/list")
+	  @ResponseBody
+	  public Map<String, Object> list(
+	          @RequestParam(defaultValue = "1") int pageNum,
+	          @RequestParam(defaultValue = "all") String status,
+	          @RequestParam(defaultValue = "") String keyword) {
+	      
+	      return insuranceService.getInsuranceList(pageNum, status, keyword);
 	  }
-	 
-	
-	
-	
+	  
 	
 	//상세보기
 	@GetMapping("/get")
@@ -75,6 +86,12 @@ public class InsuranceController {
 		List<Insurance> data= insuranceService.getList2(status);
 		return data;
 	}
+	
+	
+	
+	
+	
+
 	
 	
 	
