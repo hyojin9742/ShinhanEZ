@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 
 @Mapper
 public interface ContractMapper {
@@ -19,4 +20,10 @@ public interface ContractMapper {
 	public int insertContract(Contracts ctr);
 	// 계약 수정
 	public int updateContract(Contracts ctr);
+	
+	/* 자동완성 데이터 검색 */
+	// 계약자, 피보험자 검색
+	public List<Customer> searchCustomerByName(@Param("customerName") String customerName);
+	// 보험 상품 검색
+	// 관리자 검색
 }

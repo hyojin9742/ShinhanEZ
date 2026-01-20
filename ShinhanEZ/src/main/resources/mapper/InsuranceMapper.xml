@@ -9,7 +9,15 @@
 		select * from SHEZ_INSURANCES order by productNo desc
 	</select>
 	
-	<!--상품 상세  -->
+	<!--전체 목록  -->
+	<select id="allGet2" parameterType="String" resultType="com.shinhanez.admin.domain.Insurance">
+		select * from SHEZ_INSURANCES where STATUS=#{status} order by productNo desc
+	</select>
+	
+	
+	
+	
+	<!--상품 상세, 수정 페이지 포함  -->
 	<select id="get" parameterType="Long" resultType="com.shinhanez.admin.domain.Insurance">
 		select * from SHEZ_INSURANCES where productNo=#{productNo}
 	</select>
@@ -42,6 +50,25 @@
             #{updatedUser}
         )
     </insert>
+    
+    <!-- 상품 수정 페이지-->
+    <update id="update" parameterType="com.shinhanez.admin.domain.Insurance">
+    	update SHEZ_INSURANCES set PRODUCTNAME=#{productName}, 
+    								CATEGORY=#{category},
+    								BASEPREMIUM=#{basePremium},
+    								COVERAGERANGE=#{coverageRange},
+    								COVERAGEPERIOD=#{coveragePeriod},
+    								STATUS=#{status},
+    								UPDATEDUSER=#{updatedUser},
+    								UPDATEDDATE=SYSDATE
+    								where PRODUCTNO= #{productNo}
+    
+    </update>
+	
+    
+    
+    
+    
 	
 
     

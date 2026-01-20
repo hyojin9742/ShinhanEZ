@@ -13,7 +13,15 @@ public interface InsuranceMapper {
 	//전체 상품 목록
 	List<Insurance> allGet();
 	
-	//상품 상세 조회
+	
+	
+	//전체 상품 목록22
+	List<Insurance> allGet2(String status);
+	
+	
+	
+	
+	//상품 상세 조회, 수정페이지 상세
 	Insurance get(Long productNo);
 	
 	// 고객 등록

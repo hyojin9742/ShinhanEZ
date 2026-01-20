@@ -27,7 +27,7 @@
             <div class="page-title-area">
                 <h2 class="page-title">보험 상품 상세</h2>
                 <div class="btn-group">
-                    <a href="${ctx}/admin/insurance/edit/${insurance.productNo}" class="btn btn-warning">수정</a>
+                    <a href="${ctx}/admin/insurance/edit?productNo=${insurance.productNo}" class="btn btn-warning">수정</a>
                     <a href="${ctx}/admin/insurance/delete/${insurance.productNo}"
                        class="btn btn-danger"
                        onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>

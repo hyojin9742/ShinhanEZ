@@ -128,7 +128,7 @@
 }
 
 /* ============================================
-   납입내역 페이지네이션
+   계약내역 페이지네이션
    ============================================ */
 .contract-pagination {
     display: flex;
@@ -146,15 +146,305 @@
     cursor: pointer;
 }
 .contract-pagination a:hover {
-    background: var(--sidebar-bg);
-    border-color: var(--sidebar-bg);
+	background: var(--white);
+    color: var(--text-dark);
+}
+.contract-pagination .activePage {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: var(--white);
+}
+.contract-pagination a.activePage:hover{
+    background: #0b5ed7;
+    border-color: #0b5ed7;	
+    color: var(--white);
+}
+.paginationWrap {
+	    position: relative;
+}
+.paginationWrap .selectPageSize{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+/* ============================================
+   계약 모달
+   ============================================ */
+   
+/* 모달 오버레이 */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: block;
+}
+
+/* 모달 컨테이너 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+.modal.active {
+    display: block;
+}
+
+/* 모달 크기 */
+.modal-sm { width: 400px; }
+.modal-md { width: 600px; }
+.modal-lg { width: 800px; }
+.modal-xl { width: 1000px; }
+
+/* 모달 헤더 */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--sidebar-bg);;
+}
+.modal-header h3{
+	color: var(--white);
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--white);
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--sidebar-hover);
     color: var(--white);
 }
 
-.contract-pagination .active {
-    background: var(--primary-blue);
-    color: var(--white);
+/* 모달 바디 */
+.modal-body {
+    padding: 25px;
+    max-height: calc(90vh - 150px);
+    overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-gray);
+}
+
+/* 모달 푸터 */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 15px 25px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-light);;
+}
+.modal-footer .btn-outline:hover {
+	background: var(--white);
+	
+}
+/* 모달 내부 폼 스타일 */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.modal-form span {
+	color: #f00;
+}
+
+.modal-form .form-group {
+    margin-bottom: 0;
+}
+
+.modal-form .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.modal-form .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.modal-form .form-control:focus {
+    outline: none;
     border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+/* 모달 그리드 레이아웃 */
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modal-grid .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* 모달 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .modal {
+        width: 95% !important;
+        max-width: none;
+    }
+    
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 15px 20px;
+    }
+}
+
+/* 모달 확인/취소 버튼 스타일 */
+.modal-footer .btn {
+    min-width: 80px;
+}   
+/* 계약 모달 자동완성 */
+/* 자동완성 */
+#contractForm .form-group {
+	position: relative;
+}
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-results.active {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+}
+
+.autocomplete-item:hover {
+    background: #f5f5f5;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-id {
+    width: 30%;
+    color: #666;
+    font-size: 13px;
+    padding-right: 10px;
+}
+
+.autocomplete-name {
+    width: 70%;
+    color: #333;
+    font-size: 14px;
+}
+.riderList {
+	display: flex;
+	flex-flow: wrap;
+	gap: 10px;
+}
+.coverage-item {
+	width: 20%;
 }
 /* ============================================
    납입 상태별 스타일
@@ -193,4 +483,15 @@
 .btn-area {
     text-align: right;
     margin-top: 20px;
+}
+/* js 유틸 showAlert */
+.custom-alert {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 10000;
+	min-width: 300px;
+	text-align: center;
+	opacity: 50%;
 }

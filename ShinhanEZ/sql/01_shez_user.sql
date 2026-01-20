@@ -43,6 +43,8 @@ COMMENT ON COLUMN shez_user.reg_date IS '가입일';
 -- 더미 데이터
 INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
 VALUES ('admin', '1111', 'admin@shinhanez.co.kr', '관리자', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
+VALUES ('admin22', '1111', 'admin@shinhanez.co.kr', '관리자', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 
 INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
 VALUES ('user1', '1111', 'user1@test.com', '홍길동', TO_DATE('19950315','YYYYMMDD'), 'KT', 'M', '01011112222', 'K', 'ROLE_USER');
