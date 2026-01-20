@@ -1,6 +1,7 @@
 package com.shinhanez.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,7 +9,7 @@ import com.shinhanez.admin.domain.Admins;
 
 public interface AdminService {
 	// 전체 조회
-	public List<Admins> readAllAdmins();
+	public Map<String, Object> readAllAdmins(int pageNum, int pageSize);
 	// 단건 조회
 	public Admins readOneAdmin(int adminIdx);
 	// 등록

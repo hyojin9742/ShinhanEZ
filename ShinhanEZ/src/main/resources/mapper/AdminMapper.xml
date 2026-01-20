@@ -4,7 +4,29 @@
     
 <mapper namespace="com.shinhanez.admin.mapper.AdminMapper">
 	<select id="selectAllAdmins" resultType="com.shinhanez.admin.domain.Admins">
-		SELECT * FROM shez_admins ORDER BY admin_idx
+		<![CDATA[
+		SELECT *
+		FROM 
+		    ( SELECT 
+		        ROWNUM AS rn, 
+		        a.* 
+		    FROM 
+		        ( SELECT 
+		            ad.admin_idx, 
+		            ad.admin_id, 
+		            ad.admin_pw, 
+		            ad.admin_role, 
+		            ad.admin_name, 
+		            ad.department, 
+		            ad.last_login 
+		        FROM shez_admins ad 
+		        ORDER BY ad.admin_idx DESC ) a
+		    WHERE ROWNUM <= #{endRow})
+		WHERE rn >= #{startRow}
+		]]>
+	</select>
+	<select id="countAllAdmins">
+		SELECT COUNT(*) FROM shez_admins
 	</select>
 	<select id="selectOneAdmin" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT * FROM shez_admins WHERE admin_idx = #{adminIdx}

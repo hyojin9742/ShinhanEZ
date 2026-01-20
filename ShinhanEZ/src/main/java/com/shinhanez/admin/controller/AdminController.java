@@ -1,6 +1,7 @@
 package com.shinhanez.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -61,8 +62,11 @@ public class AdminController {
     }
     // 전체 조회
     @GetMapping(value = "/employee/rest", produces = "application/json")
-    public ResponseEntity<List<Admins>> showAdminsList(){
-    	return ResponseEntity.ok(adminService.readAllAdmins());
+    public ResponseEntity<Map<String, Object>> showAdminsList(
+			@RequestParam("pageNum") int pageNum,
+			@RequestParam("pageSize") int pageSize
+		){
+    	return ResponseEntity.ok(adminService.readAllAdmins(pageNum, pageSize));
     }
     // 단건조회
     @GetMapping(value = "/employee/rest/{adminIdx}", produces = "application/json")

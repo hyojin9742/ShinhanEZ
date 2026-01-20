@@ -29,7 +29,7 @@ public class AdminMapperTest {
 	// 전체 조회
 	@Test
 	public void selectAllAdminsTest() {
-		mapper.selectAllAdmins().forEach(list -> log.info("전체 목록 조회 => "+list));
+		mapper.selectAllAdmins(1,10).forEach(list -> log.info("전체 목록 조회 => "+list));
 	}
 	
 	// 관리자 상세

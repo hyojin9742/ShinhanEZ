@@ -49,7 +49,27 @@ commit;
 
 SELECT * FROM shez_admins;
 -- ================================ CRUD ========================================
-SELECT * FROM shez_admins ORDER BY admin_idx;
+-- 전체 조회
+SELECT *
+FROM 
+    ( SELECT 
+        ROWNUM AS rn, 
+        a.* 
+    FROM 
+        ( SELECT 
+            ad.admin_idx, 
+            ad.admin_id, 
+            ad.admin_pw, 
+            ad.admin_role, 
+            ad.admin_name, 
+            ad.department, 
+            ad.last_login 
+        FROM shez_admins ad 
+        ORDER BY ad.admin_idx DESC ) a
+    WHERE ROWNUM <= 10)
+WHERE rn >= 1;
+-- 전체 관리자 건수
+SELECT COUNT(*) FROM shez_admins;
 -- 상세조회
 SELECT * FROM shez_admins WHERE admin_idx = 1;
 -- 등록
@@ -73,3 +93,5 @@ SELECT * FROM shez_admins;
 
 -- 아이디로 관리자 가져오기
 SELECT * FROM shez_admins WHERE admin_id = 'admin';
+-- 마지막 로그인 처리
+UPDATE shez_admins SET last_login = SYSDATE WHERE admin_idx = 1;
