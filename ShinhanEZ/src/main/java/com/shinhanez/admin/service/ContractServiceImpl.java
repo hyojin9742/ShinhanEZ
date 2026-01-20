@@ -7,8 +7,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
+import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.mapper.ContractMapper;
 import com.shinhanez.domain.Paging;
 
@@ -83,11 +85,17 @@ public class ContractServiceImpl implements ContractService {
 	/* 자동완성 */
 	@Override
 	public List<Customer> searchCustomerByName(String cutomerName) {
-		List<Customer> searchResults =  mapper.searchCustomerByName(cutomerName);
-		return searchResults;
+		return mapper.searchCustomerByName(cutomerName);
 	}
-	
-	
+	@Override
+	public List<Insurance> searchInsuranceByName(String productName) {
+		return mapper.searchInsuranceByName(productName);
+	}
+
+	@Override
+	public List<Admins> searchAdminsByName(String adminName) {
+		return mapper.searchAdminsByName(adminName);
+	}
 	
 	// 유효성 검증
 	private void validateContract(Contracts contract) {
@@ -124,5 +132,4 @@ public class ContractServiceImpl implements ContractService {
 			throw new IllegalArgumentException("만료일 필수입니다");			
 		}
 	}// /validateRegister
-
 }

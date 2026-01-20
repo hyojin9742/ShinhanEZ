@@ -27,45 +27,45 @@
 	<select id="selectAllContractList" resultMap="contractListMap">
 		<![CDATA[
 		SELECT 
-		    contract_id,
-		    customer_id,
-		    customer_name,
-		    insured_id,
-		    insured_name,
-		    product_id,
-		    product_name,
-		    reg_date,
-		    expired_date,
-		    contract_status,
-		    premium_amount,
-		    payment_cycle,
-		    update_date,
-		    admin_id,
-		    admin_name
+		contract_id,
+		customer_id,
+		customer_name,
+		insured_id,
+		insured_name,
+		product_id,
+		product_name,
+		reg_date,
+		expired_date,
+		contract_status,
+		premium_amount,
+		payment_cycle,
+		update_date,
+		admin_idx,
+		admin_name
 		FROM (
-		    SELECT 
-		        c.contract_id,
-		        c.customer_id,
-		        cu.name AS customer_name,
-		        c.insured_id,
-		        ins.name AS insured_name,
-		        c.product_id,
-		        p.productname AS product_name,
-		        c.reg_date,
-		        c.expired_date,
-		        c.contract_status,
-		        c.premium_amount,
-		        c.payment_cycle,
-		        c.update_date,
-		        c.admin_id,
-		        ad.name AS admin_name,
-		        ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
-		    FROM 
-		        shez_contracts c
-		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
-		        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
-		        INNER JOIN shez_insurances p ON c.product_id = p.productno
-		        INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+		SELECT 
+		    c.contract_id,
+		    c.customer_id,
+		    cu.name AS customer_name,
+		    c.insured_id,
+		    ins.name AS insured_name,
+		    c.product_id,
+		    p.productname AS product_name,
+		    c.reg_date,
+		    c.expired_date,
+		    c.contract_status,
+		    c.premium_amount,
+		    c.payment_cycle,
+		    c.update_date,
+		    c.admin_idx,
+		    ad.admin_name AS admin_name,
+		    ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
+		FROM 
+		    shez_contracts c
+		    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+		    INNER JOIN shez_insurances p ON c.product_id = p.productno
+		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		)
 		WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
 		]]>
@@ -100,14 +100,14 @@
 		        c.payment_cycle,
 		        c.contract_status,
 		        c.update_date,
-		        c.admin_id,
-		        ad.name AS admin_name
+		        c.admin_idx,
+		        ad.admin_name AS admin_name
 		    FROM 
 		        shez_contracts c
 		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		        INNER JOIN shez_insurances p ON c.product_id = p.productno
-		        INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+		        INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		)
 		WHERE contract_id = #{ctrId}
 		]]>
@@ -119,8 +119,8 @@
   	 		SELECT SEQ_SHEZCONTRACTS.nextval FROM dual
   	 	</selectKey>
 		INSERT INTO shez_contracts 
-			(contract_id, customer_id, insured_id, product_id, contract_coverage,
-    		reg_date, expired_date, premium_amount, payment_cycle, contract_status, admin_id )
+		    (contract_id, customer_id, insured_id, product_id, contract_coverage,
+		    reg_date, expired_date, premium_amount, payment_cycle, contract_status, admin_idx )
 		VALUES 
 		    (#{contractId},#{customerId},#{insuredId},#{productId},#{contractCoverage},
 		    #{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},#{contractStatus},#{adminId})
@@ -130,7 +130,7 @@
 	<update id="updateContract">
 		UPDATE shez_contracts SET 
 		    insured_id = #{insuredId}, product_id = #{productId}, contract_coverage = #{contractCoverage}, 
-		    premium_amount = #{premiumAmount}, payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_id = #{adminId}
+		    premium_amount = #{premiumAmount}, payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_idx = #{adminIdx}
 		WHERE contract_id = #{contractId}
 	</update>
 	
@@ -153,5 +153,39 @@
 		WHERE ROWNUM <![CDATA[<= ]]>50
 	</select>
 	<!-- 상품 -->
+	<select id="searchInsuranceByName" resultType="com.shinhanez.admin.domain.Insurance">
+		SELECT productNo, productName, coverageRange
+		FROM (
+		    SELECT 
+		        productno AS productNo,
+		        productname AS productName,
+		        coveragerange AS coverageRange
+		    FROM shez_insurances
+	    <where>
+			<if test="productName != null and productName != ''">
+			    LOWER(productName) LIKE '%' || LOWER(#{productName}) || '%'
+			</if>
+		</where>
+		    ORDER BY productName
+		)
+		WHERE ROWNUM <![CDATA[<=]]> 50
+	</select>
 	<!-- 관리자 -->
+	<select id="searchAdminsByName" resultType="com.shinhanez.admin.domain.Admins">
+		SELECT adminId, adminName, adminRole
+		FROM (
+		    SELECT 
+		        admin_idx AS adminIdx,
+		        admin_name AS adminName,
+		        admin_role AS adminRole
+		    FROM shez_admins
+	    <where>
+			<if test="name != null and name != ''">
+			    LOWER(name) LIKE '%' || LOWER(#{name}) || '%'
+			</if>
+		</where>
+		    ORDER BY admin_name
+		)
+		WHERE ROWNUM <![CDATA[<=]]> 50
+	</select>
 </mapper>

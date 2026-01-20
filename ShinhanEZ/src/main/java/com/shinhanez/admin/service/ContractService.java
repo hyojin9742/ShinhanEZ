@@ -3,8 +3,10 @@ package com.shinhanez.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
+import com.shinhanez.admin.domain.Insurance;
 
 public interface ContractService {
 	// 계약 목록 조회
@@ -19,4 +21,8 @@ public interface ContractService {
 	/* 자동완성 */
 	// 고객명 검색
 	public List<Customer> searchCustomerByName(String cutomerName);
+	// 보험 검색
+	public List<Insurance> searchInsuranceByName(String productName);
+	// 관리자 검색
+	public List<Admins> searchAdminsByName(String adminName);
 }

@@ -51,7 +51,7 @@ let contractService = (function(){
 	function save(contract, callback, error){ 
 		$.ajax({
 			type: "post",
-			url: "/rest/register",
+			url: "/admin/contract/rest/register",
 			data: JSON.stringify(contract),
 			contentType: "application/json; charset=utf-8",
 			success: function (result, status, xhr) {
