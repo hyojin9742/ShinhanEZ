@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.service.ShezUserService;
 
@@ -20,9 +22,14 @@ import com.shinhanez.service.ShezUserService;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-
-    @Autowired
     private ShezUserService userService;
+    private AdminService adminService;
+    
+    @Autowired
+    public MemberController(ShezUserService userService, AdminService adminService) {
+    	this.userService = userService;
+    	this.adminService = adminService;
+    }
 
     // 로그인 페이지
     @GetMapping("/login")
@@ -37,14 +44,14 @@ public class MemberController {
                         HttpSession session,
                         Model model) {
         ShezUser user = userService.login(id, pw);
-        
+        Admins admin = adminService.readOneAdminById(id);
         if (user != null) {
             // 로그인 성공 - 세션에 저장
-            session.setAttribute("loginUser", user);
             session.setAttribute("userId", user.getId());
             session.setAttribute("userName", user.getName());
             session.setAttribute("userRole", user.getRole());
-            
+            session.setAttribute("adminIdx", admin.getAdminIdx());
+            session.setAttribute("adminRole", admin.getAdminRole());
             // 로그인 성공 → 메인 페이지로 (관리자든 일반유저든)
             return "redirect:/";
         } else {

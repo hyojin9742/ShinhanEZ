@@ -9,7 +9,7 @@
 	<select id="selectOneAdmin" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT * FROM shez_admins WHERE admin_idx = #{adminIdx}
 	</select>
-	<insert id="insertAdimin">
+	<insert id="insertAdmin">
 		INSERT INTO shez_admins(admin_idx,admin_id, admin_pw, admin_role, admin_name, department) 
 		VALUES (seq_shezAdmins.NEXTVAL,#{adminId},#{adminPw},#{adminRole},#{adminName},#{department})
 	</insert>
@@ -25,4 +25,7 @@
 	<delete id="deleteAdmin">
 		DELETE FROM shez_admins WHERE admin_idx = #{adminIdx}
 	</delete>
+	<select id="selectOneAdminById" resultType="com.shinhanez.admin.domain.Admins">
+		SELECT * FROM shez_admins WHERE admin_id = #{adminId}
+	</select>
 </mapper>

@@ -48,7 +48,7 @@ public class AdminMapperTest {
 		admin.setAdminRole("super");
 		admin.setDepartment("경영팀");
 		
-		int iadmin = mapper.insertAdimin(admin);
+		int iadmin = mapper.insertAdmin(admin);
 		int iuser = mapper.insertUser(admin);
 		log.info("iadmin => "+iadmin+ "iuser => "+iuser);
 	}
@@ -70,5 +70,11 @@ public class AdminMapperTest {
 	@Test
 	public void deleteAdminTest() {
 		log.info("deleteAdmin => " + mapper.deleteAdmin(4));
+	}
+	
+	// 아이디로 관리자 가져오기
+	@Test
+	public void selectOneAdminById() {
+		log.info("selectOneAdminById => " + mapper.selectOneAdminById("admin"));
 	}
 }

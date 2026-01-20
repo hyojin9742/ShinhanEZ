@@ -13,10 +13,12 @@ public interface AdminMapper {
 	// 관리자 상세
 	public Admins selectOneAdmin(int adminIdx);
 	// 등록
-	public int insertAdimin(Admins admin);
+	public int insertAdmin(Admins admin);
 	public int insertUser(Admins admin);
 	// 수정
 	public int updateAdmin(Admins admin);
 	// 삭제
 	public int deleteAdmin(int adminIdx);
+	// 아이디로 관리자 가져오기
+	public Admins selectOneAdminById(String adminId);
 }

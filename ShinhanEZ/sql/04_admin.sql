@@ -70,3 +70,6 @@ SELECT * FROM shez_admins;
 DELETE FROM shez_admins WHERE admin_idx = 4;
 COMMIT;
 SELECT * FROM shez_admins;
+
+-- 아이디로 관리자 가져오기
+SELECT * FROM shez_admins WHERE admin_id = 'admin';
