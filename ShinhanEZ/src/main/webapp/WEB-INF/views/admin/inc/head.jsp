@@ -12,6 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- __Admin__ CSS -->
-<link rel="stylesheet" href="${ctx}/admin/css/reset.css">
-<link rel="stylesheet" href="${ctx}/admin/css/common.css">
-<link rel="stylesheet" href="${ctx}/admin/css/admin.css">
+<link rel="stylesheet" href="${ctx}/css/admin/reset.css">
+<link rel="stylesheet" href="${ctx}/css/admin/common.css">
+<link rel="stylesheet" href="${ctx}/css/admin/admin.css">
