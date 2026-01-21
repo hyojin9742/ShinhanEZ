@@ -129,10 +129,16 @@ public class ClaimsController {
 		}
 		
 		int result = claimsService.deleteClaim(adminIdx, claimId);
-
+		
+		if(result != 0 ) {
 			redirectAttributes.addFlashAttribute("msgType", "success");
 			redirectAttributes.addFlashAttribute("msg", "정상 삭제 되었습니다.");
-			return "redirect:/admin/claims";
+			return "redirect:/admin/claims";			
+		}		
+		redirectAttributes.addFlashAttribute("msgType", "error");
+		redirectAttributes.addFlashAttribute("msg", "삭제 권한이 없습니다.");
+		return "redirect:/admin/claims";			
+
 	}
 	
 	// 계약 리스트 조회 REST API
