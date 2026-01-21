@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${ctx}/css/admin/contract.css">
     <script src="${ctx}/js/jquery-3.7.1.min.js"></script>
     <script src="${ctx}/js/admin/contractAjaxModule.js"></script>
-    <script src="${ctx}/js/admin/contract.js"></script>
+    <script src="${ctx}/js/admin/contractView.js"></script>
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -27,7 +27,7 @@
             <div class="page-title-area">
                 <h2 class="page-title">계약 상세내역</h2>
                 <div>
-                    <a href="#" class="btn btn-warning">수정</a>
+                    <a href="#" class="btn btn-warning contract-update">수정</a>
                     <a href="${ctx}/admin/contract/list" class="btn btn-secondary">목록</a>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         </tr>
                         <tr>
                             <th>보장내역</th>
-                            <td colspan="5">${contract.contractCoverage }</td>
+                            <td colspan="5" class = "currentCoverage">${contract.contractCoverage }</td>
                         </tr>
                         <tr>
                             <th>계약일</th>
@@ -101,7 +101,85 @@
                     </table>
                 </div>
             </div>
-            
+            <!-- 모달 -->
+            <div class="modal-overlay" id="contractModalOverlay"></div>
+	        <div class="modal modal-lg" id="contractModal">
+	            <div class="modal-header">
+	                <h3 class="modal-title">계약 수정</h3>
+	                <button class="modal-close" id="closeContractModal">&times;</button>
+	            </div>
+	            <div class="modal-body">
+	                <form id="contractForm" class="modal-form">
+	                	<input type="hidden" name="contractId" value="${contract.contractId }"/>
+	                    <div class="modal-grid">
+	                        <div class="form-group">
+	                            <label class="form-label">계약자명 <span>*</span></label>
+	                            <input type="text" class="form-control" name="customerName" id="customerName" autocomplete="off" value="${contract.customerName }" readonly>
+	                            <input type="hidden" id="customerId" name="customerId" value="${contract.customerId }">
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="form-label">피보험자명 <span>*</span></label>
+	                            <input type="text" class="form-control" name="insuredName" id="insuredName" autocomplete="off" value="${contract.insuredName }" readonly>
+	                            <input type="hidden" id="insuredId" name="insuredId" value="${contract.insuredId }">
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="form-label">상품명 <span>*</span></label>
+	                            <input type="text" class="form-control"  name="productName" id="productName" autocomplete="off" value="${contract.productName }" readonly>
+	                            <input type="hidden" id="productId" name="productId" value="${contract.productId }">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="form-label">보장내용 <span>*</span></label>
+	                        	<input type="hidden" name="contractCoverage" value="주계약" />
+	                        	<input type="checkbox" value="주계약" checked disabled/>주계약 <span>*</span>
+	                        	<div class="riderList"></div>
+                        	</div>
+	                        <div class="form-group">
+	                            <label class="form-label">계약일 <span>*</span></label>
+	                            <input type="date" class="form-control" name="regDate" id="regDate" value="<fmt:formatDate value="${contract.regDate }" pattern="yyyy-MM-dd"/>" readonly>
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="form-label">만료일 <span>*</span></label>
+	                            <input type="date" class="form-control" name="expiredDate" id="expiredDate" value="<fmt:formatDate value="${contract.expiredDate }" pattern="yyyy-MM-dd"/>" required>
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="form-label">보험료 <span>*</span></label>
+	                        	<input type="number" class="form-control" name="premiumAmount" id="premiumAmount" value="${contract.premiumAmount }" required>
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="form-label">납부주기 <span>*</span></label>
+	                        	<select class="form-control" name="paymentCycle" id="paymentCycle" required>
+	                                <option value="">주기 선택</option>
+	                                <option value="월납" ${contract.paymentCycle=='월납' ? 'selected':'' }>월납</option>
+	                                <option value="분기납" ${contract.paymentCycle=='분기납' ? 'selected':'' }>분기납</option>
+	                                <option value="반기납" ${contract.paymentCycle=='반기납' ? 'selected':'' }>반기납</option>
+	                                <option value="연납" ${contract.paymentCycle=='연납' ? 'selected':'' }>연납</option>
+	                                <option value="일시납" ${contract.paymentCycle=='일시납' ? 'selected':'' }>일시납</option>
+	                            </select>
+	                        </div>
+	                       	<div class="form-group">
+	                            <label class="form-label">담당관리자 <span>*</span></label>
+	                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" value="${contract.adminName }" required>
+	                            <input type="hidden" id="adminIdx" name="adminIdx" value="${contract.adminIdx }">
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="form-label">계약상태 <span>*</span></label>
+		                       	<select class="form-control" name="contractStatus" id="contractStatus" required>
+	                                <option value="">상태변경</option>
+	                                <option value="활성" ${contract.contractStatus == '활성' ? 'selected':''}>활성</option>
+	                                <option value="만료" ${contract.contractStatus == '만료' ? 'selected':''}>만료</option>
+	                                <option value="해지" ${contract.contractStatus == '해지' ? 'selected':''}>해지</option>
+	                            </select>
+	                        </div>
+	                    </div>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-outline" id="cancelContract">취소</button>
+	                <button type="button" class="btn btn-primary" id="saveContract">
+	                    수정
+	                </button>
+	            </div>
+	        </div>
         </main>
         
         <jsp:include page="inc/footer.jsp"/>

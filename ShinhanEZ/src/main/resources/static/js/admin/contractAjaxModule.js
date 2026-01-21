@@ -28,10 +28,10 @@ let contractService = (function(){
 	}
 	
 	/* 계약 단건 읽기 | 처리 필요 */
-	function get(ctrId, callback, error) {
+	function get(contractId, callback, error) {
 		$.ajax({
 			type: "get",
-			url: "/rest/" + ctrId,
+			url: "/admin/contract/rest/" + contractId,
 			success: function (result, status, xhr) {
 				if (callback) {
 					callback(result);

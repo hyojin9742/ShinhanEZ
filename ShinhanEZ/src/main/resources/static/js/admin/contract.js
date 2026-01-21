@@ -115,13 +115,13 @@ $(document).ready(()=>{
     });
 	
     // 계약 모달 열기
-    function openContractModal(contractId = null) {
+    async function openContractModal(contractId = null) {
 	    $('#contractModalOverlay, #contractModal').addClass('active');
 
 	    if (contractId) {
 	        $('.modal-title').text('계약 수정');
-	        $('#saveContract').text('수정');
-	        loadContractData(contractId);
+	        $('#saveContract').text('수정').addClass('modifyContract');
+	        await loadContractData(contractId);
 	    } else {
 	        $('.modal-title').text('계약 등록');
 	        $('#saveContract').text('등록');
@@ -196,11 +196,9 @@ $(document).ready(()=>{
 					if (inputName === 'productName') {
 			            products = list;
 			        }
-	                const html = list.map(item => {
-						                    
+	                const html = list.map(item => {					                    
 	                    let id, name;
-	                    
-	                    // 입력 필드에 따라 적절한 필드 선택
+						
 	                    if (inputName === 'customerName' || inputName === 'insuredName') {
 	                        id = item.customerId;
 	                        name = item.name;
@@ -222,8 +220,8 @@ $(document).ready(()=>{
 	                `}).join('');
 	                results.html(html).addClass('active');
 	            }
-			);
-		},300);
+			); // /contractService.ajaxAutoComplete
+		},300); // /debounceSearch
 		
 	    // 입력 이벤트
 	    input.on('input', debounceSearch);
@@ -264,13 +262,13 @@ $(document).ready(()=>{
 	            results.removeClass('active');
 	        }
 	    });
-	}
+	}// /autocomplete
 
 	// 자동완성 초기화
     autocomplete('customerName', 'customerResults', 'customerId', '/admin/contract/search/customers','customerName');
     autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers','customerName');
 	autocomplete('productName', 'productResults', 'productId', '/admin/contract/search/insurances','productName');
-	autocomplete('adminName', 'adminResults', 'adminId', '/admin/contract/search/admins','adminName');
+	autocomplete('adminName', 'adminResults', 'adminIdx', '/admin/contract/search/admins','adminName');
 	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
@@ -323,7 +321,7 @@ $(document).ready(()=>{
 		openContractModal(contractId);
 	});
 	// 계약 수정
-	$(document).on('click', '#saveContract', function() {
+	$(document).on('click', '.modifyContract', function() {
 		const form = $('#contractForm');
 		
         if (!form[0].checkValidity()) {
@@ -344,8 +342,16 @@ $(document).ready(()=>{
 		);
     });
 	// 계약 상세 함수
-	function loadContractData(contractId){
-		
+	async function loadContractData(contractId){
+		try{
+			const getContract = await contractService.get(contractId);
+			$('#customerName').val(getContract.customerName).attr('readonly', true);
+			$('#customerId').val(getContract.customerId).attr('readonly', true);
+			$('#insuredName').val(getContract.insuredName).attr('readonly', true);
+			$('#insuredId').val(getContract.insuredId).attr('readonly', true);			
+		} catch(error) {
+			console.error('오류 발생:', error);
+		}
 	}
 	
 	
@@ -371,16 +377,20 @@ $(document).ready(()=>{
 	}
 	// 폼 -> JSON 변환
 	function formToJson(form) {
-		const jsonForm = {};
+	    const jsonForm = {};
 	    form.serializeArray().forEach(item => {
 	        jsonForm[item.name] = item.value;
 	    });
-		const checkedCoverages = $('input[name="contractCoverage"]:checked')
-		       .map(function() { return $(this).val(); })
-		       .get()
-		       .join(',');
-		   
-	   jsonForm.contractCoverage = checkedCoverages;
+
+	    const coverages = ['주계약'];
+
+	    $('input[name="contractCoverage"]:checked')
+	        .each(function() {
+	            const value = $(this).val();
+	            coverages.push(value);
+	        });
+	    
+	    jsonForm.contractCoverage = coverages.join(',');
 	    return jsonForm;
 	}
 }); // /documnet.ready

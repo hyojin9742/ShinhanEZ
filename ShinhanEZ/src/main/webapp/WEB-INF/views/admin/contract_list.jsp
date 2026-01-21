@@ -196,7 +196,7 @@
 		                       	<div class="form-group">
 		                            <label class="form-label">담당관리자 <span>*</span></label>
 		                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" required>
-		                            <input type="hidden" id="adminId" name="adminId">
+		                            <input type="hidden" id="adminIdx" name="adminIdx">
                             		<div class="autocomplete-results" id="adminResults"></div>
 		                        </div>
 		                        <div class="form-group">
