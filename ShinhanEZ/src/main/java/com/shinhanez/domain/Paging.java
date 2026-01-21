@@ -26,7 +26,7 @@ int pageNum;
 		endPage = Math.min(startPage+(blockSize-1), totalPages);
 	}
 	public boolean hasPrev() {
-		return pageNum>1;
+		return startPage>1;
 	}
 	public boolean hasNext() {
 		return endPage<totalPages;

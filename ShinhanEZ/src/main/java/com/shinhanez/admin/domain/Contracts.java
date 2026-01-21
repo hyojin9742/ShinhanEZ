@@ -26,6 +26,6 @@ public class Contracts {
     private String contractStatus;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updateDate;
-    private Integer adminId;
+    private Integer adminIdx;
     private String adminName;
 }

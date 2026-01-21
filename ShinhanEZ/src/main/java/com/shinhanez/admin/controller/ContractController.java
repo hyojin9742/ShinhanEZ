@@ -40,7 +40,7 @@ public class ContractController {
     }
 	
 	@GetMapping("/list")
-	public String moveContact(HttpSession session) {
+	public String contractList(HttpSession session) {
 		if (!isAdmin(session)) {
             return "redirect:/member/login?error=auth";
         }
@@ -56,11 +56,13 @@ public class ContractController {
 			){
 		return ResponseEntity.ok(service.readAllList(pageNum, pageSize));
 	}
-	// 계약 단건 조회
-	@GetMapping("/rest/{contractId}")
-    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer contractId) {
-        return ResponseEntity.ok(service.readOneContract(contractId));
-    }
+	// 계약 상세 보기
+	@GetMapping("/view")
+	public String contractView(@RequestParam int contractId, Model model) {
+		Contracts contract = service.readOneContract(contractId);
+		model.addAttribute("contract",contract);
+		return "/admin/contract_view";
+	}
 	// 계약 등록
 	@PostMapping(value = "/rest/register",consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Map<String,Object>> registerContract(@RequestBody Contracts contract) {
@@ -68,6 +70,11 @@ public class ContractController {
 	    return ResponseEntity.status(HttpStatus.CREATED)
 	            .body(Map.of("message", "계약 등록 성공","registerResult",registerResult));
 	}
+	// 계약 단건 조회
+	@GetMapping("/rest/{contractId}")
+    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer contractId) {
+        return ResponseEntity.ok(service.readOneContract(contractId));
+    }
 	// 계약 수정
 	@RequestMapping(value = "/rest/update/{contractId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = "application/json", produces = "application/json")

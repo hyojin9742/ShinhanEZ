@@ -160,7 +160,7 @@
 		                        </div>
 		                        <div class="form-group">
 		                            <label class="form-label">상품명 <span>*</span></label>
-		                            <input type="text" class="form-control" id="productName" name="productName" autocomplete="off" required>
+		                            <input type="text" class="form-control"  name="productName" id="productName" autocomplete="off" required>
 		                            <input type="hidden" id="productId" name="productId">
 		                            <div class="autocomplete-results" id="productResults"></div>
 		                        </div>
@@ -172,19 +172,19 @@
 	                        	</div>
 		                        <div class="form-group">
 		                            <label class="form-label">계약일 <span>*</span></label>
-		                            <input type="date" class="form-control" name="regDate" required>
+		                            <input type="date" class="form-control" name="regDate" id="regDate" required>
 		                        </div>
 		                        <div class="form-group">
 		                            <label class="form-label">만료일 <span>*</span></label>
-		                            <input type="date" class="form-control" name="expiredDate" required>
+		                            <input type="date" class="form-control" name="expiredDate" id="expiredDate" required>
 		                        </div>
 		                        <div class="form-group">
 		                        	<label class="form-label">보험료 <span>*</span></label>
-		                        	<input type="number" class="form-control" name="premiumAmount" placeholder="0">
+		                        	<input type="number" class="form-control" name="premiumAmount" id="premiumAmount" placeholder="0">
 		                        </div>
 		                        <div class="form-group">
 		                        	<label class="form-label">납부주기 <span>*</span></label>
-		                        	<select class="form-control" name="paymentCycle" required>
+		                        	<select class="form-control" name="paymentCycle" id="paymentCycle" required>
 		                                <option value="">주기 선택</option>
 		                                <option value="월납">월납</option>
 		                                <option value="분기납">분기납</option>
@@ -193,12 +193,16 @@
 		                                <option value="일시납">일시납</option>
 		                            </select>
 		                        </div>
-		                       	<input type="hidden" name="contractStatus" value="활성"/>
 		                       	<div class="form-group">
 		                            <label class="form-label">담당관리자 <span>*</span></label>
 		                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" required>
 		                            <input type="hidden" id="adminId" name="adminId">
                             		<div class="autocomplete-results" id="adminResults"></div>
+		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">계약상태 <span>*</span></label>
+			                       	<input type="hidden" name="contractStatus" value="활성"/>
+			                       	<input type="checkbox" value="활성" checked disabled/>활성
 		                        </div>
 		                    </div>
 		                </form>

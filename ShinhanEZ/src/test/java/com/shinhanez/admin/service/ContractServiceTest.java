@@ -60,7 +60,7 @@ public class ContractServiceTest {
 		ct.setPremiumAmount(70000);
 		ct.setPaymentCycle("분기납");
 		ct.setContractStatus("활성");
-		ct.setAdminId(4);
+		ct.setAdminIdx(4);
 		log.info("등록 테스트 => "+service.registerContract(ct));
 	}
 	// 계약 수정
@@ -73,7 +73,7 @@ public class ContractServiceTest {
 		ctu.setPremiumAmount(90000);
 		ctu.setPaymentCycle("일시납");
 		ctu.setContractStatus("해지");
-		ctu.setAdminId(2);
+		ctu.setAdminIdx(2);
 		ctu.setContractId(5);
 		
 		log.info("수정 테스트 => "+service.updateContract(ctu));

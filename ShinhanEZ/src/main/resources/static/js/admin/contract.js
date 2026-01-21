@@ -65,7 +65,7 @@ $(document).ready(()=>{
 	                <td>${contractService.displayTime(contract.updateDate)}</td>
 	                <td>${contract.adminName}</td>
 					<td>
-                        <a href="/admin/contract/rest/{contractId}" class="btn btn-sm btn-outline">상세</a>
+                        <a href="/admin/contract/view?contractId=${contract.contractId}" class="btn btn-sm btn-outline">상세</a>
                         <a href="/admin/contract/rest/update/{contractId}" class="btn btn-sm btn-warning contract-update">수정</a>
                     </td>
 	            </tr>
@@ -78,21 +78,30 @@ $(document).ready(()=>{
 	function renderPagination(paging) {
 	    const pgUl = $('.contract-pagination');
 	    pgUl.empty();
-		
+	    
+	    const pageInfo = paging.paging;
+	    
 	    if (paging.hasPrev) {
-	        pgUl.append(`<li><a href="#" data-page="${paging.startPage - 1}">&laquo;</a></li>`);
+	        pgUl.append(`<li><a href="#" data-page="${pageInfo.startPage - 1}">&laquo;</a></li>`);
 	    }
-		
-	    for (let i = paging.paging.pageNum; i <= paging.paging.endPage; i++) {
-	        const activePage = i === paging.paging.pageNum ? 'activePage' : '';
+	    
+	    for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+	        const activePage = i === pageInfo.pageNum ? 'activePage' : '';
 	        pgUl.append(`<li><a href="#" class="${activePage}" data-page="${i}">${i}</a></li>`);
 	    }
 
 	    if (paging.hasNext) {
-	        pgUl.append(`<li><a href="#" data-page="${paging.paging.endPage + 1}">&raquo;</a></li>`);
+	        pgUl.append(`<li><a href="#" data-page="${pageInfo.endPage + 1}">&raquo;</a></li>`);
 	    }
 	}
-
+	// 페이지네이션 클릭 이벤트
+	$(document).on('click', '.contract-pagination a', function(e) {
+	    e.preventDefault();
+	    const page = $(this).data('page');
+	    if (page) {
+	        showList(page);
+	    }
+	});
 	// 총 건수 업데이트
 	function updateTotalCount(totalCount) {
 	    $('.totalContractInner').text(totalCount.toLocaleString());

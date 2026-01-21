@@ -117,7 +117,7 @@ public class ContractServiceImpl implements ContractService {
 		if(contract.getContractStatus() ==  null ) {
 			throw new IllegalArgumentException("계약 상태는 필수입니다");			
 		}
-		if(contract.getAdminId() ==  null ) {
+		if(contract.getAdminIdx() ==  null ) {
 			throw new IllegalArgumentException("관리자 번호는 필수입니다");			
 		}
 	}// /validateContract
