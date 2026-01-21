@@ -12,11 +12,11 @@ public interface ContractService {
 	// 계약 목록 조회
 	public Map<String, Object> readAllList(int pageNum, int pageSize);
 	// 계약 단건 조회
-	public Contracts readOneContract(Integer ctrId);
+	public Contracts readOneContract(Integer contractId);
 	// 계약 등록
-	public int registerContract(Contracts ctr);
+	public int registerContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts ctr);
+	public int updateContract(Contracts contract);
 	
 	/* 자동완성 */
 	// 고객명 검색

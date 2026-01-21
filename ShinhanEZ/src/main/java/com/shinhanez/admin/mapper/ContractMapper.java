@@ -17,11 +17,11 @@ public interface ContractMapper {
 	// 계약 전체 건수
 	public int countAllContracts();
 	// 계약 단건 조회
-	public Contracts selectOneContract(Integer ctrId);
+	public Contracts selectOneContract(Integer contractId);
 	// 계약 등록
-	public int insertContract(Contracts ctr);
+	public int insertContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts ctr);
+	public int updateContract(Contracts contract);
 	
 	/* 자동완성 데이터 검색 */
 	// 계약자, 피보험자 검색

@@ -56,9 +56,9 @@ public class ContractController {
 		return ResponseEntity.ok(service.readAllList(pageNum, pageSize));
 	}
 	// 계약 단건 조회
-	@GetMapping("/rest/{ctrId}")
-    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer ctrId) {
-        return ResponseEntity.ok(service.readOneContract(ctrId));
+	@GetMapping("/rest/{contractId}")
+    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer contractId) {
+        return ResponseEntity.ok(service.readOneContract(contractId));
     }
 	// 계약 등록
 	@PostMapping(value = "/rest/register",consumes = "application/json", produces = "application/json")
@@ -67,13 +67,13 @@ public class ContractController {
 	    return ResponseEntity.status(HttpStatus.CREATED)
 	            .body(Map.of("message", "계약 등록 성공","registerResult",registerResult));
 	}
-	@RequestMapping(value = "/rest/update/{ctrId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
+	@RequestMapping(value = "/rest/update/{contractId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> updateContract(
-            @PathVariable Integer ctrId,
+            @PathVariable Integer contractId,
             @RequestBody Contracts contract) {
 
-        contract.setContractId(ctrId);
+        contract.setContractId(contractId);
         int updateResult = service.updateContract(contract);
 
         return ResponseEntity.ok(Map.of("message", "계약 수정 성공","updateResult",updateResult));

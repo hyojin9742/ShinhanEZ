@@ -46,23 +46,23 @@ public class ContractServiceImpl implements ContractService {
 	}	
 	// 계약 단건 조회
 	@Override
-	public Contracts readOneContract(Integer ctrId) {
-		log.info("단건 조회 서비스 계약번호 "+ctrId);
-		Contracts contract = mapper.selectOneContract(ctrId);
+	public Contracts readOneContract(Integer contractId) {
+		log.info("단건 조회 서비스 계약번호 "+contractId);
+		Contracts contract = mapper.selectOneContract(contractId);
 		if(contract == null) {
-			throw new IllegalArgumentException("없는 계약 번호입니다 : "+ctrId);
+			throw new IllegalArgumentException("없는 계약 번호입니다 : "+contractId);
 		}
 		return contract;
 	}
 	// 계약 등록
 	@Transactional
 	@Override
-	public int registerContract(Contracts ctr) {
-		log.info("등록 서비스 : "+ctr);
-		validateRegister(ctr);
-		validateContract(ctr);
+	public int registerContract(Contracts contract) {
+		log.info("등록 서비스 : "+contract);
+		validateRegister(contract);
+		validateContract(contract);
 		
-		int registerResult = mapper.insertContract(ctr);
+		int registerResult = mapper.insertContract(contract);
 		if(registerResult != 1) {
 			throw new RuntimeException("등록에 실패했습니다.");
 		}
@@ -72,10 +72,10 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 수정
 	@Transactional
 	@Override
-	public int updateContract(Contracts ctr) {
-		log.info("수정 서비스 : "+ctr);
-		validateContract(ctr);
-		int updateResult = mapper.updateContract(ctr);
+	public int updateContract(Contracts contract) {
+		log.info("수정 서비스 : "+contract);
+		validateContract(contract);
+		int updateResult = mapper.updateContract(contract);
 		if(updateResult != 1) {
 			throw new RuntimeException("수정에 실패했습니다.");
 		}

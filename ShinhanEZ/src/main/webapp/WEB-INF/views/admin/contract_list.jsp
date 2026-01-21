@@ -108,6 +108,7 @@
 	                                <th>계약상태</th>
 	                                <th>최근수정일</th>
 	                                <th>담당관리자</th>
+	                                <th>관리</th>
 	                            </tr>
 	                        </thead>
 	                        <tbody class="contractContent">
