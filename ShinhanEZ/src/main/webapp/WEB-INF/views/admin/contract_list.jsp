@@ -159,13 +159,13 @@
 		                    <div class="modal-grid">
 		                        <div class="form-group">
 		                            <label class="form-label">계약자명 <span>*</span></label>
-		                            <input type="text" class="form-control" name="customerName" id="customerName" required>
+		                            <input type="text" class="form-control" name="customerName" id="customerName" autocomplete="off" required>
 		                            <input type="hidden" id="customerId" name="customerId">
                             		<div class="autocomplete-results" id="customerResults"></div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label class="form-label">피보험자명 <span>*</span></label>
-		                            <input type="text" class="form-control" name="insuredName" id="insuredName" required>
+		                            <input type="text" class="form-control" name="insuredName" id="insuredName" autocomplete="off" required>
 		                            <input type="hidden" id="insuredId" name="insuredId">
                             		<div class="autocomplete-results" id="insuredResults"></div>
 		                        </div>
@@ -207,7 +207,7 @@
 		                       	<input type="hidden" name="contractStatus" value="활성"/>
 		                       	<div class="form-group">
 		                            <label class="form-label">담당관리자 <span>*</span></label>
-		                            <input type="text" class="form-control" name="adminName" id="adminName" required>
+		                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" required>
 		                            <input type="hidden" id="adminId" name="adminId">
                             		<div class="autocomplete-results" id="adminResults"></div>
 		                        </div>

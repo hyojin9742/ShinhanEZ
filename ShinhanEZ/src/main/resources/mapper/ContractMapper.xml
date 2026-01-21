@@ -172,7 +172,7 @@
 	</select>
 	<!-- 관리자 -->
 	<select id="searchAdminsByName" resultType="com.shinhanez.admin.domain.Admins">
-		SELECT adminId, adminName, adminRole
+		SELECT adminIdx, adminName, adminRole
 		FROM (
 		    SELECT 
 		        admin_idx AS adminIdx,
@@ -180,11 +180,11 @@
 		        admin_role AS adminRole
 		    FROM shez_admins
 	    <where>
-			<if test="name != null and name != ''">
-			    LOWER(name) LIKE '%' || LOWER(#{name}) || '%'
+			<if test="adminName != null and adminName != ''">
+			    LOWER(admin_name) LIKE '%' || LOWER(#{adminName}) || '%'
 			</if>
 		</where>
-		    ORDER BY admin_name
+		    ORDER BY adminName
 		)
 		WHERE ROWNUM <![CDATA[<=]]> 50
 	</select>

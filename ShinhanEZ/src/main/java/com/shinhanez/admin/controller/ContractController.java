@@ -3,6 +3,8 @@ package com.shinhanez.admin.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.ContractServiceImpl;
+import com.shinhanez.domain.ShezUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +33,16 @@ import lombok.RequiredArgsConstructor;
 public class ContractController {
 	private final ContractServiceImpl service;
 	
+	private boolean isAdmin(HttpSession session) {
+        ShezUser user = (ShezUser) session.getAttribute("loginUser");
+        return user != null && "ROLE_ADMIN".equals(user.getRole());
+    }
+	
 	@GetMapping("/list")
-	public String moveContact() {
+	public String moveContact(HttpSession session) {
+		if (!isAdmin(session)) {
+            return "redirect:/member/login?error=auth";
+        }
 		return "/admin/contract_list";
 	}
 	
@@ -83,7 +94,7 @@ public class ContractController {
 	}
 	// 관리자 검색
 	@GetMapping(value = "/search/admins", produces = "application/json")
-	public ResponseEntity<List<Admins>> searchSdminsByName(@RequestParam String adminName){
+	public ResponseEntity<List<Admins>> searchAdminsByName(@RequestParam String adminName){
 		List<Admins> searchResult =  service.searchAdminsByName(adminName);
 		return ResponseEntity.ok(searchResult);
 	}

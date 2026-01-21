@@ -29,5 +29,5 @@ public interface ContractMapper {
 	// 보험 상품 검색
 	public List<Insurance> searchInsuranceByName(@Param("productName") String productName);
 	// 관리자 검색
-	public List<Admins> searchAdminsByName(@Param("name") String name);
+	public List<Admins> searchAdminsByName(@Param("adminName") String adminName);
 }

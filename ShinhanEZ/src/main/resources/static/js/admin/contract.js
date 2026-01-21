@@ -181,7 +181,7 @@ $(document).ready(()=>{
 			            products = list;
 			        }
 	                const html = list.map(item => {
-						const id = item.customerId ?? item.productNo ?? item.adminId;
+						const id = item.customerId ?? item.productNo ?? item.adminIdx;
 					    const name = item.name ?? item.productName ?? item.adminName;
 					return `
 	                    <div class="autocomplete-item"
@@ -243,7 +243,7 @@ $(document).ready(()=>{
     autocomplete('customerName', 'customerResults', 'customerId', '/admin/contract/search/customers','customerName');
     autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers','customerName');
 	autocomplete('productName', 'productResults', 'productId', '/admin/contract/search/insurances','productName');
-	autocomplete('adminName', 'adminResults', 'adminId', '/admin/contract/search/admins','name');
+	autocomplete('adminName', 'adminResults', 'adminId', '/admin/contract/search/admins','adminName');
 	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
