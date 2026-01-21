@@ -27,7 +27,7 @@ public interface ClaimsMapper {
 
 	// 청구 삭제
 	int deleteClaim(
-			@Param("adminId") int adminId,
+			@Param("adminIdx") int adminIdx,
 			@Param("claimId") Long claimId);
 
 	// cutomerId로 계약 리스트조회

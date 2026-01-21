@@ -54,8 +54,8 @@ public class ClaimsServiceImpl implements ClaimsService{
 
 	// 청구 삭제
 	@Override
-	public int deleteClaim(int adminId, Long claimId) {
-		return claimsMapper.deleteClaim(adminId, claimId);
+	public int deleteClaim(int adminIdx, Long claimId) {
+		return claimsMapper.deleteClaim(adminIdx, claimId);
 	}
 
 	// customer_id로 계약조회

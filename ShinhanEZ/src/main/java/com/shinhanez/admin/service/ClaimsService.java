@@ -22,7 +22,7 @@ public interface ClaimsService {
 	public int updateClaim(ClaimsDTO claimsDTO);	
 	// 청구 삭제
 	public int deleteClaim(
-			@Param("adminId") int adminId,
+			@Param("adminIdx") int adminIdx,
 			@Param("claimId") Long claimId);
 	// customer_id로 계약조회
 	public List<Contracts> getListContractsByCustomerId(String customerId);

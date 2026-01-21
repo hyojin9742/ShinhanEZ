@@ -33,7 +33,7 @@ public class ClaimsMapperTests {
 	@Test
 	public void dbConnect() throws Exception{
 		try(Connection conn = dataSource.getConnection()){
-			System.out.println("DB 연결테스트......" + conn);
+			log.info("DB 연결테스트......" + conn);
             assertNotNull(conn);
 		}
 	}
@@ -86,7 +86,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	// 미지급 상태
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminId(1L);
+    	claimsDTO.setAdminIdx(1L);
     	//  지급/완료 관련 값은 미지급 = null 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
@@ -104,7 +104,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminId(2L);
+    	claimsDTO.setAdminIdx(2L);
     	
     	int result = claimsMapper.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);

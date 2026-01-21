@@ -24,7 +24,7 @@
     <result property="status" column="STATUS"/>
     <result property="completedAt" column="COMPLETED_AT"/>
 
-    <result property="adminId" column="ADMIN_ID"/>
+    <result property="adminIdx" column="ADMIN_IDX"/>
     
     <result property="customerName" column="CUSTOMER_NAME"/>
 	<result property="insuredName"  column="INSURED_NAME"/>
@@ -51,11 +51,11 @@ FROM (
       c.ACCIDENT_DATE,
       c.CLAIM_AMOUNT,
       c.CLAIM_DATE,
-      adm.NAME  AS ADMIN_NAME
+      adm.ADMIN_NAME AS ADMIN_NAME
     FROM SHEZ_CLAIMS c
     LEFT JOIN SHEZ_CUSTOMERS cust ON cust.CUSTOMER_ID = c.CUSTOMER_ID
     LEFT JOIN SHEZ_CUSTOMERS ins  ON ins.CUSTOMER_ID  = c.INSURED_ID
-    LEFT JOIN SHEZ_ADMINS adm     ON adm.ADMIN_ID     = c.ADMIN_ID
+    LEFT JOIN SHEZ_ADMINS adm ON adm.ADMIN_IDX = c.ADMIN_IDX
 
     <where>
       <if test="status != null and status != ''">
@@ -111,7 +111,7 @@ WHERE rn &gt; #{startRow}
       PAID_AMOUNT,
       STATUS,
       COMPLETED_AT,
-      ADMIN_ID
+      ADMIN_IDX
     FROM SHEZ_CLAIMS
     WHERE CLAIM_ID = #{claimId}
   </select>
@@ -137,7 +137,7 @@ WHERE rn &gt; #{startRow}
 	    PAID_AMOUNT,
 	    STATUS,
 	    COMPLETED_AT,
-	    ADMIN_ID
+	    ADMIN_IDX
 	  ) VALUES (
 	    #{claimId},
 	    #{customerId},
@@ -151,7 +151,7 @@ WHERE rn &gt; #{startRow}
 	    #{paidAmount, jdbcType=NUMERIC},
 	    #{status},
 	    #{completedAt, jdbcType=DATE},
-	    #{adminId}
+	    #{adminIdx}
 	  )
 	
 	</insert>
@@ -175,7 +175,7 @@ WHERE rn &gt; #{startRow}
 	    <if test="paidAt != null">PAID_AT = #{paidAt, jdbcType=DATE},</if>
 	    <if test="paidAmount != null">PAID_AMOUNT = #{paidAmount, jdbcType=NUMERIC},</if>
 	    <if test="status == 'COMPLETED' or status == 'REJECTED'">COMPLETED_AT = SYSDATE,</if>	
-	    <if test="adminId != null">ADMIN_ID = #{adminId},</if>
+	    <if test="adminIdx != null">ADMIN_IDX = #{adminIdx},</if>
 	  </set>
 	  WHERE CLAIM_ID = #{claimId}
 	</update>
@@ -187,8 +187,8 @@ WHERE rn &gt; #{startRow}
 	    AND EXISTS (
 	      SELECT 1
 	      FROM SHEZ_ADMINS a
-	      WHERE a.ADMIN_ID = #{adminId}
-	        AND a.ROLE = 'super'
+	      WHERE a.ADMIN_IDX = #{adminIdx}
+	        AND a.ADMIN_ROLE = 'super'
 	    )
 	</delete>
 
@@ -208,14 +208,14 @@ WHERE rn &gt; #{startRow}
 		    c.contract_status,
 		    c.premium_amount,
 		    c.payment_cycle,
-		    c.admin_id,
-		    ad.name AS admin_name
+		    c.admin_idx,
+		    ad.ADMIN_NAME AS admin_name
 		FROM 
 		    shez_contracts c
 		    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
-		    INNER JOIN shez_admins ad ON c.admin_id = ad.admin_id
+		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		WHERE 
 		    c.customer_id = #{customerId}
 		ORDER BY 
@@ -236,7 +236,7 @@ WHERE rn &gt; #{startRow}
 	FROM SHEZ_CLAIMS c
 	LEFT JOIN SHEZ_CUSTOMERS cust ON cust.CUSTOMER_ID = c.CUSTOMER_ID
 	LEFT JOIN SHEZ_CUSTOMERS ins  ON ins.CUSTOMER_ID  = c.INSURED_ID
-	LEFT JOIN SHEZ_ADMINS adm     ON adm.ADMIN_ID     = c.ADMIN_ID
+	LEFT JOIN SHEZ_ADMINS adm ON adm.ADMIN_IDX = c.ADMIN_IDX
 	
 	<where>
 	  <if test="status != null and status != ''">

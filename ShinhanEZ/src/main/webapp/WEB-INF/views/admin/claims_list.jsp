@@ -5,11 +5,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="inc/head.jsp"/>
-	<link rel="stylesheet" href="${ctx}/css/admin/claims.css">
 	<!-- 토스트 표시 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <jsp:include page="inc/head.jsp"/>
+	<link rel="stylesheet" href="${ctx}/css/admin/claims.css">
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -174,7 +173,7 @@
 			          	<input type="text"
 			                 name="keyword"
 			                 class="form-control input-md"
-			                 placeholder="청구ID / 보험가입자 / 피보험자 검색"
+			                 placeholder="키워드 검색"
 			                 value="${claimsCriteria.keyword}" />
 			      	</div>
 			      	<button type="submit" class="btn btn-primary">

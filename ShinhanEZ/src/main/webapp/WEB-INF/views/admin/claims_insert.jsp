@@ -7,10 +7,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="inc/head.jsp"/>
-    <link rel="stylesheet" href="${ctx}/css/admin/payment.css">
 	<!-- 토스트 표시 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <jsp:include page="inc/head.jsp"/>
+    <link rel="stylesheet" href="${ctx}/css/admin/payment.css">
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -87,7 +87,7 @@
 							<input type="hidden" name="contractId" id="claimContractIdHidden">
                         </div>
                         <div class="btn-area" style="display: flex; justify-content: end;">
-                            <button type="button" id="getListContract" class="btn btn-outline" style="margin-right:1vw;">청구인 계약조회</button>
+                            <button type="button" id="getListContract" class="btn btn-warning" style="margin-right:1vw;">청구인 계약조회</button>
                             <a href="${ctx}/admin/claims" class="btn btn-secondary" style="margin-right: 1vw;" >목록</a>
                             <button type="submit" class="btn btn-primary">등록</button>
                         </div>

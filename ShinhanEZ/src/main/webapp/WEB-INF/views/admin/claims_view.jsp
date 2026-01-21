@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <jsp:include page="inc/head.jsp"/>
 	<!-- 토스트 표시 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <jsp:include page="inc/head.jsp"/>
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">

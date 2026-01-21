@@ -62,7 +62,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("555555.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminId(1L); 
+    	claimsDTO.setAdminIdx(1L); 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
     	claimsDTO.setCompletedAt(null);
@@ -82,7 +82,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminId(2L);
+    	claimsDTO.setAdminIdx(2L);
     	
     	int result = claimsService.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);

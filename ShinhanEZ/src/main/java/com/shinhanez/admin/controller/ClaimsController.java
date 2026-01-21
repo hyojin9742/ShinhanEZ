@@ -82,7 +82,7 @@ public class ClaimsController {
 		// adminId 세션넣는 작업 끝나면 setter로 변경===================
 //	    claimsDTO.setAdminId((Long)session.getAttribute("adminId"));
 		// 추후 삭제
-	    claimsDTO.setAdminId(1L);
+	    claimsDTO.setAdminIdx(1L);
 		
 		int result = claimsService.insertClaim(claimsDTO);
 	    // 성공: 생성된 글 상세로 이동
@@ -120,17 +120,19 @@ public class ClaimsController {
 	// 청구 delete
 	@PostMapping("/{claimId}/delete")
 	public String claimsDelete(@PathVariable Long claimId, HttpSession session,RedirectAttributes redirectAttributes) {
-		int adminId = (Integer)session.getAttribute("adminId");
-		int result = claimsService.deleteClaim(adminId, claimId);
+		Integer adminIdx = (Integer)session.getAttribute("adminIdx");
 		
-		if(result > 0) {
+		if (adminIdx == null) {
+			redirectAttributes.addFlashAttribute("msgType", "error");
+			redirectAttributes.addFlashAttribute("msg", "삭제 권한이 없습니다.");
+			return "redirect:/admin/claims";
+		}
+		
+		int result = claimsService.deleteClaim(adminIdx, claimId);
+
 			redirectAttributes.addFlashAttribute("msgType", "success");
 			redirectAttributes.addFlashAttribute("msg", "정상 삭제 되었습니다.");
 			return "redirect:/admin/claims";
-		}
-		redirectAttributes.addFlashAttribute("msgType", "error");
-		redirectAttributes.addFlashAttribute("msg", "삭제 권한이 없습니다.");
-		return "redirect:/admin/claims/"+claimId;
 	}
 	
 	// 계약 리스트 조회 REST API
