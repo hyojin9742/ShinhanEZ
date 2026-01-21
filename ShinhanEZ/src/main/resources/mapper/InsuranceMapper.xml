@@ -16,32 +16,57 @@
 	
 	
 	
-	
-	
+	<!--전체 목록  페이징, 검색 -->
 	<sql id="searchCriteria">
         <where>
             <if test="status != null and status != '' and status != 'all'">
                 AND status = #{status}
             </if>
             <if test="keyword != null and keyword != ''">
-                AND product_name LIKE CONCAT('%', #{keyword}, '%')
+                AND productName LIKE '%' || #{keyword} || '%'
             </if>
         </where>
     </sql>
 
     <select id="selectInsuranceList" resultType="com.shinhanez.admin.domain.Insurance">
-        SELECT *
-        FROM insurance
-        <include refid="searchCriteria" />
-        ORDER BY product_no DESC
-        LIMIT #{pageSize} OFFSET #{offset}
+        SELECT * FROM (
+            SELECT A.*, ROWNUM AS RNUM 
+            FROM (
+                SELECT 
+                    productNo,
+                    productName,
+                    category,
+                    basePremium,
+                    coverageRange,
+                    coveragePeriod,
+                    status,
+                    createdDate
+                FROM SHEZ_INSURANCES
+                <include refid="searchCriteria" />
+                
+                ORDER BY productNo DESC
+            ) A
+            <![CDATA[
+            WHERE ROWNUM <= #{endRow}
+            ]]>
+        )
+        <![CDATA[
+        WHERE RNUM >= #{startRow}
+        ]]>
     </select>
 
     <select id="countInsurance" resultType="int">
         SELECT COUNT(*)
-        FROM insurance
+        FROM SHEZ_INSURANCES
         <include refid="searchCriteria" />
     </select>
+    
+    <!--삭제 -->
+    <delete id="deleteInsurance">
+        DELETE FROM SHEZ_INSURANCES 
+        WHERE productNo = #{productNo} 
+    </delete>
+	
 	
 	
       

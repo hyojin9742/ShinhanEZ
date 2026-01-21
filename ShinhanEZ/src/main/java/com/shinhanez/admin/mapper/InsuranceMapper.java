@@ -11,21 +11,12 @@ import com.shinhanez.admin.domain.Insurance;
 @Mapper
 public interface InsuranceMapper {
 	
-	//전체 상품 목록
-	List<Insurance> allGet();
-	
-	//전체 상품 목록22
-	List<Insurance> allGet2(String status);
-	
-	
-	
-	
-	// 리스트 조회
-    List<Insurance> selectInsuranceList(Map<String, Object> params);
-
-    // 전체 개수 조회
+	//리스트
+	List<Insurance> selectInsuranceList(Map<String, Object> params);
     int countInsurance(Map<String, Object> params);
-	
+    
+    //삭제
+    void deleteInsurance(Long productNo);
 
 
     

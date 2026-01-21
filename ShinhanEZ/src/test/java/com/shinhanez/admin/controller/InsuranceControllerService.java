@@ -27,24 +27,6 @@ public class InsuranceControllerService {
 	@MockBean
     private InsuranceService insuranceService;
 
-	 @Test
-	    void 보험_리스트_페이지_테스트() throws Exception {
-	        // given: 가짜 보험 리스트
-	        List<Insurance> mockList = List.of(
-	                Insurance.builder().productNo(1L).productName("보험A").build(),
-	                Insurance.builder().productNo(2L).productName("보험B").build()
-	        );
-
-	        when(insuranceService.getList()).thenReturn(mockList);
-
-	        // when & then
-	        mockMvc.perform(get("/admin/insurance/list"))
-	                .andExpect(status().isOk())
-	                // 뷰 이름 검증
-	                .andExpect(view().name("admin/insurances_list"))
-	                // 모델 데이터 검증
-	                .andExpect(model().attributeExists("insurances"))
-	                .andExpect(model().attribute("insurances", mockList));
-	    }
+	
 
 }

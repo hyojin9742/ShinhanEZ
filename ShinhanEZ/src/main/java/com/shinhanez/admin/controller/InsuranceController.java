@@ -19,31 +19,45 @@ import com.shinhanez.admin.service.CustomerService;
 import com.shinhanez.admin.service.InsuranceService;
 import com.shinhanez.domain.Paging;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/admin/insurance")
+@RequiredArgsConstructor
 public class InsuranceController {    
 	
 	@Autowired
 	private InsuranceService insuranceService;
 
   
-	// 목록
-	/*
-	 * @GetMapping("/list") public String list(Model model) { List<Insurance>
-	 * insurances= insuranceService.getList();
-	 * model.addAttribute("insurances",insurances); return "admin/insurances_list";
-	 * }
-	 */
+	
 	  
-	  @GetMapping("/list")
-	  @ResponseBody
-	  public Map<String, Object> list(
-	          @RequestParam(defaultValue = "1") int pageNum,
-	          @RequestParam(defaultValue = "all") String status,
-	          @RequestParam(defaultValue = "") String keyword) {
-	      
-	      return insuranceService.getInsuranceList(pageNum, status, keyword);
-	  }
+	// [1] 화면 보여주기 (JSP 이동)
+    // 사용자가 메뉴에서 클릭해서 들어오는 주소입니다.
+    @GetMapping("/list") 
+    public String insurancePage() {
+        return "admin/insurances_list"; // views/admin/insurance/list.jsp 로 이동
+    }
+
+    // [2] 데이터만 주기 (JSON 반환)
+    // 자바스크립트(AJAX)가 몰래 요청하는 주소입니다.
+    @GetMapping("/api/list")
+    @ResponseBody 
+    public Map<String, Object> getInsuranceList(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "all") String status,
+            @RequestParam(defaultValue = "") String keyword) {
+
+        return insuranceService.getInsuranceList(pageNum, status, keyword);
+    }
+    
+    // [3] 삭제 처리
+    @GetMapping("/delete")
+    public String deleteInsurance(@RequestParam Long productNo) {
+        insuranceService.deleteInsurance(productNo);
+        return "redirect:/admin/insurance/list";
+    }
+    
 	  
 	
 	//상세보기
@@ -79,13 +93,7 @@ public class InsuranceController {
 		return "redirect:/admin/insurance/list";
 	}
 	
-	// 목록2
-	@PostMapping("/list2")
-	@ResponseBody
-	public List<Insurance> list2(@RequestParam String status) {
-		List<Insurance> data= insuranceService.getList2(status);
-		return data;
-	}
+	
 	
 	
 	

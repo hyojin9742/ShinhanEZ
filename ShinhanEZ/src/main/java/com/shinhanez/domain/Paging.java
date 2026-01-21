@@ -1,10 +1,11 @@
 package com.shinhanez.domain;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 public class Paging {
-int pageNum;
+	int pageNum;
 	
 	int pageSize;
 	int blockSize;
@@ -14,6 +15,9 @@ int pageNum;
 	
 	int startPage;
 	int endPage;
+	
+	boolean hasPrev;
+	boolean hasNext;
 	
 	public Paging(int pageNum, int pageSize, int totalDB, int blockSize) {
 		this.pageNum = pageNum;				
@@ -25,6 +29,7 @@ int pageNum;
 		startPage = (int)(Math.ceil((double)pageNum/blockSize)-1)*blockSize+1;
 		endPage = Math.min(startPage+(blockSize-1), totalPages);
 	}
+	
 	public boolean hasPrev() {
 		return pageNum>1;
 	}
