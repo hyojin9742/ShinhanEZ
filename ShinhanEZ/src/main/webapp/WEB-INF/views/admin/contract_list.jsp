@@ -111,19 +111,7 @@
 	                                <th>관리</th>
 	                            </tr>
 	                        </thead>
-	                        <tbody class="contractContent">
-								<tr>
-									<th>계약번호</th>
-	                                <th>계약자명</th>
-	                                <th>피보험자명</th>
-	                                <th>상품명</th>
-	                                <th>계약일</th>
-	                                <th>만료일</th>
-	                                <th>계약상태</th>
-	                                <th>최근수정일</th>
-	                                <th>담당관리자</th>
-								</tr>
-	                        </tbody>
+	                        <tbody class="contractContent"></tbody>
 	                    </table>
 	                </div>
 	            </div>
@@ -152,7 +140,7 @@
 	            <div class="modal-overlay" id="contractModalOverlay"></div>
 		        <div class="modal modal-lg" id="contractModal">
 		            <div class="modal-header">
-		                <h3 class="modal-title">${contractId ? '계약 수정' : '계약 등록'}</h3>
+		                <h3 class="modal-title">계약 등록</h3>
 		                <button class="modal-close" id="closeContractModal">&times;</button>
 		            </div>
 		            <div class="modal-body">
@@ -218,7 +206,7 @@
 		            <div class="modal-footer">
 		                <button type="button" class="btn btn-outline" id="cancelContract">취소</button>
 		                <button type="button" class="btn btn-primary" id="saveContract">
-		                    ${contractId ? '수정' : '등록'}
+		                    등록
 		                </button>
 		            </div>
 		        </div>

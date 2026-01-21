@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,12 +68,12 @@ public class ContractController {
 	    return ResponseEntity.status(HttpStatus.CREATED)
 	            .body(Map.of("message", "계약 등록 성공","registerResult",registerResult));
 	}
+	// 계약 수정
 	@RequestMapping(value = "/rest/update/{contractId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> updateContract(
             @PathVariable Integer contractId,
             @RequestBody Contracts contract) {
-
         contract.setContractId(contractId);
         int updateResult = service.updateContract(contract);
 

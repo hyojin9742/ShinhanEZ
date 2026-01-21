@@ -129,8 +129,8 @@
 	<!-- 계약 수정 -->
 	<update id="updateContract">
 		UPDATE shez_contracts SET 
-		    insured_id = #{insuredId}, product_id = #{productId}, contract_coverage = #{contractCoverage}, 
-		    premium_amount = #{premiumAmount}, payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_idx = #{adminIdx}
+		    contract_coverage = #{contractCoverage}, expired_date = #{expiredDate}, premium_amount = #{premiumAmount}, 
+		    payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_idx = #{adminIdx}
 		WHERE contract_id = #{contractId}
 	</update>
 	

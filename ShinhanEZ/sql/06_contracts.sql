@@ -163,7 +163,7 @@ FROM (
         INNER JOIN shez_insurances p ON c.product_id = p.productno
         INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 )
-WHERE contract_id = 1;
+WHERE contract_id = 5;
 
 -- 계약 등록
 INSERT INTO shez_contracts 
@@ -178,10 +178,9 @@ SELECT * FROM shez_contracts;
 
 -- 계약 수정
 UPDATE shez_contracts SET 
-    insured_id = 'C007',product_id = 4, contract_coverage = '재해 사망 보장', 
-    premium_amount = 90000, payment_cycle = '일시납', contract_status = '해지',admin_idx = 2 
+    contract_coverage = '암, 심근경색 진단비 보장', expired_date = DATE '2040-01-01', premium_amount = 90000, 
+    payment_cycle = '일시납', contract_status = '활성', admin_idx = 2
 WHERE contract_id = 5;
-
 COMMIT;
 SELECT * FROM shez_contracts;
 

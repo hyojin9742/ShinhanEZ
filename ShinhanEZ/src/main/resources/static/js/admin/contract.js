@@ -64,6 +64,10 @@ $(document).ready(()=>{
 	                <td><span class="statusTd">${contract.contractStatus}</span></td>
 	                <td>${contractService.displayTime(contract.updateDate)}</td>
 	                <td>${contract.adminName}</td>
+					<td>
+                        <a href="/admin/contract/rest/{contractId}" class="btn btn-sm btn-outline">상세</a>
+                        <a href="/admin/contract/rest/update/{contractId}" class="btn btn-sm btn-warning contract-update">수정</a>
+                    </td>
 	            </tr>
 	        `;
 	        tbody.append(row);
@@ -101,16 +105,20 @@ $(document).ready(()=>{
         openContractModal();
     });
 	
-    // 계약 등록 모달 열기
+    // 계약 모달 열기
     function openContractModal(contractId = null) {
 	    $('#contractModalOverlay, #contractModal').addClass('active');
-	    
-	    // 관리자 목록 로드
-	    // loadAdminList();
-	    
-	    // 수정인 경우 데이터 로드
+
 	    if (contractId) {
+	        $('.modal-title').text('계약 수정');
+	        $('#saveContract').text('수정');
 	        loadContractData(contractId);
+	    } else {
+	        $('.modal-title').text('계약 등록');
+	        $('#saveContract').text('등록');
+	        // 폼 초기화
+	        $('#contractForm')[0].reset();
+	        $('.autocomplete-results').hide();
 	    }
 	}
 	
@@ -159,7 +167,6 @@ $(document).ready(()=>{
 		
 		const debounceSearch = debounce(function(){
 	        const value = $.trim(input.val());
-			
 			if (value === '') {
 	            results.removeClass('active').empty();
 	            hidden.val('');
@@ -181,8 +188,21 @@ $(document).ready(()=>{
 			            products = list;
 			        }
 	                const html = list.map(item => {
-						const id = item.customerId ?? item.productNo ?? item.adminIdx;
-					    const name = item.name ?? item.productName ?? item.adminName;
+						                    
+	                    let id, name;
+	                    
+	                    // 입력 필드에 따라 적절한 필드 선택
+	                    if (inputName === 'customerName' || inputName === 'insuredName') {
+	                        id = item.customerId;
+	                        name = item.name;
+	                    } else if (inputName === 'productName') {
+	                        id = item.productNo;
+	                        name = item.productName;
+	                    } else if (inputName === 'adminName') {
+	                        id = item.adminIdx;
+	                        name = item.adminName;
+	                    }
+	                    
 					return `
 	                    <div class="autocomplete-item"
 	                         data-id="${id}"
@@ -191,7 +211,6 @@ $(document).ready(()=>{
 	                        <div class="autocomplete-name">${name}</div>
 	                    </div>
 	                `}).join('');
-					
 	                results.html(html).addClass('active');
 	            }
 			);
@@ -215,7 +234,6 @@ $(document).ready(()=>{
 	    results.on('click', '.autocomplete-item', function () {
 	        const id = $(this).data('id');
 	        const name = $(this).data('name');
-
 	        input.val(name);
 	        hidden.val(id);
 	        results.removeClass('active');
@@ -286,9 +304,44 @@ $(document).ready(()=>{
 	            showAlert('error', errorMsg);
 	        }
 		);
-       
     });
-
+	// 계약 수정 모달창 오픈
+	$(document).on('click', '.contract-update', function (e) {
+	    e.preventDefault();
+	   	const contractId = $(this)
+	        .closest('tr')
+	        .data('contractId');
+		openContractModal(contractId);
+	});
+	// 계약 수정
+	$(document).on('click', '#saveContract', function() {
+		const form = $('#contractForm');
+		
+        if (!form[0].checkValidity()) {
+            form[0].reportValidity();
+            return;
+        }
+        let jsonForm = formToJson(form);
+		contractService.update(
+			jsonForm,
+			function (response) {
+	            showAlert('success', '계약이 수정되었습니다.');
+	            closeContractModal();
+	            showList(pageNum);
+	        },
+	        function (errorMsg) {
+	            showAlert('error', errorMsg);
+	        }
+		);
+    });
+	// 계약 상세 함수
+	function loadContractData(contractId){
+		
+	}
+	
+	
+	
+	
 	/* 유틸리티 함수 */
 	// 예외처리
 	function showAlert(type, message) {
@@ -309,10 +362,16 @@ $(document).ready(()=>{
 	}
 	// 폼 -> JSON 변환
 	function formToJson(form) {
-	    const jsonForm = {};
+		const jsonForm = {};
 	    form.serializeArray().forEach(item => {
 	        jsonForm[item.name] = item.value;
 	    });
+		const checkedCoverages = $('input[name="contractCoverage"]:checked')
+		       .map(function() { return $(this).val(); })
+		       .get()
+		       .join(',');
+		   
+	   jsonForm.contractCoverage = checkedCoverages;
 	    return jsonForm;
 	}
 }); // /documnet.ready

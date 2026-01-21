@@ -69,23 +69,25 @@ let contractService = (function(){
 		});
 	}
    
-	/* 계약 수정 | 처리 필요  */
-	function update(reply, callback, error) {
+	/* 계약 수정  */
+	function update(contract, callback, error) {
 		$.ajax({
 			type: "put",
-			url: "/replies/" + reply.rno,
-			data: JSON.stringify(reply),
+			url: "/admin/contract/rest/update/" + contract.contractId,
+			data: JSON.stringify(contract),
 			contentType: "application/json; charset=utf-8",
-			success: function (result2, status, xhr) {
-			if (callback) {
-				callback(result2);
-				}
+			success: function (result, status, xhr) {
+				if (callback) {
+					callback(result);
+				} else { 
+					if (error) error(response.message || '저장실패'); 
+				} 
 			},
-			error: function (xhr, status, er) {
+			error: function (xhr, status, error) {
 				if (error) {
-					error(er);
+					if (error) error('서버 오류가 발생했습니다.'); 
 				}
-			},
+			}
 		});
 	}
 	
