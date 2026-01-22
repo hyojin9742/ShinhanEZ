@@ -15,9 +15,6 @@ public class Paging {
 	int startPage;
 	int endPage;
 	
-	boolean hasPrev;
-	boolean hasNext;
-	
 	public Paging(int pageNum, int pageSize, int totalDB, int blockSize) {
 		this.pageNum = pageNum;				
 		this.pageSize = pageSize;

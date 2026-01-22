@@ -90,8 +90,8 @@
                             </div>
 
                         </div>
-                        <input type="hidden" name="createdUser" value="${userId}">
-						<input type="hidden" name="updatedUser" value="${userId}">
+                        <input type="hidden" name="createdUser" value="${adminName}">
+						<input type="hidden" name="updatedUser" value="${adminName}">
                         <div class="btn-area">
                         
                         

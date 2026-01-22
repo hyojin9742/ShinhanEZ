@@ -76,4 +76,5 @@ INSERT INTO SHEZ_INSURANCES (
 
 COMMIT;
 SELECT * FROM shez_insurances;
+DELETE FROM shez_insurances WHERE productno = 6;
     
