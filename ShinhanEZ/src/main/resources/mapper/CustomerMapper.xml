@@ -121,5 +121,4 @@
         SELECT COUNT(*) FROM shez_customers WHERE status = 'Y'
     </select>
 
->>>>>>> refs/heads/customers
 </mapper>
