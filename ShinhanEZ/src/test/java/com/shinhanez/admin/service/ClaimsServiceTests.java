@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
@@ -25,10 +26,21 @@ public class ClaimsServiceTests {
 	// 청구 전체 리스트 조회 테스트
 	@Test
 	void getClaimListTests() {
-		List<ClaimsDTO> list = claimsService.getClaimList();
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		claimsCriteria.setPageNum(2);
+		claimsCriteria.setPageSize(10);
+		List<ClaimsDTO> list = claimsService.getClaimList(claimsCriteria);
 		list.forEach((claimsDTO)->{
 			log.info("청구리스트 조회테스트........"+claimsDTO);
 		});
+	}
+
+	// 청구 Count 테스트
+	@Test
+	void ClaimsTotalCountTests() {
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		int total = claimsService.getClaimTotalCount(claimsCriteria);
+		log.info("청구 전체 count............"+total);
 	}
 	
 	// 청구 단일 조회 테스트 | 테스트 파라미터 claimsId = 1
@@ -50,7 +62,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("555555.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminId(1L); 
+    	claimsDTO.setAdminIdx(1L); 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
     	claimsDTO.setCompletedAt(null);
@@ -70,7 +82,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminId(2L);
+    	claimsDTO.setAdminIdx(2L);
     	
     	int result = claimsService.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);

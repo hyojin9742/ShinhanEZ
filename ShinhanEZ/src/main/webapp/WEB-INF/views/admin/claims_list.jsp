@@ -5,52 +5,45 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<!-- 토스트 표시 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <jsp:include page="inc/head.jsp"/>
-	<style>
-		.admin-table th {
-		    text-align: center;
-		}
-	</style>
+	<link rel="stylesheet" href="${ctx}/css/admin/claims.css">
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
-    
     <!-- 사이드바 -->
     <jsp:include page="inc/sidebar.jsp">
         <jsp:param name="menu" value="claims"/>
     </jsp:include>
-    
     <!-- 메인 영역 -->
     <div class="admin-main">
-        
         <!-- 헤더 -->
         <jsp:include page="inc/header.jsp">
             <jsp:param name="page" value="청구관리"/>
         </jsp:include>
-        
         <!-- 콘텐츠 -->
         <main class="admin-content">
-            
             <!-- 페이지 타이틀 -->
             <div class="page-header">
                 <h2>청구 목록</h2>
                 <p>등록된 청구 정보를 관리합니다.</p>
             </div>
-
             <!-- 청구 목록 카드 -->
             <div class="card">
                 <div class="card-header">
                     <span>
                         <i class="bi bi-receipt"></i>
-                        청구 목록 (총 <strong>${empty list ? 0 : list.size()}</strong>건)
+							총 <strong>${totalCount}</strong>건 중
+						    <strong>${startRow}</strong>~
+						    <strong>${endRow}</strong>건
                     </span>
-
                     <!-- 신규 청구 등록 (GET /admin/claims/insert) -->
                     <a href="${ctx}/admin/claims/insert" class="btn btn-sm btn-primary">
                         <i class="bi bi-plus-lg"></i> 청구 등록
                     </a>
                 </div>
-
+				<!-- 청구 목록 테이블 -->
                 <div class="card-body" style="padding:0;">
                     <table class="admin-table">
                         <thead>
@@ -66,6 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
+						<!-- 목록 반복 출력 -->
                         <c:forEach var="c" items="${list}">
                             <tr>
                                 <!-- 청구 상세: GET /admin/claims/{claimId} -->
@@ -74,7 +68,7 @@
                                         <strong>${c.claimId}</strong>
                                     </a>
                                 </td>
-
+								<!-- 상태 배지 표시 -->
                                 <td>
                                     <c:choose>
                                         <c:when test="${c.status == 'PENDING'}">
@@ -90,23 +84,14 @@
                                             <span class="badge badge-secondary">${c.status}</span>
                                         </c:otherwise>
                                     </c:choose>
-                                </td>								
-                                <td>
-									${c.customerName}
-								</td>
-                                <td>
-									${c.insuredName}
-								</td>
-                                <td>
-                                    ${empty c.accidentDate ? '-' : c.accidentDate}
-                                </td>
-                                <td>
-									${empty c.claimDate ? '-' : c.claimDate}
-                                </td>
-                                <td>
-									${c.adminName}
-                                </td>
-
+                                </td>		
+								<!-- 가입자/피보험자/날짜/담당자 -->						
+                                <td>${c.customerName}</td>
+                                <td>${c.insuredName}</td>
+                                <td>${empty c.accidentDate ? '-' : c.accidentDate}</td>
+                                <td>${empty c.claimDate ? '-' : c.claimDate}</td>
+                                <td>${c.adminName}</td>
+								<!-- 관리 버튼: 상세보기 / 삭제 -->
                                 <td>
                                     <!-- 상세보기 -->
                                     <a href="${ctx}/admin/claims/${c.claimId}" 
@@ -122,10 +107,10 @@
                                 </td>
                             </tr>
                         </c:forEach>
-
+						<!-- 목록이 비어 있을 때 -->
                         <c:if test="${empty list}">
                             <tr>
-                                <td colspan="7" class="text-center" style="padding:40px;">
+                                <td colspan="8" class="text-center" style="padding:40px;">
                                     <i class="bi bi-inbox" style="font-size:48px;color:#ccc;"></i>
                                     <p style="margin-top:10px;color:#999;">등록된 청구가 없습니다.</p>
                                 </td>
@@ -135,15 +120,90 @@
                     </table>
                 </div>
             </div>
-            
+			<!-- 검색/필터 파라미터 유지용 Criteria 변수 -->
+			<c:set var="cri" value="${claimsCriteria}" />
+			<!-- 페이징 URL 베이스(검색 조건 유지) -->
+			<c:url var="baseUrl" value="${ctx}/admin/claims">
+			  <c:param name="pageSize" value="${cri.pageSize}" />
+			  <c:if test="${not empty cri.status}"><c:param name="status" value="${cri.status}" /></c:if>
+			  <c:if test="${not empty cri.fromDate}"><c:param name="fromDate" value="${cri.fromDate}" /></c:if>
+			  <c:if test="${not empty cri.toDate}"><c:param name="toDate" value="${cri.toDate}" /></c:if>
+			  <c:if test="${not empty cri.keyword}"><c:param name="keyword" value="${cri.keyword}" /></c:if>
+			</c:url>
+			
+			<!-- 페이징 + 검색 영역 -->
+			<div class="paging-bar">
+				<!-- 페이징 -->
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+					    <!-- 이전 페이지 -->
+					    <c:if test="${paging.hasPrev()}">
+				        	<c:url var="prevUrl" value="${baseUrl}">
+				            	<c:param name="pageNum" value="${paging.pageNum - 1}" />
+				      		</c:url>
+				      		<li class="page-item">
+				        		<a class="page-link" href="${prevUrl}">이전</a>
+				      		</li>
+				    	</c:if>
+					    <!-- 페이지 번호 -->
+					    <c:forEach var="p" begin="${paging.startPage}" end="${paging.endPage}">
+					      	<c:url var="pageUrl" value="${baseUrl}">
+					        	<c:param name="pageNum" value="${p}" />
+					      	</c:url>
+	
+					      	<li class="page-item ${p == paging.pageNum ? 'active' : ''}">
+					        	<a class="page-link" href="${pageUrl}">${p}</a>
+					      	</li>
+					    </c:forEach>
+					    <!-- 다음 페이지 -->
+					    <c:if test="${paging.hasNext()}">
+					      	<c:url var="nextUrl" value="${baseUrl}">
+					        	<c:param name="pageNum" value="${paging.pageNum + 1}" />
+					      	</c:url>
+					      	<li class="page-item">
+					        	<a class="page-link" href="${nextUrl}">다음</a>
+					      	</li>
+					    </c:if>
+					</ul>
+				</nav>
+			  	<!-- 키워드 검색폼 -->
+			  	<form method="get" action="${ctx}/admin/claims" class="search-row search-right">
+			      	<input type="hidden" name="pageSize" value="${claimsCriteria.pageSize}" />
+			      	<div class="form-group">
+			          	<input type="text"
+			                 name="keyword"
+			                 class="form-control input-md"
+			                 placeholder="키워드 검색"
+			                 value="${claimsCriteria.keyword}" />
+			      	</div>
+			      	<button type="submit" class="btn btn-primary">
+			          	<i class="bi bi-search"></i> 검색
+			      	</button>
+			      	<a href="${ctx}/admin/claims" class="btn btn-outline">
+			          	초기화
+			      	</a>
+			  	</form>
+			</div>
+			<!-- 토스트 메시지 영역(msg 있을 때만 렌더링) -->
+			<c:if test="${not empty msg}">
+				<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"style="z-index:20000;">
+					<div id="appToast" class="toast align-items-center text-bg-${msgType == 'success' ? 'success' : (msgType == 'error' ? 'danger' : 'secondary') } border-0" role="alert" aria-live="assertive" aria-atomic="true">
+				    	<div class="d-flex">
+				      		<div class="toast-body">${msg}</div>
+				      		<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></butto>
+				    	</div>
+				  	</div>
+				</div>
+			</c:if>
         </main>
-        
         <!-- 푸터 -->
         <jsp:include page="inc/footer.jsp"/>
-        
     </div>
 </div>
+<!-- Bootstrap JS 번들(Toast 동작 필요) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- 삭제 처리 스크립트: confirm 후 POST로 삭제 요청 -->
 <script>
     function deleteClaim(claimId) {
         if(confirm('정말 삭제하시겠습니까?\n청구ID: ' + claimId+'번')) {
@@ -155,5 +215,21 @@
         }
     }
 </script>
+
+<!-- 토스트 자동 표시 -->
+<script>
+  (function () {
+    const el = document.getElementById("appToast");
+    if (!el) return;
+
+    const isError = "${msgType}" === "error";
+    bootstrap.Toast.getOrCreateInstance(el, {
+      delay: isError ? 4000 : 2200,
+      autohide: true
+    }).show();
+  })();
+</script>
+
+
 </body>
 </html>

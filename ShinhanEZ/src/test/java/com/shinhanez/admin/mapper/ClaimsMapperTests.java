@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
@@ -32,7 +33,7 @@ public class ClaimsMapperTests {
 	@Test
 	public void dbConnect() throws Exception{
 		try(Connection conn = dataSource.getConnection()){
-			System.out.println("DB 연결테스트......" + conn);
+			log.info("DB 연결테스트......" + conn);
             assertNotNull(conn);
 		}
 	}
@@ -43,10 +44,22 @@ public class ClaimsMapperTests {
 	// [청구 전체 조회]
 	@Test
 	void ClaimsListTest() {
-		List<ClaimsDTO> Claimslist = claimsMapper.getClaimList();
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		claimsCriteria.setPageNum(2);
+		claimsCriteria.setPageSize(10);
+		List<ClaimsDTO> Claimslist = claimsMapper.getClaimList(claimsCriteria);
 		Claimslist.forEach((claimsDTO) -> {
 			log.info("리스트조회......"+claimsDTO);
 		});
+	}
+	
+	// [청구 전체 count]
+	@Test
+	void ClaimsTotalCountTests() {
+		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
+		
+		int total = claimsMapper.getClaimTotalCount(claimsCriteria);
+		log.info("전체 totalCount.................."+total);
 	}
 	
 	// [청구 단건 조회]
@@ -73,7 +86,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	// 미지급 상태
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminId(1L);
+    	claimsDTO.setAdminIdx(1L);
     	//  지급/완료 관련 값은 미지급 = null 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
@@ -91,7 +104,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminId(2L);
+    	claimsDTO.setAdminIdx(2L);
     	
     	int result = claimsMapper.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);
