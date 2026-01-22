@@ -27,7 +27,7 @@ let contractService = (function(){
 		}); 
 	}
 	
-	/* 계약 단건 읽기 | 처리 필요 */
+	/* 계약 단건 읽기 */
 	function get(contractId, callback, error) {
 		$.ajax({
 			type: "get",
@@ -129,7 +129,24 @@ let contractService = (function(){
 	        }
 	    });
 	}
-	
+	/* 상품번호 이용 보험 정보 가져오기 */
+	function getProductById(productId, success, error){
+		$.ajax({
+	        url: '/admin/contract/search/insurances/'+productId,
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function (res) {
+	            if (success) {
+	                success(res);
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            if (error) {
+	                error(xhr, status, error);
+	            }
+	        }
+	    });
+	}
 	
 	return {
 		getList: getList,
@@ -137,6 +154,7 @@ let contractService = (function(){
 		save: save,
 		update: update,
 		displayTime: displayTime,
-		ajaxAutoComplete: ajaxAutoComplete
+		ajaxAutoComplete: ajaxAutoComplete,
+		getProductById: getProductById
 	};
 })();

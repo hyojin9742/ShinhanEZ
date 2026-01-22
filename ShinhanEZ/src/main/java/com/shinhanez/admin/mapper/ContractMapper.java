@@ -28,6 +28,8 @@ public interface ContractMapper {
 	public List<Customer> searchCustomerByName(@Param("customerName") String customerName);
 	// 보험 상품 검색
 	public List<Insurance> searchInsuranceByName(@Param("productName") String productName);
+	// 보험 상품 번호 검색
+	public Insurance searchInsuranceById(@Param("productNo") Long productNo);
 	// 관리자 검색
 	public List<Admins> searchAdminsByName(@Param("adminName") String adminName);
 }

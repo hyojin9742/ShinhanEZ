@@ -163,7 +163,7 @@ FROM (
         INNER JOIN shez_insurances p ON c.product_id = p.productno
         INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 )
-WHERE contract_id = 5;
+WHERE contract_id = 7;
 
 -- 계약 등록
 INSERT INTO shez_contracts 
@@ -211,6 +211,13 @@ FROM (
     ORDER BY productName
 )
 WHERE ROWNUM <= 50;
+-- 상품 번호 보험 검색
+SELECT 
+        productno AS productNo,
+        productname AS productName,
+        coveragerange AS coverageRange
+    FROM shez_insurances
+	WHERE productno = #{productNo}
 -- 관리자 검색
 SELECT adminIdx, adminName, adminRole
 FROM (

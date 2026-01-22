@@ -115,16 +115,28 @@ $(document).ready(()=>{
     });
 	
     // 계약 모달 열기
-    async function openContractModal(contractId = null) {
+    function openContractModal(contractId = null) {
 	    $('#contractModalOverlay, #contractModal').addClass('active');
 
 	    if (contractId) {
+			const status =`
+			<label class="form-label">계약상태 <span>*</span></label>
+           	<select class="form-control" name="contractStatus" id="contractStatus" required>
+                <option value="">상태변경</option>
+                <option value="활성">활성</option>
+                <option value="만료">만료</option>
+                <option value="해지">해지</option>
+            </select>
+			`;
+			const contractIdHidden = `<input type="hidden" name="contractId" id="contractId"/>`;
+			$('.form-group.contractStatus').html(status);
+			$('#contractForm').append(contractIdHidden);
 	        $('.modal-title').text('계약 수정');
-	        $('#saveContract').text('수정').addClass('modifyContract');
-	        await loadContractData(contractId);
+	        $('#saveContract').text('수정').removeClass('registerContract').addClass('modifyContract');
+	        loadContractData(contractId);
 	    } else {
 	        $('.modal-title').text('계약 등록');
-	        $('#saveContract').text('등록');
+	        $('#saveContract').text('등록').removeClass('modifyContract').addClass('registerContract');
 	        // 폼 초기화
 	        $('#contractForm')[0].reset();
 	        $('.autocomplete-results').hide();
@@ -292,7 +304,7 @@ $(document).ready(()=>{
 	}
 	
 	/* 계약 등록 */
-	$(document).on('click', '#saveContract', function() {
+	$(document).on('click', '.registerContract', function() {
 		const form = $('#contractForm');
 		
         if (!form[0].checkValidity()) {
@@ -320,6 +332,89 @@ $(document).ready(()=>{
 	        .data('contractId');
 		openContractModal(contractId);
 	});
+	// 상품 번호로 보험 가져오기
+	function getCoverageById(productId,currentCoverage) {
+		const currentCoverages = currentCoverage.split(',').map(c => c.trim());
+		console.log('currentCoverages : '+currentCoverages);
+		contractService.getProductById(
+			productId,
+			function(coverage) {
+				renderCoverages(coverage, currentCoverages);
+			},
+			function(xhr, status, error) {
+				showAlert('error', '보장내역을 불러오는데 실패했습니다.');
+			}
+		);
+	}
+	
+	// 보장내역 체크박스 렌더링
+	function renderCoverages(coverage, currentCoverages) {
+		const riderList = $('.riderList');
+		riderList.empty();
+		
+		if (!coverage || !coverage.coverageRange) {
+			riderList.append('<p class="text-muted">보장내역이 없습니다.</p>');
+			return;
+		}
+	    const coverageItems = coverage.coverageRange
+	        .split(',')
+	        .map(item => item.trim());
+
+	    coverageItems.forEach((item, index) => {
+	        if (item === '주계약' || item === '') return;
+
+	        const isChecked = currentCoverages.includes(item);
+
+	        const checkboxHtml = `
+	            <div class="coverage-item">
+	                <input
+	                    type="checkbox"
+	                    name="contractCoverage"
+	                    value="${item}"
+	                    id="coverage_${index}"
+	                    ${isChecked ? 'checked' : ''}
+	                />
+	                <label for="coverage_${index}">
+	                    ${item}
+	                </label>
+	            </div>
+	        `;
+
+	        riderList.append(checkboxHtml);
+	    });
+	}
+	// 계약 상세 함수
+	function loadContractData(contractId){
+		contractService.get(
+		    contractId,
+		    function (data) {
+		        $('#contractId').val(data.contractId);
+				
+				$('#customerName').val(data.customerName).prop('readonly',true);
+				$('#customerId').val(data.customerId);
+				
+				$('#insuredName').val(data.insuredName).prop('readonly',true);
+				$('#insuredId').val(data.insuredId);
+				
+				$('#productName').val(data.productName).prop('readonly',true);
+				$('#productId').val(data.productId);
+				
+				getCoverageById(data.productId,data.contractCoverage);
+				
+				$('#regDate').val(data.regDate).prop('readonly',true);
+				$('#expiredDate').val(data.expiredDate);
+				$('#premiumAmount').val(data.premiumAmount);
+				$('#paymentCycle').val(data.paymentCycle);
+				
+				$('#adminName').val(data.adminName);
+				$('#adminIdx').val(data.adminIdx);
+				$('#contractStatus').val(data.contractStatus);
+		    },
+		    function (err) {
+		        console.error(err);
+		    }
+		);
+	}
 	// 계약 수정
 	$(document).on('click', '.modifyContract', function() {
 		const form = $('#contractForm');
@@ -334,26 +429,13 @@ $(document).ready(()=>{
 			function (response) {
 	            showAlert('success', '계약이 수정되었습니다.');
 	            closeContractModal();
-	            showList(pageNum);
+	            location.href = `/admin/contract/view?contractId=${jsonForm.contractId}`
 	        },
 	        function (errorMsg) {
 	            showAlert('error', errorMsg);
 	        }
 		);
     });
-	// 계약 상세 함수
-	async function loadContractData(contractId){
-		try{
-			const getContract = await contractService.get(contractId);
-			$('#customerName').val(getContract.customerName).attr('readonly', true);
-			$('#customerId').val(getContract.customerId).attr('readonly', true);
-			$('#insuredName').val(getContract.insuredName).attr('readonly', true);
-			$('#insuredId').val(getContract.insuredId).attr('readonly', true);			
-		} catch(error) {
-			console.error('오류 발생:', error);
-		}
-	}
-	
 	
 	
 	

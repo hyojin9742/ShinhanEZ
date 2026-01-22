@@ -46,6 +46,13 @@ public class ContractController {
         }
 		return "/admin/contract_list";
 	}
+	// 계약 상세 보기
+	@GetMapping("/view")
+	public String contractView(@RequestParam int contractId, Model model) {
+		Contracts contract = service.readOneContract(contractId);
+		model.addAttribute("contract",contract);
+		return "/admin/contract_view";
+	}
 	
 	/* ================================== REST 처리 ================================== */
 	// 계약 목록 조회
@@ -56,13 +63,7 @@ public class ContractController {
 			){
 		return ResponseEntity.ok(service.readAllList(pageNum, pageSize));
 	}
-	// 계약 상세 보기
-	@GetMapping("/view")
-	public String contractView(@RequestParam int contractId, Model model) {
-		Contracts contract = service.readOneContract(contractId);
-		model.addAttribute("contract",contract);
-		return "/admin/contract_view";
-	}
+
 	// 계약 등록
 	@PostMapping(value = "/rest/register",consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Map<String,Object>> registerContract(@RequestBody Contracts contract) {
@@ -98,6 +99,12 @@ public class ContractController {
 	@GetMapping(value = "/search/insurances", produces = "application/json")
 	public ResponseEntity<List<Insurance>> searchInsuranceByName(@RequestParam String productName){
 		List<Insurance> searchResult =  service.searchInsuranceByName(productName);
+		return ResponseEntity.ok(searchResult);
+	}
+	// 상품 번호 보험 검색
+	@GetMapping(value = "search/insurances/{productNo}", produces = "application/json")
+	public ResponseEntity<Insurance> searchInsuranceById(@PathVariable Long productNo){
+		Insurance searchResult =  service.searchInsuranceById(productNo);
 		return ResponseEntity.ok(searchResult);
 	}
 	// 관리자 검색

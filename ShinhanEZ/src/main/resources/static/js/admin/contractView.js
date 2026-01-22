@@ -1,6 +1,5 @@
 $(document).ready(()=>{
-	const productName = $('#productName').val();
-	let products = [];
+	const productId = $('#productId').val();
 	/* ajax 처리 */
 	
 	/* 모달 */
@@ -34,18 +33,16 @@ $(document).ready(()=>{
 	$(document).on('click', '.contract-update', function (e) {
 	    e.preventDefault();
 		openContractModal();
-		coverageChk(productName);
+		getCoverageById(productId);
 	});
 	// 보장 목록 ajax 처리
-	function coverageChk(productName) {
-		// 현재 계약의 보장내역 가져오기
+	function getCoverageById(productId) {
 		const currentCoverages = $('.currentCoverage').text().split(',').map(c => c.trim());
 		console.log('currentCoverages : '+currentCoverages);
-		contractService.ajaxAutoComplete(
-			'/admin/contract/search/insurances',
-			{ productName: productName },
-			function(coverages) {
-				renderCoverages(coverages, currentCoverages);
+		contractService.getProductById(
+			productId,
+			function(coverage) {
+				renderCoverages(coverage, currentCoverages);
 			},
 			function(xhr, status, error) {
 				showAlert('error', '보장내역을 불러오는데 실패했습니다.');
@@ -54,44 +51,40 @@ $(document).ready(()=>{
 	}
 	
 	// 보장내역 체크박스 렌더링
-	function renderCoverages(coverages, currentCoverages) {
+	function renderCoverages(coverage, currentCoverages) {
 		const riderList = $('.riderList');
 		riderList.empty();
 		
-		if (!coverages || coverages.length === 0) {
-			riderList.append('<p class="text-muted">선택 가능한 특약이 없습니다.</p>');
+		if (!coverage || !coverage.coverageRange) {
+			riderList.append('<p class="text-muted">보장내역이 없습니다.</p>');
 			return;
 		}
-				
-		coverages.forEach((coverage,index) => {
-			// coverageRange를 쉼표로 분리
-			if (coverage.coverageRange) {
-				const coverageItems = coverage.coverageRange.split(',').map(item => item.trim());
-				console.log('coverageItems : '+coverageItems);
-				coverageItems.forEach((item) => {
-					// '주계약'이 아닌 경우만 체크박스 생성
-					if (item !== '주계약' && item !== '') {
-						const isChecked = currentCoverages.includes(item);
+	    const coverageItems = coverage.coverageRange
+	        .split(',')
+	        .map(item => item.trim());
 
-						const checkboxHtml = `
-							<div class="coverage-item">
-								<input
-									type="checkbox"
-									name="contractCoverage"
-									value="${item}"
-									id="coverage_${index}"
-									${isChecked ? 'checked' : ''}
-								/>
-								<label for="coverage_${index}">
-									${item}
-								</label>
-							</div>
-						`;
-						riderList.append(checkboxHtml);
-					}
-				});
-			}
-		});
+	    coverageItems.forEach((item, index) => {
+	        if (item === '주계약' || item === '') return;
+
+	        const isChecked = currentCoverages.includes(item);
+
+	        const checkboxHtml = `
+	            <div class="coverage-item">
+	                <input
+	                    type="checkbox"
+	                    name="contractCoverage"
+	                    value="${item}"
+	                    id="coverage_${index}"
+	                    ${isChecked ? 'checked' : ''}
+	                />
+	                <label for="coverage_${index}">
+	                    ${item}
+	                </label>
+	            </div>
+	        `;
+
+	        riderList.append(checkboxHtml);
+	    });
 	}
 	// 계약 수정
 	$(document).on('click', '#saveContract', function() {

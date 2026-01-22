@@ -199,7 +199,7 @@
 		                            <input type="hidden" id="adminIdx" name="adminIdx">
                             		<div class="autocomplete-results" id="adminResults"></div>
 		                        </div>
-		                        <div class="form-group">
+		                        <div class="form-group contractStatus">
 		                        	<label class="form-label">계약상태 <span>*</span></label>
 			                       	<input type="hidden" name="contractStatus" value="활성"/>
 			                       	<input type="checkbox" value="활성" checked disabled/>활성
@@ -209,7 +209,7 @@
 		            </div>
 		            <div class="modal-footer">
 		                <button type="button" class="btn btn-outline" id="cancelContract">취소</button>
-		                <button type="button" class="btn btn-primary" id="saveContract">
+		                <button type="button" class="btn btn-primary registerContract" id="saveContract">
 		                    등록
 		                </button>
 		            </div>

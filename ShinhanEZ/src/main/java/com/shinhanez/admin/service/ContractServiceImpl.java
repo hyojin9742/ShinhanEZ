@@ -93,6 +93,11 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
+	public Insurance searchInsuranceById(Long productNo) {
+		return mapper.searchInsuranceById(productNo);
+	}
+	
+	@Override
 	public List<Admins> searchAdminsByName(String adminName) {
 		return mapper.searchAdminsByName(adminName);
 	}
@@ -121,6 +126,7 @@ public class ContractServiceImpl implements ContractService {
 			throw new IllegalArgumentException("관리자 번호는 필수입니다");			
 		}
 	}// /validateContract
+	
 	public void validateRegister(Contracts contract) {
 		if(contract.getCustomerId() == null ) {
 			throw new IllegalArgumentException("고객 번호는 필수입니다");

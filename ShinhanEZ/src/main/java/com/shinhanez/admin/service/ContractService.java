@@ -3,6 +3,8 @@ package com.shinhanez.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
@@ -23,6 +25,8 @@ public interface ContractService {
 	public List<Customer> searchCustomerByName(String cutomerName);
 	// 보험 검색
 	public List<Insurance> searchInsuranceByName(String productName);
+	// 상품번호 보험 검색
+	public Insurance searchInsuranceById(Long productNo);
 	// 관리자 검색
 	public List<Admins> searchAdminsByName(String adminName);
 }

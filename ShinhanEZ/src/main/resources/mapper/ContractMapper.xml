@@ -170,6 +170,15 @@
 		)
 		WHERE ROWNUM <![CDATA[<=]]> 50
 	</select>
+	<!-- 상품 번호 검색 -->
+	<select id="searchInsuranceById" resultType="com.shinhanez.admin.domain.Insurance">
+	 SELECT 
+        productno AS productNo,
+        productname AS productName,
+        coveragerange AS coverageRange
+    FROM shez_insurances
+	WHERE productno = #{productNo}
+	</select>
 	<!-- 관리자 -->
 	<select id="searchAdminsByName" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT adminIdx, adminName, adminRole
