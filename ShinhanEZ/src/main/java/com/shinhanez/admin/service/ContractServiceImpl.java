@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
@@ -25,44 +26,45 @@ public class ContractServiceImpl implements ContractService {
 		
 	// 계약 목록 조회
 	@Override
-	public Map<String, Object> readAllList(int pageNum, int pageSize) {
+	public Map<String, Object> readAllList(int pageNum, int pageSize, ContractSearchCriteria criteria ) {
 		
 		log.info("전체 계약 조회 | 페이지 번호 : "+pageNum+" 페이지 크기 : "+pageSize);
 		
-		int totalDB = mapper.countAllContracts();
+		int totalDB = mapper.countAllContracts(criteria);
 		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
 		Map<String, Object> paging = new HashMap<>();
 		paging.put("paging", pagingObj);
 		paging.put("hasPrev", pagingObj.hasPrev());
 		paging.put("hasNext", pagingObj.hasNext());
 		
-		List<Contracts> allList = mapper.selectAllContractList(pagingObj.startRow(), pagingObj.endRow());
+		List<Contracts> allList = mapper.selectAllContractList(pagingObj.startRow(), pagingObj.endRow(), criteria);
 		
 		Map<String, Object> contractLists = new HashMap<>();
 		contractLists.put("paging", paging);
 		contractLists.put("allList", allList);
+		contractLists.put("criteria", criteria);
 		
 		return contractLists;
 	}	
 	// 계약 단건 조회
 	@Override
-	public Contracts readOneContract(Integer ctrId) {
-		log.info("단건 조회 서비스 계약번호 "+ctrId);
-		Contracts contract = mapper.selectOneContract(ctrId);
+	public Contracts readOneContract(Integer contractId) {
+		log.info("단건 조회 서비스 계약번호 "+contractId);
+		Contracts contract = mapper.selectOneContract(contractId);
 		if(contract == null) {
-			throw new IllegalArgumentException("없는 계약 번호입니다 : "+ctrId);
+			throw new IllegalArgumentException("없는 계약 번호입니다 : "+contractId);
 		}
 		return contract;
 	}
 	// 계약 등록
 	@Transactional
 	@Override
-	public int registerContract(Contracts ctr) {
-		log.info("등록 서비스 : "+ctr);
-		validateRegister(ctr);
-		validateContract(ctr);
+	public int registerContract(Contracts contract) {
+		log.info("등록 서비스 : "+contract);
+		validateRegister(contract);
+		validateContract(contract);
 		
-		int registerResult = mapper.insertContract(ctr);
+		int registerResult = mapper.insertContract(contract);
 		if(registerResult != 1) {
 			throw new RuntimeException("등록에 실패했습니다.");
 		}
@@ -72,10 +74,10 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 수정
 	@Transactional
 	@Override
-	public int updateContract(Contracts ctr) {
-		log.info("수정 서비스 : "+ctr);
-		validateContract(ctr);
-		int updateResult = mapper.updateContract(ctr);
+	public int updateContract(Contracts contract) {
+		log.info("수정 서비스 : "+contract);
+		validateContract(contract);
+		int updateResult = mapper.updateContract(contract);
 		if(updateResult != 1) {
 			throw new RuntimeException("수정에 실패했습니다.");
 		}
@@ -92,6 +94,11 @@ public class ContractServiceImpl implements ContractService {
 		return mapper.searchInsuranceByName(productName);
 	}
 
+	@Override
+	public Insurance searchInsuranceById(Long productNo) {
+		return mapper.searchInsuranceById(productNo);
+	}
+	
 	@Override
 	public List<Admins> searchAdminsByName(String adminName) {
 		return mapper.searchAdminsByName(adminName);
@@ -117,10 +124,11 @@ public class ContractServiceImpl implements ContractService {
 		if(contract.getContractStatus() ==  null ) {
 			throw new IllegalArgumentException("계약 상태는 필수입니다");			
 		}
-		if(contract.getAdminId() ==  null ) {
+		if(contract.getAdminIdx() ==  null ) {
 			throw new IllegalArgumentException("관리자 번호는 필수입니다");			
 		}
 	}// /validateContract
+	
 	public void validateRegister(Contracts contract) {
 		if(contract.getCustomerId() == null ) {
 			throw new IllegalArgumentException("고객 번호는 필수입니다");

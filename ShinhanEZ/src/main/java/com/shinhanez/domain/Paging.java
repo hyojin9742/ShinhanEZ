@@ -30,7 +30,7 @@ public class Paging {
 	}
 	
 	public boolean hasPrev() {
-		return pageNum>1;
+		return startPage>1;
 	}
 	public boolean hasNext() {
 		return endPage<totalPages;

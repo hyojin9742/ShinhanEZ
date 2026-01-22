@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 
 import lombok.extern.log4j.Log4j2;
@@ -29,8 +30,8 @@ public class ContractServiceTest {
 	}
 	// 계약 목록 조회
 	@Test
-	public void readAllListTest() {
-		service.readAllList(1, 10).forEach(
+	public void readAllListTest(ContractSearchCriteria criteria) {
+		service.readAllList(1, 10, criteria).forEach(
 				(paging,list)->log.info("페이징 : " + paging + "list : "+list)
 				);;
 	}
@@ -60,7 +61,7 @@ public class ContractServiceTest {
 		ct.setPremiumAmount(70000);
 		ct.setPaymentCycle("분기납");
 		ct.setContractStatus("활성");
-		ct.setAdminId(4);
+		ct.setAdminIdx(4);
 		log.info("등록 테스트 => "+service.registerContract(ct));
 	}
 	// 계약 수정
@@ -73,7 +74,7 @@ public class ContractServiceTest {
 		ctu.setPremiumAmount(90000);
 		ctu.setPaymentCycle("일시납");
 		ctu.setContractStatus("해지");
-		ctu.setAdminId(2);
+		ctu.setAdminIdx(2);
 		ctu.setContractId(5);
 		
 		log.info("수정 테스트 => "+service.updateContract(ctu));

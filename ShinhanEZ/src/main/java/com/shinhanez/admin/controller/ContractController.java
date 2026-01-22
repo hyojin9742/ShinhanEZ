@@ -3,9 +3,12 @@ package com.shinhanez.admin.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.ContractServiceImpl;
+import com.shinhanez.domain.ShezUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,25 +35,37 @@ import lombok.RequiredArgsConstructor;
 public class ContractController {
 	private final ContractServiceImpl service;
 	
+	private boolean isAdmin(HttpSession session) {
+        ShezUser user = (ShezUser) session.getAttribute("loginUser");
+        return user != null && "ROLE_ADMIN".equals(user.getRole());
+    }
+	
 	@GetMapping("/list")
-	public String moveContact() {
+	public String contractList(HttpSession session) {
+		if (!isAdmin(session)) {
+            return "redirect:/member/login?error=auth";
+        }
 		return "/admin/contract_list";
+	}
+	// 계약 상세 보기
+	@GetMapping("/view")
+	public String contractView(@RequestParam int contractId, Model model) {
+		Contracts contract = service.readOneContract(contractId);
+		model.addAttribute("contract",contract);
+		return "/admin/contract_view";
 	}
 	
 	/* ================================== REST 처리 ================================== */
 	// 계약 목록 조회
 	@GetMapping(value = "/rest" , produces = "application/json")
 	public ResponseEntity<Map<String, Object>> showContractList(
-				@RequestParam("pageNum") int pageNum,
-				@RequestParam("pageSize") int pageSize
+				@RequestParam int pageNum,
+				@RequestParam int pageSize,
+				ContractSearchCriteria criteria
 			){
-		return ResponseEntity.ok(service.readAllList(pageNum, pageSize));
+		return ResponseEntity.ok(service.readAllList(pageNum, pageSize, criteria));
 	}
-	// 계약 단건 조회
-	@GetMapping("/rest/{ctrId}")
-    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer ctrId) {
-        return ResponseEntity.ok(service.readOneContract(ctrId));
-    }
+
 	// 계약 등록
 	@PostMapping(value = "/rest/register",consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Map<String,Object>> registerContract(@RequestBody Contracts contract) {
@@ -56,13 +73,18 @@ public class ContractController {
 	    return ResponseEntity.status(HttpStatus.CREATED)
 	            .body(Map.of("message", "계약 등록 성공","registerResult",registerResult));
 	}
-	@RequestMapping(value = "/rest/update/{ctrId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
+	// 계약 단건 조회
+	@GetMapping("/rest/{contractId}")
+    public ResponseEntity<Contracts> showOneContract(@PathVariable Integer contractId) {
+        return ResponseEntity.ok(service.readOneContract(contractId));
+    }
+	// 계약 수정
+	@RequestMapping(value = "/rest/update/{contractId}", method = {RequestMethod.PUT, RequestMethod.PATCH},
 			consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> updateContract(
-            @PathVariable Integer ctrId,
+            @PathVariable Integer contractId,
             @RequestBody Contracts contract) {
-
-        contract.setContractId(ctrId);
+        contract.setContractId(contractId);
         int updateResult = service.updateContract(contract);
 
         return ResponseEntity.ok(Map.of("message", "계약 수정 성공","updateResult",updateResult));
@@ -81,9 +103,15 @@ public class ContractController {
 		List<Insurance> searchResult =  service.searchInsuranceByName(productName);
 		return ResponseEntity.ok(searchResult);
 	}
+	// 상품 번호 보험 검색
+	@GetMapping(value = "search/insurances/{productNo}", produces = "application/json")
+	public ResponseEntity<Insurance> searchInsuranceById(@PathVariable Long productNo){
+		Insurance searchResult =  service.searchInsuranceById(productNo);
+		return ResponseEntity.ok(searchResult);
+	}
 	// 관리자 검색
 	@GetMapping(value = "/search/admins", produces = "application/json")
-	public ResponseEntity<List<Admins>> searchSdminsByName(@RequestParam String adminName){
+	public ResponseEntity<List<Admins>> searchAdminsByName(@RequestParam String adminName){
 		List<Admins> searchResult =  service.searchAdminsByName(adminName);
 		return ResponseEntity.ok(searchResult);
 	}

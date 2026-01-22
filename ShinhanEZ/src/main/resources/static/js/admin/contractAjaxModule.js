@@ -27,11 +27,11 @@ let contractService = (function(){
 		}); 
 	}
 	
-	/* 계약 단건 읽기 | 처리 필요 */
-	function get(ctrId, callback, error) {
+	/* 계약 단건 읽기 */
+	function get(contractId, callback, error) {
 		$.ajax({
 			type: "get",
-			url: "/rest/" + ctrId,
+			url: "/admin/contract/rest/" + contractId,
 			success: function (result, status, xhr) {
 				if (callback) {
 					callback(result);
@@ -69,23 +69,25 @@ let contractService = (function(){
 		});
 	}
    
-	/* 계약 수정 | 처리 필요  */
-	function update(reply, callback, error) {
+	/* 계약 수정  */
+	function update(contract, callback, error) {
 		$.ajax({
 			type: "put",
-			url: "/replies/" + reply.rno,
-			data: JSON.stringify(reply),
+			url: "/admin/contract/rest/update/" + contract.contractId,
+			data: JSON.stringify(contract),
 			contentType: "application/json; charset=utf-8",
-			success: function (result2, status, xhr) {
-			if (callback) {
-				callback(result2);
-				}
+			success: function (result, status, xhr) {
+				if (callback) {
+					callback(result);
+				} else { 
+					if (error) error(response.message || '저장실패'); 
+				} 
 			},
-			error: function (xhr, status, er) {
+			error: function (xhr, status, error) {
 				if (error) {
-					error(er);
+					if (error) error('서버 오류가 발생했습니다.'); 
 				}
-			},
+			}
 		});
 	}
 	
@@ -127,7 +129,24 @@ let contractService = (function(){
 	        }
 	    });
 	}
-	
+	/* 상품번호 이용 보험 정보 가져오기 */
+	function getProductById(productId, success, error){
+		$.ajax({
+	        url: '/admin/contract/search/insurances/'+productId,
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function (res) {
+	            if (success) {
+	                success(res);
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            if (error) {
+	                error(xhr, status, error);
+	            }
+	        }
+	    });
+	}
 	
 	return {
 		getList: getList,
@@ -135,6 +154,7 @@ let contractService = (function(){
 		save: save,
 		update: update,
 		displayTime: displayTime,
-		ajaxAutoComplete: ajaxAutoComplete
+		ajaxAutoComplete: ajaxAutoComplete,
+		getProductById: getProductById
 	};
 })();

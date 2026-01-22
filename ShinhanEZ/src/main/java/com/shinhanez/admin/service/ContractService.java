@@ -3,26 +3,31 @@ package com.shinhanez.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 
 public interface ContractService {
 	// 계약 목록 조회
-	public Map<String, Object> readAllList(int pageNum, int pageSize);
+	public Map<String, Object> readAllList(int pageNum, int pageSize, ContractSearchCriteria criteria);
 	// 계약 단건 조회
-	public Contracts readOneContract(Integer ctrId);
+	public Contracts readOneContract(Integer contractId);
 	// 계약 등록
-	public int registerContract(Contracts ctr);
+	public int registerContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts ctr);
+	public int updateContract(Contracts contract);
 	
 	/* 자동완성 */
 	// 고객명 검색
 	public List<Customer> searchCustomerByName(String cutomerName);
 	// 보험 검색
 	public List<Insurance> searchInsuranceByName(String productName);
+	// 상품번호 보험 검색
+	public Insurance searchInsuranceById(Long productNo);
 	// 관리자 검색
 	public List<Admins> searchAdminsByName(String adminName);
 }

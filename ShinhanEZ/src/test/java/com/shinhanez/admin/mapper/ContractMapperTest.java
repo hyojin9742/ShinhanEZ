@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.ContractMapper;
 
@@ -32,13 +33,13 @@ public class ContractMapperTest {
 	}
 	
 	@Test
-	public void allContractListTest() {
-		cmapper.selectAllContractList(0, 10).forEach(list -> log.info("전체 목록 조회 => "+list));
+	public void allContractListTest(ContractSearchCriteria criteria) {
+		cmapper.selectAllContractList(0, 10, criteria).forEach(list -> log.info("전체 목록 조회 => "+list));
 	}
 	
 	@Test
-	public void countAllContractsTest() {
-		int count = cmapper.countAllContracts();
+	public void countAllContractsTest(ContractSearchCriteria criteria) {
+		int count = cmapper.countAllContracts(criteria);
 		log.info("전체 레코드 개수 : "+count);
 	}
 	
@@ -67,7 +68,7 @@ public class ContractMapperTest {
 		ct.setPremiumAmount(70000);
 		ct.setPaymentCycle("분기납");
 		ct.setContractStatus("활성");
-		ct.setAdminId(4);
+		ct.setAdminIdx(4);
 		
 		log.info("등록 테스트 => "+cmapper.insertContract(ct));
 	}
@@ -81,7 +82,7 @@ public class ContractMapperTest {
 		ctu.setPremiumAmount(90000);
 		ctu.setPaymentCycle("일시납");
 		ctu.setContractStatus("해지");
-		ctu.setAdminId(2);
+		ctu.setAdminIdx(2);
 		ctu.setContractId(5);
 		
 		log.info("수정 테스트 => "+cmapper.updateContract(ctu));
