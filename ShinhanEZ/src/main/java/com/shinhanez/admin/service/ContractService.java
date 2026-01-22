@@ -6,13 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 
 public interface ContractService {
 	// 계약 목록 조회
-	public Map<String, Object> readAllList(int pageNum, int pageSize);
+	public Map<String, Object> readAllList(int pageNum, int pageSize, ContractSearchCriteria criteria);
 	// 계약 단건 조회
 	public Contracts readOneContract(Integer contractId);
 	// 계약 등록

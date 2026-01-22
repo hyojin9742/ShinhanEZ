@@ -103,30 +103,31 @@ update_date,
 admin_idx,
 admin_name
 FROM (
-SELECT 
-    c.contract_id,
-    c.customer_id,
-    cu.name AS customer_name,
-    c.insured_id,
-    ins.name AS insured_name,
-    c.product_id,
-    p.productname AS product_name,
-    c.reg_date,
-    c.expired_date,
-    c.contract_status,
-    c.premium_amount,
-    c.payment_cycle,
-    c.update_date,
-    c.admin_idx,
-    ad.admin_name AS admin_name,
-    ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
-FROM 
-    shez_contracts c
-    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
-    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
-    INNER JOIN shez_insurances p ON c.product_id = p.productno
-    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-)
+    SELECT 
+        c.contract_id,
+        c.customer_id,
+        cu.name AS customer_name,
+        c.insured_id,
+        ins.name AS insured_name,
+        c.product_id,
+        p.productname AS product_name,
+        c.reg_date,
+        c.expired_date,
+        c.contract_status,
+        c.premium_amount,
+        c.payment_cycle,
+        c.update_date,
+        c.admin_idx,
+        ad.admin_name AS admin_name,
+        ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
+    FROM 
+        shez_contracts c
+        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+        INNER JOIN shez_insurances p ON c.product_id = p.productno
+        INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+    WHERE contract_id = 12
+    )
 WHERE rn BETWEEN 0 + 1 AND 10;
 
 -- 계약 건수 조회
@@ -213,11 +214,11 @@ FROM (
 WHERE ROWNUM <= 50;
 -- 상품 번호 보험 검색
 SELECT 
-        productno AS productNo,
-        productname AS productName,
-        coveragerange AS coverageRange
-    FROM shez_insurances
-	WHERE productno = #{productNo}
+    productno AS productNo,
+    productname AS productName,
+    coveragerange AS coverageRange
+FROM shez_insurances
+WHERE productno = 2;
 -- 관리자 검색
 SELECT adminIdx, adminName, adminRole
 FROM (

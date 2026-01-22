@@ -34,31 +34,31 @@
 	            
 	            <!-- 검색 영역 -->
 	            <div class="payment-search">
-	                <form class="search-row" action="/admin/contract/list" method="get">
+	                <form class="search-row contractSearchForm">
 	                	<div class="form-group searchCondition">
 		                	<div class="form-group contractSearchType">
 			                    <div class="form-group">
 			                        <label class="form-label">검색조건</label>
 			                        <select class="form-select select-sm" name="searchType">
-			                            <option value="allType" ${searchType == 'contractId' ? 'selected' : ''}>전체</option>
-			                            <option value="contractId" ${searchType == 'contractId' ? 'selected' : ''}>계약번호</option>
-			                            <option value="contractName" ${searchType == 'contractName' ? 'selected' : ''}>계약자명</option>
-			                            <option value="productName" ${searchType == 'productName' ? 'selected' : ''}>상품명</option>
-			                            <option value="adminName" ${searchType == 'adminName' ? 'selected' : ''}>담당관리자</option>
+			                            <option value="allType">전체</option>
+			                            <option value="contractId" >계약번호</option>
+			                            <option value="contractName">계약자명</option>
+			                            <option value="productName">상품명</option>
+			                            <option value="adminName">담당관리자</option>
 			                        </select>
 			                    </div>
 			                    <div class="form-group">
 			                        <label class="form-label">검색어</label>
-			                        <input type="text" class="form-control input-md" name="searchKeyword" placeholder="검색어 입력" value="${searchKeyword}">
+			                        <input type="text" class="form-control input-md" name="searchKeyword" placeholder="검색어 입력" value="">
 			                    </div>
 		                	</div>
 		                	<div class="form-group searchContractDate">
 			                    <div class="form-group">
 			                        <label class="form-label">검색기간</label>
-			                        <select class="form-select select-sm" name="contractDate">
-			                            <option value="" ${contractDate == '' ? 'selected' : ''}>검색기준일</option>
-			                            <option value="regDate" ${contractDate == 'regDate' ? 'selected' : ''}>계약일</option>
-			                            <option value="expiredDate" ${contractDate == 'expiredDate' ? 'selected' : ''}>만료일</option>
+			                        <select class="form-select select-sm" name="dateCriteria">
+			                            <option value="">검색기준일</option>
+			                            <option value="regDate">계약일</option>
+			                            <option value="expiredDate">만료일</option>
 			                        </select>
 			                    </div>
 			                    <div class="form-group">
@@ -73,9 +73,9 @@
 			                        <label class="form-label">계약상태</label>
 			                        <select class="form-select select-xs" name="contractStatus">
 			                            <option value="">전체</option>
-			                            <option value="활성" ${contractStatus == '활성' ? 'selected' : ''}>활성</option>
-			                            <option value="만료" ${contractStatus == '만료' ? 'selected' : ''}>만료</option>
-			                            <option value="해지" ${contractStatus == '해지' ? 'selected' : ''}>해지</option>
+			                            <option value="활성">활성</option>
+			                            <option value="만료">만료</option>
+			                            <option value="해지">해지</option>
 			                        </select>
 			                    </div>
 		                	</div>

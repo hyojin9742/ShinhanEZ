@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
@@ -25,22 +26,23 @@ public class ContractServiceImpl implements ContractService {
 		
 	// 계약 목록 조회
 	@Override
-	public Map<String, Object> readAllList(int pageNum, int pageSize) {
+	public Map<String, Object> readAllList(int pageNum, int pageSize, ContractSearchCriteria criteria ) {
 		
 		log.info("전체 계약 조회 | 페이지 번호 : "+pageNum+" 페이지 크기 : "+pageSize);
 		
-		int totalDB = mapper.countAllContracts();
+		int totalDB = mapper.countAllContracts(criteria);
 		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
 		Map<String, Object> paging = new HashMap<>();
 		paging.put("paging", pagingObj);
 		paging.put("hasPrev", pagingObj.hasPrev());
 		paging.put("hasNext", pagingObj.hasNext());
 		
-		List<Contracts> allList = mapper.selectAllContractList(pagingObj.startRow(), pagingObj.endRow());
+		List<Contracts> allList = mapper.selectAllContractList(pagingObj.startRow(), pagingObj.endRow(), criteria);
 		
 		Map<String, Object> contractLists = new HashMap<>();
 		contractLists.put("paging", paging);
 		contractLists.put("allList", allList);
+		contractLists.put("criteria", criteria);
 		
 		return contractLists;
 	}	

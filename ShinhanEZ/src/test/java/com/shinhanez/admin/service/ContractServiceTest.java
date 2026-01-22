@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 
 import lombok.extern.log4j.Log4j2;
@@ -29,8 +30,8 @@ public class ContractServiceTest {
 	}
 	// 계약 목록 조회
 	@Test
-	public void readAllListTest() {
-		service.readAllList(1, 10).forEach(
+	public void readAllListTest(ContractSearchCriteria criteria) {
+		service.readAllList(1, 10, criteria).forEach(
 				(paging,list)->log.info("페이징 : " + paging + "list : "+list)
 				);;
 	}

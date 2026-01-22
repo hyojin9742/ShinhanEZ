@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.ContractMapper;
 
@@ -32,13 +33,13 @@ public class ContractMapperTest {
 	}
 	
 	@Test
-	public void allContractListTest() {
-		cmapper.selectAllContractList(0, 10).forEach(list -> log.info("전체 목록 조회 => "+list));
+	public void allContractListTest(ContractSearchCriteria criteria) {
+		cmapper.selectAllContractList(0, 10, criteria).forEach(list -> log.info("전체 목록 조회 => "+list));
 	}
 	
 	@Test
-	public void countAllContractsTest() {
-		int count = cmapper.countAllContracts();
+	public void countAllContractsTest(ContractSearchCriteria criteria) {
+		int count = cmapper.countAllContracts(criteria);
 		log.info("전체 레코드 개수 : "+count);
 	}
 	

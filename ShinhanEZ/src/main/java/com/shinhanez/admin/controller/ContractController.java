@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
@@ -58,10 +59,11 @@ public class ContractController {
 	// 계약 목록 조회
 	@GetMapping(value = "/rest" , produces = "application/json")
 	public ResponseEntity<Map<String, Object>> showContractList(
-				@RequestParam("pageNum") int pageNum,
-				@RequestParam("pageSize") int pageSize
+				@RequestParam int pageNum,
+				@RequestParam int pageSize,
+				ContractSearchCriteria criteria
 			){
-		return ResponseEntity.ok(service.readAllList(pageNum, pageSize));
+		return ResponseEntity.ok(service.readAllList(pageNum, pageSize, criteria));
 	}
 
 	// 계약 등록

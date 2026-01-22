@@ -22,10 +22,64 @@
 	    <result property="adminId" column="admin_id"/>
 	    <result property="adminName" column="admin_name"/>
 	</resultMap>
-	
+	<sql id="searchCondition">
+	    <if test="criteria.searchKeyword != null and criteria.searchKeyword != ''">
+	        AND (
+	            <choose>
+	                <!-- 전체 검색 -->
+	                <when test="criteria.searchType == 'allType'">
+	                    c.contract_id LIKE '%' || #{criteria.searchKeyword} || '%'
+	                    OR cu.name LIKE '%' || #{criteria.searchKeyword} || '%'
+	                    OR p.productname LIKE '%' || #{criteria.searchKeyword} || '%'
+	                    OR ad.admin_name LIKE '%' || #{criteria.searchKeyword} || '%'
+	                </when>
+	                <!-- 계약번호 -->
+	                <when test="criteria.searchType == 'contractId'">
+	                    c.contract_id LIKE '%' || #{criteria.searchKeyword} || '%'
+	                </when>
+	                <!-- 계약자명 -->
+	                <when test="criteria.searchType == 'contractName'">
+	                    cu.name LIKE '%' || #{criteria.searchKeyword} || '%'
+	                </when>
+	                <!-- 상품명 -->
+	                <when test="criteria.searchType == 'productName'">
+	                    p.productname LIKE '%' || #{criteria.searchKeyword} || '%'
+	                </when>
+	                <!-- 담당관리자 -->
+	                <when test="criteria.searchType == 'adminName'">
+	                    ad.admin_name LIKE '%' || #{criteria.searchKeyword} || '%'
+	                </when>
+	            </choose>
+	        )
+	    </if>
+	    <!-- 일자 기준 검색 -->
+		<if test="criteria.dateCriteria != null and criteria.startDate != null and criteria.endDate != null">
+			<choose>
+				<when test="criteria.dateCriteria == 'regDate'">
+					AND c.reg_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}
+				</when>
+				<when test="criteria.dateCriteria == 'expiredDate'">
+					AND c.expired_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}
+				</when>
+			</choose>
+		</if>
+		<!-- 상태 기준 검색 -->
+		<if test="criteria.contractStatus != null and criteria.contractStatus != '전체'">
+			<choose>
+				<when test="criteria.contractStatus == '활성'">
+					AND contract_status = '활성'
+				</when>
+				<when test="criteria.contractStatus == '만료'">
+					AND contract_status = '만료'
+				</when>
+				<when test="criteria.contractStatus == '해지'">
+					AND contract_status = '해지'
+				</when>
+			</choose>
+		</if>
+	</sql>
 	<!-- 계약 목록 조회 -->
 	<select id="selectAllContractList" resultMap="contractListMap">
-		<![CDATA[
 		SELECT 
 		contract_id,
 		customer_id,
@@ -66,9 +120,9 @@
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
 		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		    <include refid="searchCondition"/>
 		)
 		WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
-		]]>
 	</select>
 	
 	<!-- 계약 전체 건수 -->
@@ -76,7 +130,10 @@
 		SELECT COUNT(*) FROM 
 			shez_contracts c
 			INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
-			INNER JOIN shez_insurances p ON c.product_id = p.productno
+		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+		    INNER JOIN shez_insurances p ON c.product_id = p.productno
+		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		<include refid="searchCondition"/>
 	</select>
 	
 	<!-- 계약 단건 조회 -->

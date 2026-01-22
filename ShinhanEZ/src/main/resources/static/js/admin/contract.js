@@ -1,6 +1,4 @@
 $(document).ready(()=>{
-	let pageNum = 1;
-	let pageSize = 10;
 	let products = [];
 	/* ajax 처리 */
 	/* 계약 목록 조회 */
@@ -9,20 +7,24 @@ $(document).ready(()=>{
 	showList();
 	
 	// 계약 리스트 조회
-	function showList(page = 1) {
-	    pageNum = page;
-
+	function showList(page,size,param) {
+	    pageNum = page || 1;
+		pageSize = size || 10;
 	    const searchParams = {
 	        pageNum: pageNum,
 	        pageSize: pageSize,
-	        searchType: $('select[name="searchType"]').val(),
-	        searchKeyword: $('input[name="searchKeyword"]').val(),
-	        contractDate: $('select[name="contractDate"]').val(),
-	        startDate: $('input[name="startDate"]').val(),
-	        endDate: $('input[name="endDate"]').val(),
-	        contractStatus: $('select[name="contractStatus"]').val()
+			searchType: $('select[name="searchType"]').val(),
+			searchKeyword: $('input[name="searchKeyword"]').val(),
+			contractStatus: $('select[name="contractStatus"]').val()
 	    };
+		const startDate = $('input[name="startDate"]').val();
+		const endDate = $('input[name="endDate"]').val();
+		const dateCriteria = $('select[name="dateCriteria"]').val();
 
+		if (startDate) searchParams.startDate = startDate;
+		if (endDate) searchParams.endDate = endDate;
+		if (dateCriteria) searchParams.dateCriteria = dateCriteria;
+		
 	    contractService.getList(
 	        searchParams,
 	        function(paging, allList, totalCount) {
@@ -99,14 +101,32 @@ $(document).ready(()=>{
 	    e.preventDefault();
 	    const page = $(this).data('page');
 	    if (page) {
-	        showList(page);
+	        showList(page,pageSize);
 	    }
+	});
+	// 페이지 사이즈 변경 이벤트
+	$(document).on('change', 'select[name="pageSize"]', function () {
+	    const newSize = parseInt($(this).val(), 10);
+
+	    pageSize = newSize;
+	    pageNum = 1; // 페이지 사이즈 바뀌면 1페이지부터
+
+	    showList(pageNum, pageSize);
 	});
 	// 총 건수 업데이트
 	function updateTotalCount(totalCount) {
 	    $('.totalContractInner').text(totalCount.toLocaleString());
 	}
-
+	// 검색 기능
+	$('.searchBtn button').on('click',function(e){
+		e.preventDefault();
+		let searchForm = $('.contractSearchForm');
+		let searchJsonForm = formToJson(searchForm);
+		const pageNum = $('a.activePage').data('page');
+		const pageSize = $('select[name="pageSize"]').val();
+		showList(pageNum,pageSize,searchJsonForm);
+		
+	})
 	/* 모달 */
     // 계약 등록 버튼 클릭
     $('.page-title-area .btn-primary').on('click', function(e) {
