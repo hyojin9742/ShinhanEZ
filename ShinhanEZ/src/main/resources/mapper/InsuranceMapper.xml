@@ -16,6 +16,65 @@
 	
 	
 	
+	<!--전체 목록  페이징, 검색 -->
+	<sql id="searchCriteria">
+        <where>
+            <if test="status != null and status != '' and status != 'all'">
+                AND status = #{status}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND productName LIKE '%' || #{keyword} || '%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectInsuranceList" resultType="com.shinhanez.admin.domain.Insurance">
+        SELECT * FROM (
+            SELECT A.*, ROWNUM AS RNUM 
+            FROM (
+                SELECT 
+                    productNo,
+                    productName,
+                    category,
+                    basePremium,
+                    coverageRange,
+                    coveragePeriod,
+                    status,
+                    createdDate
+                FROM SHEZ_INSURANCES
+                <include refid="searchCriteria" />
+                
+                ORDER BY productNo DESC
+            ) A
+            <![CDATA[
+            WHERE ROWNUM <= #{endRow}
+            ]]>
+        )
+        <![CDATA[
+        WHERE RNUM >= #{startRow}
+        ]]>
+    </select>
+
+    <select id="countInsurance" resultType="int">
+        SELECT COUNT(*)
+        FROM SHEZ_INSURANCES
+        <include refid="searchCriteria" />
+    </select>
+    
+    <!--삭제 -->
+    <delete id="deleteInsurance">
+        DELETE FROM SHEZ_INSURANCES 
+        WHERE productNo = #{productNo} 
+    </delete>
+	
+	
+	
+      
+	
+	
+	
+	
+	
 	
 	<!--상품 상세, 수정 페이지 포함  -->
 	<select id="get" parameterType="Long" resultType="com.shinhanez.admin.domain.Insurance">
