@@ -148,7 +148,7 @@
   cursor: text;
   pointer-events: none;
   transition: all 0.2s ease;
-  background: #fff;
+  background: transparent;
   padding: 0 4px;
   z-index: 2;
 }
