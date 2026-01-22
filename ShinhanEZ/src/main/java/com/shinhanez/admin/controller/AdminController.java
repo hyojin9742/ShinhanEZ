@@ -1,5 +1,6 @@
 package com.shinhanez.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,12 @@ import com.shinhanez.domain.ShezUser;
 /**
  * 관리자 컨트롤러
  * - 고객(보험자) CRUD
+ * - 페이징, 검색, 정렬, ID 중복체크
  */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
 	private AdminService adminService;
     private CustomerService customerService;
     @Autowired
@@ -39,20 +42,22 @@ public class AdminController {
     	this.adminService = adminService;
     	this.customerService = customerService;
     }
-    
+
     // 관리자 권한 체크
     private boolean isAdmin(HttpSession session) {
         ShezUser user = (ShezUser) session.getAttribute("loginUser");
         return user != null && "ROLE_ADMIN".equals(user.getRole());
     }
 
-    // 관리자 메인
+    // 관리자 메인 (고객 목록)
     @GetMapping({"", "/"})
     public String index(HttpSession session, Model model) {
         if (!isAdmin(session)) {
             return "redirect:/member/login?error=auth";
         }
-        model.addAttribute("name",session.getAttribute("adminName"));
+        List<Customer> customers = customerService.findAll();
+        model.addAttribute("customers", customers);
+        model.addAttribute("totalCount", customerService.count());
         return "admin/index";
     }
     /* Admin 페이지 */
@@ -90,17 +95,91 @@ public class AdminController {
     public ResponseEntity<Integer> deleteAdmin(@PathVariable int adminIdx, HttpSession session){
     	return ResponseEntity.ok(adminService.deleteAdmin(adminIdx, session));
     }
-
+    
     /* Customer Controller 이동 */
-    // 고객 목록
+    // 고객 목록 (페이징 + 검색 + 정렬)
     @GetMapping("/customer/list")
-    public String customerList(HttpSession session, Model model) {
+    public String customerList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchType,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "latest") String sortType,
+            HttpSession session, Model model) {
+
         if (!isAdmin(session)) {
             return "redirect:/member/login?error=auth";
         }
-        List<Customer> customers = customerService.findAll();
+
+        // 고객 목록 조회
+        List<Customer> customers = customerService.findByPage(page, size, searchType, keyword, sortType);
+        int totalCount = customerService.countBySearch(searchType, keyword);
+
+        // 페이징 계산
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        int blockSize = 5;
+        int startPage = ((page - 1) / blockSize) * blockSize + 1;
+        int endPage = Math.min(startPage + blockSize - 1, totalPages);
+
         model.addAttribute("customers", customers);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortType", sortType);
+
         return "admin/customer_list";
+    }
+    
+    // 고객 등록 폼
+    @GetMapping("/customer/register")
+    public String customerRegisterForm(HttpSession session) {
+        if (!isAdmin(session)) {
+            return "redirect:/member/login?error=auth";
+        }
+        return "admin/customer_register";
+    }
+
+    // 고객 등록 처리
+    @PostMapping("/customer/register")
+    public String customerRegister(Customer customer,
+            @RequestParam String passwordConfirm,
+            HttpSession session, Model model) {
+
+        if (!isAdmin(session)) {
+            return "redirect:/member/login?error=auth";
+        }
+
+        // 비밀번호 확인
+        if (!customer.getPassword().equals(passwordConfirm)) {
+            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+            model.addAttribute("customer", customer);
+            return "admin/customer_register";
+        }
+
+        // ID 중복 체크
+        if (customerService.existsById(customer.getCustomerId())) {
+            model.addAttribute("error", "이미 존재하는 고객 ID입니다.");
+            model.addAttribute("customer", customer);
+            return "admin/customer_register";
+        }
+
+        customerService.insert(customer);
+        return "redirect:/admin/customer/list";
+    }
+
+    // 고객 ID 중복 체크 (AJAX)
+    @GetMapping("/customer/checkId")
+    @ResponseBody
+    public Map<String, Object> checkCustomerId(@RequestParam String customerId) {
+        Map<String, Object> result = new HashMap<>();
+        boolean exists = customerService.existsById(customerId);
+        result.put("exists", exists);
+        result.put("message", exists ? "이미 사용 중인 ID입니다." : "사용 가능한 ID입니다.");
+        return result;
     }
 
     // 고객 상세
@@ -135,13 +214,13 @@ public class AdminController {
         return "redirect:/admin/customer/view?id=" + customer.getCustomerId();
     }
 
-    // 고객 삭제
+    // 고객 삭제 (비활성화 처리)
     @GetMapping("/customer/delete")
     public String customerDelete(@RequestParam String id, HttpSession session) {
         if (!isAdmin(session)) {
             return "redirect:/member/login?error=auth";
         }
-        customerService.delete(id);
+        customerService.deactivate(id);
         return "redirect:/admin/customer/list";
     }
 }
