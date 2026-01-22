@@ -90,7 +90,7 @@
                                 <span><fmt:formatDate value="${customer.regDate}" pattern="yyyy-MM-dd HH:mm"/></span>
                             </div>
                             <div class="detail-item">
-                                <label>권한</label>
+                                <label>상태</label>
                                 <span>${customer.role}</span>
                             </div>
                         </div>

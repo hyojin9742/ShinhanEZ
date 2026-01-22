@@ -158,7 +158,6 @@
                 <td>
                     <a href="${ctx}/admin/insurance/get?productNo=\${item.productNo}" class="btn btn-sm btn-outline" title="상세"><i class="bi bi-eye"></i></a>
                     <a href="${ctx}/admin/insurance/edit?productNo=\${item.productNo}" class="btn btn-sm btn-outline" title="수정"><i class="bi bi-pencil"></i></a>
-                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteInsurance('\${item.productNo}')" title="삭제"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>`;
         });
@@ -173,7 +172,7 @@
         let html = "";
 
         if (p.hasPrev) {
-            html += `<button onclick="loadBoard(\${p.startPage - 1})">&lt;</button> `;
+            html += `<button onclick="loadBoard(\${p.pageNum - 1})">&lt;</button> `;
         }
 
         for (let i = p.startPage; i <= p.endPage; i++) {
@@ -185,19 +184,14 @@
         }
 
         if (p.hasNext) {
-            html += `<button onclick="loadBoard(\${p.endPage + 1})">&gt;</button>`;
+            html += `<button onclick="loadBoard(\${p.pageNum + 1})">&gt;</button>`;
         }
 
         div.innerHTML = html;
     }
 
     
-	// 삭제
-    function deleteInsurance(productNo) {
-        if (confirm('정말 삭제하시겠습니까?\n상품번호: ' + productNo)) {
-            location.href = '${ctx}/admin/insurance/delete?productNo=' + productNo;
-        }
-    }
+	
 </script>
 
 </body>

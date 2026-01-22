@@ -79,6 +79,7 @@
                                 <th style="width:60px;">성별</th>
                                 <th style="width:130px;">연락처</th>
                                 <th>이메일</th>
+                                <th>상태</th>
                                 <th style="width:110px;">등록일</th>
                                 <th style="width:120px;">관리</th>
                             </tr>
@@ -101,6 +102,7 @@
                                 </td>
                                 <td>${c.phone}</td>
                                 <td>${c.email}</td>
+                                <td>${c.role}</td>
                                 <td><fmt:formatDate value="${c.regDate}" pattern="yyyy-MM-dd"/></td>
                                 <td>
                                     <a href="${ctx}/admin/customer/view?id=${c.customerId}"

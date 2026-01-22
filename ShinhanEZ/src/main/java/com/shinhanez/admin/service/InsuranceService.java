@@ -70,12 +70,6 @@ public class InsuranceService {
         return result;
     }
     
-    // 상품 삭제
- 	public void deleteInsurance(Long productNo) {
- 		insuranceMapper.deleteInsurance(productNo);
- 	}
-    
-    
 	// 상세보기
 	public Insurance getPlan(Long productNo){
 		return insuranceMapper.get(productNo);

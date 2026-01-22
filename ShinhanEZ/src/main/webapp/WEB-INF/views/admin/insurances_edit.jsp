@@ -12,7 +12,7 @@
     
     <!-- 사이드바 -->
     <jsp:include page="inc/sidebar.jsp">
-        <jsp:param name="menu" value="customer"/>
+        <jsp:param name="menu" value="Insurance"/>
     </jsp:include>
     
     <!-- 메인 영역 -->

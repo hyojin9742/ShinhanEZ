@@ -50,15 +50,7 @@ public class InsuranceController {
 
         return insuranceService.getInsuranceList(pageNum, status, keyword);
     }
-    
-    // [3] 삭제 처리
-    @GetMapping("/delete")
-    public String deleteInsurance(@RequestParam Long productNo) {
-        insuranceService.deleteInsurance(productNo);
-        return "redirect:/admin/insurance/list";
-    }
-    
-	  
+      
 	
 	//상세보기
 	@GetMapping("/get")

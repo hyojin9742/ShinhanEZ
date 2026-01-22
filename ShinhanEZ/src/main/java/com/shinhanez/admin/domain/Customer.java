@@ -2,6 +2,8 @@ package com.shinhanez.admin.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 고객(보험자) Entity
  * - customer 테이블과 매핑
@@ -10,12 +12,13 @@ public class Customer {
     private String customerId;      // 고객 ID (PK)
     private String password;        // 비밀번호
     private String name;            // 이름
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;         // 생년월일
     private String gender;          // 성별 (M/F)
     private String phone;           // 연락처
     private String email;           // 이메일
     private String address;         // 주소
-    private String role;            // 권한
+    private String role;          // 상태
     private Date regDate;           // 등록일
 
     // 기본 생성자
@@ -54,6 +57,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer [customerId=" + customerId + ", name=" + name + "]";
+        return "Customer [customerId=" + customerId + ", name=" + name + ",role="+role+"]";
     }
 }

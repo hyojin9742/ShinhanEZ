@@ -15,8 +15,7 @@ public interface InsuranceMapper {
 	List<Insurance> selectInsuranceList(Map<String, Object> params);
     int countInsurance(Map<String, Object> params);
     
-    //삭제
-    void deleteInsurance(Long productNo);
+    
 
 
     

@@ -3,51 +3,62 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shinhanez.admin.mapper.CustomerMapper">
-
+	<resultMap id="customerResultMap" type="com.shinhanez.admin.domain.Customer">
+		<id property="customerId" column="customer_id"/>
+	    <result property="password" column="password"/>
+	    <result property="name" column="name"/>
+	    <result property="birthDate" column="birth_date"/>
+	    <result property="gender" column="gender"/>
+	    <result property="phone" column="phone"/>
+	    <result property="email" column="email"/>
+	    <result property="address" column="address"/>
+	    <result property="role" column="status"/>
+	    <result property="regDate" column="reg_date"/>
+	</resultMap>
     <!-- 전체 고객 목록 (활성화된 고객만) -->
-    <select id="findAll" resultType="com.shinhanez.admin.domain.Customer">
+    <select id="findAll" resultMap="customerResultMap">
         SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
         FROM shez_customers
-        WHERE status = 'Y'
         ORDER BY reg_date DESC
     </select>
 
     <!-- 고객 목록 (페이징 + 검색 + 정렬) - Oracle 11g 호환 -->
-    <select id="findByPage" parameterType="map" resultType="com.shinhanez.admin.domain.Customer">
+    <select id="findByPage" parameterType="map" resultMap="customerResultMap">
         SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
         FROM (
             SELECT ROWNUM AS rn, t.*
             FROM (
                 SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
                 FROM shez_customers
-                WHERE status = 'Y'
-                <if test="searchType != null and keyword != null and keyword != ''">
-                    <choose>
-                        <when test="searchType == 'customerId'">
-                            AND customer_id LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="searchType == 'name'">
-                            AND name LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="searchType == 'phone'">
-                            AND phone LIKE '%' || #{keyword} || '%'
-                        </when>
-                        <when test="searchType == 'email'">
-                            AND email LIKE '%' || #{keyword} || '%'
-                        </when>
-                    </choose>
-                </if>
-                <choose>
-                    <when test="sortType == 'oldest'">
-                        ORDER BY reg_date ASC
-                    </when>
-                    <when test="sortType == 'name'">
-                        ORDER BY name ASC
-                    </when>
-                    <otherwise>
-                        ORDER BY reg_date DESC
-                    </otherwise>
-                </choose>
+                <where>
+	                <if test="searchType != null and keyword != null and keyword != ''">
+	                    <choose>
+	                        <when test="searchType == 'customerId'">
+	                            AND customer_id LIKE '%' || #{keyword} || '%'
+	                        </when>
+	                        <when test="searchType == 'name'">
+	                            AND name LIKE '%' || #{keyword} || '%'
+	                        </when>
+	                        <when test="searchType == 'phone'">
+	                            AND phone LIKE '%' || #{keyword} || '%'
+	                        </when>
+	                        <when test="searchType == 'email'">
+	                            AND email LIKE '%' || #{keyword} || '%'
+	                        </when>
+	                    </choose>
+	                </if>
+                </where>
+	                <choose>
+	                    <when test="sortType == 'oldest'">
+	                        ORDER BY reg_date ASC
+	                    </when>
+	                    <when test="sortType == 'name'">
+	                        ORDER BY name ASC
+	                    </when>
+	                    <otherwise>
+	                        ORDER BY reg_date DESC
+	                    </otherwise>
+	                </choose>
             ) t
             WHERE ROWNUM &lt;= #{offset} + #{size}
         )
@@ -57,27 +68,28 @@
     <!-- 검색 조건에 맞는 고객 수 카운트 -->
     <select id="countBySearch" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM shez_customers
-        WHERE status = 'Y'
-        <if test="searchType != null and keyword != null and keyword != ''">
-            <choose>
-                <when test="searchType == 'customerId'">
-                    AND customer_id LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="searchType == 'name'">
-                    AND name LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="searchType == 'phone'">
-                    AND phone LIKE '%' || #{keyword} || '%'
-                </when>
-                <when test="searchType == 'email'">
-                    AND email LIKE '%' || #{keyword} || '%'
-                </when>
-            </choose>
-        </if>
+        <where>
+	        <if test="searchType != null and keyword != null and keyword != ''">
+	            <choose>
+	                <when test="searchType == 'customerId'">
+	                    AND customer_id LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="searchType == 'name'">
+	                    AND name LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="searchType == 'phone'">
+	                    AND phone LIKE '%' || #{keyword} || '%'
+	                </when>
+	                <when test="searchType == 'email'">
+	                    AND email LIKE '%' || #{keyword} || '%'
+	                </when>
+	            </choose>
+	        </if>
+        </where>
     </select>
 
     <!-- 고객 상세 조회 -->
-    <select id="findById" parameterType="String" resultType="com.shinhanez.admin.domain.Customer">
+    <select id="findById" parameterType="String" resultMap="customerResultMap">
         SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
         FROM shez_customers
         WHERE customer_id = #{customerId}
@@ -118,7 +130,7 @@
 
     <!-- 활성화된 고객 수 카운트 -->
     <select id="count" resultType="int">
-        SELECT COUNT(*) FROM shez_customers WHERE status = 'Y'
+        SELECT COUNT(*) FROM shez_customers
     </select>
 
 </mapper>

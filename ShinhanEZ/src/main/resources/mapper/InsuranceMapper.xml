@@ -4,15 +4,7 @@
 
 <mapper namespace="com.shinhanez.admin.mapper.InsuranceMapper">
 	
-	<!--전체 목록  -->
-	<select id="allGet" resultType="com.shinhanez.admin.domain.Insurance">
-		select * from SHEZ_INSURANCES order by productNo desc
-	</select>
 	
-	<!--전체 목록  -->
-	<select id="allGet2" parameterType="String" resultType="com.shinhanez.admin.domain.Insurance">
-		select * from SHEZ_INSURANCES where STATUS=#{status} order by productNo desc
-	</select>
 	
 	
 	
