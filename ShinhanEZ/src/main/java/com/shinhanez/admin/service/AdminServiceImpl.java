@@ -1,6 +1,8 @@
 package com.shinhanez.admin.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.AdminMapper;
+import com.shinhanez.domain.Paging;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -24,9 +28,21 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 전체조회
 	@Override
-	public List<Admins> readAllAdmins() {
+	public Map<String, Object> readAllAdmins(int pageNum, int pageSize) {
 		log.info("service 전체조회 시행");
-		return mapper.selectAllAdmins();
+		int totalDB = mapper.countAllAdmins();
+		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
+		Map<String, Object> paging = new HashMap<>();
+		paging.put("paging", pagingObj);
+		paging.put("hasPrev", pagingObj.hasPrev());
+		paging.put("hasNext", pagingObj.hasNext());
+		
+		List<Admins> allList = mapper.selectAllAdmins(pagingObj.startRow(), pagingObj.endRow());
+		
+		Map<String, Object> adminLists = new HashMap<>();
+		adminLists.put("paging", paging);
+		adminLists.put("allList", allList);
+		return adminLists;
 	}
 	// 단건조회
 	@Override
