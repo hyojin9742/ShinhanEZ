@@ -114,7 +114,9 @@
             <div class="dashboard-row">
                 <div class="chart-container">
                     <div class="chart-title">📊 월별 계약 수</div>
+                    <select id="yearSelect"></select>
                     <canvas id="barChart" height="200"></canvas>
+                    
                 </div>
                 <div class="chart-container">
                     <div class="chart-title">🥧 상품별 계약 분포</div>
@@ -205,6 +207,8 @@
                 </div>
             </div>
             
+            
+            
         </main>
         
         <!-- 푸터 -->
@@ -216,15 +220,48 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+const container = document.getElementById('yearSelect');
+let chart;
+let chart2;
+
+function yearBtnCreate() {
+	fetch('/admin/dashboard/api/yearlist')
+	.then(res => res.json())
+	.then(years => {	    
+	    
+	    const option = document.createElement('option');
+	    const latestYear = Math.max(...years.map(y => parseInt(y)));
+	    years.forEach(year => {
+	        const option = document.createElement('option');
+	        option.value = year;
+            option.text = year;
+            if(parseInt(year) === latestYear) {
+                option.selected = true;
+            }
+	        container.appendChild(option);
+	    });
+	    changeYear(latestYear);
+	    changeYear2(latestYear);
+	});
+}
+
+yearBtnCreate();
+
+
+
+
+let monthLabels=[];
+let monthData=[];
 // 월별 계약 수 차트
-new Chart(document.getElementById('barChart'), {
+chart=new Chart(document.getElementById('barChart'), {
     type: 'bar',
     data: {
-        labels: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+        labels: monthLabels,
         datasets: [{
             label: '계약 수',
-            data: [3, 5, 4, 6, 8, 7, 9, 6, 5, 4, 3, 2],
-            backgroundColor: '#0d6efd'
+            data: monthData,
+            backgroundColor: [ '#ffc107','#0d6efd','#198754','#fd7e14', '#6f42c1','#0dcaf0','#d63384','#adb5bd', '#6610f2','#fd198c','#198754','#0d6efd' ]
         }]
     },
     options: { 
@@ -233,18 +270,66 @@ new Chart(document.getElementById('barChart'), {
     }
 });
 
+function changeYear(year){
+	if(!year) return;
+	fetch(`/admin/dashboard/api/list2?year=\${year}`)
+	.then(res => res.json())
+	.then(list => {
+		monthLabels.length = 0;
+      	monthData.length = 0;
+      	
+		list.forEach(i => {
+			monthLabels.push(i.regDate);
+			monthData.push(i.count);
+	    });
+		chart.update();
+		
+		})
+	    .catch(err => console.error(err));	
+}
+
+container.addEventListener("change", e => changeYear(e.target.value));
+
+
+	
+	
+let productLabels=[];
+let productData=[];
+
+
 // 상품별 계약 분포 차트
-new Chart(document.getElementById('pieChart'), {
+chart2=new Chart(document.getElementById('pieChart'), {
     type: 'pie',
     data: {
-        labels: ['실손보험', '암보험', '운전자보험'],
+        labels: productLabels,
         datasets: [{
-            data: [45, 35, 20],
-            backgroundColor: ['#0d6efd', '#198754', '#ffc107']
+            data: productData,
+            backgroundColor: [ '#ffc107','#0d6efd','#198754','#fd7e14', '#6f42c1','#0dcaf0','#d63384','#adb5bd', '#6610f2','#fd198c','#198754','#0d6efd' ]
         }]
     },
     options: { responsive: true }
 });
+
+function changeYear2(year){
+	if(!year) return;
+	fetch(`/admin/dashboard/api/list?year=\${year}`)
+	.then(res => res.json())
+	.then(list => {
+		productLabels.length = 0;
+		productData.length = 0;
+      	
+		list.forEach(i => {
+			productLabels.push(i.productName);
+			productData.push(i.count);
+	    });
+		chart2.update();
+		
+		})
+	    .catch(err => console.error(err));	
+}
+container.addEventListener("change", e => changeYear2(e.target.value));
+
+
 </script>
 </body>
 </html>

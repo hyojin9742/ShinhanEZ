@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.DashBoardMapper">
+	
+	
+	<!--연도별 상푼별 불러오기-->
+	<select id="allplan" resultType="com.shinhanez.admin.domain.DashBoard">
+		SELECT PRODUCTNAME as productName,COUNT(*) as count FROM 
+	    shez_contracts c 
+	    INNER JOIN shez_insurances p ON c.product_id = p.productno
+	    
+	    <where>
+	    	<if test="year != 'ALL'">
+				TO_CHAR(reg_date, 'YYYY') = #{year}
+			</if>
+	    </where>
+	    group by p.PRODUCTNAME
+	</select>
+	
+	<!--연도별 건수 불러오기  -->
+	<select id="monthlyplan" resultType="com.shinhanez.admin.domain.DashBoard">
+    SELECT TO_CHAR(reg_date,'YYYY-MM') as reg_date, count(*) as count 
+    FROM shez_contracts
+    where TO_CHAR(reg_date,'YYYY') = #{year}
+    GROUP BY TO_CHAR(reg_date,'YYYY-MM')
+	</select>
+
+	
+	
+	<!-- 연도 불러오기 -->
+	<select id="years" resultType="String">
+	    SELECT DISTINCT TO_CHAR(reg_date, 'YYYY') AS year
+	    FROM shez_contracts
+	    ORDER BY year
+	</select>
+	
+	
+	
+	
+</mapper>

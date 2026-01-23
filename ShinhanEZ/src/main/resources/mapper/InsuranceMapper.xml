@@ -3,11 +3,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shinhanez.admin.mapper.InsuranceMapper">
-	
-	
-	
-	
-	
 	<!--전체 목록  페이징, 검색 -->
 	<sql id="searchCriteria">
         <where>

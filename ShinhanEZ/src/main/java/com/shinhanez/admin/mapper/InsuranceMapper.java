@@ -16,7 +16,7 @@ public interface InsuranceMapper {
     int countInsurance(Map<String, Object> params);
     
     
-
+    
 
     
     

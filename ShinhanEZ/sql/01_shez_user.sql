@@ -11,6 +11,7 @@
 DROP TABLE shez_board CASCADE CONSTRAINTS;
 DROP TABLE shez_user CASCADE CONSTRAINTS;
 
+
 -- 회원 테이블 생성
 CREATE TABLE shez_user (
     id          VARCHAR2(50)    PRIMARY KEY,            -- 회원 ID
