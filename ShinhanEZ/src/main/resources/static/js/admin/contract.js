@@ -118,7 +118,7 @@ $(document).ready(()=>{
 	    $('.totalContractInner').text(totalCount.toLocaleString());
 	}
 	// 검색 기능
-	$('.searchBtn button').on('click',function(e){
+	$('.searchBtn button[type="submit"]').on('click',function(e){
 		e.preventDefault();
 		let searchForm = $('.contractSearchForm');
 		let searchJsonForm = formToJson(searchForm);
@@ -126,6 +126,16 @@ $(document).ready(()=>{
 		const pageSize = $('select[name="pageSize"]').val();
 		showList(pageNum,pageSize,searchJsonForm);
 		
+	})
+	// 검색어 초기화 처리
+	$('.searchBtn button[type="reset"]').on('click',function(e){
+		e.preventDefault();
+		let searchForm = $('.contractSearchForm');
+		let searchJsonForm = formToJson(searchForm);
+		const pageNum = $('a.activePage').data('page');
+		const pageSize = $('select[name="pageSize"]').val();
+		searchForm[0].reset();
+		showList(pageNum,pageSize,searchJsonForm);
 	})
 	/* 모달 */
     // 계약 등록 버튼 클릭
