@@ -95,7 +95,8 @@
 		payment_cycle,
 		update_date,
 		admin_idx,
-		admin_name
+		admin_name,
+		admin_role
 		FROM (
 		SELECT 
 		    c.contract_id,
@@ -113,6 +114,7 @@
 		    c.update_date,
 		    c.admin_idx,
 		    ad.admin_name AS admin_name,
+		    ad.admin_role AS admin_role,
 		    ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
 		FROM 
 		    shez_contracts c
@@ -158,7 +160,8 @@
 		        c.contract_status,
 		        c.update_date,
 		        c.admin_idx,
-		        ad.admin_name AS admin_name
+		        ad.admin_name AS admin_name,
+		        ad.admin_role AS admin_role
 		    FROM 
 		        shez_contracts c
 		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
@@ -199,31 +202,36 @@
 		    SELECT 
 		        customer_id AS customerId,
 		        name AS name
-		    FROM shez_customers
-		<where>
-			<if test="customerName != null and customerName != ''">
-			    LOWER(name) LIKE '%' || LOWER(#{customerName}) || '%'
-			</if>    
-		</where>
-		    ORDER BY name
-		)
-		WHERE ROWNUM <![CDATA[<= ]]>50
+	            FROM (
+        			SELECT customer_id, name
+        			FROM shez_customers
+        			WHERE status = 'Y'
+        			<if test="customerName != null and customerName != ''">
+          				AND LOWER(name) LIKE '%' || LOWER('김') || '%'
+        			</if>
+        			ORDER BY name
+   				)
+			)
+			WHERE ROWNUM <![CDATA[<=]]> 50
 	</select>
 	<!-- 상품 -->
 	<select id="searchInsuranceByName" resultType="com.shinhanez.admin.domain.Insurance">
 		SELECT productNo, productName, coverageRange
 		FROM (
 		    SELECT 
-		        productno AS productNo,
-		        productname AS productName,
-		        coveragerange AS coverageRange
-		    FROM shez_insurances
-	    <where>
-			<if test="productName != null and productName != ''">
-			    LOWER(productName) LIKE '%' || LOWER(#{productName}) || '%'
-			</if>
-		</where>
-		    ORDER BY productName
+        		productNo,productName, coverageRange
+   			FROM (
+       	 		SELECT 
+            		productno AS productNo,
+            		productname AS productName,
+            		coveragerange AS coverageRange
+       			FROM shez_insurances
+        		WHERE STATUS = 'ACTIVE' 
+       			<if test="productName != null and productName != ''">
+        			AND LOWER(productName) LIKE '%' || LOWER('보험') || '%'
+       			</if>
+        		ORDER BY productName
+    		)
 		)
 		WHERE ROWNUM <![CDATA[<=]]> 50
 	</select>
@@ -240,17 +248,21 @@
 	<select id="searchAdminsByName" resultType="com.shinhanez.admin.domain.Admins">
 		SELECT adminIdx, adminName, adminRole
 		FROM (
-		    SELECT 
-		        admin_idx AS adminIdx,
-		        admin_name AS adminName,
-		        admin_role AS adminRole
-		    FROM shez_admins
-	    <where>
-			<if test="adminName != null and adminName != ''">
-			    LOWER(admin_name) LIKE '%' || LOWER(#{adminName}) || '%'
-			</if>
-		</where>
-		    ORDER BY adminName
+    		SELECT 
+        		adminIdx,adminName, adminRole
+    		FROM ( 
+        		SELECT 
+            		admin_idx AS adminIdx,
+            		admin_name AS adminName,
+            		admin_role AS adminRole
+        		FROM shez_admins
+		 	    <where>
+					<if test="adminName != null and adminName != ''">
+					    LOWER(admin_name) LIKE '%' || LOWER(#{adminName}) || '%'
+					</if>
+				</where>
+        		ORDER BY admin_name
+    		)
 		)
 		WHERE ROWNUM <![CDATA[<=]]> 50
 	</select>

@@ -30,4 +30,5 @@ public class Contracts {
     private Date updateDate;
     private Integer adminIdx;
     private String adminName;
+    private String adminRole;
 }
