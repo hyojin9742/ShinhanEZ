@@ -109,7 +109,7 @@ $(document).ready(()=>{
 	    const newSize = parseInt($(this).val(), 10);
 
 	    pageSize = newSize;
-	    pageNum = 1; // 페이지 사이즈 바뀌면 1페이지부터
+	    pageNum = 1;
 
 	    showList(pageNum, pageSize);
 	});
@@ -122,8 +122,9 @@ $(document).ready(()=>{
 		e.preventDefault();
 		let searchForm = $('.contractSearchForm');
 		let searchJsonForm = formToJson(searchForm);
+		pageNum = 1;
 		const pageSize = $('select[name="pageSize"]').val();
-		showList(1,pageSize,searchJsonForm);
+		showList(pageNum,pageSize,searchJsonForm);
 		
 	})
 	// 검색어 초기화 처리
@@ -131,9 +132,10 @@ $(document).ready(()=>{
 		e.preventDefault();
 		let searchForm = $('.contractSearchForm');
 		let searchJsonForm = formToJson(searchForm);
+		pageNum = 1;
 		const pageSize = $('select[name="pageSize"]').val();
 		searchForm[0].reset();
-		showList(1,pageSize,searchJsonForm);
+		showList(pageNum,pageSize,searchJsonForm);
 	})
 	/* 모달 */
     // 계약 등록 버튼 클릭
