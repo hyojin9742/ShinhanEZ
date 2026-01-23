@@ -61,10 +61,14 @@ let contractService = (function(){
 					if (error) error(response.message || '저장실패'); 
 				} 
 			},
-			error: function (xhr, status, error) {
-				if (error) {
-					if (error) error('서버 오류가 발생했습니다.'); 
-				}
+			error: function(xhr) {
+			    let msg = '서버 오류가 발생했습니다.';
+
+			    if (xhr.responseJSON && xhr.responseJSON.message) {
+			        msg = xhr.responseJSON.message;
+			    }
+
+			    if (error) error(msg);
 			}
 		});
 	}
@@ -83,10 +87,14 @@ let contractService = (function(){
 					if (error) error(response.message || '저장실패'); 
 				} 
 			},
-			error: function (xhr, status, error) {
-				if (error) {
-					if (error) error('서버 오류가 발생했습니다.'); 
-				}
+			error: function(xhr) {
+			    let msg = '서버 오류가 발생했습니다.';
+
+			    if (xhr.responseJSON && xhr.responseJSON.message) {
+			        msg = xhr.responseJSON.message;
+			    }
+
+			    if (error) error(msg);
 			}
 		});
 	}

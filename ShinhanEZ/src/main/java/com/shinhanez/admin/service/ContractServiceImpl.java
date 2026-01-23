@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +65,6 @@ public class ContractServiceImpl implements ContractService {
 		log.info("등록 서비스 : "+contract);
 		validateRegister(contract);
 		validateContract(contract);
-		
 		int registerResult = mapper.insertContract(contract);
 		if(registerResult != 1) {
 			throw new RuntimeException("등록에 실패했습니다.");
@@ -74,14 +75,21 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 수정
 	@Transactional
 	@Override
-	public int updateContract(Contracts contract) {
+	public int updateContract(Contracts contract, HttpSession session) {
 		log.info("수정 서비스 : "+contract);
 		validateContract(contract);
-		int updateResult = mapper.updateContract(contract);
-		if(updateResult != 1) {
-			throw new RuntimeException("수정에 실패했습니다.");
+		Integer sessionAdminIdx = (Integer)session.getAttribute("adminIdx");
+		int updateResult;
+		if(contract.getAdminIdx() == sessionAdminIdx
+				|| hasPermission(contract, session)) {
+			updateResult = mapper.updateContract(contract);
+			if(updateResult != 1) {
+				throw new RuntimeException("수정에 실패했습니다.");
+			}
+			return updateResult;
+		} else {
+			throw new RuntimeException("권한이 없습니다.");
 		}
-		return updateResult; // 반환값 확인
 	}
 	
 	/* 자동완성 */
@@ -103,7 +111,22 @@ public class ContractServiceImpl implements ContractService {
 	public List<Admins> searchAdminsByName(String adminName) {
 		return mapper.searchAdminsByName(adminName);
 	}
-	
+	// 권한 체크
+	public boolean hasPermission(Contracts contract, HttpSession session) {
+		String adminRole = (String) session.getAttribute("adminRole");
+		String targetRole = mapper.selectOneContract(contract.getContractId()).getAdminRole();
+		if(adminRole == null || targetRole == null ) {
+			return false;
+		}
+		switch (adminRole) {
+        case "super":
+            return "manager".equals(targetRole) || "staff".equals(targetRole);
+        case "manager":
+            return "staff".equals(targetRole);
+        default:
+            return false;
+		}
+	}
 	// 유효성 검증
 	private void validateContract(Contracts contract) {
 		if(contract.getInsuredId() ==  null ) {

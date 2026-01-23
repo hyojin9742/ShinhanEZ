@@ -1,14 +1,17 @@
 package com.shinhanez.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +31,12 @@ import com.shinhanez.admin.service.ContractServiceImpl;
 import com.shinhanez.domain.ShezUser;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Controller
 @RequestMapping("/admin/contract/*")
 @RequiredArgsConstructor
+@Log4j2
 public class ContractController {
 	private final ContractServiceImpl service;
 	
@@ -71,7 +76,7 @@ public class ContractController {
 	public ResponseEntity<Map<String,Object>> registerContract(@RequestBody Contracts contract) {
 	    int registerResult = service.registerContract(contract);
 	    return ResponseEntity.status(HttpStatus.CREATED)
-	            .body(Map.of("message", "계약 등록 성공","registerResult",registerResult));
+	            .body(Map.of("registerResult",registerResult));
 	}
 	// 계약 단건 조회
 	@GetMapping("/rest/{contractId}")
@@ -83,11 +88,12 @@ public class ContractController {
 			consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> updateContract(
             @PathVariable Integer contractId,
-            @RequestBody Contracts contract) {
+            @RequestBody Contracts contract,
+            HttpSession session) {
         contract.setContractId(contractId);
-        int updateResult = service.updateContract(contract);
+        int updateResult = service.updateContract(contract, session);
 
-        return ResponseEntity.ok(Map.of("message", "계약 수정 성공","updateResult",updateResult));
+        return ResponseEntity.ok(Map.of("updateResult",updateResult));
     }
 	
 	/* ================================== 자동완성 ================================== */
@@ -115,5 +121,42 @@ public class ContractController {
 		List<Admins> searchResult =  service.searchAdminsByName(adminName);
 		return ResponseEntity.ok(searchResult);
 	}
-	
+	/* ================================== 예외처리 ================================== */
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseBody
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(
+            IllegalArgumentException e, HttpServletRequest request) {
+
+        log.warn("유효성 오류: {}", e.getMessage());
+        if (request.getRequestURI().contains("/rest")) {
+        	Map<String, Object> response = new HashMap<>();
+        	response.put("message", e.getMessage());
+        	
+        	return ResponseEntity
+        			.badRequest()
+        			.body(response);        	
+        }
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> handleRuntime(
+            RuntimeException e, HttpServletRequest request) {
+
+        log.error("런타임 오류: {}", e.getMessage());
+        if (request.getRequestURI().contains("/rest")) {
+        	Map<String, Object> response = new HashMap<>();
+        	response.put("message", e.getMessage());
+        	
+        	return ResponseEntity
+        			.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        			.body(response);        	
+        }
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .build();
+    }
 }

@@ -101,7 +101,8 @@ premium_amount,
 payment_cycle,
 update_date,
 admin_idx,
-admin_name
+admin_name,
+admin_role
 FROM (
     SELECT 
         c.contract_id,
@@ -119,6 +120,7 @@ FROM (
         c.update_date,
         c.admin_idx,
         ad.admin_name AS admin_name,
+        ad.admin_role AS admin_role,
         ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
     FROM 
         shez_contracts c
@@ -190,26 +192,33 @@ SELECT * FROM shez_contracts;
 
 -- 자동완성
 -- 고객 검색
-SELECT id, name
+SELECT customerId, name
 FROM (
-    SELECT 
-        customer_id AS customerId,
-        name AS name
-    FROM shez_customers
-    WHERE LOWER(name) LIKE '%' || LOWER('김') || '%'
-    ORDER BY name
+    SELECT customer_id AS customerId,
+           name
+    FROM (
+        SELECT customer_id, name
+        FROM shez_customers
+        WHERE status = 'Y'
+          AND LOWER(name) LIKE '%' || LOWER('김') || '%'
+        ORDER BY name
+    )
 )
 WHERE ROWNUM <= 50;
 -- 보험검색
 SELECT productNo, productName, coverageRange
 FROM (
     SELECT 
-        productno AS productNo,
-        productname AS productName,
-        coveragerange AS coverageRange
-    FROM shez_insurances
-    WHERE LOWER(productName) LIKE '%' || LOWER('보험') || '%'
-    ORDER BY productName
+        productNo,productName, coverageRange
+    FROM (
+        SELECT 
+            productno AS productNo,
+            productname AS productName,
+            coveragerange AS coverageRange
+        FROM shez_insurances
+        WHERE STATUS = 'ACTIVE' AND LOWER(productName) LIKE '%' || LOWER('보험') || '%'
+        ORDER BY productName
+    )
 )
 WHERE ROWNUM <= 50;
 -- 상품 번호 보험 검색
@@ -223,12 +232,16 @@ WHERE productno = 2;
 SELECT adminIdx, adminName, adminRole
 FROM (
     SELECT 
-        admin_idx AS adminIdx,
-        admin_name AS adminName,
-        admin_role AS adminRole
-    FROM shez_admins
-    WHERE LOWER(admin_name) LIKE '%' || LOWER('김') || '%'
-    ORDER BY admin_name
+        adminIdx,adminName, adminRole
+    FROM ( 
+        SELECT 
+            admin_idx AS adminIdx,
+            admin_name AS adminName,
+            admin_role AS adminRole
+        FROM shez_admins
+        WHERE LOWER(admin_name) LIKE '%' || LOWER('김') || '%'
+        ORDER BY admin_name
+    )
 )
 WHERE ROWNUM <= 50;
 SELECT * FROM shez_customers ORDER BY customer_id;

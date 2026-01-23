@@ -109,7 +109,7 @@ $(document).ready(()=>{
 	    const newSize = parseInt($(this).val(), 10);
 
 	    pageSize = newSize;
-	    pageNum = 1; // 페이지 사이즈 바뀌면 1페이지부터
+	    pageNum = 1;
 
 	    showList(pageNum, pageSize);
 	});
@@ -118,14 +118,24 @@ $(document).ready(()=>{
 	    $('.totalContractInner').text(totalCount.toLocaleString());
 	}
 	// 검색 기능
-	$('.searchBtn button').on('click',function(e){
+	$('.searchBtn button[type="submit"]').on('click',function(e){
 		e.preventDefault();
 		let searchForm = $('.contractSearchForm');
 		let searchJsonForm = formToJson(searchForm);
-		const pageNum = $('a.activePage').data('page');
+		pageNum = 1;
 		const pageSize = $('select[name="pageSize"]').val();
 		showList(pageNum,pageSize,searchJsonForm);
 		
+	})
+	// 검색어 초기화 처리
+	$('.searchBtn button[type="reset"]').on('click',function(e){
+		e.preventDefault();
+		let searchForm = $('.contractSearchForm');
+		let searchJsonForm = formToJson(searchForm);
+		pageNum = 1;
+		const pageSize = $('select[name="pageSize"]').val();
+		searchForm[0].reset();
+		showList(pageNum,pageSize,searchJsonForm);
 	})
 	/* 모달 */
     // 계약 등록 버튼 클릭
@@ -321,6 +331,7 @@ $(document).ready(()=>{
 	    $('.riderList').empty();
 
 	    $('input[type="checkbox"][value="주계약"]').prop('checked', true);
+		$('input#contractId').remove();
 	}
 	
 	/* 계약 등록 */
@@ -469,7 +480,7 @@ $(document).ready(()=>{
 			</div>
 		`;
        
-		$('body').append(alertHtml);
+		$('#alert-area').append(alertHtml);
        
 		setTimeout(function() {
 			$('.alert').fadeOut(300, function() {

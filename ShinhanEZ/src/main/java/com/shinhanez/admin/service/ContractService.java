@@ -3,6 +3,8 @@ package com.shinhanez.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.Admins;
@@ -19,7 +21,7 @@ public interface ContractService {
 	// 계약 등록
 	public int registerContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts contract);
+	public int updateContract(Contracts contract, HttpSession session);
 	
 	/* 자동완성 */
 	// 고객명 검색
