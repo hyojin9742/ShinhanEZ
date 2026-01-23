@@ -83,9 +83,10 @@ public class ContractController {
 			consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map<String, Object>> updateContract(
             @PathVariable Integer contractId,
-            @RequestBody Contracts contract) {
+            @RequestBody Contracts contract,
+            HttpSession session) {
         contract.setContractId(contractId);
-        int updateResult = service.updateContract(contract);
+        int updateResult = service.updateContract(contract, session);
 
         return ResponseEntity.ok(Map.of("message", "계약 수정 성공","updateResult",updateResult));
     }

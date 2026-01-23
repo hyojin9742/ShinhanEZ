@@ -1,7 +1,12 @@
 package com.shinhanez.admin.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +71,8 @@ public class ContractServiceTest {
 	}
 	// 계약 수정
 	@Test
-	public void updateContractTest() {
+	public void updateContractTest(HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		Contracts ctu = new Contracts();
 		ctu.setInsuredId("C007");
 		ctu.setProductId(4);
@@ -77,6 +83,6 @@ public class ContractServiceTest {
 		ctu.setAdminIdx(2);
 		ctu.setContractId(5);
 		
-		log.info("수정 테스트 => "+service.updateContract(ctu));
+		log.info("수정 테스트 => "+service.updateContract(ctu,session));
 	}
 }
