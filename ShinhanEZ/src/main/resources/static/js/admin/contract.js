@@ -331,6 +331,7 @@ $(document).ready(()=>{
 	    $('.riderList').empty();
 
 	    $('input[type="checkbox"][value="주계약"]').prop('checked', true);
+		$('input#contractId').remove();
 	}
 	
 	/* 계약 등록 */
@@ -479,7 +480,7 @@ $(document).ready(()=>{
 			</div>
 		`;
        
-		$('body').append(alertHtml);
+		$('#alert-area').append(alertHtml);
        
 		setTimeout(function() {
 			$('.alert').fadeOut(300, function() {

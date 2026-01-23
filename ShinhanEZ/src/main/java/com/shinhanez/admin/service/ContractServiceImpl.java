@@ -114,7 +114,7 @@ public class ContractServiceImpl implements ContractService {
 	// 권한 체크
 	public boolean hasPermission(Contracts contract, HttpSession session) {
 		String adminRole = (String) session.getAttribute("adminRole");
-		String targetRole = contract.getAdminRole();
+		String targetRole = mapper.selectOneContract(contract.getContractId()).getAdminRole();
 		if(adminRole == null || targetRole == null ) {
 			return false;
 		}

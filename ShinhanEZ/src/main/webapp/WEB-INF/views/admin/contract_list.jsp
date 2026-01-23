@@ -12,6 +12,7 @@
     <script src="${ctx}/js/admin/contract.js"></script>
 </head>
 <body class="admin-page">
+	<div id="alert-area"></div>
 	<div class="admin-wrapper">
 	    
 	    <jsp:include page="inc/sidebar.jsp">

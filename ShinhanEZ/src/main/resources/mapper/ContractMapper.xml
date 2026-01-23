@@ -207,7 +207,7 @@
         			FROM shez_customers
         			WHERE status = 'Y'
         			<if test="customerName != null and customerName != ''">
-          				AND LOWER(name) LIKE '%' || LOWER('김') || '%'
+          				AND LOWER(name) LIKE '%' || LOWER(#{customerName}) || '%'
         			</if>
         			ORDER BY name
    				)
@@ -228,7 +228,7 @@
        			FROM shez_insurances
         		WHERE STATUS = 'ACTIVE' 
        			<if test="productName != null and productName != ''">
-        			AND LOWER(productName) LIKE '%' || LOWER('보험') || '%'
+        			AND LOWER(productName) LIKE '%' || LOWER(#{productName}) || '%'
        			</if>
         		ORDER BY productName
     		)
