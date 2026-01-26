@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.BoardMapper">
+
+    <!-- 전체 목록 (최신순) -->
+    <select id="findAll" resultType="com.shinhanez.admin.domain.Board">
+        SELECT idx, title, reg_date as regDate, textarea, cnt, id
+        FROM shez_board
+        ORDER BY idx DESC
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById" parameterType="Long" resultType="com.shinhanez.admin.domain.Board">
+        SELECT idx, title, reg_date as regDate, textarea, cnt, id
+        FROM shez_board
+        WHERE idx = #{idx}
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insert" parameterType="com.shinhanez.admin.domain.Board">
+        <selectKey keyProperty="idx" resultType="Long" order="BEFORE">
+            SELECT NVL(MAX(idx), 0) + 1 FROM shez_board
+        </selectKey>
+        INSERT INTO shez_board (idx, title, textarea, id, reg_date, cnt)
+        VALUES (#{idx}, #{title}, #{textarea}, #{id}, SYSDATE, 0)
+    </insert>
+
+    <!-- 수정 -->
+    <update id="update" parameterType="com.shinhanez.admin.domain.Board">
+        UPDATE shez_board SET
+            title = #{title},
+            textarea = #{textarea}
+        WHERE idx = #{idx}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM shez_board WHERE idx = #{idx}
+    </delete>
+
+    <!-- 건수 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM shez_board
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="incrementCnt" parameterType="Long">
+        UPDATE shez_board SET cnt = cnt + 1 WHERE idx = #{idx}
+    </update>
+
+</mapper>

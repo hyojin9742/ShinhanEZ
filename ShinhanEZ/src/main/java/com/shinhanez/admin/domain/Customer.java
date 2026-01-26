@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class Customer {
     private String customerId;      // 고객 ID (PK)
-    private String password;        // 비밀번호
     private String name;            // 이름
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;         // 생년월일
@@ -27,9 +26,6 @@ public class Customer {
     // Getter & Setter
     public String getCustomerId() { return customerId; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

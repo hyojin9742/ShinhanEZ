@@ -127,7 +127,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span>📋 최근 등록 계약</span>
-                        <a href="#" class="btn btn-sm btn-outline">계약 리스트 →</a>
+                        <a href="${ctx}/admin/contract" class="btn btn-sm btn-primary">계약 리스트 →</a>
                     </div>
                     <div class="card-body" style="padding:0;">
                         <table class="admin-table">

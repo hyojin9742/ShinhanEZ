@@ -68,20 +68,6 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>비밀번호 <span class="required">*</span></label>
-                                <input type="password" name="password" id="password"
-                                       class="form-control" placeholder="비밀번호 입력" required>
-                            </div>
-                            <div class="form-group">
-                                <label>비밀번호 확인 <span class="required">*</span></label>
-                                <input type="password" name="passwordConfirm" id="passwordConfirm"
-                                       class="form-control" placeholder="비밀번호 재입력" required>
-                                <small id="pwCheckMsg" class="form-text"></small>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
                                 <label>생년월일 <span class="required">*</span></label>
                                 <input type="date" name="birthDate" class="form-control" required>
                             </div>
@@ -184,37 +170,12 @@
         document.getElementById('idCheckMsg').textContent = '';
     });
 
-    // 비밀번호 확인 체크
-    document.getElementById('passwordConfirm').addEventListener('input', function() {
-        var pw = document.getElementById('password').value;
-        var pwConfirm = this.value;
-        var msgEl = document.getElementById('pwCheckMsg');
-
-        if(pwConfirm && pw !== pwConfirm) {
-            msgEl.textContent = '비밀번호가 일치하지 않습니다.';
-            msgEl.style.color = 'red';
-        } else if(pwConfirm && pw === pwConfirm) {
-            msgEl.textContent = '비밀번호가 일치합니다.';
-            msgEl.style.color = 'green';
-        } else {
-            msgEl.textContent = '';
-        }
-    });
-
     // 폼 유효성 검사
     function validateForm() {
         if(!idChecked) {
             alert('고객 ID 중복확인을 해주세요.');
             return false;
         }
-
-        var pw = document.getElementById('password').value;
-        var pwConfirm = document.getElementById('passwordConfirm').value;
-        if(pw !== pwConfirm) {
-            alert('비밀번호가 일치하지 않습니다.');
-            return false;
-        }
-
         return true;
     }
 </script>

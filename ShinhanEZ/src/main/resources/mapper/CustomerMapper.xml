@@ -5,7 +5,6 @@
 <mapper namespace="com.shinhanez.admin.mapper.CustomerMapper">
 	<resultMap id="customerResultMap" type="com.shinhanez.admin.domain.Customer">
 		<id property="customerId" column="customer_id"/>
-	    <result property="password" column="password"/>
 	    <result property="name" column="name"/>
 	    <result property="birthDate" column="birth_date"/>
 	    <result property="gender" column="gender"/>
@@ -17,18 +16,18 @@
 	</resultMap>
     <!-- 전체 고객 목록 (활성화된 고객만) -->
     <select id="findAll" resultMap="customerResultMap">
-        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        SELECT customer_id, name, birth_date, gender, phone, email, address, status, reg_date
         FROM shez_customers
         ORDER BY reg_date DESC
     </select>
 
     <!-- 고객 목록 (페이징 + 검색 + 정렬) - Oracle 11g 호환 -->
     <select id="findByPage" parameterType="map" resultMap="customerResultMap">
-        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        SELECT customer_id, name, birth_date, gender, phone, email, address, status, reg_date
         FROM (
             SELECT ROWNUM AS rn, t.*
             FROM (
-                SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+                SELECT customer_id, name, birth_date, gender, phone, email, address, status, reg_date
                 FROM shez_customers
                 <where>
 	                <if test="searchType != null and keyword != null and keyword != ''">
@@ -90,7 +89,7 @@
 
     <!-- 고객 상세 조회 -->
     <select id="findById" parameterType="String" resultMap="customerResultMap">
-        SELECT customer_id, password, name, birth_date, gender, phone, email, address, status, reg_date
+        SELECT customer_id, name, birth_date, gender, phone, email, address, status, reg_date
         FROM shez_customers
         WHERE customer_id = #{customerId}
     </select>
@@ -102,8 +101,8 @@
 
     <!-- 고객 등록 -->
     <insert id="insert" parameterType="com.shinhanez.admin.domain.Customer">
-        INSERT INTO shez_customers (customer_id, password, name, birth_date, gender, phone, email, address, status)
-        VALUES (#{customerId}, #{password}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'Y')
+        INSERT INTO shez_customers (customer_id, name, birth_date, gender, phone, email, address, status)
+        VALUES (#{customerId}, #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'Y')
     </insert>
 
     <!-- 고객 수정 -->

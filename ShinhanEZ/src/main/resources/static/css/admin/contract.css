@@ -63,27 +63,75 @@
 
 .payment-search .search-row {
     display: flex;
-    gap: 17%;
+    align-items: flex-end;
+    gap: 15px;
     flex-wrap: wrap;
 }
 .search-row .form-group.searchCondition {
 	display: flex;
-    gap: 80px;
-    flex-wrap: wrap;
-}
-.contractSearchType, .searchContractDate{
-	display: flex;
+    align-items: flex-end;
     gap: 15px;
     flex-wrap: wrap;
+    flex: 1;
+}
+.contractSearchType, .searchContractDate, .searchContractStatus {
+	display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+.contractSearchType .form-group,
+.searchContractDate .form-group,
+.searchContractStatus .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.searchContractDate .form-group:last-child {
+    flex-direction: row;
+    align-items: center;
+}
+.searchContractDate .form-group span {
+    margin: 0 3px;
+    white-space: nowrap;
 }
 .payment-search .form-group {
     margin-bottom: 0;
 }
+.payment-search .form-label {
+    font-size: 13px;
+    white-space: nowrap;
+}
+.searchBtn {
+    display: flex;
+    align-items: flex-end;
+}
+.searchBtn .form-group {
+    display: flex;
+    gap: 5px;
+}
 
 /* 검색 폼 사이즈 클래스 */
-.select-sm { width: 130px; }
-.select-xs { width: 100px; }
-.input-md { width: 180px; }
+.select-sm { width: 120px; }
+.select-xs { width: 90px; }
+.input-md { width: 150px; }
+
+/* 계약 검색 폼 반응형 */
+@media (max-width: 1400px) {
+    .search-row .form-group.searchCondition {
+        flex-wrap: wrap;
+    }
+}
+@media (max-width: 1024px) {
+    .payment-search .search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .searchBtn {
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+}
 
 /* ============================================
    카드 유틸리티
