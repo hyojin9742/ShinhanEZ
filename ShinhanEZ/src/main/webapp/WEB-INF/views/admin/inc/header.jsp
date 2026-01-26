@@ -104,7 +104,7 @@
         <div class="header-icons">
             <a href="#" title="설정"><i class="bi bi-gear"></i></a>
             <a href="#" title="알림"><i class="bi bi-bell"></i></a>
-            <a href="<%=ctx%>/index.jsp" title="사이트 이동"><i class="bi bi-house"></i></a>
+            <a href="<%=ctx%>/" target="_blank" title="사이트 이동"><i class="bi bi-house"></i></a>
         </div>
         <div class="header-user">
             <i class="bi bi-person-circle"></i>
