@@ -40,21 +40,21 @@
 						<div class="inner-wrap">
 							<!-- bbs-view -->
 							<div class="mView bbs-view">
-								<div class="bbs-caption sr-only">보도자료, 수상내역 게시판으로 제목, 등록일, 내용, 첨부파일 정보로 구성되어 있습니다.</div>
-								<!-- bbs head -->
-			                	<div class="bbs-view-head">
-                  					<div class="mView_title">
-	                  					<div class="badge-group"><span class="badge bbs press">게시글</span></div>
-                  						<h2 class="bbs-subject">${board.title}</h2>
-                  					</div>
-									<!-- bbs-info -->
-              						<div class="bbs-info">
-	              						<ul class="etcList">
-	              							<li><span>작성자: ${board.id}</span></li>
-	                  						<li><span>등록일: <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd"/></span></li>
-	                  						<li><span>조회: ${board.cnt}</span></li>
-	               						</ul>
-               						</div>
+								<div class="bbs-caption sr-only">보도자료, 수상내역 게시판으로 제목, 등록일, 내용, 첨부파일 정보로 구성되어 있습니다.
+							</div>
+							<!-- bbs head -->
+			                <div class="bbs-view-head">
+                  				<div class="mView_title">
+	                  				<div class="badge-group"><span class="badge bbs press">게시글</span></div>
+                  					<h2 class="bbs-subject">${board.title }</h2>
+                  				</div>
+								<!-- bbs-info -->
+              					<div class="bbs-info">
+	              					<ul class="etcList">
+	              						<li><span>작성자: ${board.id }</span></li>
+	                  					<li><span>등록일: <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd"/>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;조회: ${board.cnt }</span></li>
+	               					</ul>
+               					</div>
                 			</div>
                 			<!--// bbs head -->
                 			<!-- bbs body -->
@@ -62,8 +62,8 @@
                   				<!-- bbs editer content -->
                   				<div class="bbs-content">
                     				<div class="bbs-img"></div>
-	                    			<p class="bbs-txt" style="white-space: pre-wrap; line-height: 1.8;">
-	                    				${board.textarea}
+	                    			<p class="bbs-txt">
+	                    				${board.textarea }
 	                    			</p>
                   				</div>
                   			<!--// bbs editer content -->
@@ -72,9 +72,20 @@
                 			<!-- bbs-view-foot -->
                 			<div class="bbs-view-foot">
                   				<div class="btn-group option-min space-mt-xxl">
-				                    <button type="button" class="btn large grey-outline" onclick="location.href='<%=ctx%>/board/list'">
+				                    <button type="button" class="btn large grey-outline" onclick="history.back()">
 				                      	<span>목록</span>
 				                    </button>
+				                    <%-- 본인 글이거나 관리자인 경우에만 수정/삭제 버튼 표시 --%>
+				                    <c:if test="${not empty sessionScope.loginUser && (sessionScope.loginUser.id == board.id || sessionScope.loginUser.role == 'ROLE_ADMIN')}">
+					                    <button type="button" class="btn large primary" onclick="location.href='<%=ctx%>/board/edit/${board.idx}'">
+					                      	<span>수정</span>
+					                    </button>
+					                    <button type="button" class="btn large blue-filled" onclick="if(confirm('정말 삭제하시겠습니까?')) {
+					   												location.href='<%=ctx%>/board/delete/${board.idx}';
+																	} return false;">
+					                      	<span>삭제</span>
+					                    </button>
+				                    </c:if>
                   				</div>
                 			</div>
                 			<!--// bbs-view-foot -->

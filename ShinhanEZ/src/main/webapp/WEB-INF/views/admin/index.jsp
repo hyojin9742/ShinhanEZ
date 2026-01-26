@@ -142,7 +142,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr onclick="location.href='<%=ctx%>/admin/contract/view/1'" style="cursor:pointer;">
                                     <td>hoonlee222</td>
                                     <td>훈이</td>
                                     <td>훈이짱</td>
@@ -150,7 +150,7 @@
                                     <td>2025-07-15</td>
                                     <td><span class="badge badge-primary">유지</span></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="location.href='<%=ctx%>/admin/contract/view/2'" style="cursor:pointer;">
                                     <td>kidubu</td>
                                     <td>지혜</td>
                                     <td>지혜짱</td>
@@ -158,7 +158,7 @@
                                     <td>2025-02-01</td>
                                     <td><span class="badge badge-primary">유지</span></td>
                                 </tr>
-                                <tr>
+                                <tr onclick="location.href='<%=ctx%>/admin/contract/view/3'" style="cursor:pointer;">
                                     <td>seoyoon0327</td>
                                     <td>서윤</td>
                                     <td>서윤짱</td>
@@ -174,7 +174,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span>📢 최근 공지사항</span>
-                        <a href="#" class="btn btn-sm btn-primary">+ 공지사항 등록</a>
+                        <a href="<%=ctx%>/admin/notice/write" class="btn btn-sm btn-primary">+ 공지사항 등록</a>
                     </div>
                     <div class="card-body" style="padding:0;">
                         <table class="admin-table">
@@ -187,13 +187,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr onclick="location.href='<%=ctx%>/admin/notice/view?idx=3'" style="cursor:pointer;">
                                     <td>3</td>
                                     <td><span class="badge badge-danger">중요</span> 제목</td>
                                     <td>관리자</td>
                                     <td>2025-07-17</td>
                                 </tr>
-                                <tr>
+                                <tr onclick="location.href='<%=ctx%>/admin/notice/view?idx=2'" style="cursor:pointer;">
                                     <td>2</td>
                                     <td>공지사항 제목 수정</td>
                                     <td>관리자</td>

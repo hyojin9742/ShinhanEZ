@@ -1,24 +1,13 @@
 package com.shinhanez.controller;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.shinhanez.admin.domain.Board;
-import com.shinhanez.admin.service.BoardService;
 
 /**
  * 메인 페이지 컨트롤러
  */
 @Controller
 public class HomeController {
-
-    @Autowired
-    private BoardService boardService;
 
     // 메인 페이지
     @GetMapping("/")
@@ -50,20 +39,9 @@ public class HomeController {
         return "pages/social";
     }
 
-    // 미디어룸 페이지 (읽기 전용)
-    @GetMapping({"/pages/media_room", "/board/list"})
-    public String mediaRoom(@RequestParam(defaultValue = "1") int pageNum, Model model) {
-        Map<String, Object> result = boardService.getBoardList(pageNum, "");
-        model.addAttribute("list", result.get("list"));
-        model.addAttribute("paging", result.get("paging"));
-        return "pages/media_room";
-    }
-
-    // 미디어 상세보기 (읽기 전용)
-    @GetMapping("/board/view")
-    public String mediaView(@RequestParam Long idx, Model model) {
-        Board board = boardService.getBoardWithCnt(idx);
-        model.addAttribute("board", board);
-        return "pages/media_view";
+    // 미디어룸 페이지 (레거시 경로 - BoardController로 리다이렉트)
+    @GetMapping("/pages/media_room")
+    public String mediaRoom() {
+        return "redirect:/board/list";
     }
 }

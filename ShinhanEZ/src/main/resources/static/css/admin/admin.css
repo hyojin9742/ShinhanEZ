@@ -54,36 +54,95 @@
    ============================================ */
 .payment-search {
     background: var(--white);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 25px 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e8e8e8;
 }
 
 .payment-search .form-group {
     margin-bottom: 0;
 }
+
+.payment-search .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.payment-search .form-select,
+.payment-search .form-control {
+    height: 42px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.payment-search .form-select:focus,
+.payment-search .form-control:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    outline: none;
+}
+
 .payment-search .search-row {
-    display: grid;
-    grid-template-columns: 6fr 1fr;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
 }
+
 .search-row .form-group.searchCondition {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
+    display: flex;
+    gap: 15px;
+    flex: 1;
 }
+
 .search-row .form-group.adminSearchType {
-	display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.search-row .form-group.searchAdminRole {
+    min-width: 140px;
 }
 
 .search-row .searchBtn {
-    justify-self: flex-end;
-    align-self: center;
+    display: flex;
+    gap: 8px;
 }
+
+.search-row .searchBtn .btn {
+    height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.search-row .searchBtn .btn-outline {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+}
+
+.search-row .searchBtn .btn-outline:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
 /* 검색 폼 사이즈 클래스 */
-.select-sm { width: 130px; }
-.select-xs { width: 100px; }
-.input-md { width: 180px; }
+.select-sm { width: 140px; }
+.select-xs { width: 120px; }
+.input-md { width: 220px; }
 
 /* ============================================
    카드 유틸리티

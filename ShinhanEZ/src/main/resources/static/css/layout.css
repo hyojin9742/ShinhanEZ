@@ -1371,7 +1371,294 @@ body {
 
 
 
-/******************* Footer *******************/
+/******************* Footer - New Design *******************/
+.footer-wrapper {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 푸터 상단 */
+.footer-top {
+  padding: 4rem 0;
+  background-color: #fff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.footer-top .footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 6rem;
+  flex: 1;
+}
+
+.footer-links .link-group h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 1.6rem;
+}
+
+.footer-links .link-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links .link-group ul li {
+  margin-bottom: 1rem;
+}
+
+.footer-links .link-group ul li a {
+  font-size: 1.4rem;
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links .link-group ul li a:hover {
+  color: #0046ff;
+}
+
+/* 고객센터 박스 */
+.footer-contact {
+  flex-shrink: 0;
+}
+
+.footer-contact .contact-box {
+  background: linear-gradient(135deg, #0046ff 0%, #0033cc 100%);
+  border-radius: 1.2rem;
+  padding: 2.4rem 3.2rem;
+  text-align: center;
+  color: #fff;
+  min-width: 22rem;
+}
+
+.footer-contact .contact-label {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 0.8rem;
+}
+
+.footer-contact .contact-number {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0.8rem;
+}
+
+.footer-contact .contact-number:hover {
+  opacity: 0.9;
+}
+
+.footer-contact .contact-time {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* 푸터 하단 */
+.footer-bottom {
+  padding: 3rem 0;
+  background-color: #f8f9fa;
+}
+
+.footer-bottom .footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+}
+
+.footer-logo img {
+  width: 16rem;
+  height: auto;
+}
+
+.footer-meta {
+  flex: 1;
+}
+
+.footer-meta .policy-links {
+  margin-bottom: 1.2rem;
+}
+
+.footer-meta .policy-links a {
+  font-size: 1.3rem;
+  color: #495057;
+  text-decoration: none;
+  margin-right: 2rem;
+  position: relative;
+}
+
+.footer-meta .policy-links a:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 1.2rem;
+  background-color: #dee2e6;
+}
+
+.footer-meta .policy-links a.bold {
+  font-weight: 600;
+  color: #212529;
+}
+
+.footer-meta .policy-links a:hover {
+  color: #0046ff;
+}
+
+.footer-meta address {
+  font-style: normal;
+  font-size: 1.2rem;
+  color: #868e96;
+  margin-bottom: 0.8rem;
+}
+
+.footer-meta address span {
+  margin-right: 1.5rem;
+}
+
+.footer-meta address span:not(:last-child)::after {
+  content: '|';
+  margin-left: 1.5rem;
+  color: #dee2e6;
+}
+
+.footer-meta .copyright {
+  font-size: 1.2rem;
+  color: #adb5bd;
+  margin: 0;
+}
+
+.footer-cert img {
+  width: 5rem;
+  height: auto;
+}
+
+/* 반응형 - 태블릿 */
+@media all and (max-width: 1024px) {
+  .footer-top .footer-inner {
+    flex-direction: column;
+  }
+
+  .footer-links {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 3rem;
+  }
+
+  .footer-links .link-group {
+    flex: 0 0 calc(50% - 1.5rem);
+  }
+
+  .footer-contact {
+    width: 100%;
+  }
+
+  .footer-contact .contact-box {
+    max-width: 100%;
+  }
+}
+
+/* 반응형 - 모바일 */
+@media all and (max-width: 768px) {
+  .footer-top {
+    padding: 3rem 0;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  .footer-links .link-group {
+    flex: none;
+    width: 100%;
+  }
+
+  .footer-links .link-group h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-links .link-group ul li {
+    display: inline-block;
+    margin-right: 1.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .footer-contact .contact-box {
+    padding: 2rem;
+  }
+
+  .footer-contact .contact-number {
+    font-size: 2.4rem;
+  }
+
+  .footer-bottom .footer-inner {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer-info {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .footer-logo img {
+    width: 12rem;
+  }
+
+  .footer-meta .policy-links a {
+    font-size: 1.2rem;
+    margin-right: 1.2rem;
+  }
+
+  .footer-meta .policy-links a:not(:last-child)::after {
+    right: -0.6rem;
+  }
+
+  .footer-meta address span {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-meta address span:not(:last-child)::after {
+    display: none;
+  }
+
+  .footer-cert {
+    align-self: flex-start;
+  }
+}
+
+/******************* Footer - Legacy *******************/
 /* #btn-go-top */
 #btn-page-top {
   display: inline-block;

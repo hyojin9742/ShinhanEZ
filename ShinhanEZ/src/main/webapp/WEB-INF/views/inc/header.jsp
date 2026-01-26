@@ -95,10 +95,19 @@
           </div>
         </div>
       </li>
-      <li><a href="#"><span>상품안내</span></a>
+      <li><a href="${ctx}/product/list"><span>상품안내</span></a>
         <div class="subArea">
           <div class="subWrap">
             <ul class="depth2">
+              <li class="point"><a href="${ctx}/product/list"><span>보험상품</span></a>
+                <ul class="depth3">
+                  <li>
+                    <a href="${ctx}/product/list">
+                      <span>전체 보험상품</span><strong class="badge good best">추천</strong>
+                    </a>
+                  </li>
+                </ul>
+              </li>
               <li><a href="#"><span>추천상품</span></a>
                 <ul class="depth3">
                   <li>

@@ -31,3 +31,29 @@
         </div>
     </div>
 </header>
+
+<!-- 관리자 세션 타임아웃 (10분 무활동시 세션 종료) -->
+<script>
+(function() {
+    var sessionTimeout = 10 * 60 * 1000; // 10분
+    var logoutTimer;
+    var ctx = '<%=ctx%>';
+
+    function resetTimer() {
+        clearTimeout(logoutTimer);
+
+        // 10분 후 알림 및 로그아웃
+        logoutTimer = setTimeout(function() {
+            alert('10분간 입력이 없어 세션이 종료됩니다.');
+            window.location.href = ctx + '/member/logout';
+        }, sessionTimeout);
+    }
+
+    // 사용자 활동 감지 (입력 관련만)
+    document.addEventListener('keydown', resetTimer);
+    document.addEventListener('click', resetTimer);
+
+    // 초기화
+    resetTimer();
+})();
+</script>

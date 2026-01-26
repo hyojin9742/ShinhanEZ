@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -38,7 +39,7 @@
 	          <section class="content-area">
 	            <div class="inner-wrap">
 	              <div class="write-form">
-	                <form action="<%=ctx%>/shboardinsert" method="POST">
+	                <form action="<%=ctx%>/board/write" method="POST">
 	                  <div class="form-group">
 	                    <label for="title">제목 *</label>
 	                    <input type="text" id="title" name="title" required maxlength="200" placeholder="제목을 입력하세요">
@@ -79,7 +80,7 @@
 	          <section class="content-area">
 	            <div class="inner-wrap">
 	              <div class="write-form">
-	                <form action="<%=ctx%>/shboardupdate?idx=${bdto.idx }" method="POST">
+	                <form action="<%=ctx%>/board/edit/${bdto.idx}" method="POST">
 	                  <div class="form-group">
 	                    <label for="title">제목 *</label>
 	                    <input type="text" id="title" name="title" required maxlength="200" value = "${bdto.title }">
@@ -88,21 +89,21 @@
 	                  	<ul class = etcList>
 	                  		<li>작성자 : ${id }</li>
 	                  		<li>조회수 : ${bdto.cnt }</li>
-	                  		<li>작성일 : ${bdto.reg_date }</li>
+	                  		<li>작성일 : <fmt:formatDate value="${bdto.regDate}" pattern="yyyy-MM-dd"/></li>
 	                  	</ul>
 	                  </div>
 	                  <div class="form-group">
 	                    <label for="content">내용 *</label>
 	                    <textarea id="textarea" name="textarea" required placeholder="내용을 입력하세요">${bdto.textarea }</textarea>
 	                     <div class="btn-group option-min space-mt-xxl">
-	                       <button type="button" class="btn large grey-outline" onclick="location.href='<%=ctx%>/shboardlist'">
+	                       <button type="button" class="btn large grey-outline" onclick="location.href='<%=ctx%>/board/list'">
 	                         <span>목록</span>
 	                       </button>
 	                       <button type="submit" class="btn large primary">
 	                         <span>수정하기</span>
 	                       </button>
-	                       <button type="reset" class="btn large blue-filled" onclick="if(confirm('정말 취소하시겠습니까?')) { 
-	                       						location.href='<%=ctx%>/shboardupdate?idx=${bdto.idx}&&mode=update'; 
+	                       <button type="reset" class="btn large blue-filled" onclick="if(confirm('정말 취소하시겠습니까?')) {
+	                       						location.href='<%=ctx%>/board/view/${bdto.idx}';
 	                       						} return false;">
 	                         <span>취소</span>
 	                       </button>
