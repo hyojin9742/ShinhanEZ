@@ -10,9 +10,8 @@ bin/
 .idea/
 *.iml
 
-# VSCode / Claude Code
+# IDE settings
 .vscode/
-.claude/
 
 # Logs
 *.log
