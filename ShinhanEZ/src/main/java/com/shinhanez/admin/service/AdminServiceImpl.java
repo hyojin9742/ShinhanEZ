@@ -28,16 +28,21 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 전체조회
 	@Override
-	public Map<String, Object> readAllAdmins(int pageNum, int pageSize) {
+	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole) {
 		log.info("service 전체조회 시행");
-		int totalDB = mapper.countAllAdmins();
+		Map<String, Object> searchParams = new HashMap<>();
+		searchParams.put("searchType", searchType);
+		searchParams.put("searchKeyword", searchKeyword);
+		searchParams.put("adminRole", adminRole);
+		int totalDB = mapper.countAllAdmins(searchParams);
 		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
 		Map<String, Object> paging = new HashMap<>();
 		paging.put("pagingObj", pagingObj);
 		paging.put("hasPrev", pagingObj.hasPrev());
 		paging.put("hasNext", pagingObj.hasNext());
 		
-		List<Admins> allList = mapper.selectAllAdmins(pagingObj.startRow(), pagingObj.endRow());
+		
+		List<Admins> allList = mapper.selectAllAdmins(pagingObj.startRow(), pagingObj.endRow(), searchParams);
 		
 		Map<String, Object> adminLists = new HashMap<>();
 		adminLists.put("paging", paging);

@@ -68,10 +68,13 @@ public class AdminController {
     // 전체 조회
     @GetMapping(value = "/employee/rest", produces = "application/json")
     public ResponseEntity<Map<String, Object>> showAdminsList(
-			@RequestParam("pageNum") int pageNum,
-			@RequestParam("pageSize") int pageSize
+			@RequestParam int pageNum,
+			@RequestParam int pageSize,
+			@RequestParam(required = false) String searchType,
+			@RequestParam(required = false) String searchKeyword,
+			@RequestParam(required = false) String adminRole
 		){
-    	return ResponseEntity.ok(adminService.readAllAdmins(pageNum, pageSize));
+    	return ResponseEntity.ok(adminService.readAllAdmins(pageNum, pageSize, searchType,searchKeyword,adminRole));
     }
     // 단건조회
     @GetMapping(value = "/employee/rest/{adminIdx}", produces = "application/json")

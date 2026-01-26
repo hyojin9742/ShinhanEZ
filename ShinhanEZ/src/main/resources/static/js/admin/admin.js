@@ -13,7 +13,7 @@ $(document).ready(()=>{
 	        pageSize: pageSize,
 			searchType: $('select[name="searchType"]').val(),
 			searchKeyword: $('input[name="searchKeyword"]').val(),
-			adminStatus: $('select[name="adminStatus"]').val()
+			adminRole: $('select[name="adminRole"]').val()
 	    };
 
 	    adminService.getList(

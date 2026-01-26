@@ -71,13 +71,13 @@ FROM
             ad.admin_role, 
             ad.admin_name, 
             ad.department, 
-            ad.last_login 
+            TO_CHAR(ad.last_login, 'YYYY-MM-DD HH24:MI:SS')
         FROM shez_admins ad 
         ORDER BY ad.admin_idx DESC ) a
     WHERE ROWNUM <= 10)
 WHERE rn >= 1;
 -- 전체 관리자 건수
-SELECT COUNT(*) FROM shez_admins;
+SELECT COUNT(*) FROM shez_admins ad;
 -- 상세조회
 SELECT * FROM shez_admins WHERE admin_idx = 1;
 -- 등록

@@ -3,9 +3,35 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.shinhanez.admin.mapper.AdminMapper">
+	<!-- sql fragment -->
+	<sql id="searchCondition">
+		<where>
+		    <if test="searchParams.searchKeyword != null and searchParams.searchKeyword != ''">
+		        AND (
+		            <choose>
+		                <!-- 전체 검색 -->
+		                <when test="searchParams.searchType == 'allType'">
+		                    ad.admin_name LIKE '%' || #{searchParams.searchKeyword} || '%'
+		                    OR ad.department LIKE '%' || #{searchParams.searchKeyword} || '%'
+		                </when>
+		                <!-- 관리자 이름 -->
+		                <when test="searchParams.searchType == 'adminName'">
+		                    ad.admin_name LIKE '%' || #{searchParams.searchKeyword} || '%'
+		                </when>
+		                <!-- 부서 -->
+		                <when test="searchParams.searchType == 'department'">
+		                    ad.department LIKE '%' || #{searchParams.searchKeyword} || '%'
+		                </when>
+		            </choose>
+		        )
+		    </if>
+		    <if test="searchParams.adminRole != null and searchParams.adminRole !=''">
+		    	AND ad.admin_role = #{searchParams.adminRole}
+		    </if>
+		</where>
+    </sql>
 	<!-- 관리자 전체 목록 -->
-	<select id="selectAllAdmins" resultType="com.shinhanez.admin.domain.Admins">
-		<![CDATA[
+	<select id="selectAllAdmins" resultType="com.shinhanez.admin.domain.Admins">		
 		SELECT *
 		FROM 
 		    ( SELECT 
@@ -19,16 +45,17 @@
 		            ad.admin_role, 
 		            ad.admin_name, 
 		            ad.department, 
-		            ad.last_login 
+		            TO_CHAR(ad.last_login, 'YYYY-MM-DD HH24:MI:SS') as last_login
 		        FROM shez_admins ad 
+		        <include refid="searchCondition"/>
 		        ORDER BY ad.admin_idx DESC ) a
-		    WHERE ROWNUM <= #{endRow})
-		WHERE rn >= #{startRow}
-		]]>
+		    WHERE ROWNUM <![CDATA[<=]]> #{endRow})
+		WHERE rn <![CDATA[>=]]> #{startRow}
+		
 	</select>
 	<!-- 관리자 수 -->
 	<select id="countAllAdmins">
-		SELECT COUNT(*) FROM shez_admins
+		SELECT COUNT(*) FROM shez_admins ad <include refid="searchCondition"/>
 	</select>
 	<!-- 관리자 단건 -->
 	<select id="selectOneAdmin" resultType="com.shinhanez.admin.domain.Admins">

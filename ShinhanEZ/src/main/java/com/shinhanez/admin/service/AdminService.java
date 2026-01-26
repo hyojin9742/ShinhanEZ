@@ -9,7 +9,7 @@ import com.shinhanez.admin.domain.Admins;
 
 public interface AdminService {
 	// 전체 조회
-	public Map<String, Object> readAllAdmins(int pageNum, int pageSize);
+	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole);
 	// 단건 조회
 	public Admins readOneAdmin(int adminIdx, HttpSession session);
 	// 등록

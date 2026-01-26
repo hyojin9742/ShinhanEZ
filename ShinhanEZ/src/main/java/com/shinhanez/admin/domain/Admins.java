@@ -14,6 +14,6 @@ public class Admins {
 	String adminRole;
 	String adminName;
 	String department;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-	Date lastLogin;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	String lastLogin;
 }

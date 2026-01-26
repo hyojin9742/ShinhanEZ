@@ -61,7 +61,7 @@
 	                            <th>권한</th>
 	                            <td>${admin.adminRole }</td>
 	                            <th>마지막 로그인</th>
-	                            <td><fmt:formatDate value="${admin.lastLogin }" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+	                            <td>${admin.lastLogin != null ? admin.lastLogin : '-'}</td>
 	                        </tr>  
 	                    </table>
 	                </div>
@@ -104,7 +104,7 @@
 		                        </div>
 		                       	<div class="form-group">
 		                            <label class="form-label">마지막 로그인 <span>*</span></label>
-		                            <input type="text" class="form-control" name="lastLogin" id="lastLogin" autocomplete="off" value="<fmt:formatDate value="${admin.lastLogin }" pattern="yyyy-MM-dd hh:mm:ss"/>" readonly>
+		                            <input type="text" class="form-control" name="lastLogin" id="lastLogin" autocomplete="off" value="${admin.lastLogin != null ? admin.lastLogin : '-'}" readonly>
 
 		                        </div>
 		                    </div>

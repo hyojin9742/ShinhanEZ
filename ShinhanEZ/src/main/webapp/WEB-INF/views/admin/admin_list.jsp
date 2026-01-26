@@ -52,7 +52,7 @@
 		                    <div class="form-group searchAdminRole">
 			                    <div class="form-group">
 			                        <label class="form-label">권한</label>
-			                        <select class="form-select select-xs" name="adminStatus">
+			                        <select class="form-select select-xs" name="adminRole">
 			                            <option value="">전체</option>
 			                            <option value="super">관리자</option>
 			                            <option value="manager">매니저</option>
@@ -88,15 +88,7 @@
 	                                <th>관리</th>
 	                            </tr>
 	                        </thead>
-	                        <tbody class="adminList">
-								<tr>
-	                                <th>관리자 번호</th>
-	                                <th>관리자 아이디</th>
-	                                <th>관리자 이름</th>
-	                                <th>부서</th>
-	                                <th>마지막 로그인</th>
-	                            </tr>
-	                        </tbody>
+	                        <tbody class="adminList"></tbody>
 	                    </table>
 	                </div>
 	            </div>
@@ -112,6 +104,13 @@
 	            		<!-- 다음 페이지 그룹 -->
 	            		<li><a href="#">&raquo;</a></li>
 	            	</ul>
+	            	<div class="selectPageSize">
+            			<select class="form-select select-sm" name="pageSize">
+                            <option value="10" ${pageSize == '10' ? 'selected' : ''}>10개씩 보기</option>
+                            <option value="20" ${pageSize == '20' ? 'selected' : ''}>20개씩 보기</option>
+                            <option value="30" ${pageSize == '30' ? 'selected' : ''}>30개씩 보기</option>
+           				</select>
+	            	</div>
 	            </div>
 	            
 	            <!-- 모달 -->
