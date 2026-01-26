@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -39,9 +40,7 @@
           <!-- content-area -->
           <section class="content-area">
             <div class="inner-wrap">
-              <div style="text-align: right; margin-bottom: 15px;">
-                <a href="<%=ctx%>/shboardinsert?mode=write" class="btn primary">글쓰기</a>
-              </div>
+              <!-- 글쓰기는 관리자 페이지에서만 가능 -->
               <!-- bbs-list -->
               <div class="bbs-list">
 
@@ -68,14 +67,14 @@
                         <span class="badge bbs press">게시글</span>
                       </div>
                       <div class="subject-area">
-                        <a href="<%=ctx%>/shboard?idx=${list.idx }">
+                        <a href="<%=ctx%>/board/view?idx=${list.idx }">
                           <strong class="bbs-subject">${list.title }</strong>
                         </a>
                       </div>
                     </div>
                     <div class="bbs-column bbs-writer">${list.id }</div>
                     <div class="bbs-column bbs-view">${list.cnt }</div>
-                    <div class="bbs-column bbs-date">${list.reg_date }</div>
+                    <div class="bbs-column bbs-date"><fmt:formatDate value="${list.reg_date}" pattern="yyyy-MM-dd"/></div>
                   </li>				
 				</c:forEach>
                 </ul>

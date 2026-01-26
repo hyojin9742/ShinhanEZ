@@ -1,64 +1,31 @@
 package com.shinhanez.admin.domain;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-/**
- * 게시판 도메인 (미디어룸/공지사항)
- */
+import java.sql.Date;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class Board {
+
     private Long idx;           // 게시글 번호
     private String title;       // 제목
     private Date regDate;       // 등록일
     private String textarea;    // 내용
-    private int cnt;            // 조회수
+    private Integer cnt;        // 조회수
     private String id;          // 작성자 ID
 
-    // Getters and Setters
-    public Long getIdx() {
-        return idx;
-    }
-
-    public void setIdx(Long idx) {
-        this.idx = idx;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getRegDate() {
+    // JSP에서 ${list.reg_date}로 접근 가능하게 (팀 호환성)
+    public Date getReg_date() {
         return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
-
-    public String getTextarea() {
-        return textarea;
-    }
-
-    public void setTextarea(String textarea) {
-        this.textarea = textarea;
-    }
-
-    public int getCnt() {
-        return cnt;
-    }
-
-    public void setCnt(int cnt) {
-        this.cnt = cnt;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
