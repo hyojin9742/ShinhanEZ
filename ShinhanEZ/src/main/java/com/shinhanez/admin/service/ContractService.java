@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.ContractSearchCriteria;
@@ -32,4 +31,7 @@ public interface ContractService {
 	public Insurance searchInsuranceById(Long productNo);
 	// 관리자 검색
 	public List<Admins> searchAdminsByName(String adminName);
+
+	// 키워드로 계약 검색 (통합 검색용)
+	public List<Contracts> searchByKeyword(String keyword);
 }

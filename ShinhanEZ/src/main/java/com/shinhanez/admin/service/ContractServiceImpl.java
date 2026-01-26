@@ -111,6 +111,14 @@ public class ContractServiceImpl implements ContractService {
 	public List<Admins> searchAdminsByName(String adminName) {
 		return mapper.searchAdminsByName(adminName);
 	}
+
+	// 키워드로 계약 검색 (통합 검색용)
+	@Override
+	public List<Contracts> searchByKeyword(String keyword) {
+		ContractSearchCriteria criteria = new ContractSearchCriteria();
+		criteria.setKeyword(keyword);
+		return mapper.selectAllContractList(1, 10, criteria);
+	}
 	// 권한 체크
 	public boolean hasPermission(Contracts contract, HttpSession session) {
 		String adminRole = (String) session.getAttribute("adminRole");

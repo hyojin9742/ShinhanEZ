@@ -1,12 +1,5 @@
 package com.shinhanez.admin.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.shinhanez.admin.domain.Customer;
-import com.shinhanez.admin.mapper.CustomerMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,5 +78,16 @@ public class CustomerService {
     // 활성화된 고객 수
     public int count() {
         return customerMapper.count();
+    }
+
+    // 키워드로 고객 검색 (통합 검색용)
+    public List<Customer> searchByKeyword(String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("searchType", "all");
+        params.put("keyword", keyword);
+        params.put("offset", 0);
+        params.put("size", 10);
+        params.put("sortType", "latest");
+        return customerMapper.findByPage(params);
     }
 }

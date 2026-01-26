@@ -83,4 +83,13 @@ public class BoardService {
     public void deleteBoard(Long idx) {
         boardMapper.deleteBoard(idx);
     }
+
+    // 키워드로 게시글 검색 (통합 검색용)
+    public List<Board> searchByKeyword(String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("keyword", keyword);
+        params.put("startRow", 1);
+        params.put("endRow", 10);
+        return boardMapper.selectBoardList(params);
+    }
 }
