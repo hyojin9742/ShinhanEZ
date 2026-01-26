@@ -10,6 +10,10 @@ bin/
 .idea/
 *.iml
 
+# VSCode / Claude Code
+.vscode/
+.claude/
+
 # Logs
 *.log
 
