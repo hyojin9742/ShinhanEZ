@@ -6,6 +6,21 @@
 <html lang="ko">
 <head>
     <jsp:include page="inc/head.jsp"/>
+    <style>
+        /* 테이블 컬럼 텍스트 처리 */
+        .admin-table td.text-ellipsis {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .admin-table td.text-ellipsis-wide {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -73,22 +88,22 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th style="width:100px;">고객ID</th>
-                                <th style="width:80px;">이름</th>
-                                <th style="width:110px;">생년월일</th>
-                                <th style="width:60px;">성별</th>
-                                <th style="width:130px;">연락처</th>
-                                <th>이메일</th>
-                                <th>상태</th>
-                                <th style="width:110px;">등록일</th>
-                                <th style="width:120px;">관리</th>
+                                <th style="width:120px;">고객ID</th>
+                                <th style="width:120px;">이름</th>
+                                <th style="width:100px;">생년월일</th>
+                                <th style="width:50px;">성별</th>
+                                <th style="width:120px;">연락처</th>
+                                <th style="width:200px;">이메일</th>
+                                <th style="width:60px;">상태</th>
+                                <th style="width:100px;">등록일</th>
+                                <th style="width:110px;">관리</th>
                             </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="c" items="${customers}">
                             <tr>
-                                <td><strong>${c.customerId}</strong></td>
-                                <td>${c.name}</td>
+                                <td class="text-ellipsis" title="${c.customerId}"><strong>${c.customerId}</strong></td>
+                                <td class="text-ellipsis" title="${c.name}">${c.name}</td>
                                 <td><fmt:formatDate value="${c.birthDate}" pattern="yyyy-MM-dd"/></td>
                                 <td>
                                     <c:choose>

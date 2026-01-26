@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>신한EZ손해보험 관리자</title>
 
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="${ctx}/images/favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="${ctx}/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="${ctx}/images/favicon/favicon-16x16.png">
+
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 

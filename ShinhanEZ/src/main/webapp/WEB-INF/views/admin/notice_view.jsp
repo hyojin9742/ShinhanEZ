@@ -10,11 +10,20 @@
     <jsp:include page="inc/head.jsp"/>
     <style>
         .view-table { width: 100%; border-collapse: collapse; }
-        .view-table th { width: 120px; background: #f8f9fa; padding: 12px 15px; text-align: left; border: 1px solid #ddd; }
-        .view-table td { padding: 12px 15px; border: 1px solid #ddd; }
-        .view-content { min-height: 200px; white-space: pre-wrap; line-height: 1.8; }
-        .btn-area { margin-top: 30px; text-align: center; }
-        .btn-area .btn { margin: 0 5px; }
+        .view-table th { width: 140px; background: var(--bg-light); padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border-color); font-weight: 500; color: var(--text-dark); }
+        .view-table td { padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
+        .view-content { min-height: 200px; white-space: pre-wrap; line-height: 1.8; background: #fafafa; padding: 20px; border-radius: 8px; }
+        .btn-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-area .btn-group-left { display: flex; gap: 8px; }
+        .btn-area .btn-group-right { display: flex; gap: 8px; }
+        .btn { padding: 10px 20px; font-size: 14px; }
     </style>
 </head>
 
