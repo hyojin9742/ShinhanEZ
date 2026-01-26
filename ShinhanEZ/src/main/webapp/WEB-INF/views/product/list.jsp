@@ -166,6 +166,11 @@
             <%@ include file="/WEB-INF/views/inc/footer.jsp" %>
         </footer>
     </div>
+    <button type="button" id="btn-page-top"><span class="sr-only">상단으로 이동</span></button>
+</div>
+
+<div id="sitemap" class="sitemapArea">
+    <%@ include file="/WEB-INF/views/inc/sitemap.jsp" %>
 </div>
 </body>
 </html>
