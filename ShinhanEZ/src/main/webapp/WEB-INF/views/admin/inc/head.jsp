@@ -14,4 +14,3 @@
 <!-- __Admin__ CSS -->
 <link rel="stylesheet" href="${ctx}/css/admin/reset.css">
 <link rel="stylesheet" href="${ctx}/css/admin/common.css">
-<link rel="stylesheet" href="${ctx}/css/admin/admin.css">

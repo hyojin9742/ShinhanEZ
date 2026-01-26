@@ -23,6 +23,4 @@ public interface AdminService {
 	public Admins readOneAdminById(String adminId);
 	// 마지막 로그인
 	public int lastLogin(int adminIdx);
-	// 권한 체크
-	public boolean hasPermission(Admins admin, HttpSession session);
 }

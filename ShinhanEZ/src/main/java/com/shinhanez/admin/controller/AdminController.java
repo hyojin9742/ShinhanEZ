@@ -85,13 +85,13 @@ public class AdminController {
     	return ResponseEntity.ok(adminService.registerAdmin(admin, session));
     }
     // 수정
-    @RequestMapping(value = "/employee/rest/modify", method = {RequestMethod.PUT, RequestMethod.PATCH}
+    @RequestMapping(value = "/employee/rest/modify/{adminIdx}", method = {RequestMethod.PUT, RequestMethod.PATCH}
     		,consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Integer> modifyAdmin(@RequestBody Admins admin, HttpSession session){
+    public ResponseEntity<Integer> modifyAdmin(@RequestBody Admins admin, @PathVariable Integer adminIdx , HttpSession session){
     	return ResponseEntity.ok(adminService.modifyAdmin(admin, session));
 	}
     // 삭제
-    @DeleteMapping(value = "employee/rest/delete/{adminIdx}", produces = "application/json")
+    @DeleteMapping(value = "/employee/rest/delete/{adminIdx}", produces = "application/json")
     public ResponseEntity<Integer> deleteAdmin(@PathVariable int adminIdx, HttpSession session){
     	return ResponseEntity.ok(adminService.deleteAdmin(adminIdx, session));
     }

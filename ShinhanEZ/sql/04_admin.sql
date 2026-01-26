@@ -87,7 +87,7 @@ admin_name = '김철수', department = '보험영업팀' WHERE admin_idx = 2;
 COMMIT;
 SELECT * FROM shez_admins;
 -- 삭제
-DELETE FROM shez_admins WHERE admin_idx = 4;
+DELETE FROM shez_admins WHERE admin_idx = 6;
 COMMIT;
 SELECT * FROM shez_admins;
 

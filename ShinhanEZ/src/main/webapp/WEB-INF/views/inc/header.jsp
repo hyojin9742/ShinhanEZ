@@ -21,7 +21,19 @@
             </c:if>
       		<span class="links user-name">
       			<c:choose>
-      				<c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">${sessionScope.userName}(admin)님</c:when>
+      				<c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
+      					<c:choose>
+			                <c:when test="${sessionScope.adminRole == 'super'}">
+			                    <span>${sessionScope.adminName}(관리자)님</span>
+			                </c:when>
+			                <c:when test="${sessionScope.adminRole == 'manager'}">
+			                    <span>${sessionScope.adminName}(매니저)님</span>
+			                </c:when>
+			                <c:otherwise>
+			                    <span>${sessionScope.adminName}(스태프)님</span>
+			                </c:otherwise>
+			            </c:choose>
+     				</c:when>
       				<c:otherwise>${sessionScope.userName}님</c:otherwise>
       			</c:choose>
       		</span>

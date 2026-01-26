@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
 		int totalDB = mapper.countAllAdmins();
 		Paging pagingObj = new Paging(pageNum, pageSize, totalDB, 5);
 		Map<String, Object> paging = new HashMap<>();
-		paging.put("paging", pagingObj);
+		paging.put("pagingObj", pagingObj);
 		paging.put("hasPrev", pagingObj.hasPrev());
 		paging.put("hasNext", pagingObj.hasNext());
 		
@@ -54,15 +54,12 @@ public class AdminServiceImpl implements AdminService {
 	@Transactional
 	@Override
 	public int registerAdmin(Admins admin,HttpSession session) {
-		if(hasPermission(admin, session)) {
-			int result1 = mapper.insertAdmin(admin);
-			int result2 = mapper.insertUser(admin);
-			if (result1 != 1 || result2 != 1) {
-				throw new RuntimeException("관리자 등록 실패");
-			}
-			return 1;
+		int result1 = mapper.insertAdmin(admin);
+		int result2 = mapper.insertUser(admin);
+		if (result1 != 1 || result2 != 1) {
+			throw new RuntimeException("관리자 등록 실패");
 		}
-        return 0;
+		return 1;
 	}
 	// 수정
 	@Transactional
@@ -80,8 +77,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteAdmin(int adminIdx, HttpSession session) {
 		Admins admin = mapper.selectOneAdmin(adminIdx);
-		adminIdx = (Integer) session.getAttribute("adminIdx");
-		if(admin.getAdminIdx() == adminIdx || hasPermission(admin, session)) {
+		Integer sessionIdx = (Integer) session.getAttribute("adminIdx");
+		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, session)) {
 			mapper.deleteAdmin(adminIdx);
 			return 1;
 		} else {
@@ -101,10 +98,9 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.lastLogin(adminIdx);
 	}
 	// 권한 체크
-	@Override
 	public boolean hasPermission(Admins admin, HttpSession session) {
 		String adminRole = (String) session.getAttribute("adminRole");
-		String targetRole = admin.getAdminRole();
+		String targetRole = mapper.selectOneAdmin(admin.getAdminIdx()).getAdminRole();
 		if(adminRole == null || targetRole == null ) {
 			return false;
 		}

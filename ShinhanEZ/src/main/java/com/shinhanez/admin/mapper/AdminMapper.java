@@ -20,8 +20,10 @@ public interface AdminMapper {
 	public int insertUser(Admins admin);
 	// 수정
 	public int updateAdmin(Admins admin);
+	public int updateUser(Admins admin);
 	// 삭제
 	public int deleteAdmin(int adminIdx);
+	public int deleteUser(int adminIdx);
 	// 아이디로 관리자 가져오기
 	public Admins selectOneAdminById(String adminId);
 	// 마지막 로그인 처리

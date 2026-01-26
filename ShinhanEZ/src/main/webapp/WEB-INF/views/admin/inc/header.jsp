@@ -18,11 +18,14 @@
         <div class="header-user">
             <i class="bi bi-person-circle"></i>
             <c:choose>
-                <c:when test="${role == 'ROLE_ADMIN'}">
-                    <span>${name}(관리자)님</span>
+                <c:when test="${sessionScope.adminRole == 'super'}">
+                    <span>${sessionScope.adminName}(관리자)님</span>
+                </c:when>
+                <c:when test="${sessionScope.adminRole == 'manager'}">
+                    <span>${sessionScope.adminName}(매니저)님</span>
                 </c:when>
                 <c:otherwise>
-                    <span>${name}님</span>
+                    <span>${sessionScope.adminName}(스태프)님</span>
                 </c:otherwise>
             </c:choose>
         </div>
