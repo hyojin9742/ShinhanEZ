@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.BoardMapper">
+
+    <!-- 목록 조회 (페이징) -->
+    <select id="selectBoardList" resultType="com.shinhanez.admin.domain.Board">
+        <![CDATA[
+        SELECT *
+        FROM (
+            SELECT ROWNUM AS rn, a.*
+            FROM (
+                SELECT idx, title, reg_date, textarea, cnt, id
+                FROM shez_board
+                WHERE 1=1
+        ]]>
+        <if test="keyword != null and keyword != ''">
+            AND (title LIKE '%' || #{keyword} || '%' OR textarea LIKE '%' || #{keyword} || '%')
+        </if>
+        <![CDATA[
+                ORDER BY idx DESC
+            ) a
+            WHERE ROWNUM <= #{endRow}
+        )
+        WHERE rn >= #{startRow}
+        ]]>
+    </select>
+
+    <!-- 전체 개수 -->
+    <select id="countBoard" resultType="int">
+        SELECT COUNT(*) FROM shez_board
+        WHERE 1=1
+        <if test="keyword != null and keyword != ''">
+            AND (title LIKE '%' || #{keyword} || '%' OR textarea LIKE '%' || #{keyword} || '%')
+        </if>
+    </select>
+
+    <!-- 상세 조회 -->
+    <select id="selectBoard" resultType="com.shinhanez.admin.domain.Board">
+        SELECT idx, title, reg_date, textarea, cnt, id
+        FROM shez_board
+        WHERE idx = #{idx}
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updateCnt">
+        UPDATE shez_board SET cnt = cnt + 1 WHERE idx = #{idx}
+    </update>
+
+    <!-- 등록 -->
+    <insert id="insertBoard">
+        INSERT INTO shez_board (idx, title, reg_date, textarea, cnt, id)
+        VALUES (
+            (SELECT NVL(MAX(idx), 0) + 1 FROM shez_board),
+            #{title},
+            SYSDATE,
+            #{textarea},
+            0,
+            #{id}
+        )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="updateBoard">
+        UPDATE shez_board
+        SET title = #{title},
+            textarea = #{textarea}
+        WHERE idx = #{idx}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="deleteBoard">
+        DELETE FROM shez_board WHERE idx = #{idx}
+    </delete>
+
+    <!-- 다음 시퀀스 값 -->
+    <select id="getNextIdx" resultType="Long">
+        SELECT NVL(MAX(idx), 0) + 1 FROM shez_board
+    </select>
+
+</mapper>

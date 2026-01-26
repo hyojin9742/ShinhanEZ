@@ -47,7 +47,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="${param.menu == 'notice' ? 'active' : ''}">
+            <a href="${ctx}/admin/notice/list" class="${param.menu == 'notice' ? 'active' : ''}">
                 <i class="bi bi-megaphone"></i> 공지사항
             </a>
         </li>
