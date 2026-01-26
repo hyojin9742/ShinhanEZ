@@ -18,6 +18,10 @@ public class ShezUser {
     private String nation;      // 내/외국인 (K/F)
     private String role;        // 권한 (ROLE_USER, ROLE_ADMIN)
     private Date regDate;       // 가입일
+    private String login_naver; // 간편 네이버 아이디
+    private String login_google;// 간편 구글 아이디
+    private String login_kakao;	// 간편 카카오 아이디
+    private String provider;    // 간편 제공자
 
     // 기본 생성자
     public ShezUser() {}

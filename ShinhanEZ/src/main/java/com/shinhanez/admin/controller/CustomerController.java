@@ -95,13 +95,6 @@ public class CustomerController {
             return "redirect:/member/login?error=auth";
         }
 
-        // 비밀번호 확인
-        if (!customer.getPassword().equals(passwordConfirm)) {
-            model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-            model.addAttribute("customer", customer);
-            return "admin/customer_register";
-        }
-
         // ID 중복 체크
         if (customerService.existsById(customer.getCustomerId())) {
             model.addAttribute("error", "이미 존재하는 고객 ID입니다.");
