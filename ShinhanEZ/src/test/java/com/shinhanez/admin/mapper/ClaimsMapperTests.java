@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 
 import lombok.extern.log4j.Log4j2;
 @SpringBootTest
@@ -86,7 +87,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	// 미지급 상태
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminIdx(1L);
+    	claimsDTO.setAdminIdx(1);
     	//  지급/완료 관련 값은 미지급 = null 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
@@ -104,7 +105,7 @@ public class ClaimsMapperTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminIdx(2L);
+    	claimsDTO.setAdminIdx(2);
     	
     	int result = claimsMapper.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);
@@ -136,6 +137,20 @@ public class ClaimsMapperTests {
     		log.info("customer_id로 조회결과........."+contracts);
     	});
     }
+    
+    // 전화번호로 고객 ID 조회
+    @Test
+    void TestsFindCustomerByPhone() {
+    	String phone = "010-1234-5678";
+    	Customer customer = claimsMapper.findCustomerByPhone(phone);
+    	log.info("phone으로 customerId 조회......."+customer.getCustomerId());
+    	
+    	// 찾은 ID로 계약리스트 조회테스트
+    	List<Contracts> list = claimsMapper.getListContractsByCustomerId(customer.getCustomerId());
+    	list.forEach(contracts -> log.info("찾은ID로 계약리스트 조회결과......"+contracts));
+    }
+    
+
     
     
     

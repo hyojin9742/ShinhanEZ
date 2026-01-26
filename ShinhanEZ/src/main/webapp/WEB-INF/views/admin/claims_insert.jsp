@@ -47,11 +47,18 @@
 										   disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">계약ID</label>
+                                    <label class="form-label">전화번호</label>
                                     <input type="text" class="form-control"
-										   id="claimContractId"
-                                           placeholder="계약ID"
-										   readonly>
+										   id="customerPhone"
+                                           placeholder="전화번호"
+										   disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">이메일</label>
+                                    <input type="text" class="form-control"
+										   id="customerEmail"
+                                           placeholder="이메일"
+										   disabled>
                                 </div>
 								<div class="form-group" style="width: 200%;">
 								  <label class="form-label">제출 서류</label>
@@ -62,6 +69,13 @@
 								</div>
                             </div>
                             <div>
+								<div class="form-group">
+                                    <label class="form-label">계약ID</label>
+                                    <input type="text" class="form-control"
+										   id="claimContractId"
+                                           placeholder="계약ID"
+										   readonly>
+                                </div>
                                 <div class="form-group">
                                     <label class="form-label">사고일</label>
                                     <input type="date" class="form-control"
@@ -87,7 +101,7 @@
 							<input type="hidden" name="contractId" id="claimContractIdHidden">
                         </div>
                         <div class="btn-area" style="display: flex; justify-content: end;">
-                            <button type="button" id="getListContract" class="btn btn-warning" style="margin-right:1vw;">청구인 계약조회</button>
+                            <button type="button" id="getListContract" class="btn btn-warning" style="margin-right:1vw;">청구인 전화번호 조회</button>
                             <a href="${ctx}/admin/claims" class="btn btn-secondary" style="margin-right: 1vw;" >목록</a>
                             <button type="submit" class="btn btn-primary">등록</button>
                         </div>
@@ -118,8 +132,8 @@
     <div style="padding:16px 18px;">
 		<!-- 고객ID 입력 + 조회 버튼 -->
         <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
-            <div style="font-size:13px; color:#666;">고객 ID</div>
-			<input type="text" id="modalCustomerIdInput" class="form-control" placeholder="예: C001" style="max-width:220px;">
+            <div style="font-size:13px; color:#666;">전화번호 검색</div>
+			<input type="text" id="modalPhoneInput" class="form-control" placeholder="예: 01012345678" style="max-width:220px;">
 			<button type="button" class="btn btn-outline" id="btnModalSearchContracts">조회</button>
         </div>
 

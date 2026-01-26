@@ -8,6 +8,35 @@
 	<!-- 토스트 표시 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <jsp:include page="inc/head.jsp"/>
+	<style>
+	/* 카드 안 정보 가독성 개선 */
+	.detail-row {
+	  padding: 8px 0;
+	  border-bottom: 1px dashed #e5e7eb;
+	}
+
+	.detail-row:last-child {
+	  border-bottom: none;
+	}
+
+	.detail-item {
+	  display: flex;
+	  gap: 10px;
+	  padding: 4px 0;
+	}
+
+	.detail-item label {
+	  min-width: 110px;
+	  font-size: 13px;
+	  font-weight: 600;
+	  color: #6b7280;
+	}
+
+	.detail-item span,
+	.detail-item strong {
+	  font-size: 14px;
+	}
+	</style>
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -173,6 +202,14 @@
                             <div class="detail-item">
                                 <label>보험가입자 이름</label>
                                 <span><strong>${contracts.customerName}</strong></span>
+                            </div>
+                            <div class="detail-item">
+                                <label>보험가입자 전화번호</label>
+                                <span><strong>${customer.phone}</strong></span>
+                            </div>
+                            <div class="detail-item">
+                                <label>보험가입자 이메일</label>
+                                <span><strong>${customer.email}</strong></span>
                             </div>
                         </div>
                         <div class="detail-row">

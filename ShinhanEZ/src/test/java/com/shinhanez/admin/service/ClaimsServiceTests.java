@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -62,7 +63,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("555555.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT");
     	claimsDTO.setStatus("PENDING");
-    	claimsDTO.setAdminIdx(1L); 
+    	claimsDTO.setAdminIdx(1); 
     	claimsDTO.setPaidAt(null);
     	claimsDTO.setPaidAmount(null);
     	claimsDTO.setCompletedAt(null);
@@ -82,7 +83,7 @@ public class ClaimsServiceTests {
     	claimsDTO.setClaimAmount(new BigDecimal("777777.00"));
     	claimsDTO.setDocumentList("ID_CARD,ACCIDENT_REPORT,EXTRA_DOC");
     	claimsDTO.setStatus("COMPLETED");
-    	claimsDTO.setAdminIdx(2L);
+    	claimsDTO.setAdminIdx(2);
     	
     	int result = claimsService.updateClaim(claimsDTO);
     	log.info("업데이트 결과행......."+result);
@@ -112,6 +113,16 @@ public class ClaimsServiceTests {
     	list.forEach((contracts)->{
     		log.info("customer_id로 조회결과........."+contracts);
     	});
+	}
+	
+	// customer phone으로 id 조회
+	@Test
+	void testsFindCustomerByPhone() {
+		String phone = "010-1234-5678";
+		Customer customer = claimsService.findCustomerByPhone(phone);
+		log.info("phone으로 customerId 조회......."+customer.getCustomerId());
+		List<Contracts> list = claimsService.getListContractsByCustomerId(customer.getCustomerId());
+		list.forEach(contracts -> log.info("phone -> customerId -> 계약리스트 조회......."+list));
 	}
 	
 } // end of class

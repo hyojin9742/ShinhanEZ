@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.mapper.ClaimsMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,11 @@ public class ClaimsServiceImpl implements ClaimsService{
 	@Override
 	public List<Contracts> getListContractsByCustomerId(String custormerId) {
 		return claimsMapper.getListContractsByCustomerId(custormerId);
+	}
+
+	@Override
+	public Customer findCustomerByPhone(String phone) {
+		return claimsMapper.findCustomerByPhone(phone);
 	}
 
 }

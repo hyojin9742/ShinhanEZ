@@ -1,7 +1,9 @@
 package com.shinhanez.admin.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.service.ClaimsService;
 import com.shinhanez.admin.service.ContractService;
+import com.shinhanez.admin.service.CustomerService;
 import com.shinhanez.domain.Paging;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +40,8 @@ public class ClaimsController {
 	private final ClaimsService claimsService;
 	// Contracts Serivce DI
 	private final ContractService contractService;
+	// Customer Service DI
+	private final CustomerService customerService;
 	
 	// 청구 List
 	@GetMapping({"/",""})
@@ -64,8 +70,11 @@ public class ClaimsController {
 		ClaimsDTO claimsDTO = claimsService.getClaim(claimId);
 		Integer contractId = Math.toIntExact(claimsDTO.getContractId()); 
 		Contracts contracts = contractService.readOneContract(contractId);
+		String customerId = contracts.getCustomerId();
+		Customer customer = customerService.findById(customerId);
 		model.addAttribute("claimsDTO", claimsDTO);
 		model.addAttribute("contracts", contracts);
+		model.addAttribute("customer", customer);
 		return "admin/claims_view";
 	}
 	
@@ -79,11 +88,7 @@ public class ClaimsController {
 	// 청구 Insert DB저장
 	@PostMapping("/insert")
 	public String claimsInsert(ClaimsDTO claimsDTO, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-		// adminId 세션넣는 작업 끝나면 setter로 변경===================
-//	    claimsDTO.setAdminId((Long)session.getAttribute("adminId"));
-		// 추후 삭제
-	    claimsDTO.setAdminIdx(1L);
-		
+	    claimsDTO.setAdminIdx((int)session.getAttribute("adminIdx"));
 		int result = claimsService.insertClaim(claimsDTO);
 	    // 성공: 생성된 글 상세로 이동
 	    if (result > 0) {
@@ -144,15 +149,27 @@ public class ClaimsController {
 	// 계약 리스트 조회 REST API
 	@GetMapping(value = "/contracts", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contracts> getContractsByCustomerId(@RequestParam("customerId") String customerId){
-		return claimsService.getListContractsByCustomerId(customerId);
+	public List<Contracts> getContractsByPhone(@RequestParam("phone") String phone){
+		return claimsService.getListContractsByCustomerId(claimsService.findCustomerByPhone(phone).getCustomerId());
 	}
 	
 	// 계약 단건조회 REST API
 	@GetMapping(value = "/contracts/{contractId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Contracts selectOneContract(@PathVariable("contractId") Integer contractId) {
-		return contractService.readOneContract(contractId);
+	public Map<String, Object> selectOneContract(@PathVariable("contractId") Integer contractId) {
+		Map<String, Object> map = new HashMap<>();
+		Contracts contract = contractService.readOneContract(contractId);
+	    map.put("contract", contract);
+		
+	    Customer customer = null;
+	    if (contract != null) {
+	        customer = customerService.findById(contract.getCustomerId());
+	    }
+	    
+	    return Map.of(
+	        "contract", contract,
+	        "customer", customer
+	    );
 	}
 	
 	

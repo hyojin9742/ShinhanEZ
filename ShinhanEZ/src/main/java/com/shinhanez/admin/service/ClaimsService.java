@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.shinhanez.admin.domain.ClaimsCriteria;
 import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
+import com.shinhanez.admin.domain.Customer;
 
 public interface ClaimsService {
 
@@ -26,5 +27,7 @@ public interface ClaimsService {
 			@Param("claimId") Long claimId);
 	// customer_id로 계약조회
 	public List<Contracts> getListContractsByCustomerId(String customerId);
+	// customer phone으로 customer_id 조회
+	Customer findCustomerByPhone(@Param("phone") String phone);
 
 }

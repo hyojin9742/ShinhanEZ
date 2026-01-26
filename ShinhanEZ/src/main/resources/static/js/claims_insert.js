@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function(){
 	
+	// ===== 공통 상태 =====
+	let selectedContract = null;
+	let confirmBound = false;
+	
 /* 모달 open / close 구현 */	
 	const openBtn = document.getElementById("getListContract");
 	const backdrop = document.getElementById("contractModalBackdrop");
@@ -23,13 +27,15 @@ document.addEventListener("DOMContentLoaded", function(){
 /* /모달 open / close 구현 */
 
 /* ===== 조회(API 호출) + 테이블 렌더링 ===== */
-	const customerIdInput = document.getElementById("modalCustomerIdInput");
+	const phoneInput  = document.getElementById("modalPhoneInput");
 	const searchBtn = document.getElementById("btnModalSearchContracts");
 	const tbody = document.getElementById("contractTbody");
 	const msgBox = document.getElementById("contractModalMsg");
 	
+	bindMobilePhoneAutoHyphen(phoneInput);
+	
 	// 모달 요소가 없으면 종료
-	if (customerIdInput && searchBtn && tbody && msgBox) {
+	if (phoneInput && searchBtn && tbody && msgBox) {
 	
 	  // 메시지 출력 헬퍼 ??
 	  function showMsg(text) {
@@ -48,11 +54,11 @@ document.addEventListener("DOMContentLoaded", function(){
 	  }
 	
 	  async function fetchContracts() {
-	    const customerId = customerIdInput.value.trim();
+	    const phone = phoneInput.value.trim();
 	
 	    // 1) 입력 검증
-	    if (!customerId) {
-	      showMsg("고객 ID를 입력해주세요.");
+	    if (!phone) {
+	      showMsg("고객 전화번호를 입력해주세요.");
 	      tbody.innerHTML = "";
 	      return;
 	    }
@@ -63,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	
 	    try {
 	      const ctx = window.APP_CTX ?? "";
-	      const url = `${ctx}/admin/claims/contracts?customerId=${encodeURIComponent(customerId)}`; // 입력받은 customerId
+	      const url = `${ctx}/admin/claims/contracts?phone=${encodeURIComponent(phone)}`; // 입력받은 phone
 	
 	      const res = await fetch(url, {
 	        method: "GET",
@@ -108,8 +114,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		  
 		  /* ===== 계약List 선택 상태 변경 ===== */
 		  // 선택된 계약(행) 저장용
-		  let selectedContract = null;
-
 		  	const rows = tbody.querySelectorAll("tr");
 		  	
 		  	rows.forEach(tr => {
@@ -140,8 +144,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		  /* ===== /계약List 선택 상태 변경 ===== */
 		  
 		  /* ===== 계약 단건 API 호출 ===== */
+		  
 		  const confirmBtn = document.getElementById("btnConfirmContract");
-		  if (confirmBtn) {
+		  
+		  if (confirmBtn && !confirmBound) {
+			confirmBound = true;
+			
 		    confirmBtn.addEventListener("click", async function () {
 		      // 1) 선택 여부 확인
 		      if (!selectedContract || !selectedContract.contractId) {
@@ -165,25 +173,32 @@ document.addEventListener("DOMContentLoaded", function(){
 		          return;
 		        }
 
-		        const detail = await res.json();
+		        const data = await res.json();
+				
+				const contract = data.contract;	// Map으로 넘어온 Contract
+				const customer = data.customer; // Map으로 넘어온 Customer
 
 		        // 2) 메인 폼 채우기 (표시용)
-		        const customerNameEl = document.getElementById("claimCustomerName");
-		        const insuredNameEl = document.getElementById("claimInsuredName");
-		        const contractIdEl = document.getElementById("claimContractId");
+				const customerNameEl = document.getElementById("claimCustomerName");
+				const insuredNameEl  = document.getElementById("claimInsuredName");
+				const contractIdEl   = document.getElementById("claimContractId");
+				const phoneEl        = document.getElementById("customerPhone");
+				const emailEl        = document.getElementById("customerEmail");
 
-		        if (customerNameEl) customerNameEl.value = detail.customerName ?? "";
-		        if (insuredNameEl) insuredNameEl.value = detail.insuredName ?? "";
-		        if (contractIdEl) contractIdEl.value = detail.contractId ?? "";
+				if (customerNameEl) customerNameEl.value = customer?.name ?? "";          // 고객명
+				if (insuredNameEl)  insuredNameEl.value  = contract?.insuredName ?? "";   // 피보험자명(계약 기준)
+				if (contractIdEl)   contractIdEl.value   = contract?.contractId ?? "";    // 계약ID
+				if (phoneEl)  phoneEl.value  = customer?.phone ?? "";
+				if (emailEl)  emailEl.value  = customer?.email ?? "";
 
 		        // 3) 메인 폼 채우기 (전송용 hidden)
-		        const customerIdEl = document.getElementById("claimCustomerId");
-		        const insuredIdEl = document.getElementById("claimInsuredId");
-		        const contractIdHiddenEl = document.getElementById("claimContractIdHidden");
+				const customerIdEl       = document.getElementById("claimCustomerId");
+				const insuredIdEl        = document.getElementById("claimInsuredId");
+				const contractIdHiddenEl = document.getElementById("claimContractIdHidden");
 
-		        if (customerIdEl) customerIdEl.value = detail.customerId ?? "";
-		        if (insuredIdEl) insuredIdEl.value = detail.insuredId ?? "";
-		        if (contractIdHiddenEl) contractIdHiddenEl.value = detail.contractId ?? "";
+				if (customerIdEl)       customerIdEl.value       = contract?.customerId ?? "";
+				if (insuredIdEl)        insuredIdEl.value        = contract?.insuredId ?? "";
+				if (contractIdHiddenEl) contractIdHiddenEl.value = contract?.contractId ?? "";
 
 		        // 4) 모달 닫기
 		        closeModal();
@@ -198,11 +213,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		    });
 		  }		  
 		  /* ===== /계약 단건 API 호출 ===== */
-		  
-		  
-		  
-		  
-	
+
 	    } catch (e) {
 	      console.error(e);
 	      showMsg("조회 중 오류가 발생했습니다.");
@@ -213,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	  searchBtn.addEventListener("click", fetchContracts);
 	
 	  // 엔터 조회
-	  customerIdInput.addEventListener("keydown", function (e) {
+	  phoneInput.addEventListener("keydown", function (e) {
 	    if (e.key === "Enter") {
 	      e.preventDefault();
 	      fetchContracts();
@@ -222,7 +233,43 @@ document.addEventListener("DOMContentLoaded", function(){
 	}	
 /* /===== 조회(API 호출) + 테이블 렌더링 ===== */
 
+	/* 전화번호 하이픈 처리 */
+	function formatMobilePhone(value) {
+	  const digits = String(value || "").replace(/\D/g, "");
 
+	  // 010만 허용
+	  if (!digits.startsWith("010")) {
+	    return digits;
+	  }
+
+	  if (digits.length <= 3) return digits;
+	  if (digits.length <= 7) return `${digits.slice(0,3)}-${digits.slice(3)}`;
+	  if (digits.length <= 11)
+	    return `${digits.slice(0,3)}-${digits.slice(3,7)}-${digits.slice(7)}`;
+
+	  return `${digits.slice(0,3)}-${digits.slice(3,7)}-${digits.slice(7,11)}`;
+	}
+	/* /전화번호 하이픈 처리 */
+	
+	function bindMobilePhoneAutoHyphen(inputEl) {
+	  if (!inputEl) return;
+
+	  inputEl.addEventListener("input", () => {
+	    inputEl.value = formatMobilePhone(inputEl.value);
+	  });
+
+	  // 붙여넣기 대응
+	  inputEl.addEventListener("paste", () => {
+	    setTimeout(() => {
+	      inputEl.value = formatMobilePhone(inputEl.value);
+	    }, 0);
+	  });
+
+	  // 포커스 아웃 시 최종 정리
+	  inputEl.addEventListener("blur", () => {
+	    inputEl.value = formatMobilePhone(inputEl.value);
+	  });
+	}
 
 
 

@@ -33,7 +33,7 @@ public class ClaimsDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate completedAt;         // 처리 완료일
 
-    private Long adminIdx;                  // 담당 관리자
+    private int adminIdx;                  // 담당 관리자
     
     // list 조회용 필드--------------------------------------------
 

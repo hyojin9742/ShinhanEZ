@@ -260,4 +260,17 @@ WHERE rn &gt; #{startRow}
 	</where>
 </select>
 
+<!-- 전화번호로 고객 ID 조회 -->
+<select id="findCustomerByPhone"
+        parameterType="string"
+        resultType="com.shinhanez.admin.domain.Customer">
+    SELECT
+        customer_id,
+        name,
+        phone,
+        email
+    FROM shez_customers
+    WHERE phone = #{phone}
+</select>
+
 </mapper>
