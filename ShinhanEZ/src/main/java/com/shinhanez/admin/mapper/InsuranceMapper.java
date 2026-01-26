@@ -14,12 +14,7 @@ public interface InsuranceMapper {
 	//리스트
 	List<Insurance> selectInsuranceList(Map<String, Object> params);
     int countInsurance(Map<String, Object> params);
-    
-    
 
-
-    
-    
 	//상품 상세 조회, 수정페이지 상세
 	Insurance get(Long productNo);
 	
