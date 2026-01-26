@@ -46,17 +46,23 @@ public class AdminServiceImpl implements AdminService {
 	}
 	// 단건조회
 	@Override
-	public Admins readOneAdmin(int adminIdx) {
+	public Admins readOneAdmin(int adminIdx, HttpSession session) {
 		log.info("service 단건조회 시행");
-		return mapper.selectOneAdmin(adminIdx);
+		Admins admin = mapper.selectOneAdmin(adminIdx);
+		Integer sessionIdx = (Integer) session.getAttribute("adminIdx");
+		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, session)) {
+			return mapper.selectOneAdmin(adminIdx);
+		} else {
+			throw new IllegalArgumentException("권한이 없습니다"); // 예외처리 추가 필요
+		}
 	}
 	// 등록
 	@Transactional
 	@Override
 	public int registerAdmin(Admins admin,HttpSession session) {
-		int result1 = mapper.insertAdmin(admin);
-		int result2 = mapper.insertUser(admin);
-		if (result1 != 1 || result2 != 1) {
+		int register1 = mapper.insertAdmin(admin);
+		int register2 = mapper.insertUser(admin);
+		if (register1 != 1 || register2 != 1) {
 			throw new RuntimeException("관리자 등록 실패");
 		}
 		return 1;
@@ -67,7 +73,11 @@ public class AdminServiceImpl implements AdminService {
 	public int modifyAdmin(Admins admin, HttpSession session) {
 		Integer adminIdx = (Integer) session.getAttribute("adminIdx");
 		if(admin.getAdminIdx() == adminIdx || hasPermission(admin, session)) {
-			mapper.updateAdmin(admin);
+			int modify1 = mapper.updateAdmin(admin);
+			int modify2 = mapper.updateUser(admin);
+			if(modify1 != 1 || modify2 != 1) {
+				throw new RuntimeException("관리자 수정 실패");
+			}
 			return 1;
 		} else {
 			return 0;
@@ -79,23 +89,27 @@ public class AdminServiceImpl implements AdminService {
 		Admins admin = mapper.selectOneAdmin(adminIdx);
 		Integer sessionIdx = (Integer) session.getAttribute("adminIdx");
 		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, session)) {
-			mapper.deleteAdmin(adminIdx);
+			int delete1 = mapper.deleteAdmin(adminIdx);
+			int delete2 = mapper.deleteUser(admin.getAdminId());
+			if(delete1 != 1 || delete2 != 1) {
+				throw new RuntimeException("관리자 수정 실패");
+			}
 			return 1;
 		} else {
 			return 0;
 		}
 	}
 	
+	// 마지막 로그인
+	@Override
+	public int lastLogin(int adminIdx) {
+		return mapper.lastLogin(adminIdx);
+	}
 	// 아이디로 관리자 가져오기
 	@Override
 	public Admins readOneAdminById(String adminId) {
 		Admins adminById = mapper.selectOneAdminById(adminId);
 		return adminById;
-	}
-	// 마지막 로그인
-	@Override
-	public int lastLogin(int adminIdx) {
-		return mapper.lastLogin(adminIdx);
 	}
 	// 권한 체크
 	public boolean hasPermission(Admins admin, HttpSession session) {

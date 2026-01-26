@@ -23,9 +23,11 @@ public interface AdminMapper {
 	public int updateUser(Admins admin);
 	// 삭제
 	public int deleteAdmin(int adminIdx);
-	public int deleteUser(int adminIdx);
-	// 아이디로 관리자 가져오기
-	public Admins selectOneAdminById(String adminId);
+	public int deleteUser(String id);
+
 	// 마지막 로그인 처리
 	public int lastLogin(int adminIdx);
+
+	// 아이디로 관리자 가져오기 | MemberController에서 사용
+	public Admins selectOneAdminById(String adminId);
 }

@@ -24,27 +24,35 @@ CREATE SEQUENCE seq_shezAdmins
 INSERT INTO shez_admins (
     admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login
 ) VALUES (
-    seq_shezAdmins.NEXTVAL, 'admin01', 'pw1234', 'super', '홍길동', '경영지원팀', SYSDATE
+    seq_shezAdmins.NEXTVAL, 'admin01', 'pw1234', 'super', '홍길동', '경영지원팀', TO_DATE('19900101','YYYYMMDD')
 );
 
 INSERT INTO shez_admins (
     admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login
 ) VALUES (
-    seq_shezAdmins.NEXTVAL, 'manager01', 'pw5678', 'manager', '김철수', '영업팀', SYSDATE
+    seq_shezAdmins.NEXTVAL, 'manager01', 'pw5678', 'manager', '김철수', '영업팀', TO_DATE('19900101','YYYYMMDD')
 );
 
 INSERT INTO shez_admins (
     admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login
 ) VALUES (
-    seq_shezAdmins.NEXTVAL, 'staff01', 'pw9012', 'staff', '이영희', '고객지원팀', SYSDATE
+    seq_shezAdmins.NEXTVAL, 'staff01', 'pw9012', 'staff', '이영희', '고객지원팀', TO_DATE('19900101','YYYYMMDD')
 );
 
 INSERT INTO shez_admins (
     admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login
 ) VALUES (
-    seq_shezAdmins.NEXTVAL, 'staff02', 'pw3456', 'staff', '박민수', '상품개발팀', SYSDATE
+    seq_shezAdmins.NEXTVAL, 'staff02', 'pw3456', 'staff', '박민수', '상품개발팀', TO_DATE('19900101','YYYYMMDD')
 );
+INSERT INTO shez_admins (admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login) 
+VALUES (seq_shezAdmins.NEXTVAL,'admin', '1111', 'super', '김길수','영업지원팀', TO_DATE('19900101','YYYYMMDD') );
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
+VALUES ('admin', '1111', 'admin@shinhanez.co.kr', '김길수', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 
+INSERT INTO shez_admins (admin_idx, admin_id, admin_pw, admin_role, admin_name, department, last_login) 
+VALUES (seq_shezAdmins.NEXTVAL,'admin22', '1111', 'super', '홍영수','회계팀', TO_DATE('19900101','YYYYMMDD'));
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
+VALUES ('admin22', '1111', 'admin@shinhanez.co.kr', '홍영수', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 commit;
 
 SELECT * FROM shez_admins;
@@ -83,11 +91,14 @@ SELECT * FROM shez_user;
 SELECT * FROM shez_admins;
 -- 수정
 UPDATE shez_admins SET admin_id = 'manager02', admin_pw = '1111', admin_role = 'manager', 
-admin_name = '김철수', department = '보험영업팀' WHERE admin_idx = 2;
+admin_name = '김철수', department = '보험영업팀' WHERE admin_idx = 5;
+UPDATE shez_user SET admin_id = 'manager02', admin_pw = '1111', admin_role = 'manager', 
+admin_name = '김철수', department = '보험영업팀' WHERE id='admin22';
 COMMIT;
 SELECT * FROM shez_admins;
 -- 삭제
-DELETE FROM shez_admins WHERE admin_idx = 6;
+DELETE FROM shez_admins WHERE admin_idx = 5;
+DELETE FROM shez_user WHERE id='admin22';
 COMMIT;
 SELECT * FROM shez_admins;
 

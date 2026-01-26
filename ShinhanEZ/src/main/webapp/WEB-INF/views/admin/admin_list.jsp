@@ -16,7 +16,7 @@
 	<div class="admin-wrapper">
 	    
 	    <jsp:include page="inc/sidebar.jsp">
-	        <jsp:param name="menu" value="system"/>
+	        <jsp:param name="menu" value="employee"/>
 	    </jsp:include>
 	    
 	    <div class="admin-main">
@@ -119,7 +119,7 @@
 		        <div class="modal modal-lg" id="adminModal">
 		            <div class="modal-header">
 		                <h3 class="modal-title">관리자 등록</h3>
-		                <button class="modal-close" id="closeContractModal">&times;</button>
+		                <button class="modal-close" id="closeAdminModal">&times;</button>
 		            </div>
 		            <div class="modal-body">
 		                <form id="adminForm" class="modal-form">

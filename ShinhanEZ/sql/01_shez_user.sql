@@ -68,9 +68,9 @@ VALUES ('user10', '1111', 'park.seojun@email.com', '박서준', TO_DATE('1989-11
 
 -- 더미 관리자
 INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
-VALUES ('admin', '1111', 'admin@shinhanez.co.kr', '관리자', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
+VALUES ('admin', '1111', 'admin@shinhanez.co.kr', '김길수', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role) 
-VALUES ('admin22', '1111', 'admin@shinhanez.co.kr', '관리자', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
+VALUES ('admin22', '1111', 'admin@shinhanez.co.kr', '홍영수', TO_DATE('19900101','YYYYMMDD'), 'SKT', 'M', '01012345678', 'K', 'ROLE_ADMIN');
 
 COMMIT;
 
