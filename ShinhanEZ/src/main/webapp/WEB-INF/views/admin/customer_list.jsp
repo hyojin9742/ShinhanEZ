@@ -105,18 +105,20 @@
                                 <td>${c.role}</td>
                                 <td><fmt:formatDate value="${c.regDate}" pattern="yyyy-MM-dd"/></td>
                                 <td>
-                                    <a href="${ctx}/admin/customer/view?id=${c.customerId}"
-                                       class="btn btn-sm btn-outline" title="상세보기">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="${ctx}/admin/customer/edit?id=${c.customerId}"
-                                       class="btn btn-sm btn-outline" title="수정">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                            onclick="deleteCustomer('${c.customerId}')" title="삭제">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    <div class="action-btns">
+                                        <a href="${ctx}/admin/customer/view?id=${c.customerId}"
+                                           class="btn btn-sm btn-outline" title="상세보기">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="${ctx}/admin/customer/edit?id=${c.customerId}"
+                                           class="btn btn-sm btn-outline" title="수정">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="deleteCustomer('${c.customerId}')" title="삭제">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -14,7 +14,7 @@ CREATE TABLE shez_customers (
     login_id        VARCHAR2(50)    NOT NULL,
     name            VARCHAR2(100)   NOT NULL,               -- 고객 이름
     birth_date      DATE            NOT NULL,               -- 생년월일
-    gender          CHAR(1)         NOT NULL 
+    gender          CHAR(1)         NOT NULL
                         CHECK (gender IN ('M', 'F')),       -- 성별 (M:남, F:여)
     phone           VARCHAR2(20)    NOT NULL,               -- 연락처
     email           VARCHAR2(100),                          -- 이메일
@@ -30,7 +30,6 @@ foreign key (login_id) references shez_user(id);
 -- 테이블 코멘트
 COMMENT ON TABLE shez_customers IS '고객(보험자) 테이블';
 COMMENT ON COLUMN shez_customers.customer_id IS '고객 ID (PK)';
-COMMENT ON COLUMN shez_customers.password IS '비밀번호';
 COMMENT ON COLUMN shez_customers.name IS '고객 이름';
 COMMENT ON COLUMN shez_customers.birth_date IS '생년월일';
 COMMENT ON COLUMN shez_customers.gender IS '성별 (M:남, F:여)';

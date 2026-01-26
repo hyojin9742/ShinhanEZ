@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 public class Customer {
     private String customerId;      // 고객 ID (PK)
-    private String loginId;        // 비밀번호
+    private String loginId;        // 로그인 ID
     private String name;            // 이름
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;         // 생년월일

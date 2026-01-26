@@ -787,3 +787,179 @@
     font-size: 12px;
   }
 }
+
+/* ===== 소셜 로그인 ===== */
+.social_login_wrap {
+  width: 100%;
+  padding: 0 0 40px;
+  text-align: center;
+}
+
+.social_title {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.social_title::before,
+.social_title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 100px;
+  height: 1px;
+  background: #e1e3e5;
+}
+
+.social_title::before {
+  left: 50px;
+}
+
+.social_title::after {
+  right: 50px;
+}
+
+.social_btn_group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social_btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.social_btn:hover {
+  transform: translateY(-2px);
+}
+
+.social_icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 네이버 */
+.social_btn.naver .social_icon {
+  background: #03C75A;
+}
+
+.social_btn.naver .social_icon::before {
+  content: 'N';
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.social_btn.naver .social_text {
+  color: #03C75A;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 카카오 */
+.social_btn.kakao .social_icon {
+  background: #FEE500;
+}
+
+.social_btn.kakao .social_icon::before {
+  content: '';
+  width: 24px;
+  height: 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath fill='%233C1E1E' d='M12 0C5.373 0 0 4.037 0 9.018c0 3.212 2.117 6.036 5.296 7.632l-1.073 3.947c-.094.348.293.624.594.424l4.703-3.095c.816.118 1.656.18 2.48.18 6.627 0 12-4.038 12-9.018C24 4.037 18.627 0 12 0'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.social_btn.kakao .social_text {
+  color: #3C1E1E;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 구글 */
+.social_btn.google .social_icon {
+  background: #fff;
+  border: 1px solid #e1e3e5;
+}
+
+.social_btn.google .social_icon::before {
+  content: 'G';
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.social_btn.google .social_text {
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .social_title::before,
+  .social_title::after {
+    width: 60px;
+  }
+
+  .social_title::before {
+    left: 30px;
+  }
+
+  .social_title::after {
+    right: 30px;
+  }
+
+  .social_icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 375px) {
+  .social_btn_group {
+    gap: 16px;
+  }
+
+  .social_title::before,
+  .social_title::after {
+    width: 40px;
+  }
+
+  .social_title::before {
+    left: 20px;
+  }
+
+  .social_title::after {
+    right: 20px;
+  }
+
+  .social_icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .social_btn.naver .social_icon::before {
+    font-size: 20px;
+  }
+
+  .social_btn.google .social_icon::before {
+    font-size: 20px;
+  }
+
+  .social_text {
+    font-size: 11px !important;
+  }
+}

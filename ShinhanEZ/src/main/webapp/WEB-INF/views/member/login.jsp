@@ -112,6 +112,25 @@
               <li><a href="${ctx}/member/join">회원가입</a></li>
             </ul>
           </div>
+
+          <!-- 소셜 로그인 -->
+          <div class="social_login_wrap">
+            <p class="social_title">간편 로그인</p>
+            <div class="social_btn_group">
+              <a href="${ctx}/oauth/naver" class="social_btn naver" title="네이버 로그인">
+                <span class="social_icon naver_icon"></span>
+                <span class="social_text">네이버</span>
+              </a>
+              <a href="${ctx}/oauth/kakao" class="social_btn kakao" title="카카오 로그인">
+                <span class="social_icon kakao_icon"></span>
+                <span class="social_text">카카오</span>
+              </a>
+              <a href="${ctx}/oauth/google" class="social_btn google" title="구글 로그인">
+                <span class="social_icon google_icon"></span>
+                <span class="social_text">구글</span>
+              </a>
+            </div>
+          </div>
         </div>
       </article>
       </main>
