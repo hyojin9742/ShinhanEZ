@@ -82,29 +82,29 @@
             <div class="summary-cards">
                 <div class="summary-card">
                     <div class="icon blue"><i class="bi bi-people"></i></div>
-                    <div class="info">
+                    <div class="info allusercount">
                         <h3>7</h3>
-                        <p>전체 고객 수</p>
+                        <p>전체 회원 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon green"><i class="bi bi-person-badge"></i></div>
-                    <div class="info">
-                        <h3>9</h3>
-                        <p>전체 피보험자 수</p>
+                    <div class="info allcustomercount">
+                        <h3>0</h3>
+                        <p>전체 고객 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon orange"><i class="bi bi-file-earmark-text"></i></div>
-                    <div class="info">
-                        <h3>8</h3>
+                    <div class="info allcontractcount">
+                        <h3>0</h3>
                         <p>전체 계약 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon purple"><i class="bi bi-megaphone"></i></div>
                     <div class="info">
-                        <h3>2</h3>
+                        <h3>0</h3>
                         <p>전체 공지사항 수</p>
                     </div>
                 </div>
@@ -219,115 +219,10 @@
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="${ctx}/js/admin/dashboard.js"></script>
 <script>
 
-const container = document.getElementById('yearSelect');
-let chart;
-let chart2;
 
-function yearBtnCreate() {
-	fetch('/admin/dashboard/api/yearlist')
-	.then(res => res.json())
-	.then(years => {	    
-	    
-	    const option = document.createElement('option');
-	    const latestYear = Math.max(...years.map(y => parseInt(y)));
-	    years.forEach(year => {
-	        const option = document.createElement('option');
-	        option.value = year;
-            option.text = year;
-            if(parseInt(year) === latestYear) {
-                option.selected = true;
-            }
-	        container.appendChild(option);
-	    });
-	    changeYear(latestYear);
-	    changeYear2(latestYear);
-	});
-}
-
-yearBtnCreate();
-
-
-
-
-let monthLabels=[];
-let monthData=[];
-// 월별 계약 수 차트
-chart=new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-        labels: monthLabels,
-        datasets: [{
-            label: '계약 수',
-            data: monthData,
-            backgroundColor: [ '#ffc107','#0d6efd','#198754','#fd7e14', '#6f42c1','#0dcaf0','#d63384','#adb5bd', '#6610f2','#fd198c','#198754','#0d6efd' ]
-        }]
-    },
-    options: { 
-        responsive: true,
-        plugins: { legend: { display: false } }
-    }
-});
-
-function changeYear(year){
-	if(!year) return;
-	fetch(`/admin/dashboard/api/list2?year=\${year}`)
-	.then(res => res.json())
-	.then(list => {
-		monthLabels.length = 0;
-      	monthData.length = 0;
-      	
-		list.forEach(i => {
-			monthLabels.push(i.regDate);
-			monthData.push(i.count);
-	    });
-		chart.update();
-		
-		})
-	    .catch(err => console.error(err));	
-}
-
-container.addEventListener("change", e => changeYear(e.target.value));
-
-
-	
-	
-let productLabels=[];
-let productData=[];
-
-
-// 상품별 계약 분포 차트
-chart2=new Chart(document.getElementById('pieChart'), {
-    type: 'pie',
-    data: {
-        labels: productLabels,
-        datasets: [{
-            data: productData,
-            backgroundColor: [ '#ffc107','#0d6efd','#198754','#fd7e14', '#6f42c1','#0dcaf0','#d63384','#adb5bd', '#6610f2','#fd198c','#198754','#0d6efd' ]
-        }]
-    },
-    options: { responsive: true }
-});
-
-function changeYear2(year){
-	if(!year) return;
-	fetch(`/admin/dashboard/api/list?year=\${year}`)
-	.then(res => res.json())
-	.then(list => {
-		productLabels.length = 0;
-		productData.length = 0;
-      	
-		list.forEach(i => {
-			productLabels.push(i.productName);
-			productData.push(i.count);
-	    });
-		chart2.update();
-		
-		})
-	    .catch(err => console.error(err));	
-}
-container.addEventListener("change", e => changeYear2(e.target.value));
 
 
 </script>

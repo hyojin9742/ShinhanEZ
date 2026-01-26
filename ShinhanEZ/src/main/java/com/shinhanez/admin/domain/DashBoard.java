@@ -10,5 +10,4 @@ public class DashBoard {
 	private String productName;
 	private int count;
 	private String regDate;
-	
 }

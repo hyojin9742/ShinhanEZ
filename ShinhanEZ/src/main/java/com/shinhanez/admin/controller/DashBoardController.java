@@ -1,5 +1,6 @@
 package com.shinhanez.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,21 @@ public class DashBoardController {
     public List<String> getYears(){
     	return dashBoardService.yearsGet();
     }
+    
+  	
+  	@GetMapping("/api/allcount")
+    @ResponseBody
+  	public HashMap<String, Integer> allCount() {
+  		HashMap<String, Integer> allcount= new HashMap<>();
+  		allcount.put("allusers", dashBoardService.allUserCount());
+  		allcount.put("allcustomers", dashBoardService.allCustomerCount());
+  		allcount.put("allcontracts", dashBoardService.allcontractCount());
+  		
+  		
+  		return allcount;
+  		
+  	};
+  	
     
     
     

@@ -152,6 +152,12 @@ SELECT DISTINCT TO_CHAR(reg_date, 'YYYY') AS year
 FROM shez_contracts
 ORDER BY year;
 
+-- 전체 회원 수
+SELECT count(*) alluser FROM shez_user;
+-- 전체 고객 수
+SELECT count(*) allcustomer FROM shez_customers;
+-- 전체 계약 수
+SELECT count(*) allcontract FROM shez_contracts;
 
     
     

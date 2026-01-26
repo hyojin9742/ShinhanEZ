@@ -23,5 +23,12 @@ public interface DashBoardMapper {
 	// 연도 불러오기
 	public List<String> years();
 	
+	// 전 회원수 불러오기
+	public int allUserCount();
 	
+	// 전 고객수 불러오기
+	public int allCustomerCount();
+	
+	// 전 계약수 불러오기
+	public int allcontractCount();
 }

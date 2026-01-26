@@ -31,5 +31,21 @@ public class DashBoardService {
 		return dashBoardMapper.years();
 	}
 	
+	// 전 회원수 불러오기
+	public int allUserCount() {
+		return dashBoardMapper.allUserCount();
+	};
+	
+	// 전 고객수 불러오기
+	public int allCustomerCount() {
+		return dashBoardMapper.allCustomerCount();
+	};
+	
+	// 전 계약수 불러오기
+	public int allcontractCount() {
+		return dashBoardMapper.allcontractCount();
+	};
+	
+	
 
 }

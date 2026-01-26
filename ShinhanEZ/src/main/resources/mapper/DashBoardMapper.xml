@@ -36,6 +36,20 @@
 	    ORDER BY year
 	</select>
 	
+	<!-- 전 회원수 불러오기 -->
+	<select id="allUserCount" resultType="Integer">
+		SELECT count(*) alluser FROM shez_user
+	</select>
+	<!-- 전 회원수 불러오기 -->
+	<select id="allCustomerCount" resultType="Integer">
+		SELECT count(*) allcustomer FROM shez_customers
+	</select>
+	<!-- 전 회원수 불러오기 -->
+	<select id="allcontractCount" resultType="Integer">
+		SELECT count(*) allcontract FROM shez_contracts
+	</select>
+	
+	
 	
 	
 	
