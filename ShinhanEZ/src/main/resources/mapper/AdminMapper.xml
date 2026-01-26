@@ -51,7 +51,6 @@
 		        ORDER BY ad.admin_idx DESC ) a
 		    WHERE ROWNUM <![CDATA[<=]]> #{endRow})
 		WHERE rn <![CDATA[>=]]> #{startRow}
-		
 	</select>
 	<!-- 관리자 수 -->
 	<select id="countAllAdmins">
