@@ -10,8 +10,8 @@
 -- 고객(보험자) 테이블 생성
 DROP TABLE shez_customers CASCADE CONSTRAINTS;
 CREATE TABLE shez_customers (
-    customer_id     VARCHAR2(50)    PRIMARY KEY,            -- 고객 ID (회원 ID)
-    password        VARCHAR2(255)   NOT NULL,               -- 비밀번호 (암호화 저장)
+    customer_id     VARCHAR2(50)    PRIMARY KEY,            -- 고객 PK
+    login_id        VARCHAR2(50)    NOT NULL,
     name            VARCHAR2(100)   NOT NULL,               -- 고객 이름
     birth_date      DATE            NOT NULL,               -- 생년월일
     gender          CHAR(1)         NOT NULL 
@@ -23,7 +23,10 @@ CREATE TABLE shez_customers (
                         CHECK (status IN ('Y', 'N')),       -- 상태 (Y:활성, N:비활성)
     reg_date        DATE            DEFAULT SYSDATE         -- 등록일
 );
-
+ALTER TABLE shez_customers add CONSTRAINT uq_shez_customer_uniqueId
+UNIQUE (login_id);
+alter table shez_customers add constraint fk_shez_customer_loginId
+foreign key (login_id) references shez_user(id);
 -- 테이블 코멘트
 COMMENT ON TABLE shez_customers IS '고객(보험자) 테이블';
 COMMENT ON COLUMN shez_customers.customer_id IS '고객 ID (PK)';
@@ -38,16 +41,26 @@ COMMENT ON COLUMN shez_customers.status IS '상태 (Y:활성, N:비활성)';
 COMMENT ON COLUMN shez_customers.reg_date IS '등록일';
 
 -- 더미 데이터 (고객 10명)
-INSERT INTO shez_customers VALUES ('C001', '1111', '김철수', TO_DATE('19850315','YYYYMMDD'), 'M', '010-1234-5678', 'kim@email.com', '서울시 강남구 테헤란로 123', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C002', '1111', '이영희', TO_DATE('19900722','YYYYMMDD'), 'F', '010-2345-6789', 'lee@email.com', '서울시 서초구 서초대로 456', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C003', '1111', '박민수', TO_DATE('19781105','YYYYMMDD'), 'M', '010-3456-7890', 'park@email.com', '경기도 성남시 분당구 판교로 789', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C004', '1111', '최수진', TO_DATE('19950830','YYYYMMDD'), 'F', '010-4567-8901', 'choi@email.com', '인천시 연수구 컨벤시아대로 101', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C005', '1111', '정대호', TO_DATE('19820214','YYYYMMDD'), 'M', '010-5678-9012', 'jung@email.com', '부산시 해운대구 해운대로 202', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C006', '1111', '한미영', TO_DATE('19880919','YYYYMMDD'), 'F', '010-6789-0123', 'han@email.com', '대구시 수성구 수성로 303', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C007', '1111', '강동원', TO_DATE('19751201','YYYYMMDD'), 'M', '010-7890-1234', 'kang@email.com', '광주시 서구 상무대로 404', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C008', '1111', '윤서연', TO_DATE('19920605','YYYYMMDD'), 'F', '010-8901-2345', 'yoon@email.com', '대전시 유성구 대학로 505', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C009', '1111', '임재현', TO_DATE('19800428','YYYYMMDD'), 'M', '010-9012-3456', 'lim@email.com', '울산시 남구 삼산로 606', 'Y', SYSDATE);
-INSERT INTO shez_customers VALUES ('C010', '1111', '송지은', TO_DATE('19970113','YYYYMMDD'), 'F', '010-0123-4567', 'song@email.com', '세종시 한누리대로 707', 'Y', SYSDATE);
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C001', 'user1', '김민호', TO_DATE('1990-05-15', 'YYYY-MM-DD'), 'M', '010-1234-5678', 'kim.minho@email.com', '서울특별시 강남구 테헤란로 123', 'Y', TO_DATE('2024-01-10', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C002', 'user2', '이지은', TO_DATE('1993-03-22', 'YYYY-MM-DD'), 'F', '010-2345-6789', 'lee.jieun@email.com', '서울특별시 서초구 서초대로 456', 'Y', TO_DATE('2024-02-15', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C003', 'user3', '최유나', TO_DATE('1995-07-30', 'YYYY-MM-DD'), 'F', '010-3456-7890', 'choi.yuna@email.com', '경기도 성남시 분당구 판교역로 789', 'Y', TO_DATE('2024-03-20', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C004', 'user4', 'John Smith', TO_DATE('1988-12-12', 'YYYY-MM-DD'), 'M', '010-4567-8901', 'john.smith@email.com', '서울특별시 용산구 이태원로 100', 'Y', TO_DATE('2024-04-05', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C005', 'user5', '정소라', TO_DATE('1992-09-18', 'YYYY-MM-DD'), 'F', '010-5678-9012', 'jung.sora@email.com', '인천광역시 남동구 구월동 200', 'Y', TO_DATE('2024-05-12', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C006', 'user6', '강준호', TO_DATE('1987-04-25', 'YYYY-MM-DD'), 'M', '010-6789-0123', 'kang.junho@email.com', '부산광역시 해운대구 우동 300', 'Y', TO_DATE('2024-06-18', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C007', 'user7', 'Maria Garcia', TO_DATE('1994-08-07', 'YYYY-MM-DD'), 'F', '010-7890-1234', 'maria.garcia@email.com', '서울특별시 마포구 상암동 400', 'Y', TO_DATE('2024-07-22', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C008', 'user8', '윤태형', TO_DATE('1991-02-14', 'YYYY-MM-DD'), 'M', '010-8901-2345', 'yoon.taehyung@email.com', '대구광역시 수성구 범어동 500', 'Y', TO_DATE('2024-08-30', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C009', 'user9', '한소영', TO_DATE('1996-06-20', 'YYYY-MM-DD'), 'F', '010-9012-3456', 'han.soyoung@email.com', '경기도 수원시 영통구 광교중앙로 600', 'Y', TO_DATE('2024-09-15', 'YYYY-MM-DD'));
+INSERT INTO shez_customers (customer_id, login_id, name, birth_date, gender, phone, email, address, status, reg_date)
+VALUES ('C010', 'user10', '박서준', TO_DATE('1989-11-03', 'YYYY-MM-DD'), 'M', '010-0123-4567', 'park.seojun@email.com', '서울특별시 송파구 잠실동 700', 'Y', TO_DATE('2024-10-10', 'YYYY-MM-DD'));
 
 COMMIT;
 
