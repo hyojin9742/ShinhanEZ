@@ -36,3 +36,6 @@ dist/
 
 # Ignore generated sources
 generated/
+
+Claims_Admin_DEV.md
+Claims_User_DEV.md

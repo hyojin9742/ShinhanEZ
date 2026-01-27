@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.mapper.UserClaimsMapper">
+
+<!-- 계약 리스트 -->
+<select id="selectContractsByUserId"
+        parameterType="string"
+        resultType="com.shinhanez.admin.domain.Contracts">
+
+	SELECT
+	    c.contract_id       AS contractId,
+	    c.customer_id       AS customerId,
+	    cu.name             AS customerName,
+	
+	    c.insured_id        AS insuredId,
+	    iu.name             AS insuredName,
+	
+	    c.product_id        AS productId,
+	    c.contract_coverage AS contractCoverage,
+	    c.reg_date          AS regDate,
+	    c.expired_date      AS expiredDate,
+	    c.premium_amount    AS premiumAmount,
+	    c.payment_cycle     AS paymentCycle,
+	    c.contract_status   AS contractStatus,
+	    c.update_date       AS updateDate
+	FROM shez_contracts c
+	JOIN shez_customers cu
+	  ON c.customer_id = cu.customer_id
+	JOIN shez_customers iu
+	  ON c.insured_id = iu.customer_id
+	WHERE cu.login_id = #{userId}
+	  AND cu.status = 'Y'
+	ORDER BY c.reg_date DESC
+
+
+</select>
+
+<!-- 계약 단일조회 -->
+<select id="selectContractDetailByUserId"
+        parameterType="map"
+        resultType="com.shinhanez.admin.domain.Contracts">
+
+	  SELECT
+	      c.contract_id        AS contractId,
+	      c.customer_id        AS customerId,
+	      cu.name              AS customerName,
+	      c.insured_id         AS insuredId,
+	      iu.name              AS insuredName,
+	      c.product_id         AS productId,
+	      c.contract_coverage  AS contractCoverage,
+	      c.reg_date           AS regDate,
+	      c.expired_date       AS expiredDate,
+	      c.premium_amount     AS premiumAmount,
+	      c.payment_cycle      AS paymentCycle,
+	      c.contract_status    AS contractStatus,
+	      c.update_date        AS updateDate
+	  FROM shez_contracts c
+	  JOIN shez_customers cu
+	    ON c.customer_id = cu.customer_id
+	  JOIN shez_customers iu
+	    ON c.insured_id = iu.customer_id
+	  WHERE cu.login_id = #{userId}
+	    AND c.contract_id = #{contractId}
+
+</select>
+
+</mapper>

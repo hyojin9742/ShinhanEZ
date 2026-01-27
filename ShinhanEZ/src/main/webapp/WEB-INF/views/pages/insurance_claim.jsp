@@ -6,6 +6,24 @@
 
 <head id="inc-head">
 	<jsp:include page="/WEB-INF/views/inc/head.jsp"></jsp:include>
+	<style>
+		.card-item{
+			margin : 16px 0 0;
+		}
+		.card.option-step2 .card-item[class*="step-type"]:last-child{
+			height: 130px;
+		}
+		.note .note-txt, .note .note-list{
+			padding: 0;
+		}
+		.note{
+			padding:0;
+		}
+		.card.option-step2 .card-item+.card-item{
+			padding : 2.3rem;
+		}
+		
+	</style>
 </head>
 
 <body class="sub">
@@ -103,9 +121,9 @@
 
               <!-- btn-group -->
               <div class="btn-group option-min space-mt-xxl">
-                <button type="button" class="btn large primary" onclick="javascript:commView.goQrLk('3002');"
-                  title="새창으로 열림"><span>보험금
-                    청구하기</span></button>
+				<button type="button" class="btn large primary" id="btnClaimStart" title="새창으로 열림">
+				  <span>보험금 청구하기</span>
+				</button>
               </div>
               <!--// btn-group -->
 
@@ -160,6 +178,70 @@
 
   <div id="sitemap" class="sitemapArea"></div>
 
+  <div id="claimModalBackdrop" style=" display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9998;"></div>
+  <div id="claimModal" style=" display:none; position:fixed; left:50%; top:50%; transform:translate(-50%, -50%); width:min(520px, 92vw); background:#fff; box-shadow:0 20px 60px rgba(0,0,0,.25); z-index:9999; overflow:hidden; ">
+  		<!-- 헤더 -->
+    	<div style=" display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid #eee; font-weight:700; ">
+      		<span>보험금 청구 안내</spa>
+      		<button type="button" id="claimModalClose" style=" border:none; background:transparent; font-size:18px; cursor:pointer; ">×</button>
+    </div>
+    <!-- 바디 -->
+    <div style="padding:14px 16px; line-height:1.6; font-size:14px;">
+    	<p style="margin:0 0 10px;">
+	        보험금 청구를 진행하시겠습니까?
+    	</p>
+      	<ul style="margin:0; padding-left:18px;">
+        	<li>본인 인증 및 정보 입력이 필요합니다.</li>
+        	<li>필요서류를 미리 준비하시면 더 빠르게 접수됩니다.</li>
+      	</ul>
+    </div>
+    <!-- 푸터 -->
+    <div style=" display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid #eee; ">
+    	<button type="button" id="claimModalCancel" class="btn small grey-filled">
+        	<span>취소</span>
+      	</button>
+      	<butto type="button" id="claimModalConfirm" class="btn small primary">
+			<span>청구 진행</span>
+      	</button>
+    </div>
+  	</div>
+<script>
+	(function(){
+      	const btn = document.getElementById("btnClaimStart");
+      	const modal = document.getElementById("claimModal");
+      	const backdrop = document.getElementById("claimModalBackdrop");
+
+      	const btnClose = document.getElementById("claimModalClose");
+      	const btnCancel = document.getElementById("claimModalCancel");
+      	const btnConfirm = document.getElementById("claimModalConfirm");
+
+      	function openModal(){
+	        modal.style.display = "block";
+    	    backdrop.style.display = "block";
+        	document.body.style.overflow = "hidden";
+      	}
+
+      	function closeModal(){
+	        modal.style.display = "none";
+    	    backdrop.style.display = "none";
+        	document.body.style.overflow = "";
+      	}
+
+      	btn?.addEventListener("click", openModal);
+      	btnClose?.addEventListener("click", closeModal);
+      	btnCancel?.addEventListener("click", closeModal);
+      	backdrop?.addEventListener("click", closeModal);
+
+      	btnConfirm?.addEventListener("click", () => {
+	        closeModal();
+    	    if (window.commView?.goQrLk) {
+        		window.commView.goQrLk("3002");
+        	}
+      	});
+})();
+</script>
+
+  
 </body>
 
 </html>
