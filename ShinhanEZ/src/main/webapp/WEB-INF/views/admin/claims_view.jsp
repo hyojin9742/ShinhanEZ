@@ -287,6 +287,8 @@
 		<form method="post" action="${ctx}/admin/claims/${claimsDTO.claimId}/update" id="decisionForm">
 			<!-- claimsId hidden -->
 	  		<input type="hidden" name="claimId" value="${claimsDTO.claimId}"/>
+			<!-- adminIdx hidden -->
+	  		<input type="hidden" name="adminIdx" value="${claimsDTO.adminIdx}"/>
 	  		<!-- 결정 상태 -->
 	  		<div style="font-size:13px; color:#666; margin-bottom:6px;">심사</div>
 	  		<div style="display:flex; gap:14px; align-items:center; padding:8px 0;">
