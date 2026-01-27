@@ -13,7 +13,7 @@ $(document).ready(()=>{
 	        pageSize: pageSize,
 			searchType: $('select[name="searchType"]').val(),
 			searchKeyword: $('input[name="searchKeyword"]').val(),
-			adminStatus: $('select[name="adminStatus"]').val()
+			adminRole: $('select[name="adminRole"]').val()
 	    };
 
 	    adminService.getList(
@@ -55,7 +55,7 @@ $(document).ready(()=>{
 	                <td>${admin.department}</td>
 	                <td>${adminService.displayTime(admin.lastLogin)}</td>
 					<td>
-                        <a class="btn btn-sm btn-outline getAdmin">상세</a>
+                        <a href="/admin/employee/view?adminIdx=${admin.adminIdx}" class="btn btn-sm btn-outline getAdmin">상세</a>
                         <a class="btn btn-sm btn-warning modAdmin">수정</a>
 						<a class="btn btn-sm btn-danger delAdmin">삭제</a>
                     </td>
@@ -152,6 +152,7 @@ $(document).ready(()=>{
 		    $('#saveAdmin').text('수정').removeClass('registerAdmin').addClass('modifyAdmin');
 		    loadAdminData(adminIdx);
 		} else {
+			$('#adminId').prop('readonly',false);
 		    $('.modal-title').text('관리자 등록');
 		    $('#saveAdmin').text('등록').removeClass('modifyAdmin').addClass('registerAdmin');
 		    // 폼 초기화
@@ -189,7 +190,7 @@ $(document).ready(()=>{
 		adminService.save(
 			jsonForm,
 			function (response) {
-	            showAlert('success', '계약이 등록되었습니다.');
+	            showAlert('success', '관리자가 등록되었습니다.');
 	            closeAdminModal();
 	            showList(pageNum);
 	        },
@@ -205,7 +206,14 @@ $(document).ready(()=>{
 	        .closest('tr')
 	        .data('adminIdx');
 		openAdminModal(adminIdx);
-	});	
+	});
+	// 상세페이지 수정 모달창 오픈
+	$(document).on('click', '.viewModAdmin', function (e) {
+	    e.preventDefault();
+	   	const adminIdx = $(this).data('adminIdx');
+		openAdminModal(adminIdx);
+	});
+	
 	// 관리자 상세 함수
 	function loadAdminData(adminIdx){
 		adminService.get(
@@ -239,7 +247,9 @@ $(document).ready(()=>{
 			function (response) {
 	            showAlert('success', '관리자가 수정되었습니다.');
 	            closeAdminModal();
-	            location.href = `/admin/employee/view?adminIdx=${jsonForm.adminIdx}`
+				setTimeout(function() {				
+		            location.href = `/admin/employee/view?adminIdx=${jsonForm.adminIdx}`
+				}, 600);
 	        },
 	        function (errorMsg) {
 	            showAlert('error', errorMsg);
@@ -258,12 +268,37 @@ $(document).ready(()=>{
 			adminIdx,
 			function (response) {
 	            showAlert('success', '관리자가 삭제되었습니다.');
+				setTimeout(function() {				
+					location.href='/admin/employee';
+				}, 600);
 	        },
 	        function (errorMsg) {
 	            showAlert('error', errorMsg);
 	        }
 		);
 	});
+	// 상세페이지 관리자 삭제
+	$(document).on('click', '.viewDelAdmin', function(e) {
+		e.preventDefault();
+
+		if (!confirm('정말 삭제하시겠습니까?')) return;
+		
+		const adminIdx = $(this).data('adminIdx');
+		
+		adminService.deleteAdmin(
+			adminIdx,
+			function (response) {
+	            showAlert('success', '관리자가 삭제되었습니다.');
+				setTimeout(function() {				
+					location.href='/admin/employee';
+				}, 600);
+	        },
+	        function (errorMsg) {
+	            showAlert('error', errorMsg);
+	        }
+		);
+	});
+		
 	/* 유틸리티 함수 */
 	// 예외처리
 	function showAlert(type, message) {
@@ -280,7 +315,7 @@ $(document).ready(()=>{
 			$('.alert').fadeOut(300, function() {
 				$(this).remove();
 			});
-		}, 800);
+		}, 600);
 	}
 	// 폼 -> JSON 변환
 	function formToJson($form) {

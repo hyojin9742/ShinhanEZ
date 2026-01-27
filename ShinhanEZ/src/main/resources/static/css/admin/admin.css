@@ -456,6 +456,7 @@
     background: var(--white);
     border-radius: inherit;
     padding: 12px 0;
+   	margin-bottom: 0;
 }
 /* ============================================
    납입 상태별 스타일

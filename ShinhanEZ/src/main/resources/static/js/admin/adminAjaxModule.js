@@ -118,14 +118,22 @@ let adminService = (function(){
 
 	/* 시간 처리 */
 	function displayTime(timeValue) { 
-		let dateObj = new Date(timeValue.replace(' ', 'T')); 
+		if(!timeValue) return '-';
+
+		let dateObj = new Date(timeValue.replace(' ', 'T'));
 		let today = new Date();
 		let gap = today.getTime() - dateObj.getTime();
-		if(gap < (1000 * 60 * 60 * 24)) { 
-			let hh = dateObj.getHours();
-			let mi = dateObj.getMinutes();
-			let ss = dateObj.getSeconds();
-			return [ (hh > 9 ? '' : '0') + hh, '시간 ', (mi > 9 ? '' : '0') + mi, '분 ', '전' ].join('');
+
+		if(gap < 0) gap = 0;
+
+		if(gap < (1000 * 60 * 60 * 24)) {
+		    let hh = Math.floor(gap / (1000 * 60 * 60));
+		    let mi = Math.floor((gap / (1000 * 60)) % 60);
+		    
+		    if(hh === 0 && mi === 0) return '방금 전';
+		    if(hh === 0) return mi + '분 전';
+		    
+		    return hh + '시간 ' + ((mi > 9 ? '' : '0') + mi) + '분 전';
 		}else {
 			let yy = dateObj.getFullYear();
 			let mm = dateObj.getMonth() + 1;
