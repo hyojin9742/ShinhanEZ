@@ -13,8 +13,6 @@ bin/
 # IDE settings
 .vscode/
 
-**/application.properties
-
 # Logs
 *.log
 
