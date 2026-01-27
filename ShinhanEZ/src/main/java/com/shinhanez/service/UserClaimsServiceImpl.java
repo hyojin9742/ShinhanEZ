@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.mapper.UserClaimsMapper;
 
@@ -26,6 +27,11 @@ public class UserClaimsServiceImpl implements UserClaimsService{
 	@Override
 	public Contracts selectContractDetailByUserId(String userId, Integer contractId) {
 		return userClaimsMapper.selectContractDetailByUserId(userId, contractId);
+	}
+
+	@Override
+	public int insertClaim(ClaimsDTO claimsDTO) {
+		return userClaimsMapper.insertClaim(claimsDTO);
 	}
 
 	

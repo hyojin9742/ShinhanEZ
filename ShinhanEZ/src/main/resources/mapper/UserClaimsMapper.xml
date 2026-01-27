@@ -9,30 +9,28 @@
         parameterType="string"
         resultType="com.shinhanez.admin.domain.Contracts">
 
-	SELECT
-	    c.contract_id       AS contractId,
-	    c.customer_id       AS customerId,
-	    cu.name             AS customerName,
-	
-	    c.insured_id        AS insuredId,
-	    iu.name             AS insuredName,
-	
-	    c.product_id        AS productId,
-	    c.contract_coverage AS contractCoverage,
-	    c.reg_date          AS regDate,
-	    c.expired_date      AS expiredDate,
-	    c.premium_amount    AS premiumAmount,
-	    c.payment_cycle     AS paymentCycle,
-	    c.contract_status   AS contractStatus,
-	    c.update_date       AS updateDate
-	FROM shez_contracts c
-	JOIN shez_customers cu
-	  ON c.customer_id = cu.customer_id
-	JOIN shez_customers iu
-	  ON c.insured_id = iu.customer_id
-	WHERE cu.login_id = #{userId}
-	  AND cu.status = 'Y'
-	ORDER BY c.reg_date DESC
+  SELECT
+    c.contract_id       AS contractId,
+    c.customer_id       AS customerId,
+    cu.name             AS customerName,
+    c.insured_id        AS insuredId,
+    iu.name             AS insuredName,
+    p.productname       AS productName,
+    c.product_id        AS productId,
+    c.contract_coverage AS contractCoverage,
+    c.reg_date          AS regDate,
+    c.expired_date      AS expiredDate,
+    c.premium_amount    AS premiumAmount,
+    c.payment_cycle     AS paymentCycle,
+    c.contract_status   AS contractStatus,
+    c.update_date       AS updateDate
+  FROM shez_contracts c
+  JOIN shez_customers cu ON c.customer_id = cu.customer_id
+  JOIN shez_customers iu ON c.insured_id = iu.customer_id
+  JOIN shez_insurances p ON c.product_id = p.productno
+  WHERE cu.login_id = #{userId}
+    AND cu.status = 'Y'
+  ORDER BY c.reg_date DESC
 
 
 </select>
@@ -65,5 +63,29 @@
 	    AND c.contract_id = #{contractId}
 
 </select>
+
+<!-- 청구 등록 -->
+<insert id="insertClaim" parameterType="com.shinhanez.admin.domain.ClaimsDTO">
+  INSERT INTO shez_claims (
+    customer_id,
+    insured_id,
+    contract_id,
+    accident_date,
+    claim_date,
+    claim_amount,
+    document_list,
+    status
+  )
+  VALUES (
+    #{customerId},
+    #{insuredId},
+    #{contractId},
+    #{accidentDate},
+    SYSDATE,
+    #{claimAmount},
+    #{documentList},
+    'PENDING'
+  )
+</insert>
 
 </mapper>

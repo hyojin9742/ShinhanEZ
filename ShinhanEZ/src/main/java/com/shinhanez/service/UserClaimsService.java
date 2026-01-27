@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
 public interface UserClaimsService {
@@ -15,4 +16,7 @@ public interface UserClaimsService {
 	public Contracts selectContractDetailByUserId(
 			@Param("userId") String userId,
 			@Param("contractId") Integer contractId);
+	
+	// 청구 등록
+	public int insertClaim(ClaimsDTO claimsDTO);
 }

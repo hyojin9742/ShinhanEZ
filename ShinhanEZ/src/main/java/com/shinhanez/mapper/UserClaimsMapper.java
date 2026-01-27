@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 
 
@@ -17,5 +18,6 @@ public interface UserClaimsMapper {
 			@Param("userId") String userId,
 			@Param("contractId") Integer contractId);
 	
-	// 추후 청구등록, 청구목록조회
+	// 청구등록
+	public int insertClaim(ClaimsDTO claimsDTO);
 }

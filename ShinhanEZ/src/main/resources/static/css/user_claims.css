@@ -1,0 +1,145 @@
+@charset "utf-8";
+
+/* 계약 선택 모달 */
+.contract-modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:9998;
+}
+
+.contract-modal{
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(920px, 92vw);
+  max-height:80vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:14px;
+  z-index:9999;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+  flex-direction:column;
+  
+}
+
+.contract-modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  border-bottom:1px solid #eee;
+}
+
+.contract-modal-title{
+  font-weight:700;
+}
+
+.contract-modal-close{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  color:#666;
+  font-weight:700;
+}
+
+.contract-modal-body{
+	padding:16px 18px;
+	overflow:auto;
+	flex:1 1 auto; 
+}
+
+.contract-modal-msg{
+  margin:10px 0;
+  padding:10px 12px;
+  border-radius:10px;
+  background:#f6f7fb;
+  color:#333;
+}
+
+.contract-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.contract-table th,
+.contract-table td{
+  padding:10px 8px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  vertical-align:middle;
+  font-size:14px;
+}
+
+.contract-table tbody tr{
+  cursor:pointer;
+}
+
+.contract-table tbody tr.is-selected{
+  outline:2px solid rgba(0,0,0,.08);
+  background:rgba(0,0,0,.03);
+}
+
+.contract-modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:0;
+  padding:12px 18px 24px;
+  border-top:1px solid #eee;
+  background:#fff;
+  flex:0 0 auto;
+}
+
+#btnConfirmContract, #btnBackToList, #btnSubmitClaim{
+	color: black;
+	border-color: silver;
+}
+
+
+/* 계약 선택: 선택된 행 색깔 css */
+#contractTbody tr.is-selected {
+  background: rgba(168, 230, 207, 0.55);
+  outline: 2px solid rgba(52, 168, 83, 0.35);
+  outline-offset: -2px;
+}
+
+/* 마우스 올렸을 때 반응 */
+#contractTbody tr:hover {
+  background: rgba(168, 230, 207, 0.25);
+  transition: background 120ms ease;
+}
+
+/* 선택된 행 hover는 조금 더 진하게 */
+#contractTbody tr.is-selected:hover {
+  background: rgba(168, 230, 207, 0.7);
+}
+
+/* 클릭 가능한 느낌 */
+#contractTbody tr {
+  cursor: pointer;
+}
+
+/* 뷰 추가 수정css */
+.card-item{
+	margin : 16px 0 0;
+}
+.card.option-step2 .card-item[class*="step-type"]:last-child{
+	height: 130px;
+}
+.note .note-txt, .note .note-list{
+	padding: 0;
+}
+.note{
+	padding:0;
+}
+.card.option-step2 .card-item+.card-item{
+	padding : 2.3rem;
+}
+

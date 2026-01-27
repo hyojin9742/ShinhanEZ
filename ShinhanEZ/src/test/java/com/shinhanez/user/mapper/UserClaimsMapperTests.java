@@ -1,9 +1,12 @@
 package com.shinhanez.user.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.List;
+import java.math.BigDecimal;
 
 import javax.sql.DataSource;
 
@@ -11,7 +14,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.shinhanez.admin.domain.ClaimsDTO;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.mapper.UserClaimsMapper;
 import com.shinhanez.mapper.ShezUserMapper;
@@ -20,6 +25,7 @@ import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
 @Log4j2
+@Transactional
 public class UserClaimsMapperTests {
 
 	// DB커넥터 주입
@@ -55,7 +61,19 @@ public class UserClaimsMapperTests {
 		Integer contractId = list.get(0).getContractId();
 		Contracts contracts = userClaimsMapper.selectContractDetailByUserId(userId, contractId);
 		log.info("userId와 contractId로 뽑아낸 계약......."+contracts);
-		
 	}
 	
+	@Test
+	void insertClaim() {
+	    ClaimsDTO claimsDTO = new ClaimsDTO();
+	    claimsDTO.setCustomerId("C001");
+	    claimsDTO.setInsuredId("C001");
+	    claimsDTO.setContractId(1L);
+	    claimsDTO.setAccidentDate(LocalDate.of(2026, 1, 20));
+	    claimsDTO.setClaimAmount(new BigDecimal("150000"));
+	    claimsDTO.setDocumentList("진단서, 입원확인서");
+	    int result = userClaimsMapper.insertClaim(claimsDTO);
+	    log.info("insert 결과 = {}", result);
+	    assertEquals(1, result);
+	}
 }
