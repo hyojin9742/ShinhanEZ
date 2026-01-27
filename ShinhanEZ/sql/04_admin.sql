@@ -70,8 +70,8 @@ FROM
             ad.admin_pw, 
             ad.admin_role, 
             ad.admin_name, 
-            ad.department, 
-            TO_CHAR(ad.last_login, 'YYYY-MM-DD HH24:MI:SS')
+            ad.department,
+            TO_CHAR(ad.last_login, 'YYYY-MM-DD HH24:MI:SS')as last_login
         FROM shez_admins ad 
         ORDER BY ad.admin_idx DESC ) a
     WHERE ROWNUM <= 10)
