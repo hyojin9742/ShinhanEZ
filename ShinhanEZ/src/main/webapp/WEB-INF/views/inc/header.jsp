@@ -24,17 +24,17 @@
       				<c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
       					<c:choose>
 			                <c:when test="${sessionScope.adminRole == 'super'}">
-			                    <span>${sessionScope.adminName}(관리자)님</span>
+			                    <span><a href="/mypage/payments">${sessionScope.adminName}(관리자)님</a></span>
 			                </c:when>
 			                <c:when test="${sessionScope.adminRole == 'manager'}">
-			                    <span>${sessionScope.adminName}(매니저)님</span>
+			                    <span><a href="/mypage/payments">${sessionScope.adminName}(매니저)님</a></span>
 			                </c:when>
 			                <c:otherwise>
-			                    <span>${sessionScope.adminName}(스태프)님</span>
+			                    <span><a href="/mypage/payments">${sessionScope.adminName}(스태프)님</a></span>
 			                </c:otherwise>
 			            </c:choose>
      				</c:when>
-      				<c:otherwise>${sessionScope.userName}님</c:otherwise>
+      				<c:otherwise><a href="/mypage/payments">${sessionScope.userName}님</a></c:otherwise>
       			</c:choose>
       		</span>
         	<a href="${ctx}/member/logout" class="links">로그아웃</a>   		

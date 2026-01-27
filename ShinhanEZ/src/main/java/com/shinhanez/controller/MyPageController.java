@@ -24,20 +24,10 @@ public class MyPageController {
     @Autowired
     private PaymentService paymentService;
 
+    /* TODO | 마이페이지 메인 */
+    
     /**
-     * 마이페이지 메인
-     */
-    @GetMapping("")
-    public String mypage(HttpSession session, Model model) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        if (user == null) {
-            return "redirect:/member/login";
-        }
-        return "mypage/index";
-    }
-
-    /**
-     * 납입내역 (결제 목록)
+     * 마이페이지 메인 | 납입내역 (결제 목록)
      */
     @GetMapping("/payments")
     public String payments(HttpSession session, Model model) {

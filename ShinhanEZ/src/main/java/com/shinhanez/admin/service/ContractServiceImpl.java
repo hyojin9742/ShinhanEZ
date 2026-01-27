@@ -116,7 +116,7 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public List<Contracts> searchByKeyword(String keyword) {
 		ContractSearchCriteria criteria = new ContractSearchCriteria();
-		criteria.setKeyword(keyword);
+		criteria.setSearchKeyword(keyword);
 		return mapper.selectAllContractList(1, 10, criteria);
 	}
 	// 권한 체크
