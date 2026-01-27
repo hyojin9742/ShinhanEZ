@@ -82,29 +82,29 @@
             <div class="summary-cards">
                 <div class="summary-card">
                     <div class="icon blue"><i class="bi bi-people"></i></div>
-                    <div class="info">
+                    <div class="info allusercount">
                         <h3>7</h3>
-                        <p>전체 고객 수</p>
+                        <p>전체 회원 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon green"><i class="bi bi-person-badge"></i></div>
-                    <div class="info">
-                        <h3>9</h3>
-                        <p>전체 피보험자 수</p>
+                    <div class="info allcustomercount">
+                        <h3>0</h3>
+                        <p>전체 고객 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon orange"><i class="bi bi-file-earmark-text"></i></div>
-                    <div class="info">
-                        <h3>8</h3>
+                    <div class="info allcontractcount">
+                        <h3>0</h3>
                         <p>전체 계약 수</p>
                     </div>
                 </div>
                 <div class="summary-card">
                     <div class="icon purple"><i class="bi bi-megaphone"></i></div>
                     <div class="info">
-                        <h3>2</h3>
+                        <h3>0</h3>
                         <p>전체 공지사항 수</p>
                     </div>
                 </div>
@@ -114,7 +114,9 @@
             <div class="dashboard-row">
                 <div class="chart-container">
                     <div class="chart-title">📊 월별 계약 수</div>
+                    <select id="yearSelect"></select>
                     <canvas id="barChart" height="200"></canvas>
+                    
                 </div>
                 <div class="chart-container">
                     <div class="chart-title">🥧 상품별 계약 분포</div>
@@ -205,6 +207,8 @@
                 </div>
             </div>
             
+            
+            
         </main>
         
         <!-- 푸터 -->
@@ -215,36 +219,12 @@
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="${ctx}/js/admin/dashboard.js"></script>
 <script>
-// 월별 계약 수 차트
-new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-        labels: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-        datasets: [{
-            label: '계약 수',
-            data: [3, 5, 4, 6, 8, 7, 9, 6, 5, 4, 3, 2],
-            backgroundColor: '#0d6efd'
-        }]
-    },
-    options: { 
-        responsive: true,
-        plugins: { legend: { display: false } }
-    }
-});
 
-// 상품별 계약 분포 차트
-new Chart(document.getElementById('pieChart'), {
-    type: 'pie',
-    data: {
-        labels: ['실손보험', '암보험', '운전자보험'],
-        datasets: [{
-            data: [45, 35, 20],
-            backgroundColor: ['#0d6efd', '#198754', '#ffc107']
-        }]
-    },
-    options: { responsive: true }
-});
+
+
+
 </script>
 </body>
 </html>

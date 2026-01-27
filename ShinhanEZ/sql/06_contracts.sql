@@ -53,7 +53,7 @@ INSERT INTO shez_contracts (
     update_date, admin_idx
 ) VALUES (
     SEQ_SHEZCONTRACTS.nextval, 'C002', 'C002', 2,
-    '교통사고 입원비 보장', DATE '2023-06-15', DATE '2028-06-15',
+    '교통사고 입원비 보장', DATE '2023-07-15', DATE '2028-06-15',
     30000, '분기납', '활성',
     SYSDATE, 2
 );
@@ -137,6 +137,33 @@ SELECT COUNT(*) FROM
     shez_contracts c
     INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
     INNER JOIN shez_insurances p ON c.product_id = p.productno;
+
+
+-- 상품별 건수 조회 연도별   
+SELECT PRODUCTNAME,COUNT(*) FROM 
+    shez_contracts c 
+    INNER JOIN shez_insurances p ON c.product_id = p.productno where TO_CHAR(reg_date, 'YYYY')='2023' group by p.PRODUCTNAME;
+
+
+-- 연도별 건수 조회    
+SELECT TO_CHAR(reg_date, 'YYYY-MM') as reg_date, count(*) FROM 
+    shez_contracts where TO_CHAR(reg_date, 'YYYY')='2024' GROUP BY TO_CHAR(reg_date, 'YYYY-MM');
+    
+-- 연도 가져오기    
+SELECT DISTINCT TO_CHAR(reg_date, 'YYYY') AS year
+FROM shez_contracts
+ORDER BY year;
+
+-- 전체 회원 수
+SELECT count(*) alluser FROM shez_user;
+-- 전체 고객 수
+SELECT count(*) allcustomer FROM shez_customers;
+-- 전체 계약 수
+SELECT count(*) allcontract FROM shez_contracts;
+
+    
+    
+    
     
 -- 계약 단건 조회
 SELECT 
