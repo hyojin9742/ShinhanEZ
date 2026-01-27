@@ -1,6 +1,6 @@
 package com.shinhanez.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shinhanez.admin.domain.Board;
@@ -29,17 +30,20 @@ public class BoardController {
 
     // 목록 (로그인 없이 조회 가능)
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Board> boardList = boardService.findAll();
-        model.addAttribute("boardList", boardList);
-        model.addAttribute("totalCount", boardService.count());
+    public String list(@RequestParam(defaultValue = "1") int pageNum,
+                       @RequestParam(required = false) String keyword,
+                       Model model) {
+        Map<String, Object> result = boardService.getBoardList(pageNum, keyword);
+        model.addAttribute("boardList", result.get("list"));
+        model.addAttribute("paging", result.get("paging"));
+        model.addAttribute("keyword", keyword);
         return "pages/media_room";
     }
 
     // 상세 (로그인 없이 조회 가능)
     @GetMapping("/view/{idx}")
     public String view(@PathVariable Long idx, HttpSession session, Model model) {
-        Board board = boardService.findByIdWithCnt(idx);
+        Board board = boardService.getBoardWithCnt(idx);
         model.addAttribute("board", board);
 
         // 로그인 사용자 정보 (수정/삭제 버튼 표시용)
@@ -73,7 +77,7 @@ public class BoardController {
             return "redirect:/member/login?error=auth";
         }
         board.setId(user.getId());
-        boardService.insert(board);
+        boardService.addBoard(board);
         rttr.addFlashAttribute("message", "게시글이 등록되었습니다.");
         return "redirect:/board/list";
     }
@@ -85,7 +89,7 @@ public class BoardController {
         if (user == null) {
             return "redirect:/member/login?error=auth";
         }
-        Board board = boardService.findById(idx);
+        Board board = boardService.getBoard(idx);
 
         // 본인 글이 아니고 관리자도 아니면 접근 거부
         if (!user.getId().equals(board.getId()) && !"ROLE_ADMIN".equals(user.getRole())) {
@@ -107,13 +111,13 @@ public class BoardController {
         }
 
         // 본인 글이 아니고 관리자도 아니면 수정 거부
-        Board existingBoard = boardService.findById(idx);
+        Board existingBoard = boardService.getBoard(idx);
         if (!user.getId().equals(existingBoard.getId()) && !"ROLE_ADMIN".equals(user.getRole())) {
             return "redirect:/board/list?error=permission";
         }
 
         board.setIdx(idx);
-        boardService.update(board);
+        boardService.editBoard(board);
         rttr.addFlashAttribute("message", "게시글이 수정되었습니다.");
         return "redirect:/board/view/" + idx;
     }
@@ -127,12 +131,12 @@ public class BoardController {
         }
 
         // 본인 글이 아니고 관리자도 아니면 삭제 거부
-        Board board = boardService.findById(idx);
+        Board board = boardService.getBoard(idx);
         if (!user.getId().equals(board.getId()) && !"ROLE_ADMIN".equals(user.getRole())) {
             return "redirect:/board/list?error=permission";
         }
 
-        boardService.delete(idx);
+        boardService.deleteBoard(idx);
         rttr.addFlashAttribute("message", "게시글이 삭제되었습니다.");
         return "redirect:/board/list";
     }

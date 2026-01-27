@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -45,14 +46,13 @@
 			                <div class="bbs-view-head">
                   				<div class="mView_title">
 	                  				<div class="badge-group"><span class="badge bbs press">게시글</span></div>
-                  					<h2 class="bbs-subject">${bdto.title }</h2>
+                  					<h2 class="bbs-subject">${board.title }</h2>
                   				</div>
 								<!-- bbs-info -->
               					<div class="bbs-info">
 	              					<ul class="etcList">
-	              						<li><span>작성자: ${bdto.id }</span></li>
-	                  					<li><span>등록일: ${bdto.reg_date }</span></li>
-	                  					<li><span>조회: ${bdto.cnt }</span></li>
+	              						<li><span>작성자: ${board.id }</span></li>
+	                  					<li><span>등록일: <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd"/>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;조회: ${board.cnt }</span></li>
 	               					</ul>
                					</div>
                 			</div>
@@ -63,7 +63,7 @@
                   				<div class="bbs-content">
                     				<div class="bbs-img"></div>
 	                    			<p class="bbs-txt">
-	                    				${bdto.textarea }
+	                    				${board.textarea }
 	                    			</p>
                   				</div>
                   			<!--// bbs editer content -->
@@ -75,12 +75,13 @@
 				                    <button type="button" class="btn large grey-outline" onclick="history.back()">
 				                      	<span>목록</span>
 				                    </button>
-				                    <c:if test="${bdto.id eq sessionScope.id}">
-					                    <button type="submit" class="btn large primary" onclick="location.href='<%=ctx%>/shboardupdate?idx=${bdto.idx}&&mode=update'">
+				                    <%-- 본인 글이거나 관리자인 경우에만 수정/삭제 버튼 표시 --%>
+				                    <c:if test="${not empty sessionScope.loginUser && (sessionScope.loginUser.id == board.id || sessionScope.loginUser.role == 'ROLE_ADMIN')}">
+					                    <button type="button" class="btn large primary" onclick="location.href='<%=ctx%>/board/edit/${board.idx}'">
 					                      	<span>수정</span>
 					                    </button>
-					                    <button type="button" class="btn large blue-filled" onclick="if(confirm('정말 삭제하시겠습니까?')) { 
-					   												location.href='<%=ctx%>/shboarddelete?idx=${bdto.idx}'; 
+					                    <button type="button" class="btn large blue-filled" onclick="if(confirm('정말 삭제하시겠습니까?')) {
+					   												location.href='<%=ctx%>/board/delete/${board.idx}';
 																	} return false;">
 					                      	<span>삭제</span>
 					                    </button>

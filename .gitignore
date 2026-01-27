@@ -10,6 +10,9 @@ bin/
 .idea/
 *.iml
 
+# IDE settings
+.vscode/
+
 # Logs
 *.log
 

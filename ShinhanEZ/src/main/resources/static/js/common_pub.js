@@ -127,17 +127,30 @@ function icoBtnClose() {
   $("#sitemap").hide();
 }
 
-/* 복사 방지 */
+/* 복사 방지 (관리자 페이지 제외) */
 document.addEventListener("DOMContentLoaded", function () {
+  // 관리자 페이지에서는 복사 방지 비활성화
+  if (document.body.classList.contains('admin-page')) {
+    return;
+  }
+
   function preventAction(e) {
+    // input, textarea 내에서는 허용
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
   }
-  ["contextmenu", "copy", "cut", "selectstart", "dragstart"].forEach((event) =>
+  ["contextmenu", "copy", "cut", "dragstart"].forEach((event) =>
     document.addEventListener(event, preventAction)
   );
 
   document.addEventListener("keydown", function (e) {
+    // input, textarea 내에서는 Ctrl+C 허용
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      return;
+    }
     if (e.ctrlKey && (e.key === "C" || e.key === "c")) {
       preventAction(e);
       return;

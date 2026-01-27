@@ -1,0 +1,44 @@
+-- =============================================
+-- 신한SOL 다이렉트 보험 상품 데이터 (8종)
+-- =============================================
+
+-- 기존 데이터 확인 후 추가
+-- 시퀀스가 없으면 생성
+-- CREATE SEQUENCE seq_shezInsuraces START WITH 1 INCREMENT BY 1;
+
+-- 1. 금융안심보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '금융안심보험', '손해보험', 15000, '비대면 금융사고 피해 보장, 전자금융사기 피해 보장, 개인정보 유출 피해 보장', 12, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 2. 해외여행보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '해외여행보험', '여행보험', 25000, '해외 의료비 보장, 휴대품 도난/파손 보장, 여행 중 배상책임 보장, 항공기 지연 보장', 1, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 3. 해외장기체류보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '해외장기체류보험', '여행보험', 85000, '유학생/주재원 의료비 보장, 장기 체류 질병 보장, 귀국 항공료 지원, 현지 긴급 지원 서비스', 12, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 4. 처음운전자보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '처음운전자보험', '운전자보험', 35000, '자동차 사고 상해 보장, 면허정지/취소 위로금, 벌금/변호사 비용 보장, 긴급 견인 서비스', 36, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 5. 처음건강보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '처음건강보험', '건강보험', 45000, '3대 질병 진단비 보장, 입원/수술 보장, 건강검진 비용 지원, 만기 환급형', 120, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 6. 실손의료보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '실손의료보험', '건강보험', 55000, '입원 의료비 실손 보장, 통원 의료비 실손 보장, 약제비 보장, 비급여 항목 보장', 12, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 7. 주택화재보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '주택화재보험', '화재보험', 12000, '화재/폭발 피해 보장, 풍수해 피해 보장, 도난 피해 보장, 일상생활 배상책임 보장', 12, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+-- 8. 미니생활보험
+INSERT INTO SHEZ_INSURANCES (PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER)
+VALUES (seq_shezInsuraces.NEXTVAL, '미니생활보험', '생활보험', 9900, '일상생활 상해 보장, 골절/화상 진단비, 자전거 사고 보장, 반려동물 배상책임 보장', 12, 'ACTIVE', SYSDATE, SYSDATE, 'admin', 'admin');
+
+COMMIT;
+
+-- 추가 후 확인
+-- SELECT * FROM SHEZ_INSURANCES ORDER BY PRODUCTNO;

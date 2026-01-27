@@ -287,7 +287,7 @@
 }
 
 .remark:before {
-  content: '??;
+  content: '※';
   position: absolute;
   top: 0;
   left: 0;
@@ -608,7 +608,7 @@
 
 .card.option-step2 .card-item+.card-item {
   border-top: var(--line-1-sm) solid var(--color-line03);
-  padding: 3.0rem 0;
+  padding: 3.0rem;
 }
 
 .card.option-step2 .card-item[class*="step-type"]:first-child {
@@ -616,7 +616,6 @@
 }
 
 .card.option-step2 .card-item[class*="step-type"]:last-child {
-  padding-bottom: 0;
   align-items: flex-start;
 }
 
@@ -1179,6 +1178,8 @@
   display: flex;
   flex-direction: column;
   margin: 3.2rem 0;
+  min-height: 300px;
+  padding: 0 1.2rem
 }
 
 .bbs-view .bbs-content .bbs-img {
@@ -1203,15 +1204,16 @@
   margin-top: 1.6em;
   word-break: keep-all;
 }
-/* 寃뚯떆湲 ?곸꽭蹂닿린 異붽? ?섏젙 */
+
 .mView.bbs-view {
-  width: 800px;
+  width: 1200px;
   margin: 0 auto;
 }
 .mView.bbs-view .bbs-view-head{
   border-top: .1rem solid var(--color-line03);
   border-bottom: .1rem solid var(--color-line03);
-  padding: 2.4rem 0;
+  padding: 2.4rem 1.2rem;
+  background: #f5f5f5;
 }
 .mView.bbs-view .bbs-info {
   width: 100%;
@@ -1235,9 +1237,9 @@
 	justify-content: space-between;
 	width: 100%;
 }
-.mView .bbs-info .etcList li {
+/* .mView .bbs-info .etcList li {
 	width: 33%;
-}
+} */
 .mView .bbs-info .etcList span{
 	display: inline-block;
 	width: 100%;

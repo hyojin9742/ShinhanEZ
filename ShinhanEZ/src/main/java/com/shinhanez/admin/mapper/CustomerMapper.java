@@ -1,11 +1,6 @@
 package com.shinhanez.admin.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import com.shinhanez.admin.domain.Customer;
-
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;

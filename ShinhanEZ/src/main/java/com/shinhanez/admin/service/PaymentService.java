@@ -68,4 +68,21 @@ public class PaymentService {
     public int countByStatus(String status) {
         return paymentMapper.countByStatus(status);
     }
+
+    /**
+     * 결제 완료 처리 (토스페이먼츠 연동)
+     * @param paymentId 납입 ID
+     * @param method 결제 방법
+     * @return 업데이트 결과
+     */
+    public int completePayment(Long paymentId, String method) {
+        Payment payment = paymentMapper.findById(paymentId);
+        if (payment != null) {
+            payment.setStatus("PAID");
+            payment.setMethod(method);
+            payment.setPaymentDate(new java.util.Date());
+            return paymentMapper.update(payment);
+        }
+        return 0;
+    }
 }

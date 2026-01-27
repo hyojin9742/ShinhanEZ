@@ -1,6 +1,6 @@
 package com.shinhanez.admin.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,138 +8,82 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Board;
 import com.shinhanez.admin.service.BoardService;
-import com.shinhanez.domain.ShezUser;
 
-/**
- * 관리자용 게시판(미디어룸) 컨트롤러
- */
 @Controller
-@RequestMapping("/admin/board")
+@RequestMapping("/admin/notice")
 public class BoardController {
 
     @Autowired
     private BoardService boardService;
 
-    // 관리자 권한 체크
-    private boolean isAdmin(HttpSession session) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        return user != null && "ROLE_ADMIN".equals(user.getRole());
-    }
-
-    // 권한별 수정/삭제 가능 여부 체크
-    private boolean canModify(HttpSession session) {
-        Admins admin = (Admins) session.getAttribute("adminInfo");
-        if (admin == null) return false;
-        String role = admin.getAdminRole();
-        return "super".equals(role) || "manager".equals(role);
-    }
-
-    // 목록
+    // 목록 페이지
     @GetMapping("/list")
-    public String list(HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        List<Board> boardList = boardService.findAll();
-        model.addAttribute("boardList", boardList);
-        model.addAttribute("totalCount", boardService.count());
-
-        // 권한 정보 전달
-        Admins admin = (Admins) session.getAttribute("adminInfo");
-        if (admin != null) {
-            model.addAttribute("canModify", canModify(session));
-        }
-        return "admin/board_list";
+    public String listPage() {
+        return "admin/notice_list";
     }
 
-    // 상세
-    @GetMapping("/view/{idx}")
-    public String view(@PathVariable Long idx, HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        Board board = boardService.findByIdWithCnt(idx);
+    // 목록 데이터 (AJAX)
+    @GetMapping("/api/list")
+    @ResponseBody
+    public Map<String, Object> getNoticeList(
+            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "") String keyword) {
+        return boardService.getBoardList(pageNum, keyword);
+    }
+
+    // 상세보기
+    @GetMapping("/view")
+    public String view(@RequestParam Long idx, Model model) {
+        Board board = boardService.getBoard(idx);
         model.addAttribute("board", board);
-        model.addAttribute("canModify", canModify(session));
-        return "admin/board_view";
+        return "admin/notice_view";
     }
 
-    // 등록 폼
-    @GetMapping("/register")
-    public String registerForm(HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        if (!canModify(session)) {
-            return "redirect:/admin/board/list?error=permission";
-        }
-        return "admin/board_register";
+    // 등록 페이지
+    @GetMapping("/write")
+    public String writePage() {
+        return "admin/notice_write";
     }
 
     // 등록 처리
-    @PostMapping("/register")
-    public String register(Board board, HttpSession session, RedirectAttributes rttr) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
+    @PostMapping("/write")
+    public String write(Board board, HttpSession session) {
+        // 관리자 ID 설정
+        String adminId = (String) session.getAttribute("adminId");
+        if (adminId == null) {
+            adminId = "admin";
         }
-        if (!canModify(session)) {
-            return "redirect:/admin/board/list?error=permission";
-        }
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        board.setId(user.getId());
-        boardService.insert(board);
-        rttr.addFlashAttribute("message", "게시글이 등록되었습니다.");
-        return "redirect:/admin/board/list";
+        board.setId(adminId);
+        boardService.addBoard(board);
+        return "redirect:/admin/notice/list";
     }
 
-    // 수정 폼
-    @GetMapping("/edit/{idx}")
-    public String editForm(@PathVariable Long idx, HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        if (!canModify(session)) {
-            return "redirect:/admin/board/list?error=permission";
-        }
-        Board board = boardService.findById(idx);
+    // 수정 페이지
+    @GetMapping("/edit")
+    public String editPage(@RequestParam Long idx, Model model) {
+        Board board = boardService.getBoard(idx);
         model.addAttribute("board", board);
-        return "admin/board_edit";
+        return "admin/notice_edit";
     }
 
     // 수정 처리
-    @PostMapping("/edit/{idx}")
-    public String edit(@PathVariable Long idx, Board board, HttpSession session, RedirectAttributes rttr) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        if (!canModify(session)) {
-            return "redirect:/admin/board/list?error=permission";
-        }
-        board.setIdx(idx);
-        boardService.update(board);
-        rttr.addFlashAttribute("message", "게시글이 수정되었습니다.");
-        return "redirect:/admin/board/view/" + idx;
+    @PostMapping("/edit")
+    public String edit(Board board) {
+        boardService.editBoard(board);
+        return "redirect:/admin/notice/list";
     }
 
-    // 삭제
-    @GetMapping("/delete/{idx}")
-    public String delete(@PathVariable Long idx, HttpSession session, RedirectAttributes rttr) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
-        if (!canModify(session)) {
-            return "redirect:/admin/board/list?error=permission";
-        }
-        boardService.delete(idx);
-        rttr.addFlashAttribute("message", "게시글이 삭제되었습니다.");
-        return "redirect:/admin/board/list";
+    // 삭제 처리
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long idx) {
+        boardService.deleteBoard(idx);
+        return "redirect:/admin/notice/list";
     }
 }
