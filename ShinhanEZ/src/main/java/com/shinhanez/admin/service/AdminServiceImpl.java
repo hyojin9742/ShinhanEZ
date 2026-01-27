@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +15,38 @@ import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.AdminMapper;
 import com.shinhanez.domain.Paging;
+import com.shinhanez.domain.ShezUser;
 
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
 public class AdminServiceImpl implements AdminService {
+    private final PasswordEncoder passwordEncoder;
 	private AdminMapper mapper;
-	@Autowired
-	public AdminServiceImpl(AdminMapper mapper) {
-		this.mapper = mapper;
-	}
 	
+	@Autowired
+	public AdminServiceImpl(AdminMapper mapper, PasswordEncoder passwordEncoder) {
+		this.mapper = mapper;
+		this.passwordEncoder = passwordEncoder;
+	}
+    // 기존 DB 평문 PW 암호화 | 임시
+	@Override
+	public void encodeAdmins() {
+		List<Admins> adminList = mapper.findAllAdmins();
+
+        for (Admins admin : adminList) {
+            String plainPw = admin.getAdminPw();
+
+            // 이미 암호화된 건 건너뜀
+            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
+                continue;
+            }
+
+            String encodedPw = passwordEncoder.encode(plainPw);
+            mapper.encodeAdmins(admin.getAdminId(), encodedPw);
+        }
+	}
 	// 전체조회
 	@Override
 	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole) {

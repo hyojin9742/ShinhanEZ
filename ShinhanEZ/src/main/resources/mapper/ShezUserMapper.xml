@@ -3,6 +3,15 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shinhanez.mapper.ShezUserMapper">
+    <!-- 기존 DB 평문 PW 암호화 | 임시 -->
+    <select id="findAll" resultType="com.shinhanez.domain.ShezUser">
+    	SELECT * FROM shez_user
+    </select>
+    <update id="updatePassword">
+	    UPDATE shez_user
+		SET pw = #{pw}
+		WHERE id = #{id}
+    </update>
     
     <!-- 회원가입 -->
     <insert id="insert" parameterType="ShezUser">

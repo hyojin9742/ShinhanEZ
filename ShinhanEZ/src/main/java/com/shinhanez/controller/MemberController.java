@@ -1,8 +1,16 @@
 package com.shinhanez.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +30,39 @@ import com.shinhanez.service.ShezUserService;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+
+    private final PasswordEncoder passwordEncoder;
     private ShezUserService userService;
     private AdminService adminService;
     
     @Autowired
-    public MemberController(ShezUserService userService, AdminService adminService) {
+    public MemberController(ShezUserService userService, AdminService adminService, PasswordEncoder passwordEncoder) {
     	this.userService = userService;
     	this.adminService = adminService;
+    	this.passwordEncoder = passwordEncoder;
     }
+    
+    /* 비밀번호 암호화 처리 임시 메서드 */
+    public void migratePassword() {
+        List<ShezUser> userList = userService.findAll();
 
+        for (ShezUser user : userList) {
+            String plainPw = user.getPw();
+
+            // 이미 암호화된 건 건너뜀
+            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
+                continue;
+            }
+
+            String encodedPw = passwordEncoder.encode(plainPw);
+            userService.updatePassword(user.getId(), encodedPw);
+        }
+    }
     // 로그인 페이지
     @GetMapping("/login")
     public String loginForm() {
+    	migratePassword();
+    	adminService.encodeAdmins();
         return "member/login";
     }
 
@@ -43,9 +72,10 @@ public class MemberController {
                         @RequestParam String pw,
                         HttpSession session,
                         Model model) {
-        ShezUser user = userService.login(id, pw);
+        ShezUser user = userService.findById(id);
         Admins admin = adminService.readOneAdminById(id);
-        if (user != null) {
+        
+        if (user != null && passwordEncoder.matches(pw, user.getPw())) {
             // 로그인 성공 - 세션에 저장
         	session.setAttribute("loginUser", user);
             session.setAttribute("userId", user.getId());
@@ -57,6 +87,13 @@ public class MemberController {
             	session.setAttribute("adminName", admin.getAdminName());
             	session.setAttribute("adminRole", admin.getAdminRole());            	
             }
+            // Spring Security 인증 객체
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+            
+            UsernamePasswordAuthenticationToken auth = 
+                new UsernamePasswordAuthenticationToken(user.getId(), user.getPw(), authorities);
+            SecurityContextHolder.getContext().setAuthentication(auth);
             // 로그인 성공 → 메인 페이지로 (관리자든 일반유저든)
             return "redirect:/";
         } else {
@@ -87,7 +124,10 @@ public class MemberController {
             model.addAttribute("error", "이미 사용중인 아이디입니다.");
             return "member/join";
         }
-        
+        // 비밀번호 암호화
+        String encodedPw = passwordEncoder.encode(user.getPw());
+        user.setPw(encodedPw);
+
         int result = userService.join(user);
         if (result > 0) {
             return "redirect:/member/login?join=success";

@@ -1,5 +1,7 @@
 package com.shinhanez.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,13 @@ public class ShezUserService {
 
     @Autowired
     private ShezUserMapper userMapper;
-
+    // 기존 DB 평문 PW 암호화 | 임시
+    public List<ShezUser> findAll(){
+    	return userMapper.findAll();
+    }
+    public int updatePassword(String id, String pw) {
+    	return userMapper.updatePassword(id, pw);
+    }
     // 회원가입
     public int join(ShezUser user) {
         return userMapper.insert(user);

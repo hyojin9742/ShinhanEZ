@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import com.shinhanez.admin.domain.Admins;
 
 public interface AdminService {
+    // 기존 DB 평문 PW 암호화 | 임시
+	public void encodeAdmins();
 	// 전체 조회
 	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole);
 	// 단건 조회
