@@ -34,4 +34,10 @@ public class ShezUserService {
     public boolean isDuplicateId(String id) {
         return userMapper.countById(id) > 0;
     }
+    
+    
+    public ShezUser findByEmail(String email) {
+    	return userMapper.findByEmail(email);
+    }
+    
 }

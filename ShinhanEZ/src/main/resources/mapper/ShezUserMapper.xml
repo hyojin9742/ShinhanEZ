@@ -6,8 +6,8 @@
     
     <!-- 회원가입 -->
     <insert id="insert" parameterType="ShezUser">
-        INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)
-        VALUES (#{id}, #{pw}, #{email}, #{name}, #{birth}, #{telecom}, #{gender}, #{phone}, #{nation}, 'ROLE_USER')
+        INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role, provider)
+        VALUES (#{id}, #{pw}, #{email}, #{name}, #{birth}, #{telecom}, #{gender}, #{phone}, #{nation}, 'ROLE_USER', #{provider})
     </insert>
     
     <!-- 로그인 (ID, PW로 조회) -->
@@ -27,6 +27,14 @@
     <!-- ID 중복 체크 -->
     <select id="countById" resultType="int">
         SELECT COUNT(*) FROM shez_user WHERE id = #{id}
+    </select>
+    
+    
+    <!-- email로 회원 조회 -->
+    <select id="findByEmail" resultType="ShezUser">
+        SELECT id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date as regDate
+        FROM shez_user 
+        WHERE email = #{email}
     </select>
     
 </mapper>

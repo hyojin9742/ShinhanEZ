@@ -2,6 +2,8 @@ package com.shinhanez.domain;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 회원 Entity
  * - shez_user 테이블과 매핑
@@ -39,6 +41,10 @@ public class ShezUser {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
+    
+    
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getBirth() { return birth; }
     public void setBirth(Date birth) { this.birth = birth; }
 
@@ -59,6 +65,10 @@ public class ShezUser {
 
     public Date getRegDate() { return regDate; }
     public void setRegDate(Date regDate) { this.regDate = regDate; }
+    
+    public String getProvider() { return provider; }
+    public void setProvider(String provider) { this.provider = provider; }
+    
 
     @Override
     public String toString() {

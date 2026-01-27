@@ -125,7 +125,7 @@
                 <span class="social_icon kakao_icon"></span>
                 <span class="social_text">카카오</span>
               </a>
-              <a href="${ctx}/oauth/google" class="social_btn google" title="구글 로그인">
+              <a href="/oauth2/authorization/google" class="social_btn google" title="구글 로그인">
                 <span class="social_icon google_icon"></span>
                 <span class="social_text">구글</span>
               </a>

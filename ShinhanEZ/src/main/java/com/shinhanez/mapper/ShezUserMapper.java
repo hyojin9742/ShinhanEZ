@@ -23,4 +23,7 @@ public interface ShezUserMapper {
     
     // ID 중복 체크
     int countById(String id);
+    
+    // 이메일로 회원 조회
+    ShezUser findByEmail(String email);
 }
