@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,7 @@ import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.ContractServiceImpl;
 import com.shinhanez.domain.ShezUser;
+import com.shinhanez.domain.UserAdminDetails;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,16 +42,8 @@ import lombok.extern.log4j.Log4j2;
 public class ContractController {
 	private final ContractServiceImpl service;
 	
-	private boolean isAdmin(HttpSession session) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        return user != null && "ROLE_ADMIN".equals(user.getRole());
-    }
-	
 	@GetMapping("/list")
 	public String contractList(HttpSession session) {
-		if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
 		return "/admin/contract_list";
 	}
 	// 계약 상세 보기
@@ -89,9 +83,10 @@ public class ContractController {
     public ResponseEntity<Map<String, Object>> updateContract(
             @PathVariable Integer contractId,
             @RequestBody Contracts contract,
-            HttpSession session) {
+            HttpSession session,
+            @AuthenticationPrincipal UserAdminDetails details) {
         contract.setContractId(contractId);
-        int updateResult = service.updateContract(contract, session);
+        int updateResult = service.updateContract(contract, session, details);
 
         return ResponseEntity.ok(Map.of("updateResult",updateResult));
     }

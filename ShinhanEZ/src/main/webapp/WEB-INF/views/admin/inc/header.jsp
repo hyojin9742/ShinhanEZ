@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 
 <style>
@@ -108,17 +109,10 @@
         </div>
         <div class="header-user">
             <i class="bi bi-person-circle"></i>
-            <c:choose>
-                <c:when test="${sessionScope.adminRole == 'super'}">
-                    <span>${sessionScope.adminName}(관리자)님</span>
-                </c:when>
-                <c:when test="${sessionScope.adminRole == 'manager'}">
-                    <span>${sessionScope.adminName}(매니저)님</span>
-                </c:when>
-                <c:otherwise>
-                    <span>${sessionScope.adminName}(스태프)님</span>
-                </c:otherwise>
-            </c:choose>
+				<span>
+					<sec:authentication property="principal.displayName" />
+					(<sec:authentication property="principal.displayRoleLabel" />)님
+				</span>
         </div>
     </div>
 </header>

@@ -1,15 +1,8 @@
 package com.shinhanez.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.service.ShezUserService;
@@ -64,50 +56,6 @@ public class MemberController {
     	migratePassword();
     	adminService.encodeAdmins();
         return "member/login";
-    }
-
-    // 로그인 처리
-    @PostMapping("/login")
-    public String login(@RequestParam String id, 
-                        @RequestParam String pw,
-                        HttpSession session,
-                        Model model) {
-        ShezUser user = userService.findById(id);
-        Admins admin = adminService.readOneAdminById(id);
-        
-        if (user != null && passwordEncoder.matches(pw, user.getPw())) {
-            // 로그인 성공 - 세션에 저장
-        	session.setAttribute("loginUser", user);
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userRole", user.getRole());
-            if(admin != null ) {
-            	adminService.lastLogin(admin.getAdminIdx());
-            	session.setAttribute("adminIdx", admin.getAdminIdx());
-            	session.setAttribute("adminName", admin.getAdminName());
-            	session.setAttribute("adminRole", admin.getAdminRole());            	
-            }
-            // Spring Security 인증 객체
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getRole()));
-            
-            UsernamePasswordAuthenticationToken auth = 
-                new UsernamePasswordAuthenticationToken(user.getId(), user.getPw(), authorities);
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            // 로그인 성공 → 메인 페이지로 (관리자든 일반유저든)
-            return "redirect:/";
-        } else {
-            // 로그인 실패
-            model.addAttribute("error", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "member/login";
-        }
-    }
-
-    // 로그아웃
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
     }
 
     // 회원가입 페이지

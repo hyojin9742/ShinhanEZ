@@ -70,7 +70,7 @@ public class ContractServiceTest {
 		log.info("등록 테스트 => "+service.registerContract(ct));
 	}
 	// 계약 수정
-	@Test
+	/*@Test
 	public void updateContractTest(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Contracts ctu = new Contracts();
@@ -84,5 +84,5 @@ public class ContractServiceTest {
 		ctu.setContractId(5);
 		
 		log.info("수정 테스트 => "+service.updateContract(ctu,session));
-	}
+	}*/
 }

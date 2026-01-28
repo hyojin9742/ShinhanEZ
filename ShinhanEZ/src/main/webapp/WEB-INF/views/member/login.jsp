@@ -43,7 +43,7 @@
         
             <div class="panel_area">
               <!-- 패널1: ID 로그인 -->
-              <form action="${ctx}/member/login" class="panel panel_id" id="panel_id" method="post">
+              <form action="${ctx}/member/loginProc" class="panel panel_id" id="panel_id" method="post">
                 <div class="panel_inner">
                   <c:if test="${not empty error}">
                     <div class="error_msg" style="color:red; text-align:center; margin-bottom:15px;">${error}</div>

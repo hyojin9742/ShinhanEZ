@@ -5,12 +5,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.ContractSearchCriteria;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
+import com.shinhanez.domain.UserAdminDetails;
 
 public interface ContractService {
 	// 계약 목록 조회
@@ -20,7 +22,7 @@ public interface ContractService {
 	// 계약 등록
 	public int registerContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts contract, HttpSession session);
+	public int updateContract(Contracts contract, HttpSession session, @AuthenticationPrincipal UserAdminDetails details);
 	
 	/* 자동완성 */
 	// 고객명 검색

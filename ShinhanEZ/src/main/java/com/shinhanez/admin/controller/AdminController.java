@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
+import com.shinhanez.domain.UserAdminDetails;
 
 /**
  * 관리자 컨트롤러
@@ -37,19 +39,9 @@ public class AdminController {
     public AdminController(AdminService adminService) {
     	this.adminService = adminService;
     }
-
-    // 관리자 권한 체크
-    private boolean isAdmin(HttpSession session) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        return user != null && "ROLE_ADMIN".equals(user.getRole());
-    }
-
     // 관리자 메인 (고객 목록)
     @GetMapping({"", "/"})
     public String index(HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
         return "admin/index";
     }
     /* Admin 페이지 */
@@ -59,8 +51,8 @@ public class AdminController {
     }
     /* 관리자 상세 페이지 */
     @GetMapping("/employee/view")
-    public String getAdmin(@RequestParam int adminIdx, Model model, HttpSession session) {
-    	Admins admin = adminService.readOneAdmin(adminIdx, session);
+    public String getAdmin(@RequestParam int adminIdx, Model model, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
+    	Admins admin = adminService.readOneAdmin(adminIdx, session, details);
     	model.addAttribute("admin",admin);
     	return "admin/admin_view";
     }
@@ -78,8 +70,8 @@ public class AdminController {
     }
     // 단건조회
     @GetMapping(value = "/employee/rest/{adminIdx}", produces = "application/json")
-    public ResponseEntity<Admins> showOneAdmin(@PathVariable int adminIdx, HttpSession session){
-    	return ResponseEntity.ok(adminService.readOneAdmin(adminIdx, session));
+    public ResponseEntity<Admins> showOneAdmin(@PathVariable int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details){
+    	return ResponseEntity.ok(adminService.readOneAdmin(adminIdx, session, details));
     }
     // 등록
     @PostMapping(value = "/employee/rest/register",
@@ -90,12 +82,12 @@ public class AdminController {
     // 수정
     @RequestMapping(value = "/employee/rest/modify/{adminIdx}", method = {RequestMethod.PUT, RequestMethod.PATCH}
     		,consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Integer> modifyAdmin(@RequestBody Admins admin, @PathVariable Integer adminIdx , HttpSession session){
-    	return ResponseEntity.ok(adminService.modifyAdmin(admin, session));
+    public ResponseEntity<Integer> modifyAdmin(@RequestBody Admins admin, @PathVariable Integer adminIdx , HttpSession session, @AuthenticationPrincipal UserAdminDetails details){
+    	return ResponseEntity.ok(adminService.modifyAdmin(admin, session, details));
 	}
     // 삭제
     @DeleteMapping(value = "/employee/rest/delete/{adminIdx}", produces = "application/json")
-    public ResponseEntity<Integer> deleteAdmin(@PathVariable int adminIdx, HttpSession session){
-    	return ResponseEntity.ok(adminService.deleteAdmin(adminIdx, session));
+    public ResponseEntity<Integer> deleteAdmin(@PathVariable int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details){
+    	return ResponseEntity.ok(adminService.deleteAdmin(adminIdx, session, details));
     }
 }

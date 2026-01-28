@@ -69,11 +69,6 @@ public class ProductController {
     @GetMapping("/subscribe/{productNo}")
     public String subscribe(@PathVariable Long productNo, HttpSession session, Model model) {
 
-        // 로그인 체크
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/member/login?redirect=/product/subscribe/" + productNo;
-        }
-
         Insurance product = insuranceService.getPlan(productNo);
 
         if (product == null || !"ACTIVE".equals(product.getStatus())) {
