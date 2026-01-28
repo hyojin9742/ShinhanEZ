@@ -41,7 +41,7 @@
     backdrop.style.display = "block";
     document.body.style.overflow = "hidden";
 
-    // ✅ 모달 열릴 때 자동 조회
+    // 모달 열릴 때 자동 조회
     loadContracts();
   }
 
@@ -52,8 +52,6 @@
   }
 
   function formatDate(value) {
-    // 서버에서 @JsonFormat("yyyy-MM-dd")이면 문자열로 내려올 가능성이 큼
-    // 혹시 ISO나 Date로 내려와도 안전하게 처리
     if (!value) return "-";
     if (typeof value === "string") return value; // "yyyy-MM-dd"
     try {
@@ -69,14 +67,12 @@
   }
 
   function statusLabel(contractStatus) {
-    // 필요하면 상태코드 -> 한글 라벨로 매핑
-    // 태양님 DB/도메인 규칙에 맞게 추가 가능
     if (!contractStatus) return "-";
     const s = String(contractStatus).toUpperCase();
     if (s === "ACTIVE") return "정상";
     if (s === "EXPIRED") return "만료";
     if (s === "CANCELLED" || s === "CANCELED") return "해지";
-    return contractStatus; // 그대로 표시
+    return contractStatus;
   }
 
   // === (3) REST 호출 + 렌더 ===
@@ -157,12 +153,6 @@
       return;
     }
 
-
-    // ✅ 다음 단계: 계약 ID를 가지고 청구 진행 화면으로 이동(예시)
-    // location.href = `/user/claims/form?contractId=${encodeURIComponent(selectedContract.contractId)}`;
-
-    // ✅ 또는 기존 commView 흐름을 유지하면서 contractId를 활용하고 싶다면,
-    // commView.goQrLk가 파라미터를 받을 수 있는지 규격을 정해야 합니다.
     if (window.commView?.goQrLk) {
       window.commView.goQrLk("3002");
     }
@@ -197,7 +187,6 @@
   }
 
   async function fetchContractOne(contractId){
-    // ✅ 태양님 단건 REST 경로로 맞추세요
     const res = await fetch(`/user/claims/contracts/${encodeURIComponent(contractId)}`, {
       headers: { "Accept": "application/json" },
       credentials: "same-origin"

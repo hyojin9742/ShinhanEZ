@@ -34,5 +34,10 @@ public class UserClaimsServiceImpl implements UserClaimsService{
 		return userClaimsMapper.insertClaim(claimsDTO);
 	}
 
+	@Override
+	public List<ClaimsDTO> getClaimsList(String userId) {
+		return userClaimsMapper.getClaimsList(userId);
+	}
+
 	
 }

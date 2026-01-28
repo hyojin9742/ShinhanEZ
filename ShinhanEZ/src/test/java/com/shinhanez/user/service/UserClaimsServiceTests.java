@@ -56,4 +56,14 @@ public class UserClaimsServiceTests {
 	    assertEquals(1, result);
 	}
 	
+	@Test
+	void getClaimsListTests() {
+		String userId = "user1";
+		List<ClaimsDTO> list = userClaimsService.getClaimsList(userId);
+		list.forEach(claimsDTO ->
+			log.info("userId로 청구리스트 조회......"+list)
+				);
+		
+	}
+	
 }

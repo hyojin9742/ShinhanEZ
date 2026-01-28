@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,6 +54,7 @@ public class UserClaimsController {
 		return userClaimsService.selectContractDetailByUserId(userId, contractId);
 	}
 	
+	// 청구등록
 	@PostMapping(value = "/insert")
 	public String insertClaim(
 			@ModelAttribute ClaimsDTO claimsDTO,
@@ -73,4 +75,19 @@ public class UserClaimsController {
 		return "redirect:/pages/insurance_claim";
 	}
 	
+	// 고객 청구리스트 조회
+	@GetMapping(value = "/api/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<ClaimsDTO>> getClaimsList(HttpSession httpSession){
+		String userId = (String) httpSession.getAttribute("userId");
+		
+		if (userId == null) {
+	        return ResponseEntity
+	                .status(HttpStatus.UNAUTHORIZED)
+	                .build();
+	    }
+		
+		List<ClaimsDTO> list = userClaimsService.getClaimsList(userId);
+	    return ResponseEntity.ok(list);
+	}
 }

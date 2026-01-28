@@ -105,7 +105,9 @@ public class ClaimsController {
 	
 	// 청구 update
 	@PostMapping("/{claimId}/update")
-	public String claimsUpdate(@PathVariable Long claimId, ClaimsDTO claimsDTO, Model model, RedirectAttributes redirectAttributes) {
+	public String claimsUpdate(@PathVariable Long claimId, ClaimsDTO claimsDTO, Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+		
+		claimsDTO.setAdminIdx((Integer)httpSession.getAttribute("adminIdx"));
 		// 혹시 모를 다른글 수정 방지를 위한 글확정 코드
 		claimsDTO.setClaimId(claimId);
 		

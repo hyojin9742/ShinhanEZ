@@ -98,23 +98,25 @@ WHERE rn &gt; #{startRow}
 
   <!-- 3) 단건 조회 -->
   <select id="getClaim" parameterType="long" resultMap="ClaimsResultMap">
-    SELECT
-      CLAIM_ID,
-      CUSTOMER_ID,
-      INSURED_ID,
-      CONTRACT_ID,
-      ACCIDENT_DATE,
-      CLAIM_DATE,
-      CLAIM_AMOUNT,
-      DOCUMENT_LIST,
-      PAID_AT,
-      PAID_AMOUNT,
-      STATUS,
-      COMPLETED_AT,
-      ADMIN_IDX
-    FROM SHEZ_CLAIMS
-    WHERE CLAIM_ID = #{claimId}
-  </select>
+      SELECT
+   	      c.CLAIM_ID,
+    	  c.CUSTOMER_ID,
+    	  c.INSURED_ID,
+    	  c.CONTRACT_ID,
+    	  c.ACCIDENT_DATE,
+    	  c.CLAIM_DATE,
+    	  c.CLAIM_AMOUNT,
+    	  c.DOCUMENT_LIST,
+    	  c.PAID_AT,
+    	  c.PAID_AMOUNT,
+    	  c.STATUS,
+    	  c.COMPLETED_AT,
+    	  c.ADMIN_IDX,
+          adm.ADMIN_NAME AS ADMIN_NAME
+  	  FROM SHEZ_CLAIMS c
+  	  LEFT JOIN SHEZ_ADMINS adm ON adm.ADMIN_IDX = c.ADMIN_IDX
+  	  WHERE c.CLAIM_ID = #{claimId}
+</select>
 
 
   <!-- 4) 등록 -->

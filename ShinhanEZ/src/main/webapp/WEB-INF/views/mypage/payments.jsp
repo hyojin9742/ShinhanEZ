@@ -42,6 +42,9 @@
         .summary-card.overdue {
             border-left: 4px solid #dc3545;
         }
+		.summary-card.paid {
+			border-left: 4px solid #0f5132; 
+		}
         .summary-card .label {
             font-size: 14px;
             color: #666;
@@ -53,6 +56,7 @@
         }
         .summary-card.pending .value { color: #ffc107; }
         .summary-card.overdue .value { color: #dc3545; }
+		.summary-card.paid .value { color: #0f5132; }
 
         .payment-list {
             background: #fff;
@@ -133,6 +137,9 @@
             font-weight: 600;
             color: #0d6efd;
         }
+		#claimHead{
+			margin-top: 5vw;
+		}
     </style>
 </head>
 <body class="sub">
@@ -221,6 +228,49 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
+				
+				<!-- 청구 현황 -->
+                <div class="summary-cards" id="claimHead">
+                    <div class="summary-card pending">
+                        <div class="label">청구대기</div>
+                        <div class="value" id="claimPendingCount">0건</div>
+                    </div>
+                    <div class="summary-card overdue">
+                        <div class="label">반려</div>
+                        <div class="value" id="claimRejectedCount">0건</div>
+                    </div>
+                    <div class="summary-card paid">
+                        <div class="label">승인</div>
+                        <div class="value" id="claimCompletedCount">0건</div>
+                    </div>
+                </div>
+                <!-- 청구 목록 -->
+                <div class="payment-list">
+                    <div class="payment-list-header">
+                        <i class="bi bi-credit-card"></i> 청구 목록
+                    </div>
+                    <table class="payment-table" id="claimsTable">
+                        <thead>
+                            <tr>
+                                <th>청구ID</th>
+                                <th>상태</th>
+                                <th>보험가입자</th>
+                                <th>피보험자</th>
+                                <th>사고일</th>
+                                <th>청구일</th>
+                                <th>청구금액</th>
+                                <th>담당자</th>
+                            </tr>
+                        </thead>
+						<tbody id="claimsTbody">
+						    <!-- JS로 채움 -->
+						</tbody>
+					</table>
+                    <div class="empty-message" id="claimsEmpty" style="display:none">
+                        <i class="bi bi-inbox"></i>
+                        <p>청구내역이 없습니다.</p>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -229,5 +279,6 @@
         </footer>
     </div>
 </div>
+<script src="${ctx}/js/user_claims_list.js"></script>
 </body>
 </html>

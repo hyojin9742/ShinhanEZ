@@ -20,4 +20,8 @@ public interface UserClaimsMapper {
 	
 	// 청구등록
 	public int insertClaim(ClaimsDTO claimsDTO);
+	
+	// 청구 리스트 조회
+	public List<ClaimsDTO> getClaimsList(
+			@Param("userId") String userId);
 }

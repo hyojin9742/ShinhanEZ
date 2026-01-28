@@ -185,7 +185,7 @@
 <script>window.APP_CTX = "${ctx}";</script>
 
 <!-- 페이지 전용 JS(계약 조회/모달 제어/hidden 채우기 등) -->
-<script src="${ctx}/js/claims_insert.js"></script>
+<script src="${ctx}/js/admin/claims_insert.js"></script>
 
 <!-- 토스트 자동 표시 -->
 <script>

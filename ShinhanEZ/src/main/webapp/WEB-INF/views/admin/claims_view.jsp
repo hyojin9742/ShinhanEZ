@@ -240,7 +240,7 @@
                             </div>
                             <div class="detail-item">
                                 <label>담당 관리자</label>
-                                <span><strong>${contracts.adminName}</strong></span>
+                                <span><strong>${claimsDTO.adminName}</strong></span>
                             </div>
                         </div>
                     </div>

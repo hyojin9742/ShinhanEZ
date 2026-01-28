@@ -88,4 +88,27 @@
   )
 </insert>
 
+<!-- 고객 청구 리스트조회 -->
+<select id="getClaimsList"
+        parameterType="string"
+        resultType="com.shinhanez.admin.domain.ClaimsDTO">
+
+    SELECT
+        c.CLAIM_ID        AS claimId,
+        c.STATUS          AS status,
+        cust.NAME         AS customerName,
+        ins.NAME          AS insuredName,
+        c.ACCIDENT_DATE   AS accidentDate,
+        c.CLAIM_DATE      AS claimDate,
+        c.CLAIM_AMOUNT    AS claimAmount,
+        adm.ADMIN_NAME    AS adminName
+    FROM SHEZ_CLAIMS c
+    JOIN SHEZ_CUSTOMERS cust ON cust.CUSTOMER_ID = c.CUSTOMER_ID
+    JOIN SHEZ_CUSTOMERS ins  ON ins.CUSTOMER_ID  = c.INSURED_ID
+    LEFT JOIN SHEZ_ADMINS adm ON adm.ADMIN_IDX = c.ADMIN_IDX
+    WHERE cust.LOGIN_ID = #{userId}
+    ORDER BY c.CLAIM_ID DESC
+    
+</select>
+
 </mapper>

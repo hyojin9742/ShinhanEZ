@@ -76,4 +76,13 @@ public class UserClaimsMapperTests {
 	    log.info("insert 결과 = {}", result);
 	    assertEquals(1, result);
 	}
+	
+	// 고객 청구 리스트 조회 테스트
+	@Test
+	void getClaimsListTests() {
+		String userId = "user1";
+		List<ClaimsDTO> list = userClaimsMapper.getClaimsList(userId);
+		list.forEach(claimsDTO ->
+		log.info("고객청구 리스트 조회 테스트....."+claimsDTO));
+	}
 }
