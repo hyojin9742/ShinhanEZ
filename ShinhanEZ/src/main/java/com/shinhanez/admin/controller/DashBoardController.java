@@ -61,6 +61,18 @@ public class DashBoardController {
 
         return dashBoardService.getConstractsList(pageNum);
     } 
+    // 대쉬보드 하단 최근 계약자 목록
+    @GetMapping("/api/allboards")
+    @ResponseBody 
+    public Map<String, Object> getBoardsList(
+            @RequestParam(defaultValue = "1") int pageNum) {
+
+        return dashBoardService.getBoardsList(pageNum);
+    } 
+    
+    
+    
+    
   	@GetMapping("/api/allcount")
     @ResponseBody
   	public HashMap<String, Integer> allCount() {
@@ -68,6 +80,7 @@ public class DashBoardController {
   		allcount.put("allusers", dashBoardService.allUserCount());
   		allcount.put("allcustomers", dashBoardService.allCustomerCount());
   		allcount.put("allcontracts", dashBoardService.allcontractCount());
+  		allcount.put("allboards", dashBoardService.allboardCount());
   		
   		return allcount;
   		

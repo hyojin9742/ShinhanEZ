@@ -59,7 +59,7 @@
         }
         
         /* 페이징 컨테이너 */
-		#pagination {
+		.paging {
 		    display: flex;
 		    justify-content: center; /* 가운데 정렬 */
 		    align-items: center;
@@ -69,7 +69,7 @@
 		}
 		
 		
-		#pagination button {
+		.paging button {
 		    min-width: 32px; /* 최소 너비 */
 		    height: 32px;
 		    padding: 0 8px;
@@ -84,7 +84,7 @@
 		}
 		
 		/* 마우스 올렸을 때 (Hover) */
-		#pagination button:hover:not(:disabled) {
+		.paging button:hover:not(:disabled) {
 		    background-color: #f1f3f5;
 		    border-color: #c5c9cd;
 		    color: #0056b3;
@@ -92,7 +92,7 @@
 		}
 		
 		/* 현재 선택된 페이지 (Active) */
-		#pagination button.active {
+		.paging button.active {
 		    background-color: #007bff; /* 메인 파란색 */
 		    border-color: #007bff;
 		    color: white;
@@ -102,7 +102,7 @@
 		}
 		
 		/* 비활성화된 버튼 (이전/다음 없을 때 등) - 필요시 */
-		#pagination button:disabled:not(.active) {
+		.paging button:disabled:not(.active) {
 		    background-color: #f8f9fa;
 		    color: #adb5bd;
 		    cursor: not-allowed;
@@ -193,7 +193,7 @@
                 </div>
                 <div class="summary-card">
                     <div class="icon purple"><i class="bi bi-megaphone"></i></div>
-                    <div class="info">
+                    <div class="info allboardcount">
                         <h3>0</h3>
                         <p>전체 공지사항 수</p>
                     </div>
@@ -263,7 +263,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div id="pagination"></div>
+                        <div class="paging" id="constractspagination"></div>
                     </div>
                 </div>
                 
@@ -282,7 +282,7 @@
                                     <th>등록일</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="allBoards">
                                 <tr onclick="location.href='<%=ctx%>/admin/notice/view?idx=3'" style="cursor:pointer;">
                                     <td>3</td>
                                     <td><span class="badge badge-danger">중요</span> 제목</td>
@@ -297,6 +297,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="paging" id="noticepagination"></div>
                     </div>
                 </div>
             </div>

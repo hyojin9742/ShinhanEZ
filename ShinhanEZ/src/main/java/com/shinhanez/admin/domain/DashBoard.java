@@ -15,4 +15,6 @@ public class DashBoard {
 	private String regDate;
 	private String status;
 	private int count;
+	private int lineNum;
+	private String title;
 }
