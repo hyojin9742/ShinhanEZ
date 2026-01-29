@@ -140,6 +140,19 @@
 		#claimHead{
 			margin-top: 5vw;
 		}
+		/* 서류첨부 */
+		.btn-doc {
+		  display: inline-block;
+		  padding: 6px 14px;
+		  background: #1a2b4a;
+		  color: #fff;
+		  border-radius: 6px;
+		  font-size: 13px;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		.btn-doc:hover { opacity: .9; color:#fff; }
+		.btn-doc.secondary { background:#6c757d; }
     </style>
 </head>
 <body class="sub">
@@ -260,6 +273,7 @@
                                 <th>청구일</th>
                                 <th>청구금액</th>
                                 <th>담당자</th>
+                                <th>서류</th>
                             </tr>
                         </thead>
 						<tbody id="claimsTbody">
@@ -279,6 +293,42 @@
         </footer>
     </div>
 </div>
+
+<!-- 파일 관리 모달 -->
+<div id="filesModalBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9998;"></div>
+
+<div id="filesModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+     width:720px; max-width:92vw; background:#fff; border-radius:14px; padding:18px; z-index:9999;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+        <div>
+            <h3 style="margin:0;">서류 첨부/확인</h3>
+            <div id="filesModalSub" style="margin-top:6px; color:#666; font-size:13px;"></div>
+        </div>
+        <button type="button" class="btn-doc secondary" id="btnCloseFilesModal">닫기</button>
+    </div>
+
+    <hr style="margin:14px 0; border:none; border-top:1px solid #eee;" />
+
+    <!-- 업로드 영역 -->
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <input type="file" id="filesModalInput" multiple />
+        <button type="button" class="btn-doc" id="btnUploadFiles">업로드</button>
+        <span id="filesUploadHint" style="color:#777; font-size:12px;"></span>
+    </div>
+
+    <div id="filesUploadStatus" style="margin-top:10px; font-size:13px;"></div>
+
+    <hr style="margin:14px 0; border:none; border-top:1px solid #eee;" />
+
+    <!-- 목록 영역 -->
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <h4 style="margin:0;">첨부 파일 목록</h4>
+        <button type="button" class="btn-doc secondary" id="btnRefreshFiles">새로고침</button>
+    </div>
+
+    <div id="filesModalBody" style="margin-top:10px;"></div>
+</div>
+
 <script src="${ctx}/js/user_claims_list.js"></script>
 </body>
 </html>

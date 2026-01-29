@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.common.mapper.ClaimFileMapper">
+
+
+  <!-- (선택) 컬럼 매핑: camelCase 자동 매핑 설정이 없으면 resultMap이 안전 -->
+  <resultMap id="ClaimFileMap" type="com.shinhanez.common.domain.ClaimFileVO">
+    <id     property="fileId"       column="FILE_ID"/>
+    <result property="claimId"      column="CLAIM_ID"/>
+    <result property="docType"      column="DOC_TYPE"/>
+    <result property="originalName" column="ORIGINAL_NAME"/>
+    <result property="storageKey"   column="STORAGE_KEY"/>
+    <result property="contentType"  column="CONTENT_TYPE"/>
+    <result property="fileSize"     column="FILE_SIZE"/>
+    <result property="uploadedBy"   column="UPLOADED_BY"/>
+    <result property="createdAt"    column="CREATED_AT"/>
+    <result property="isDeleted"    column="IS_DELETED"/>
+  </resultMap>
+
+  <!-- 1) insert -->
+  <insert id="insert" parameterType="com.shinhanez.common.domain.ClaimFileVO">
+    INSERT INTO SHEZ_CLAIM_FILES (
+      CLAIM_ID, DOC_TYPE, ORIGINAL_NAME, STORAGE_KEY,
+      CONTENT_TYPE, FILE_SIZE, UPLOADED_BY
+    ) VALUES (
+      #{claimId}, #{docType}, #{originalName}, #{storageKey},
+      #{contentType}, #{fileSize}, #{uploadedBy}
+    )
+  </insert>
+
+  <!-- 2) 청구별 파일 목록 -->
+  <select id="selectByClaimId" parameterType="long" resultMap="ClaimFileMap">
+    SELECT
+      FILE_ID, CLAIM_ID, DOC_TYPE, ORIGINAL_NAME, STORAGE_KEY,
+      CONTENT_TYPE, FILE_SIZE, UPLOADED_BY, CREATED_AT, IS_DELETED
+    FROM SHEZ_CLAIM_FILES
+    WHERE CLAIM_ID = #{claimId}
+      AND IS_DELETED = 'N'
+    ORDER BY CREATED_AT DESC, FILE_ID DESC
+  </select>
+
+  <!-- 3) 파일 단건 조회 (다운로드용) -->
+  <select id="selectOne" parameterType="long" resultMap="ClaimFileMap">
+    SELECT
+      FILE_ID, CLAIM_ID, DOC_TYPE, ORIGINAL_NAME, STORAGE_KEY,
+      CONTENT_TYPE, FILE_SIZE, UPLOADED_BY, CREATED_AT, IS_DELETED
+    FROM SHEZ_CLAIM_FILES
+    WHERE FILE_ID = #{fileId}
+  </select>
+
+
+</mapper>
