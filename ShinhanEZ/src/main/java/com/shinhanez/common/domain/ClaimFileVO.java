@@ -1,5 +1,5 @@
 package com.shinhanez.common.domain;
-
+/* 청구 서류 파일 VO */
 import java.sql.Date;
 
 import lombok.Data;

@@ -164,9 +164,9 @@
                   <li><a href="#"><span>보험용어사전</span></a></li>
                 </ul>
               </li>
-              <li class="point"><a href="${ctx}/pages/insurance_claim"><span>보험금청구</span></a>
+              <li class="point"><a href="${ctx}/pages/user_claim"><span>보험금청구</span></a>
                 <ul class="depth3">
-                  <li><a href="${ctx}/pages/insurance_claim"><span>보험금 청구안내</span></a></li>
+                  <li><a href="${ctx}/pages/user_claim"><span>보험금 청구안내</span></a></li>
                 </ul>
               </li>
             </ul>

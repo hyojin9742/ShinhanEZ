@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class LocalFileStorage implements FileStorage{
 
+	// 로컬 파일 시스템 기반 파일 저장소 구현체
 	@Value("${upload.root}")
 	private String uploadRoot;
 	
@@ -24,38 +25,31 @@ public class LocalFileStorage implements FileStorage{
 	
 	@Override
 	public String save(MultipartFile file) {
-		
 		if(file == null || file.isEmpty()) {
 			throw new IllegalArgumentException("업로드 파일이 비어 있습니다.");
 		}
 		
 		// 1. 원본 파일명
 		String originName = file.getOriginalFilename();
-		
 		// 2. 확장자 추출
 		String ext = getExtension(originName);
 		if(!ALLOWED_EXT.contains(ext)) {
 			throw new IllegalArgumentException("허용되지 않은 파일 확장자 입니다 : "+ext);
 		}
-		
 		// 3. 날짜 폴더(yyyy/MM)
 		LocalDate now = LocalDate.now();
 		String datePath = now.getYear()+"/"+String.format("%02d", now.getMonthValue());
-		
 		// 4. UUID 파일명 생성
 		String uuid = UUID.randomUUID().toString();
 		String storedFileName = uuid+"."+ext;
-		
 		// 5. storageKey 생성 (DB에 저장될 값)
 		String storageKey = "claims/"+datePath+"/"+storedFileName;
-		
 		// 6. 실제 저장 경로
 		Path savePath = Paths.get(uploadRoot, storageKey);
 		
 		try {
 			// 7. 디렉토리 없으면 생성
 			Files.createDirectories(savePath.getParent());
-			
 			// 8. 파일 저장
 			file.transferTo(savePath.toFile());
 		} catch (IOException e) {
@@ -65,6 +59,7 @@ public class LocalFileStorage implements FileStorage{
 		return storageKey;
 	}
 
+	// 저장소 파일 읽기 전용으로 열기
 	@Override
 	public InputStream open(String storageKey) {
 		try {
@@ -75,6 +70,7 @@ public class LocalFileStorage implements FileStorage{
 		}
 	}
 
+	// 저장소에서 파일을 storageKey 기준으로 삭제
 	@Override
 	public void delete(String storageKey) {
 		try {
@@ -83,20 +79,18 @@ public class LocalFileStorage implements FileStorage{
 		} catch (IOException e) {
 			throw new RuntimeException("파일 삭제 실패 : "+ storageKey, e);
 		}
-		
 	}
 
+	// 파일명에서 확장자를 추출
+	// - 마지막 '.' 기준으로 확장자 판별
 	private String getExtension(String filename) {
-		
 		if(filename == null || filename.isBlank()) {
 			throw new IllegalArgumentException("파일명이 비어 있습니다.");
 		}
-		
 		int lastDot = filename.lastIndexOf(".");
 		if(lastDot == -1 || lastDot == filename.length() -1) {
 			throw new IllegalArgumentException("파일 확장자가 없습니다. : " + filename);
 		}
-		
 		return filename.substring(lastDot + 1).toLowerCase();
 	}
 }

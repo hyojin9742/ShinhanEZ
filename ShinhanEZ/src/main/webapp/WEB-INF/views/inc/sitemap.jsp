@@ -148,7 +148,7 @@
               <li class="subArea">
                 <h3><a href="#"><span>보험금청구</span></a></h3>
                 <ul class="depth3">
-                  <li><a href="<%=ctx%>/pages/insurance_claim.jsp"><span>보험금 청구안내</span></a></li>
+                  <li><a href="<%=ctx%>/pages/user_claim.jsp"><span>보험금 청구안내</span></a></li>
                   <li><a href="#"><span>필요서류안내</span></a></li>
                   <li><a href="#"><span>보험범죄신고센터</span></a></li>
                   <li><a href="#"><span>보험사기 할증보험료 환급안내</span></a></li>

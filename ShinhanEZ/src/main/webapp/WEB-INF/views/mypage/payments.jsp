@@ -242,6 +242,14 @@
                     </c:choose>
                 </div>
 				
+				<%-- =========================================================
+				  [마이페이지 - 청구 현황/목록]
+				  - 데이터 로딩: /js/user_claims_list.js (AJAX로 /user/claims/api/list 호출)
+				  - DOM 포인트:
+				    * #claimPendingCount / #claimRejectedCount / #claimCompletedCount : 요약 카운트
+				    * #claimsTable / #claimsTbody : 목록 렌더링
+				    * #claimsEmpty : 빈 상태/401 안내
+				========================================================= --%>
 				<!-- 청구 현황 -->
                 <div class="summary-cards" id="claimHead">
                     <div class="summary-card pending">
@@ -294,7 +302,12 @@
     </div>
 </div>
 
-<!-- 파일 관리 모달 -->
+<%-- =========================================================
+  [파일 관리 모달]
+  - 오픈 트리거: 목록의 "서류관리/서류확인" 버튼(.js-docs-btn)
+  - 정책: 승인/반려(COMPLETED/REJECTED) 상태는 업로드 비활성화(읽기 전용)
+  - 렌더링: #filesModalBody 를 JS가 채움
+========================================================= --%>
 <div id="filesModalBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9998;"></div>
 
 <div id="filesModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);

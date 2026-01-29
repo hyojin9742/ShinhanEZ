@@ -1,6 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<% String ctx = request.getContextPath(); %>
+<%-- =========================================================
+[User Claims - 보험금청구 안내/청구 등록 모달]
+- 메인 페이지: 청구 절차/방법/필요서류 안내
+- 버튼 클릭 시 계약 선택 모달 오픈 → (STEP1) 계약 선택 → (STEP2) 청구 등록 폼 제출
+- 동작/데이터 바인딩: /js/user_claims.js
+- 스타일(모달 포함): /css/user_claims.css
+========================================================= --%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<%-- 컨텍스트 경로: 정적 리소스/폼 action 경로 생성에 사용 --%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+
+<%-- 오늘 날짜(기본 사고일 세팅에 사용) --%>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -163,93 +179,101 @@ pageEncoding="UTF-8"%>
 
 <div id="sitemap" class="sitemapArea"></div>
 
+
+<%-- =========================================================
+  [보험금 청구 모달]
+  STEP1: 계약 선택(테이블에서 row 선택) → "계약선택" 버튼 활성화
+  STEP2: 청구 등록 폼 노출 → hidden(customerId/insuredId/contractId) 채움 → 등록 submit
+  - 테이블 tbody(#contractTbody)는 JS가 렌더링
+  - step 전환은 JS가 display 토글로 제어
+========================================================= --%>
 <div id="contractModalBackdrop" class="contract-modal-backdrop"></div>
 
 <div id="contractModal" class="contract-modal">
-  <div class="contract-modal-header">
-    <div class="contract-modal-title">보험금 청구</div>
-    <button type="button" class="contract-modal-close" id="btnCloseContractModal" aria-label="닫기">×</button>
-  </div>
+    <div class="contract-modal-header">
+        <div class="contract-modal-title">보험금 청구</div>
+        <button type="button" class="contract-modal-close" id="btnCloseContractModal" aria-label="닫기">×</button>
+    </div>
 
-  <div class="contract-modal-body">
+    <div class="contract-modal-body">
 
-    <!-- ✅ STEP 1: 계약 선택 영역 -->
-    <section id="stepContract" class="modal-step">
-      <div id="contractModalMsg" class="contract-modal-msg" style="display:none;"></div>
+        <%-- STEP 1: 계약 선택(조회 결과를 테이블로 보여주고, 선택 시 버튼 활성화) --%>
+        <section id="stepContract" class="modal-step">
+            <div id="contractModalMsg" class="contract-modal-msg" style="display:none;"></div>
 
-      <table class="contract-table">
-        <thead>
-          <tr>
-            <th>계약번호</th>
-            <th>가입자</th>
-            <th>피보험자</th>
-            <th>상품명</th>
-            <th>보장내용</th>
-            <th>가입날짜</th>
-            <th>상태</th>
-          </tr>
-        </thead>
-        <tbody id="contractTbody"></tbody>
-      </table>
-    </section>
+            <table class="contract-table">
+                <thead>
+                <tr>
+                    <th>계약번호</th>
+                    <th>가입자</th>
+                    <th>피보험자</th>
+                    <th>상품명</th>
+                    <th>보장내용</th>
+                    <th>가입날짜</th>
+                    <th>상태</th>
+                </tr>
+                </thead>
+                <tbody id="contractTbody"></tbody>
+            </table>
+        </section>
 
-    <!-- STEP 2: 청구 등록 폼 영역 (처음엔 숨김) -->
-    <section id="stepClaimForm" class="modal-step" style="display:none;">
-      <form id="claimForm" action="${ctx}/user/claims/insert" method="post">
-        <div class="payment-form">
-          <div>
-            <div class="form-group">
-              <label class="form-label">청구인</label>
-              <input type="text" class="form-control" id="claimCustomerName" disabled>
-            </div>
-            <div class="form-group">
-              <label class="form-label">피보험자</label>
-              <input type="text" class="form-control" id="claimInsuredName" disabled>
-            </div>
-			<div class="form-group">
-			              <label class="form-label">계약ID</label>
-			              <input type="text" class="form-control" id="claimContractId" readonly>
-            </div>
-          </div>
+        <%-- STEP 2: 청구 등록(선택한 계약 정보를 폼에 바인딩 후 submit) --%>
+        <section id="stepClaimForm" class="modal-step" style="display:none;">
+            <form id="claimForm" action="${ctx}/user/claims/insert" method="post">
+                <div class="payment-form">
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">청구인</label>
+                            <input type="text" class="form-control" id="claimCustomerName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">피보험자</label>
+                            <input type="text" class="form-control" id="claimInsuredName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">계약ID</label>
+                            <input type="text" class="form-control" id="claimContractId" readonly>
+                        </div>
+                    </div>
 
-          <div>
-			<div class="form-group">
-			  <label class="form-label">청구금액</label>
-			  <input type="number" class="form-control" name="claimAmount" placeholder="청구금액" required>
-			</div>
-			            
-            <div class="form-group">
-              <label class="form-label">사고일</label>
-              <input type="date" class="form-control" name="accidentDate" value="${today}" required>
-            </div>
-			
-			<div class="form-group form-wide">
-              <label class="form-label">제출 서류</label>
-              <textarea class="form-control" name="documentList" rows="4"
-                        placeholder="예: 진단서, 입원확인서, 신분증 사본, 특이사항"></textarea>
-            </div>
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label">청구금액</label>
+                            <input type="number" class="form-control" name="claimAmount" placeholder="청구금액" required>
+                        </div>
 
-          </div>
+                        <div class="form-group">
+                            <label class="form-label">사고일</label>
+                            <input type="date" class="form-control" name="accidentDate" value="${today}" required>
+                        </div>
 
-          <!--  INSERT용 hidden -->
-          <input type="hidden" name="customerId" id="claimCustomerId">
-          <input type="hidden" name="insuredId" id="claimInsuredId">
-          <input type="hidden" name="contractId" id="claimContractIdHidden">
-        </div>
-      </form>
-    </section>
-  </div>
+                        <div class="form-group form-wide">
+                            <label class="form-label">제출 서류</label>
+                            <textarea class="form-control" name="documentList" rows="4"
+                                      placeholder="예: 진단서, 입원확인서, 신분증 사본, 특이사항"></textarea>
+                        </div>
 
-  <!--  footer는 항상 보이게 sticky -->
-  <div class="contract-modal-footer contract-modal-footer-sticky">
-    <!-- STEP1 버튼 -->
-    <button type="button" class="btn btn-secondary" id="btnConfirmContract" disabled>계약선택</button>
+                    </div>
 
-    <!-- STEP2 버튼 -->
-    <button type="button" class="btn btn-outline" id="btnBackToList" style="display:none;">계약 다시 선택</button>
-    <button type="submit" class="btn btn-primary" id="btnSubmitClaim" style="display:none;"
-            form="claimForm">등록</button>
-  </div>
+                    <!--  INSERT용 hidden -->
+                    <input type="hidden" name="customerId" id="claimCustomerId">
+                    <input type="hidden" name="insuredId" id="claimInsuredId">
+                    <input type="hidden" name="contractId" id="claimContractIdHidden">
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!--  footer는 항상 보이게 sticky -->
+    <div class="contract-modal-footer contract-modal-footer-sticky">
+        <!-- STEP1 버튼 -->
+        <button type="button" class="btn btn-secondary" id="btnConfirmContract" disabled>계약선택</button>
+
+        <!-- STEP2 버튼 -->
+        <button type="button" class="btn btn-outline" id="btnBackToList" style="display:none;">계약 다시 선택</button>
+        <button type="submit" class="btn btn-primary" id="btnSubmitClaim" style="display:none;"
+                form="claimForm">등록</button>
+    </div>
 </div>
 
 
