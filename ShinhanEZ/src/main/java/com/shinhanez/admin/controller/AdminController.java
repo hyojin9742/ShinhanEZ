@@ -33,17 +33,21 @@ public class AdminController {
 	
 	private AdminService adminService;
 	
-    @Autowired
+	@Autowired
     public AdminController(AdminService adminService) {
     	this.adminService = adminService;
     }
+    
+	
 
     // 관리자 권한 체크
     private boolean isAdmin(HttpSession session) {
         ShezUser user = (ShezUser) session.getAttribute("loginUser");
+        
         return user != null && "ROLE_ADMIN".equals(user.getRole());
     }
-
+	
+    
     // 관리자 메인 (고객 목록)
     @GetMapping({"", "/"})
     public String index(HttpSession session) {

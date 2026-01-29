@@ -31,6 +31,10 @@ CREATE TABLE shez_user (
     provider    VARCHAR2(90)                            -- 간편로그인 provider
 );
 
+
+
+
+
 -- 테이블 코멘트
 COMMENT ON TABLE shez_user IS '웹사이트 회원 테이블';
 COMMENT ON COLUMN shez_user.id IS '회원 ID (PK)';

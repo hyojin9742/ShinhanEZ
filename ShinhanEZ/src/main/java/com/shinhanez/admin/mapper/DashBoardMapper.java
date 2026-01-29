@@ -1,6 +1,7 @@
 package com.shinhanez.admin.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,6 +20,15 @@ public interface DashBoardMapper {
 	
 	// 연도별 월별 조회
 	public List<DashBoard> monthlyplan(String year);
+	
+	//계약 조회
+	public List<DashBoard> allConstract();
+	
+	//하단 리스트
+	public List<DashBoard> selectConstractsList(Map<String, Object> params);
+	public int countConstracts(Map<String, Object> params);
+
+	
 	
 	// 연도 불러오기
 	public List<String> years();

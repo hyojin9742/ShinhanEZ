@@ -43,8 +43,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 2. DB 조회 (이미 가입된 사람인지 확인)
         ShezUser existUser = shezuserservice.findByEmail(email);
         
+        
         HttpSession session = request.getSession();
         if (existUser == null) {
+        	
             // --- [신규 회원 로직] ---
             System.out.println("신규 회원입니다. 회원가입 페이지로 이동합니다.");            
             
@@ -86,7 +88,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             } else {
                 // 로그인 실패
                 session.setAttribute("error", "로그인 실패");
-                response.sendRedirect("/member/join");
+                response.sendRedirect("/member/login");
             }
         	
         }

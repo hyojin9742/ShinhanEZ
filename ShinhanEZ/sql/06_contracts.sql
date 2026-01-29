@@ -21,6 +21,8 @@ CREATE TABLE shez_contracts (
     CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_id) REFERENCES SHEZ_INSURANCES(PRODUCTNO),
     CONSTRAINT fk_shez_contract_admin FOREIGN KEY (admin_idx) REFERENCES shez_admins(admin_idx)
 );
+
+select * from shez_contracts;
 -- 시퀀스
 DROP SEQUENCE seq_shezContracts;
 CREATE SEQUENCE seq_shezContracts
@@ -137,7 +139,15 @@ SELECT COUNT(*) FROM
     shez_contracts c
     INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
     INNER JOIN shez_insurances p ON c.product_id = p.productno;
-
+    
+SELECT cu.id id,cu.name cusName,insu.name insurName,productname productName,reg_date regDate,contract_status status from
+    shez_contracts c
+    INNER JOIN shez_user cu ON c.customer_id = cu.id
+    INNER JOIN shez_user insu ON c.insured_id = insu.id
+    INNER JOIN shez_insurances p ON c.product_id = p.productno;
+    
+select * from shez_user;    
+commit;
 
 -- 상품별 건수 조회 연도별   
 SELECT PRODUCTNAME,COUNT(*) FROM 
@@ -195,13 +205,6 @@ FROM (
 )
 WHERE contract_id = 7;
 
--- 계약 등록
-INSERT INTO shez_contracts 
-    (contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status, admin_idx )
-VALUES 
-    (SEQ_SHEZCONTRACTS.nextval,'C005','C010',2,'암 진단비 보장',
-    DATE '2026-01-15', DATE '2040-01-30',70000,'분기납','활성',4);
 
 COMMIT;
 SELECT * FROM shez_contracts;

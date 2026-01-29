@@ -65,7 +65,16 @@ chart=new Chart(document.getElementById('barChart'), {
     },
     options: { 
         responsive: true,
-        plugins: { legend: { display: false } }
+        plugins: { legend: { display: false } },
+	scales: {
+	            y: {
+	                beginAtZero: true, // 0부터 시작
+	                ticks: {
+	                    stepSize: 1,   // 1단위로 증가 (소수점 제거 핵심)
+	                    precision: 0   // 강제로 소수점 없애기 (안전장치)
+	                }
+	            }
+	        }	
     }
 });
 
@@ -127,3 +136,105 @@ function changeYear2(year){
 	    .catch(err => console.error(err));	
 }
 container.addEventListener("change", e => changeYear2(e.target.value));
+
+
+const allConstractsContainer = document.getElementById('allConstracts');
+
+function allConstracts(){
+	
+	fetch(`/admin/dashboard/api/allconstracts2`)
+	.then(res => res.json())
+	.then(list => {
+		
+		allConstractsContainer.innerHTML = "";
+      	
+		list.forEach(i => {
+			const box =
+						`<tr onclick="location.href='/admin/contract/view/${i.id}'" style="cursor:pointer;">
+				            <td>${i.id}</td>
+				            <td>${i.cusName}</td>
+				            <td>${i.insurName}</td>
+				            <td>${i.productName}</td>
+				            <td>${i.regDate}</td>
+				            <td><span class="badge badge-primary">${i.status}</span></td>
+				        </tr>`;
+						
+						
+			allConstractsContainer.insertAdjacentHTML('beforeend', box);
+	    });
+		
+		
+		})
+	    .catch(err => console.error(err));	
+}
+
+// 페이지 로드 시 자동으로 1페이지 요청
+document.addEventListener("DOMContentLoaded", () => {
+    loadBoard(1);
+});
+
+
+// 게시판 로드
+function loadBoard(pageNum = 1) {
+	
+	
+    fetch(`/admin/dashboard/api/allconstracts?pageNum=${pageNum}`)
+        .then(res => res.json())
+        .then(data => {
+            renderList(data.list);     // 리스트 그리기
+            renderPaging(data.paging); // 페이징 버튼 그리기
+        })
+        .catch(err => console.error("Error loading board:", err));
+}
+
+
+// 리스트 렌더링 함수
+function renderList(list) {
+    
+    let html = "";    
+
+    list.forEach(i => {
+        html += 
+		`<tr onclick="location.href='/admin/contract/view?contractId=${i.contractId}'" style="cursor:pointer;">
+						            <td>${i.id}</td>
+						            <td>${i.cusName}</td>
+						            <td>${i.insurName}</td>
+						            <td>${i.productName}</td>
+						            <td>${i.regDate}</td>
+						            <td><span class="badge badge-primary">${i.status}</span></td>
+						        </tr>`;
+    });
+
+    allConstractsContainer.innerHTML = html;
+}
+
+
+//페이징 렌더링 함수
+function renderPaging(p) {
+    const div = document.getElementById("pagination");
+    let html = "";
+
+    if (p.hasPrev) {
+        html += `<button onclick="loadBoard(${p.pageNum - 1})">&lt;</button> `;
+    }
+
+    for (let i = p.startPage; i <= p.endPage; i++) {
+        if (i === p.pageNum) {
+            html += `<button class="active" disabled>${i}</button> `;
+        } else {
+            html += `<button onclick="loadBoard(${i})">${i}</button> `;
+        }
+    }
+
+    if (p.hasNext) {
+        html += `<button onclick="loadBoard(${p.pageNum + 1})">&gt;</button>`;
+    }
+
+    div.innerHTML = html;
+}
+
+
+
+
+
+
