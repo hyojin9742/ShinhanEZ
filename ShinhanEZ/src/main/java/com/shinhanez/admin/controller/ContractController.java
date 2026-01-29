@@ -43,7 +43,7 @@ public class ContractController {
 	private final ContractServiceImpl service;
 	
 	@GetMapping("/list")
-	public String contractList(HttpSession session) {
+	public String contractList() {
 		return "/admin/contract_list";
 	}
 	// 계약 상세 보기
@@ -86,7 +86,7 @@ public class ContractController {
             HttpSession session,
             @AuthenticationPrincipal UserAdminDetails details) {
         contract.setContractId(contractId);
-        int updateResult = service.updateContract(contract, session, details);
+        int updateResult = service.updateContract(contract, details);
 
         return ResponseEntity.ok(Map.of("updateResult",updateResult));
     }

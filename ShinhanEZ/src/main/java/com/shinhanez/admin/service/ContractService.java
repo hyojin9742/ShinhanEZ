@@ -22,7 +22,7 @@ public interface ContractService {
 	// 계약 등록
 	public int registerContract(Contracts contract);
 	// 계약 수정
-	public int updateContract(Contracts contract, HttpSession session, @AuthenticationPrincipal UserAdminDetails details);
+	public int updateContract(Contracts contract, @AuthenticationPrincipal UserAdminDetails details);
 	
 	/* 자동완성 */
 	// 고객명 검색

@@ -157,9 +157,10 @@
     <button type="button" id="btn-page-top"><span class="sr-only">상단으로 이동</span></button>
     <!-- //icoBtn_goTop -->
   </div>
-
-  <div id="sitemap" class="sitemapArea"></div>
-
+  
+  <div id="sitemap" class="sitemapArea">
+  	<jsp:include page="/WEB-INF/views/inc/sitemap.jsp"></jsp:include>
+  </div>
 </body>
 
 </html>

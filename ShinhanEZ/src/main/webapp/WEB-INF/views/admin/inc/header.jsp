@@ -244,13 +244,13 @@
     };
 
     // ====== 세션 타임아웃 ======
-    var sessionTimeout = 10 * 60 * 1000;
+    var sessionTimeout = 30 * 60 * 1000;
     var logoutTimer;
 
     function resetTimer() {
         clearTimeout(logoutTimer);
         logoutTimer = setTimeout(function() {
-            alert('10분간 입력이 없어 세션이 종료됩니다.');
+            alert('30분간 입력이 없어 세션이 종료됩니다.');
             window.location.href = ctx + '/member/logout';
         }, sessionTimeout);
     }

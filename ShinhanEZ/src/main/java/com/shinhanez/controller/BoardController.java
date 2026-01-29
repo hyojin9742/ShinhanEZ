@@ -70,7 +70,7 @@ public class BoardController {
         	user = details.getUser();
         }
         if (user == null) {
-            return "redirect:/member/login?error=auth";
+            return "redirect:/member/login?error=needLogin";
         }
         model.addAttribute("mode", "write");
         model.addAttribute("id", user.getId());
@@ -98,7 +98,7 @@ public class BoardController {
         	user = details.getUser();
         }
         if (user == null) {
-            return "redirect:/member/login?error=auth";
+            return "redirect:/member/login?error=needLogin";
         }
         Board board = boardService.getBoard(idx);
 

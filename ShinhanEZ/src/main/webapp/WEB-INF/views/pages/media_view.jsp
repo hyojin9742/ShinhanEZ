@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -76,16 +79,24 @@
 				                      	<span>목록</span>
 				                    </button>
 				                    <%-- 본인 글이거나 관리자인 경우에만 수정/삭제 버튼 표시 --%>
-				                    <c:if test="${not empty sessionScope.loginUser && (sessionScope.loginUser.id == board.id || sessionScope.loginUser.role == 'ROLE_ADMIN')}">
-					                    <button type="button" class="btn large primary" onclick="location.href='<%=ctx%>/board/edit/${board.idx}'">
-					                      	<span>수정</span>
-					                    </button>
-					                    <button type="button" class="btn large blue-filled" onclick="if(confirm('정말 삭제하시겠습니까?')) {
-					   												location.href='<%=ctx%>/board/delete/${board.idx}';
-																	} return false;">
-					                      	<span>삭제</span>
-					                    </button>
-				                    </c:if>
+				                   <sec:authorize access="isAuthenticated()">
+				                   		<sec:authentication property="principal" var="principal"/>
+				                   		<c:if test="${principal.user.id eq board.id or principal.user.role eq 'ROLE_ADMIN'}">
+									        
+									        <button type="button" class="btn large primary"
+									                onclick="location.href='${ctx}/board/edit/${board.idx}'">
+									            <span>수정</span>
+									        </button>
+									
+									        <button type="button" class="btn large blue-filled"
+									                onclick="if(confirm('정말 삭제하시겠습니까?')) {
+									                    location.href='${ctx}/board/delete/${board.idx}';
+									                } return false;">
+									            <span>삭제</span>
+									        </button>
+									    </c:if>
+				                   </sec:authorize>
+				                   
                   				</div>
                 			</div>
                 			<!--// bbs-view-foot -->

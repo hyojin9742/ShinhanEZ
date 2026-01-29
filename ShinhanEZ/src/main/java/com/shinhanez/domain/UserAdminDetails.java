@@ -82,9 +82,6 @@ public class UserAdminDetails implements UserDetails {
     }
 
     /** ================= 편의 메서드 ================= */
-    public boolean isAdmin() {
-        return admin != null;
-    }
     public ShezUser getUser() {
         return user;
     }

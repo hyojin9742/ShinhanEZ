@@ -53,16 +53,7 @@
         DELETE FROM SHEZ_INSURANCES 
         WHERE productNo = #{productNo} 
     </delete>
-	
-	
-	
-      
-	
-	
-	
-	
-	
-	
+
 	<!--상품 상세, 수정 페이지 포함  -->
 	<select id="get" parameterType="Long" resultType="com.shinhanez.admin.domain.Insurance">
 		select * from SHEZ_INSURANCES where productNo=#{productNo}
@@ -110,13 +101,4 @@
     								where PRODUCTNO= #{productNo}
     
     </update>
-	
-    
-    
-    
-    
-	
-
-    
-
 </mapper>

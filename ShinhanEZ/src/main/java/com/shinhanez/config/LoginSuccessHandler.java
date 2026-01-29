@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
@@ -24,10 +25,11 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         	UserAdminDetails principal = (UserAdminDetails) authentication.getPrincipal();
 
             HttpSession session = request.getSession();
-
+            ShezUser user = principal.getUser();
             Admins admin = principal.getAdmin();
             if (admin != null) {
                 session.setAttribute("adminIdx", admin.getAdminIdx());
+                session.setAttribute("userId", user.getId());
             }
             super.onAuthenticationSuccess(request, response, authentication);
 	}

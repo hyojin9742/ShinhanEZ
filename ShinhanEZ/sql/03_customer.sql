@@ -11,7 +11,7 @@
 DROP TABLE shez_customers CASCADE CONSTRAINTS;
 CREATE TABLE shez_customers (
     customer_id     VARCHAR2(50)    PRIMARY KEY,            -- 고객 PK
-    login_id        VARCHAR2(50)    NOT NULL,
+    login_id        VARCHAR2(50),
     name            VARCHAR2(100)   NOT NULL,               -- 고객 이름
     birth_date      DATE            NOT NULL,               -- 생년월일
     gender          CHAR(1)         NOT NULL

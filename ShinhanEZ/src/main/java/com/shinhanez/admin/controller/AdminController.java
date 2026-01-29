@@ -41,7 +41,7 @@ public class AdminController {
     }
     // 관리자 메인 (고객 목록)
     @GetMapping({"", "/"})
-    public String index(HttpSession session) {
+    public String index() {
         return "admin/index";
     }
     /* Admin 페이지 */

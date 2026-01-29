@@ -77,12 +77,12 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 수정
 	@Transactional
 	@Override
-	public int updateContract(Contracts contract, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
+	public int updateContract(Contracts contract, @AuthenticationPrincipal UserAdminDetails details) {
 		log.info("수정 서비스 : "+contract);
 		validateContract(contract);
-		Integer sessionAdminIdx = (Integer)session.getAttribute("adminIdx");
+		Integer authAdminIdx = details.getAdmin().getAdminIdx();
 		int updateResult;
-		if(contract.getAdminIdx() == sessionAdminIdx
+		if(contract.getAdminIdx() == authAdminIdx
 				|| hasPermission(contract, details)) {
 			updateResult = mapper.updateContract(contract);
 			if(updateResult != 1) {
@@ -130,9 +130,9 @@ public class ContractServiceImpl implements ContractService {
 		}
 		switch (adminRole) {
         case "super":
-            return "manager".equals(targetRole) || "staff".equals(targetRole);
+            return true;
         case "manager":
-            return "staff".equals(targetRole);
+            return "manager".equals(targetRole) || "staff".equals(targetRole);
         default:
             return false;
 		}

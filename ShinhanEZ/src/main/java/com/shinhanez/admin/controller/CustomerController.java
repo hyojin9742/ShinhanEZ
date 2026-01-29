@@ -68,14 +68,13 @@ public class CustomerController {
     
     // 고객 등록 폼
     @GetMapping("/register")
-    public String customerRegisterForm(HttpSession session) {
+    public String customerRegisterForm() {
         return "admin/customer_register";
     }
 
     // 고객 등록 처리
     @PostMapping("/register")
     public String customerRegister(Customer customer,
-            @RequestParam String passwordConfirm,
             HttpSession session, Model model) {
 
         // ID 중복 체크
@@ -90,7 +89,7 @@ public class CustomerController {
     }
 
     // 고객 ID 중복 체크 (AJAX)
-    @GetMapping("/customer/checkId")
+    @GetMapping("/checkId")
     @ResponseBody
     public Map<String, Object> checkCustomerId(@RequestParam String customerId) {
         Map<String, Object> result = new HashMap<>();
@@ -102,7 +101,7 @@ public class CustomerController {
 
     // 고객 상세
     @GetMapping("/view")
-    public String customerView(@RequestParam String id, HttpSession session, Model model) {
+    public String customerView(@RequestParam String id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         return "admin/customer_view";
@@ -110,7 +109,7 @@ public class CustomerController {
 
     // 고객 수정 폼
     @GetMapping("/edit")
-    public String customerEditForm(@RequestParam String id, HttpSession session, Model model) {
+    public String customerEditForm(@RequestParam String id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         return "admin/customer_edit";
@@ -118,14 +117,14 @@ public class CustomerController {
 
     // 고객 수정 처리
     @PostMapping("/edit")
-    public String customerEdit(Customer customer, HttpSession session) {
+    public String customerEdit(Customer customer) {
         customerService.update(customer);
         return "redirect:/admin/customer/view?id=" + customer.getCustomerId();
     }
 
     // 고객 삭제 (비활성화 처리)
     @GetMapping("/delete")
-    public String customerDelete(@RequestParam String id, HttpSession session) {
+    public String customerDelete(@RequestParam String id) {
 
         customerService.deactivate(id);
         return "redirect:/admin/customer/list";
