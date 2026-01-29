@@ -198,19 +198,19 @@ function renderPaging(p) {
     let html = "";
 
     if (p.hasPrev) {
-        html += `<button onclick="loadBoard(${p.pageNum - 1})">&lt;</button> `;
+        html += `<button onclick="loadCurrentContractBoard(${p.pageNum - 1})">&lt;</button> `;
     }
 
     for (let i = p.startPage; i <= p.endPage; i++) {
         if (i === p.pageNum) {
             html += `<button class="active" disabled>${i}</button> `;
         } else {
-            html += `<button onclick="loadBoard(${i})">${i}</button> `;
+            html += `<button onclick="loadCurrentContractBoard(${i})">${i}</button> `;
         }
     }
 
     if (p.hasNext) {
-        html += `<button onclick="loadBoard(${p.pageNum + 1})">&gt;</button>`;
+        html += `<button onclick="loadCurrentContractBoard(${p.pageNum + 1})">&gt;</button>`;
     }
 
     div.innerHTML = html;
@@ -240,19 +240,19 @@ function renderPaging2(p) {
     let html = "";
 
     if (p.hasPrev) {
-        html += `<button onclick="loadBoard(${p.pageNum - 1})">&lt;</button> `;
+        html += `<button onclick="loadCurrentNoticeBoard(${p.pageNum - 1})">&lt;</button> `;
     }
 
     for (let i = p.startPage; i <= p.endPage; i++) {
         if (i === p.pageNum) {
             html += `<button class="active" disabled>${i}</button> `;
         } else {
-            html += `<button onclick="loadBoard(${i})">${i}</button> `;
+            html += `<button onclick="loadCurrentNoticeBoard(${i})">${i}</button> `;
         }
     }
 
     if (p.hasNext) {
-        html += `<button onclick="loadBoard(${p.pageNum + 1})">&gt;</button>`;
+        html += `<button onclick="loadCurrentNoticeBoard(${p.pageNum + 1})">&gt;</button>`;
     }
 
     div.innerHTML = html;
