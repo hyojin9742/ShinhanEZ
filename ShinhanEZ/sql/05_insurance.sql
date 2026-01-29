@@ -14,7 +14,8 @@ CREATE TABLE SHEZ_INSURANCES (
     CREATEDUSER    VARCHAR2(50)    NOT NULL,                -- 생성자
     UPDATEDUSER    VARCHAR2(50)    NOT NULL                 -- 수정자
 );
-
+select  * from SHEZ_INSURANCES;
+commit;
 -- 시퀀스
 DROP SEQUENCE seq_shezinsuraces;
 CREATE SEQUENCE seq_shezinsuraces

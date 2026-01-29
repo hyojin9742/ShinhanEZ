@@ -33,12 +33,6 @@ public class CustomerController {
     	this.customerService = customerService;
     }
 
-    // 관리자 권한 체크
-    private boolean isAdmin(HttpSession session) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        return user != null && "ROLE_ADMIN".equals(user.getRole());
-    }
-
     // 고객 목록 (페이징 + 검색 + 정렬)
     @GetMapping("/list")
     public String customerList(
@@ -48,10 +42,6 @@ public class CustomerController {
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "latest") String sortType,
             HttpSession session, Model model) {
-
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
 
         // 고객 목록 조회
         List<Customer> customers = customerService.findByPage(page, size, searchType, keyword, sortType);
@@ -78,22 +68,14 @@ public class CustomerController {
     
     // 고객 등록 폼
     @GetMapping("/register")
-    public String customerRegisterForm(HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
+    public String customerRegisterForm() {
         return "admin/customer_register";
     }
 
     // 고객 등록 처리
     @PostMapping("/register")
     public String customerRegister(Customer customer,
-            @RequestParam String passwordConfirm,
             HttpSession session, Model model) {
-
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
 
         // ID 중복 체크
         if (customerService.existsById(customer.getCustomerId())) {
@@ -107,7 +89,7 @@ public class CustomerController {
     }
 
     // 고객 ID 중복 체크 (AJAX)
-    @GetMapping("/customer/checkId")
+    @GetMapping("/checkId")
     @ResponseBody
     public Map<String, Object> checkCustomerId(@RequestParam String customerId) {
         Map<String, Object> result = new HashMap<>();
@@ -119,10 +101,7 @@ public class CustomerController {
 
     // 고객 상세
     @GetMapping("/view")
-    public String customerView(@RequestParam String id, HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
+    public String customerView(@RequestParam String id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         return "admin/customer_view";
@@ -130,10 +109,7 @@ public class CustomerController {
 
     // 고객 수정 폼
     @GetMapping("/edit")
-    public String customerEditForm(@RequestParam String id, HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
+    public String customerEditForm(@RequestParam String id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
         return "admin/customer_edit";
@@ -141,20 +117,15 @@ public class CustomerController {
 
     // 고객 수정 처리
     @PostMapping("/edit")
-    public String customerEdit(Customer customer, HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
+    public String customerEdit(Customer customer) {
         customerService.update(customer);
         return "redirect:/admin/customer/view?id=" + customer.getCustomerId();
     }
 
     // 고객 삭제 (비활성화 처리)
     @GetMapping("/delete")
-    public String customerDelete(@RequestParam String id, HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login?error=auth";
-        }
+    public String customerDelete(@RequestParam String id) {
+
         customerService.deactivate(id);
         return "redirect:/admin/customer/list";
     }

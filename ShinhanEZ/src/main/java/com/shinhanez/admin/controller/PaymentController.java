@@ -28,11 +28,6 @@ public class PaymentController {
     
     private static final int PAGE_SIZE = 10; // 한 페이지당 10개
     
-    // 관리자 체크
-    private boolean isAdmin(HttpSession session) {
-        String role = (String) session.getAttribute("userRole");
-        return "ROLE_ADMIN".equals(role);
-    }
     
     // 목록 (페이징 + 검색)
     @GetMapping("/list")
@@ -40,10 +35,7 @@ public class PaymentController {
                        @RequestParam(required = false) String status,
                        @RequestParam(required = false) String searchType,
                        @RequestParam(required = false) String keyword,
-                       HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
+                       Model model) {
         
         // 데이터 조회
         List<Payment> paymentList = paymentService.findAllWithPaging(page, PAGE_SIZE, status, searchType, keyword);
@@ -71,10 +63,7 @@ public class PaymentController {
     // 상세 조회
     @GetMapping("/view/{id}")
     public String view(@PathVariable("id") Long paymentId,
-                       HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
+                       Model model) {
         
         Payment payment = paymentService.findById(paymentId);
         model.addAttribute("payment", payment);
@@ -84,20 +73,14 @@ public class PaymentController {
     
     // 등록 폼
     @GetMapping("/register")
-    public String registerForm(HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
+    public String registerForm() {
         return "admin/payment_register";
     }
     
     // 등록 처리
     @PostMapping("/register")
-    public String register(Payment payment, HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
-        
+    public String register(Payment payment) {
+
         paymentService.insert(payment);
         return "redirect:/admin/payment/list";
     }
@@ -105,10 +88,7 @@ public class PaymentController {
     // 수정 폼
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long paymentId,
-                           HttpSession session, Model model) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
+                           Model model) {
         
         Payment payment = paymentService.findById(paymentId);
         model.addAttribute("payment", payment);
@@ -119,11 +99,8 @@ public class PaymentController {
     // 수정 처리
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long paymentId,
-                       Payment payment, HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
-        
+                       Payment payment) {
+
         payment.setPaymentId(paymentId);
         paymentService.update(payment);
         return "redirect:/admin/payment/view/" + paymentId;
@@ -131,12 +108,8 @@ public class PaymentController {
     
     // 삭제
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long paymentId,
-                         HttpSession session) {
-        if (!isAdmin(session)) {
-            return "redirect:/member/login";
-        }
-        
+    public String delete(@PathVariable("id") Long paymentId) {
+
         paymentService.delete(paymentId);
         return "redirect:/admin/payment/list";
     }

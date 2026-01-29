@@ -10,6 +10,9 @@ import com.shinhanez.admin.domain.Admins;
 
 @Mapper
 public interface AdminMapper {
+    // 기존 DB 평문 PW 암호화 | 임시
+	public List<Admins> findAllAdmins();
+	public int encodeAdmins(String id, String pw);
 	// 관리자 목록
 	public List<Admins> selectAllAdmins(@Param("startRow") int startRow, @Param("endRow") int endRow, 
 			@Param("searchParams") Map<String, Object> searchParams);

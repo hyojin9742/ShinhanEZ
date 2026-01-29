@@ -52,7 +52,7 @@
                                 <div class="input-group">
                                     <input type="text" name="customerId" id="customerId"
                                            value="${customer.customerId}" class="form-control"
-                                           placeholder="영문, 숫자 조합" required>
+                                           placeholder="영문, 숫자 조합">
                                     <button type="button" class="btn btn-outline" onclick="checkId()">
                                         중복확인
                                     </button>

@@ -21,6 +21,8 @@ CREATE TABLE shez_contracts (
     CONSTRAINT fk_shez_contract_product FOREIGN KEY (product_id) REFERENCES SHEZ_INSURANCES(PRODUCTNO),
     CONSTRAINT fk_shez_contract_admin FOREIGN KEY (admin_idx) REFERENCES shez_admins(admin_idx)
 );
+
+select * from shez_contracts;
 -- 시퀀스
 DROP SEQUENCE seq_shezContracts;
 CREATE SEQUENCE seq_shezContracts
@@ -128,7 +130,6 @@ FROM (
         INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
         INNER JOIN shez_insurances p ON c.product_id = p.productno
         INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-    WHERE contract_id = 12
     )
 WHERE rn BETWEEN 0 + 1 AND 10;
 

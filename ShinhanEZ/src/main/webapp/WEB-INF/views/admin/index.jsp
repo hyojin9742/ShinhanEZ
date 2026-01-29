@@ -57,6 +57,96 @@
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
         }
+        
+        /* 페이징 컨테이너 */
+		.paging {
+		    display: flex;
+		    justify-content: center; /* 가운데 정렬 */
+		    align-items: center;
+		    gap: 8px; /* 버튼 사이 간격 */
+		    margin-top: 30px; /* 위쪽 여백 */
+		    margin-bottom: 30px;
+		}
+		
+		
+		.paging button {
+		    min-width: 32px; /* 최소 너비 */
+		    height: 32px;
+		    padding: 0 8px;
+		    border: 1px solid #dfe3e8; /* 연한 회색 테두리 */
+		    background-color: #ffffff;
+		    color: #212529;
+		    font-size: 14px;
+		    font-weight: 500;
+		    border-radius: 4px; /* 살짝 둥근 모서리 */
+		    cursor: pointer;
+		    transition: all 0.2s ease; /* 부드러운 애니메이션 */
+		}
+		
+		/* 마우스 올렸을 때 (Hover) */
+		.paging button:hover:not(:disabled) {
+		    background-color: #f1f3f5;
+		    border-color: #c5c9cd;
+		    color: #0056b3;
+		    transform: translateY(-1px); /* 살짝 떠오르는 효과 */
+		}
+		
+		/* 현재 선택된 페이지 (Active) */
+		.paging button.active {
+		    background-color: #007bff; /* 메인 파란색 */
+		    border-color: #007bff;
+		    color: white;
+		    font-weight: bold;
+		    cursor: default;
+		    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3); /* 그림자 효과 */
+		}
+		
+		/* 비활성화된 버튼 (이전/다음 없을 때 등) - 필요시 */
+		.paging button:disabled:not(.active) {
+		    background-color: #f8f9fa;
+		    color: #adb5bd;
+		    cursor: not-allowed;
+		    border-color: #ebedf0;
+		}
+		
+		.select-container {
+			 display: inline-block;
+			 position: relative;
+			 width: 200px;
+		}
+		
+		#yearSelect {
+		  /* 1. 기본 브라우저 스타일 제거 (가장 중요) */
+		  -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+		
+		  /* 2. 크기 및 폰트 설정 */
+		  width: 100%;
+		  padding: 12px 15px;
+		  font-size: 16px;
+		  font-family: 'Noto Sans KR', sans-serif; /* 폰트는 프로젝트에 맞춰 변경 */
+		  color: #333;
+		  background-color: #fff;
+		
+		  /* 3. 테두리 및 둥근 모서리 */
+		  border: 1px solid #ddd;
+		  border-radius: 8px;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		
+		  /* 4. 커스텀 화살표 아이콘 (SVG 사용) */
+		  /* 우측 끝에 화살표 배치 */
+		  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+		  background-repeat: no-repeat;
+		  background-position: right 15px center;
+		  background-size: 12px;
+		}
+		
+		
+		
+        
+        
     </style>
 </head>
 <body class="admin-page">
@@ -103,7 +193,7 @@
                 </div>
                 <div class="summary-card">
                     <div class="icon purple"><i class="bi bi-megaphone"></i></div>
-                    <div class="info">
+                    <div class="info allboardcount">
                         <h3>0</h3>
                         <p>전체 공지사항 수</p>
                     </div>
@@ -114,7 +204,10 @@
             <div class="dashboard-row">
                 <div class="chart-container">
                     <div class="chart-title">📊 월별 계약 수</div>
-                    <select id="yearSelect"></select>
+                    <div class="select-container">
+					  <select id="yearSelect">
+					  </select>
+					</div>
                     <canvas id="barChart" height="200"></canvas>
                     
                 </div>
@@ -129,7 +222,7 @@
                 <div class="card">
                     <div class="card-header">
                         <span>📋 최근 등록 계약</span>
-                        <a href="${ctx}/admin/contract" class="btn btn-sm btn-primary">계약 리스트 →</a>
+                        <a href="${ctx}/admin/contract/list" class="btn btn-sm btn-primary">계약 리스트 →</a>
                     </div>
                     <div class="card-body" style="padding:0;">
                         <table class="admin-table">
@@ -143,7 +236,7 @@
                                     <th>상태</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="allConstracts">
                                 <tr onclick="location.href='<%=ctx%>/admin/contract/view/1'" style="cursor:pointer;">
                                     <td>hoonlee222</td>
                                     <td>훈이</td>
@@ -170,6 +263,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="paging" id="constractspagination"></div>
                     </div>
                 </div>
                 
@@ -188,7 +282,7 @@
                                     <th>등록일</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="allBoards">
                                 <tr onclick="location.href='<%=ctx%>/admin/notice/view?idx=3'" style="cursor:pointer;">
                                     <td>3</td>
                                     <td><span class="badge badge-danger">중요</span> 제목</td>
@@ -203,6 +297,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="paging" id="noticepagination"></div>
                     </div>
                 </div>
             </div>

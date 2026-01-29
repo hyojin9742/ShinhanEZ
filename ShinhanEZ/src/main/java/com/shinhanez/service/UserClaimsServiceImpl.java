@@ -29,13 +29,11 @@ public class UserClaimsServiceImpl implements UserClaimsService{
 		return userClaimsMapper.selectContractDetailByUserId(userId, contractId);
 	}
 
-	// 청구 등록 처리
 	@Override
 	public int insertClaim(ClaimsDTO claimsDTO) {
 		return userClaimsMapper.insertClaim(claimsDTO);
 	}
 
-	// 사용자 청구 목록 조회
 	@Override
 	public List<ClaimsDTO> getClaimsList(String userId) {
 		return userClaimsMapper.getClaimsList(userId);

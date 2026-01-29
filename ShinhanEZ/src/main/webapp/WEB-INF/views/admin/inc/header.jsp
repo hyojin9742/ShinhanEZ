@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 
 <style>
@@ -107,18 +108,12 @@
             <a href="<%=ctx%>/" target="_blank" title="사이트 이동"><i class="bi bi-house"></i></a>
         </div>
         <div class="header-user">
+        	<sec:authentication property="principal" var="principal"/>
             <i class="bi bi-person-circle"></i>
-            <c:choose>
-                <c:when test="${sessionScope.adminRole == 'super'}">
-                    <span>${sessionScope.adminName}(관리자)님</span>
-                </c:when>
-                <c:when test="${sessionScope.adminRole == 'manager'}">
-                    <span>${sessionScope.adminName}(매니저)님</span>
-                </c:when>
-                <c:otherwise>
-                    <span>${sessionScope.adminName}(스태프)님</span>
-                </c:otherwise>
-            </c:choose>
+			<span>
+				${principal.admin.adminName }
+				(<sec:authentication property="principal.displayRoleLabel" />)님
+			</span>
         </div>
     </div>
 </header>
@@ -250,13 +245,13 @@
     };
 
     // ====== 세션 타임아웃 ======
-    var sessionTimeout = 10 * 60 * 1000;
+    var sessionTimeout = 30 * 60 * 1000;
     var logoutTimer;
 
     function resetTimer() {
         clearTimeout(logoutTimer);
         logoutTimer = setTimeout(function() {
-            alert('10분간 입력이 없어 세션이 종료됩니다.');
+            alert('30분간 입력이 없어 세션이 종료됩니다.');
             window.location.href = ctx + '/member/logout';
         }, sessionTimeout);
     }

@@ -84,21 +84,4 @@ public class InsuranceController {
 		insuranceService.editPlan(insurance);
 		return "redirect:/admin/insurance/list";
 	}
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

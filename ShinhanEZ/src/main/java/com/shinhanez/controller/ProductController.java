@@ -69,17 +69,12 @@ public class ProductController {
     @GetMapping("/subscribe/{productNo}")
     public String subscribe(@PathVariable Long productNo, HttpSession session, Model model) {
 
-        // 로그인 체크
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/member/login?redirect=/product/subscribe/" + productNo;
-        }
-
         Insurance product = insuranceService.getPlan(productNo);
 
         if (product == null || !"ACTIVE".equals(product.getStatus())) {
             return "redirect:/product/list";
         }
-
+        model.addAttribute("productNo",productNo);
         // 결제 페이지로 리다이렉트 (상품 정보 전달)
         String encodedName = URLEncoder.encode(product.getProductName(), StandardCharsets.UTF_8);
         return "redirect:/payment/checkout?amount=" + product.getBasePremium()

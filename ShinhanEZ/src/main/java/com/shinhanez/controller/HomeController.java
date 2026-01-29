@@ -28,9 +28,9 @@ public class HomeController {
     }
 
     // 보험금 청구 페이지
-    @GetMapping("/pages/user_claim")
+    @GetMapping("/pages/insurance_claim")
     public String insuranceClaim() {
-        return "pages/user_claim";
+        return "pages/insurance_claim";
     }
 
     // 소셜 페이지

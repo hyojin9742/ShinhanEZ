@@ -3,22 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
-<%--
-[관리자 > 청구 목록 화면]
-- 데이터: Controller에서 list, paging, claimsCriteria, totalCount, startRow, endRow 제공
-- 기능:
-  1) 청구 목록 렌더링 + 상태 배지 표시
-  2) 검색(keyword) 및 조건 유지(pageSize/status/fromDate/toDate/keyword)
-  3) 페이징 링크 생성(c:url)
-  4) 삭제는 JS에서 POST 폼 생성 방식으로 처리(CSRF/REST 정책에 따라 조정 가능)
-  5) msg/msgType 기반 토스트 출력(Bootstrap Toast)
---%>
 <html lang="ko">
 <head>
 	<!-- 토스트 표시 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <jsp:include page="inc/head.jsp"/>
-	<link rel="stylesheet" href="${ctx}/css/admin/claims_list.css">
+	<link rel="stylesheet" href="${ctx}/css/admin/claims.css">
 </head>
 <body class="admin-page">
 <div class="admin-wrapper">
@@ -200,7 +190,7 @@
 					<div id="appToast" class="toast align-items-center text-bg-${msgType == 'success' ? 'success' : (msgType == 'error' ? 'danger' : 'secondary') } border-0" role="alert" aria-live="assertive" aria-atomic="true">
 				    	<div class="d-flex">
 				      		<div class="toast-body">${msg}</div>
-				      		<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+				      		<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></butto>
 				    	</div>
 				  	</div>
 				</div>

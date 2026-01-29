@@ -21,11 +21,73 @@
 	
 	<!--연도별 건수 불러오기  -->
 	<select id="monthlyplan" resultType="com.shinhanez.admin.domain.DashBoard">
-    SELECT TO_CHAR(reg_date,'YYYY-MM') as reg_date, count(*) as count 
-    FROM shez_contracts
-    where TO_CHAR(reg_date,'YYYY') = #{year}
-    GROUP BY TO_CHAR(reg_date,'YYYY-MM')
+	    SELECT TO_CHAR(reg_date,'YYYY-MM') as reg_date, count(*) as count 
+	    FROM shez_contracts
+	    where TO_CHAR(reg_date,'YYYY') = #{year}
+	    GROUP BY TO_CHAR(reg_date,'YYYY-MM')
 	</select>
+	
+	<!--대쉬보드 하단 계약자 리스트 (페이징포함) 불러오기  -->
+	<select id="selectConstractsList" resultType="com.shinhanez.admin.domain.DashBoard">
+	    SELECT * FROM (
+	        SELECT A.*, ROWNUM AS RNUM 
+	        FROM (
+	            SELECT 
+					c.contract_id as "contractId",	            
+	                cu.customer_id    AS "id",          cu.name           AS "cusName",     insu.name         AS "insurName",   p.productname     AS "productName", TO_CHAR(c.reg_date, 'YYYY-MM-DD') AS "regDate",
+	                c.contract_status AS "status"       FROM shez_contracts c
+	            INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+	            INNER JOIN shez_customers insu ON c.insured_id = insu.customer_id
+	            INNER JOIN shez_insurances p ON c.product_id = p.productno
+	            WHERE TO_CHAR(c.reg_date, 'YYYY-MM') = #{thisMonth}
+	            ORDER BY c.reg_date DESC
+	        ) A
+	        <![CDATA[
+	        WHERE ROWNUM <= #{endRow}
+	        ]]>
+	    )
+	    <![CDATA[
+	    WHERE RNUM >= #{startRow}
+	    ]]>
+	</select>
+    
+    <select id="countConstracts" resultType="int">
+    	SELECT 
+              count(*) FROM shez_contracts c
+          INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+          INNER JOIN shez_customers insu ON c.insured_id = insu.customer_id
+          INNER JOIN shez_insurances p ON c.product_id = p.productno
+          WHERE TO_CHAR(c.reg_date, 'YYYY-MM') = #{thisMonth}
+    </select>
+    
+    
+    <!--대쉬보드 하단 최근 공지사항 리스트 (페이징포함) 불러오기  -->
+	<select id="selectBoardsList" resultType="com.shinhanez.admin.domain.DashBoard">
+	    SELECT * FROM (
+	        SELECT A.*, ROWNUM AS RNUM 
+	        FROM (
+	            select idx as "lineNum", title, id, TO_CHAR(reg_date, 'YYYY-MM-DD') AS "regDate" from shez_board
+	            WHERE TO_CHAR(reg_date, 'YYYY-MM') = #{thisMonth} 
+	        ) A
+	        <![CDATA[
+	        WHERE ROWNUM <= #{endRow}
+	        ]]>
+	    )
+	    <![CDATA[
+	    WHERE RNUM >= #{startRow}
+	    ]]>
+	</select>
+    
+    <select id="countBoards" resultType="int">
+    	select count(*) from shez_board
+	            WHERE TO_CHAR(reg_date, 'YYYY-MM') = #{thisMonth} 
+    </select>
+    
+    
+    
+	
+	
+	
 
 	
 	
@@ -40,14 +102,20 @@
 	<select id="allUserCount" resultType="Integer">
 		SELECT count(*) alluser FROM shez_user
 	</select>
-	<!-- 전 회원수 불러오기 -->
+	<!-- 전 고객수 불러오기 -->
 	<select id="allCustomerCount" resultType="Integer">
 		SELECT count(*) allcustomer FROM shez_customers
 	</select>
-	<!-- 전 회원수 불러오기 -->
+	<!-- 전 계약수 불러오기 -->
 	<select id="allcontractCount" resultType="Integer">
 		SELECT count(*) allcontract FROM shez_contracts
 	</select>
+	<!-- 전 회원수 불러오기 -->
+	<select id="allboardCount" resultType="Integer">
+		SELECT count(*) allboard FROM shez_board
+	</select>
+	
+	
 	
 	
 	

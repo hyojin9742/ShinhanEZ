@@ -52,11 +52,6 @@ public class TossPaymentController {
                           @RequestParam(required = false) String orderName,
                           Model model, HttpSession session) {
 
-        // 로그인 체크
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/member/login?redirect=/product/list";
-        }
-
         // 테스트용 기본값 설정
         if (amount == null) amount = 50000L;
         if (orderName == null) orderName = "신한EZ 보험료 납입";

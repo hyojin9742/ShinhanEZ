@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,7 +14,13 @@
 		alert('회원가입 실패! 다시 입력해주세요');	
 	</script>
 </c:if>
+<c:if test="${param.msg=='oauth' }">
+	<script type="text/javascript">
+		alert('상세정보 입력이 필요합니다.');	
+	</script>
+</c:if>
 <body class="sub">
+	<sec:authentication property="principal" var="principal"/>
   <div id="wrap">
 
     <div id="skip">
@@ -40,20 +47,51 @@
           <section class="content-area join">
             <div class="inner-wrap">
               <div id="join_inner">
-                <form action="<%=ctx%>/shjoin" id="join_form" method="post">
+                <form action="<%=ctx%>/member/join" id="join_form" method="post">
                   <div class="join_content">
                     <!-- ID, 비밀번호, 이메일 -->
                     <div class="form_list" id="id_pw">
                       <div class="form_item id">
-                        <input type="text" name="id" id="id" placeholder="아이디" required>
+                      <c:choose>
+						    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
+						    <c:when test="${principal.attributes != null}">
+						        <input type="text" name="id" id="id" placeholder="아이디" value="${principal.email}" required readonly="readonly">
+						    </c:when>
+						
+						    <%-- 2. 그 외 (이름이 없을 때) --%>
+						    <c:otherwise>
+						        <input type="text" name="id" id="id" placeholder="아이디" required>
+						    </c:otherwise>
+						</c:choose>
+                      
+                      
+                        
                       </div>
                       <div class="form_item pw">
                         <input type="password" name="pw" id="pw" placeholder="비밀번호" required>
                       </div>
                       <div class="form_item email">
-                        <input type="email" name="email" id="email" placeholder="[선택]이메일주소(본인확인용)">
+                        <c:choose>
+						    
+						    <c:when test="${principal.attributes != null}">
+						        <input type="text" name="email" id="email" placeholder="이메일" value="${principal.email}" required readonly="readonly">
+						    </c:when>
+						
+						    <%-- 2. 그 외 (이름이 없을 때) --%>
+						    <c:otherwise>
+						        <input type="text" name="email" id="email" placeholder="이메일" required>
+						    </c:otherwise>
+						</c:choose>
                       </div>
                     </div>
+                  			<c:choose>
+							    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
+							    <c:when test="${principal.attributes != null}">
+							        <input type="hidden" name="provider" id="provider" placeholder="제공" value="${principal.sub}">
+							    </c:when>    
+							</c:choose>
+                    
+                    
 
                     <div class="errMsg">
                       <div class="err_item id">
@@ -67,11 +105,24 @@
                     <!-- 이름, 생년월일, 통신사, 성별, 내외국인 -->
                     <div class="form_list" id="name_birth">
                       <div class="form_item name">
-                        <input type="text" name="name" id="name" placeholder="이름" required>
+                        
+                        
+                        <c:choose>
+						    
+						    <c:when test="${principal.attributes != null}">
+						        <input type="text" name="name" id="name" placeholder="이름" value="${principal.OAuthName}" required readonly="readonly">
+						    </c:when>
+						
+						    <%-- 2. 그 외 (이름이 없을 때) --%>
+						    <c:otherwise>
+						        <input type="text" name="name" id="name" placeholder="이름" required>
+						    </c:otherwise>
+						</c:choose>
+                        
                       </div>
 
                       <div class="form_item birth">
-                        <input type="text" name="birth" id="birth" placeholder="생년월일 8자리" required>
+                        <input type="date" name="birth" id="birth" placeholder="생년월일 8자리" required>
                       </div>
 
                       <div class="form_item telecom">

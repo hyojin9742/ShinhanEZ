@@ -183,7 +183,7 @@
         <span>토스페이먼츠 보안 결제</span>
     </div>
 
-    <a href="${ctx}/" class="back-link">
+    <a href="${ctx}/product/detail/${productNo}" class="back-link">
         <i class="bi bi-arrow-left"></i> 돌아가기
     </a>
 </div>

@@ -24,7 +24,7 @@ public class DashBoardController {
 	@Autowired
 	private DashBoardService dashBoardService;
 	
-	
+    // 년도별 상품 조회
     @GetMapping("/api/list")
     @ResponseBody 
     public List<DashBoard> getInsuranceList(@RequestParam(defaultValue = "ALL") String year
@@ -34,21 +34,45 @@ public class DashBoardController {
     }
     
     
+    // 년도별 월 조회
     @GetMapping("/api/list2")
     @ResponseBody 
     public List<DashBoard> getInsuranceList2(@RequestParam(defaultValue = "2025") String year) {
 
         return dashBoardService.monthlyplan(year);
     }
+   
     
-    
+    // 년도 조회 (셀렉트 생성용)
     @GetMapping("/api/yearlist")
     @ResponseBody
     public List<String> getYears(){
     	return dashBoardService.yearsGet();
     }
     
-  	
+    
+ 
+    
+    // 대쉬보드 하단 최근 계약자 목록
+    @GetMapping("/api/allconstracts")
+    @ResponseBody 
+    public Map<String, Object> getConstractsList(
+            @RequestParam(defaultValue = "1") int pageNum) {
+
+        return dashBoardService.getConstractsList(pageNum);
+    } 
+    // 대쉬보드 하단 최근 계약자 목록
+    @GetMapping("/api/allboards")
+    @ResponseBody 
+    public Map<String, Object> getBoardsList(
+            @RequestParam(defaultValue = "1") int pageNum) {
+
+        return dashBoardService.getBoardsList(pageNum);
+    } 
+    
+    
+    
+    
   	@GetMapping("/api/allcount")
     @ResponseBody
   	public HashMap<String, Integer> allCount() {
@@ -56,11 +80,13 @@ public class DashBoardController {
   		allcount.put("allusers", dashBoardService.allUserCount());
   		allcount.put("allcustomers", dashBoardService.allCustomerCount());
   		allcount.put("allcontracts", dashBoardService.allcontractCount());
-  		
+  		allcount.put("allboards", dashBoardService.allboardCount());
   		
   		return allcount;
   		
   	};
+  	
+  	
   	
     
     

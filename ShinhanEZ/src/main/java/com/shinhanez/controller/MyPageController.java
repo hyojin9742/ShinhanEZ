@@ -25,16 +25,11 @@ public class MyPageController {
     private PaymentService paymentService;
 
     /* TODO | 마이페이지 메인 */
-    
     /**
      * 마이페이지 메인 | 납입내역 (결제 목록)
      */
     @GetMapping("/payments")
-    public String payments(HttpSession session, Model model) {
-        ShezUser user = (ShezUser) session.getAttribute("loginUser");
-        if (user == null) {
-            return "redirect:/member/login";
-        }
+    public String payments(Model model) {
 
         // 전체 납입내역 조회 (실제로는 해당 사용자의 계약에 대한 납입내역만 조회해야 함)
         List<Payment> payments = paymentService.findAllWithPaging(1, 20, null, null, null);

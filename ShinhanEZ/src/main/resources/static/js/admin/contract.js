@@ -165,6 +165,10 @@ $(document).ready(()=>{
 	        $('#saveContract').text('수정').removeClass('registerContract').addClass('modifyContract');
 	        loadContractData(contractId);
 	    } else {
+			$('#customerName').prop('readonly',false);
+			$('#insuredName').prop('readonly',false);
+			$('#productName').prop('readonly',false);
+			$('#regDate').prop('readonly',false);
 	        $('.modal-title').text('계약 등록');
 	        $('#saveContract').text('등록').removeClass('modifyContract').addClass('registerContract');
 	        // 폼 초기화

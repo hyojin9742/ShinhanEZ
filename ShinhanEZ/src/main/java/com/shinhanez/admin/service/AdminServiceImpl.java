@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +16,39 @@ import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.AdminMapper;
 import com.shinhanez.domain.Paging;
+import com.shinhanez.domain.ShezUser;
+import com.shinhanez.domain.UserAdminDetails;
 
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
 public class AdminServiceImpl implements AdminService {
+    private final PasswordEncoder passwordEncoder;
 	private AdminMapper mapper;
-	@Autowired
-	public AdminServiceImpl(AdminMapper mapper) {
-		this.mapper = mapper;
-	}
 	
+	@Autowired
+	public AdminServiceImpl(AdminMapper mapper, PasswordEncoder passwordEncoder) {
+		this.mapper = mapper;
+		this.passwordEncoder = passwordEncoder;
+	}
+    // 기존 DB 평문 PW 암호화 | 임시
+	@Override
+	public void encodeAdmins() {
+		List<Admins> adminList = mapper.findAllAdmins();
+
+        for (Admins admin : adminList) {
+            String plainPw = admin.getAdminPw();
+
+            // 이미 암호화된 건 건너뜀
+            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
+                continue;
+            }
+
+            String encodedPw = passwordEncoder.encode(plainPw);
+            mapper.encodeAdmins(admin.getAdminId(), encodedPw);
+        }
+	}
 	// 전체조회
 	@Override
 	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole) {
@@ -51,11 +74,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 	// 단건조회
 	@Override
-	public Admins readOneAdmin(int adminIdx, HttpSession session) {
+	public Admins readOneAdmin(int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
 		log.info("service 단건조회 시행");
 		Admins admin = mapper.selectOneAdmin(adminIdx);
 		Integer sessionIdx = (Integer) session.getAttribute("adminIdx");
-		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, session)) {
+		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, details)) {
 			return mapper.selectOneAdmin(adminIdx);
 		} else {
 			throw new IllegalArgumentException("권한이 없습니다"); // 예외처리 추가 필요
@@ -75,9 +98,9 @@ public class AdminServiceImpl implements AdminService {
 	// 수정
 	@Transactional
 	@Override
-	public int modifyAdmin(Admins admin, HttpSession session) {
+	public int modifyAdmin(Admins admin, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
 		Integer adminIdx = (Integer) session.getAttribute("adminIdx");
-		if(admin.getAdminIdx() == adminIdx || hasPermission(admin, session)) {
+		if(admin.getAdminIdx() == adminIdx || hasPermission(admin, details)) {
 			int modify1 = mapper.updateAdmin(admin);
 			int modify2 = mapper.updateUser(admin);
 			if(modify1 != 1 || modify2 != 1) {
@@ -90,10 +113,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 	// 삭제
 	@Override
-	public int deleteAdmin(int adminIdx, HttpSession session) {
+	public int deleteAdmin(int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
 		Admins admin = mapper.selectOneAdmin(adminIdx);
 		Integer sessionIdx = (Integer) session.getAttribute("adminIdx");
-		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, session)) {
+		if(admin.getAdminIdx() == sessionIdx || hasPermission(admin, details)) {
 			int delete1 = mapper.deleteAdmin(adminIdx);
 			int delete2 = mapper.deleteUser(admin.getAdminId());
 			if(delete1 != 1 || delete2 != 1) {
@@ -117,8 +140,8 @@ public class AdminServiceImpl implements AdminService {
 		return adminById;
 	}
 	// 권한 체크
-	public boolean hasPermission(Admins admin, HttpSession session) {
-		String adminRole = (String) session.getAttribute("adminRole");
+	public boolean hasPermission(Admins admin, @AuthenticationPrincipal UserAdminDetails details) {
+		String adminRole = details.getAdmin().getAdminRole();
 		String targetRole = mapper.selectOneAdmin(admin.getAdminIdx()).getAdminRole();
 		if(adminRole == null || targetRole == null ) {
 			return false;

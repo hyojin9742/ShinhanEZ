@@ -1,8 +1,11 @@
 package com.shinhanez.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,29 +25,50 @@ import com.shinhanez.service.ShezUserService;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+
+    private final PasswordEncoder passwordEncoder;
     private ShezUserService userService;
     private AdminService adminService;
     
     @Autowired
-    public MemberController(ShezUserService userService, AdminService adminService) {
+    public MemberController(ShezUserService userService, AdminService adminService, PasswordEncoder passwordEncoder) {
     	this.userService = userService;
     	this.adminService = adminService;
+    	this.passwordEncoder = passwordEncoder;
     }
+    
+    /* 비밀번호 암호화 처리 임시 메서드 */
+    public void migratePassword() {
+        List<ShezUser> userList = userService.findAll();
 
+        for (ShezUser user : userList) {
+            String plainPw = user.getPw();
+
+            // 이미 암호화된 건 건너뜀
+            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
+                continue;
+            }
+
+            String encodedPw = passwordEncoder.encode(plainPw);
+            userService.updatePassword(user.getId(), encodedPw);
+        }
+    }
     // 로그인 페이지
     @GetMapping("/login")
     public String loginForm() {
+    	migratePassword();
+    	adminService.encodeAdmins();
         return "member/login";
     }
-
-    // 로그인 처리
-    @PostMapping("/login")
-    public String login(@RequestParam String id, 
-                        @RequestParam String pw,
+    
+    // 구글 로그인 처리
+    @PostMapping("/googlelogin")
+    public String googlelogin(@RequestParam String email, 
+                        @RequestParam String providerId,
                         HttpSession session,
                         Model model) {
-        ShezUser user = userService.login(id, pw);
-        Admins admin = adminService.readOneAdminById(id);
+        ShezUser user = userService.findByEmail(email);
+        Admins admin = adminService.readOneAdminById(email);
         if (user != null) {
             // 로그인 성공 - 세션에 저장
         	session.setAttribute("loginUser", user);
@@ -61,16 +85,9 @@ public class MemberController {
             return "redirect:/";
         } else {
             // 로그인 실패
-            model.addAttribute("error", "아이디 또는 비밀번호가 일치하지 않습니다.");
+            model.addAttribute("error", "로그인 실패");
             return "member/login";
         }
-    }
-
-    // 로그아웃
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
     }
 
     // 회원가입 페이지
@@ -87,7 +104,10 @@ public class MemberController {
             model.addAttribute("error", "이미 사용중인 아이디입니다.");
             return "member/join";
         }
-        
+        // 비밀번호 암호화
+        String encodedPw = passwordEncoder.encode(user.getPw());
+        user.setPw(encodedPw);
+
         int result = userService.join(user);
         if (result > 0) {
             return "redirect:/member/login?join=success";

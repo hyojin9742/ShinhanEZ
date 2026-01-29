@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -143,7 +144,9 @@
 		}
 	</style>
 </head>
-
+<c:if test="${param.error == 'permission'}">
+	<script>alert('권한이 없습니다.');</script>
+</c:if>
 <body class="sub">
 
   <div id="wrap">
@@ -258,12 +261,10 @@
 
                 <!-- 하단 버튼 영역 -->
                 <div class="bbs-btn-area">
-                  <c:if test="${not empty sessionScope.loginUser}">
-                    <a href="<%=ctx%>/board/write" class="btn large primary">
-                      <i class="bi bi-pencil"></i> 글쓰기
-                    </a>
-                  </c:if>
-                  <a href="<%=ctx%>/customer/inquiry" class="btn large blue-outline">
+                  <a href="<%=ctx%>/board/write" class="btn large primary">
+                    <i class="bi bi-pencil"></i> 글쓰기
+                  </a>
+                  <a href="<%=ctx%>/board/list" class="btn large blue-outline">
                     <i class="bi bi-chat-dots"></i> 고객문의
                   </a>
                 </div>

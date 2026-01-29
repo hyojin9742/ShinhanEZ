@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String ctx = request.getContextPath(); %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!-- sitemap -->
 <div class="sitemapHead">
   <div class="topWrap">
-    <h1 class="logo"><a href="<%=ctx%>/"><span class="sr-only">신한EZ손해보험</span></a></h1>
+    <h1 class="logo"><a href="${ctx}/"><span class="sr-only">신한EZ손해보험</span></a></h1>
     <div class="srchBox">
       <div class="input w-100">
         <label for="menu_search" class="sr-only">메뉴명 검색</label>
@@ -30,17 +31,18 @@
               <li class="subArea">
                 <h3><a href="#"><span>회원메뉴</span></a></h3>
                 <ul class="depth3">
-                  <c:choose>
-                    <c:when test="${empty sessionScope.loginUser}">
-                      <li><a href="<%=ctx%>/member/login" class="links"><span>로그인</span></a></li>
-                      <li><a href="<%=ctx%>/member/join"><span>회원가입</span></a></li>
+                	<sec:authorize access="isAnonymous()">
+                      <li><a href="${ctx}/member/login" class="links"><span>로그인</span></a></li>
+                      <li><a href="${ctx}/member/join"><span>회원가입</span></a></li>
                       <li><a href="#"><span>아이디 찾기</span></a></li>
                       <li><a href="#"><span>비밀번호 찾기</span></a></li>
-                    </c:when>
-                    <c:otherwise>
-                      <li><a href="<%=ctx%>/member/logout" class="links"><span>로그아웃</span></a></li>
-                    </c:otherwise>
-                  </c:choose>
+                	</sec:authorize>
+ 					<sec:authorize access="isAuthenticated()">
+						<sec:authorize access="hasRole('ADMIN')">
+							<a href="${ctx}/admin" class="links link-admin">관리자페이지</a>
+						</sec:authorize>
+						<li><a href="${ctx}/member/logout" class="links"><span>로그아웃</span></a></li>
+ 					</sec:authorize>
                 </ul>
               </li>
             </ul>
@@ -53,8 +55,8 @@
               <li class="subArea">
                 <h3><a href="#"><span>신한이지</span></a></h3>
                 <ul class="depth3">
-                  <li><a href="<%=ctx%>/pages/brand.jsp"><span>브랜드</span></a></li>
-                  <li><a href="<%=ctx%>/pages/social.jsp"><span>사회공헌</span></a></li>
+                  <li><a href="${ctx}/pages/brand"><span>브랜드</span></a></li>
+                  <li><a href="${ctx}/pages/social"><span>사회공헌</span></a></li>
                   <li><a href="#"><span>주주사소개</span></a></li>
                   <li><a href="#"><span>제휴문의</span></a></li>
                 </ul>
@@ -68,9 +70,9 @@
                 </ul>
               </li>
               <li class="subArea">
-                <h3><a href="<%=ctx%>/pages/media_room"><span>미디어룸</span></a></h3>
+                <h3><a href="${ctx}/pages/media_room"><span>미디어룸</span></a></h3>
                 <ul class="depth3">
-                  <li><a href="<%=ctx%>/pages/media_room"><span>미디어룸</span></a></li>
+                  <li><a href="${ctx}/pages/media_room"><span>미디어룸</span></a></li>
                 </ul>
               </li>
             </ul>
@@ -80,6 +82,16 @@
           <h2><a href="#"><span>상품안내</span></a></h2>
           <div class="subArea">
             <ul class="depth2">
+              <li class="subArea">
+                <h3><a href="${ctx}/product/list"><span>보험상품</span></a></h3>
+                <ul class="depth3">
+                  <li>
+                    <a href="${ctx}/product/list">
+                      <span>전체 보험상품</span><strong class="badge good best">추천</strong>
+                    </a>
+                  </li>
+                </ul>
+              </li>
               <li class="subArea">
                 <h3><a href="#"><span>추천상품</span></a></h3>
                 <ul class="depth3">
@@ -114,9 +126,9 @@
                 </ul>
               </li>
               <li class="subArea">
-                <h3><a href="<%=ctx%>/pages/contents_travel.jsp"><span>화재보험</span></a></h3>
+                <h3><a href="${ctx}/pages/contents_travel"><span>화재보험</span></a></h3>
                 <ul class="depth3">
-                  <li><a href="<%=ctx%>/pages/contents_travel.jsp"><span>화재보험</span></a></li>
+                  <li><a href="${ctx}/pages/contents_travel"><span>화재보험</span></a></li>
                 </ul>
               </li>
               <li class="subArea">
@@ -148,7 +160,7 @@
               <li class="subArea">
                 <h3><a href="#"><span>보험금청구</span></a></h3>
                 <ul class="depth3">
-                  <li><a href="<%=ctx%>/pages/user_claim.jsp"><span>보험금 청구안내</span></a></li>
+                  <li><a href="${ctx}/pages/insurance_claim"><span>보험금 청구안내</span></a></li>
                   <li><a href="#"><span>필요서류안내</span></a></li>
                   <li><a href="#"><span>보험범죄신고센터</span></a></li>
                   <li><a href="#"><span>보험사기 할증보험료 환급안내</span></a></li>
@@ -239,7 +251,7 @@
     </nav>
   </div>
   <div class="noData">
-    <img src="<%=ctx%>/images/result-pic.png" alt="결과 안내 이미지">
+    <img src="${ctx}/images/result-pic.png" alt="결과 안내 이미지">
     <p>검색 결과가 없습니다.</p>
   </div>
 </div>

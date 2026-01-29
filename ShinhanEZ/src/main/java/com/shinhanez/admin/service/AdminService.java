@@ -5,19 +5,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.domain.UserAdminDetails;
 
 public interface AdminService {
+    // 기존 DB 평문 PW 암호화 | 임시
+	public void encodeAdmins();
 	// 전체 조회
 	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole);
 	// 단건 조회
-	public Admins readOneAdmin(int adminIdx, HttpSession session);
+	public Admins readOneAdmin(int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details);
 	// 등록
 	public int registerAdmin(Admins admin, HttpSession session);
 	// 수정
-	public int modifyAdmin(Admins admin, HttpSession session);
+	public int modifyAdmin(Admins admin, HttpSession session, @AuthenticationPrincipal UserAdminDetails details);
 	// 삭제
-	public int deleteAdmin(int adminIdx, HttpSession session);
+	public int deleteAdmin(int adminIdx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details);
 	
 	// 마지막 로그인
 	public int lastLogin(int adminIdx);
