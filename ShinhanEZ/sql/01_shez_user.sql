@@ -77,3 +77,4 @@ COMMIT;
 
 -- 확인
 SELECT * FROM shez_user;
+DELETE FROM shez_user WHERE id = 'hyojin9742@gmail.com';

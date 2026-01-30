@@ -54,7 +54,7 @@
                       <div class="form_item id">
                       <c:choose>
 						    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
-						    <c:when test="${principal.attributes != null}">
+						    <c:when test="${principal != null && principal ne 'anonymousUser'}">
 						        <input type="text" name="id" id="id" placeholder="아이디" value="${principal.email}" required readonly="readonly">
 						    </c:when>
 						
@@ -73,7 +73,7 @@
                       <div class="form_item email">
                         <c:choose>
 						    
-						    <c:when test="${principal.attributes != null}">
+						    <c:when test="${principal != null && principal != 'anonymousUser'}">
 						        <input type="text" name="email" id="email" placeholder="이메일" value="${principal.email}" required readonly="readonly">
 						    </c:when>
 						
@@ -86,7 +86,7 @@
                     </div>
                   			<c:choose>
 							    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
-							    <c:when test="${principal.attributes != null}">
+							    <c:when test="${principal != null && principal != 'anonymousUser'}">
 							        <input type="hidden" name="provider" id="provider" placeholder="제공" value="${principal.sub}">
 							    </c:when>    
 							</c:choose>
@@ -109,7 +109,7 @@
                         
                         <c:choose>
 						    
-						    <c:when test="${principal.attributes != null}">
+						    <c:when test="${principal != null && principal != 'anonymousUser'}">
 						        <input type="text" name="name" id="name" placeholder="이름" value="${principal.OAuthName}" required readonly="readonly">
 						    </c:when>
 						

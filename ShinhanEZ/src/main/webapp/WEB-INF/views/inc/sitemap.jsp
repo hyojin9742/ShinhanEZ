@@ -82,7 +82,7 @@
           <h2><a href="#"><span>상품안내</span></a></h2>
           <div class="subArea">
             <ul class="depth2">
-              <li class="subArea">
+              <li class="subArea allProduct">
                 <h3><a href="${ctx}/product/list"><span>보험상품</span></a></h3>
                 <ul class="depth3">
                   <li>
