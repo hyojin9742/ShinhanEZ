@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.mapper.AdminMapper;
-import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 import com.shinhanez.mapper.ShezUserMapper;

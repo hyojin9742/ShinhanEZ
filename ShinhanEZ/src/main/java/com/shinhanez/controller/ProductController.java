@@ -2,21 +2,25 @@ package com.shinhanez.controller;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.InsuranceService;
+import com.shinhanez.domain.ShezUser;
+import com.shinhanez.domain.UserAdminDetails;
+import com.shinhanez.service.ShezUserService;
 
 /**
  * 보험상품 컨트롤러 (사용자용)
@@ -25,8 +29,13 @@ import com.shinhanez.admin.service.InsuranceService;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
     private InsuranceService insuranceService;
+    private ShezUserService shezUserService;
+    
+    public ProductController(InsuranceService insuranceService, ShezUserService shezUserService) {
+    	this.insuranceService = insuranceService;
+    	this.shezUserService = shezUserService;
+    }
 
     /**
      * 상품 목록 (추천 상품)
@@ -81,4 +90,26 @@ public class ProductController {
                 + "&orderName=" + encodedName
                 + "&productNo=" + product.getProductNo();
     }
+    /* 인증계정 가져오기 */
+    @GetMapping("/authInfo")
+    @ResponseBody
+    public ShezUser authInfo(Authentication authentication) {
+        ShezUser user = null;
+        if (authentication != null) {
+        	Object principal = authentication.getPrincipal(); 
+        	
+        	if (principal instanceof UserAdminDetails) { 
+        		// 폼 로그인 사용자 
+        		user = ((UserAdminDetails) principal).getUser(); 
+        		
+    		} else if (principal instanceof OAuth2User) { 
+    			// OAuth2 로그인 사용자 
+    			OAuth2User oauth2User = (OAuth2User) principal;
+    			String email = oauth2User.getAttribute("email");
+    			user = shezUserService.findById(email);
+			} 
+    	}
+        return user;
+    }
+
 }
