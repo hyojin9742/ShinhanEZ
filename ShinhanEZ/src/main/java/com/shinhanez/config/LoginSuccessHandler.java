@@ -15,10 +15,8 @@ import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+	
 	private final AdminService adminService;
 	
 	public LoginSuccessHandler() {
@@ -44,7 +42,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
                 session.setAttribute("userId", user.getId());
             }
             if(admin != null) {
-            	adminService.lastLogin(admin.getAdminIdx());
             	session.setAttribute("adminIdx", admin.getAdminIdx());
             	
             }
