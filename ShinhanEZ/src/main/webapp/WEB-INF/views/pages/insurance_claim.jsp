@@ -170,7 +170,6 @@ pageEncoding="UTF-8"%>
     <div class="contract-modal-title">보험금 청구</div>
     <button type="button" class="contract-modal-close" id="btnCloseContractModal" aria-label="닫기">×</button>
   </div>
-<<<<<<< HEAD
 
   <div class="contract-modal-body">
 
@@ -208,8 +207,8 @@ pageEncoding="UTF-8"%>
               <input type="text" class="form-control" id="claimInsuredName" disabled>
             </div>
 			<div class="form-group">
-			              <label class="form-label">계약ID</label>
-			              <input type="text" class="form-control" id="claimContractId" readonly>
+              <label class="form-label">계약ID</label>
+              <input type="text" class="form-control" id="claimContractId" readonly>
             </div>
           </div>
 
@@ -253,13 +252,9 @@ pageEncoding="UTF-8"%>
   </div>
 </div>
 
-
-=======
-  
   <div id="sitemap" class="sitemapArea">
   	<jsp:include page="/WEB-INF/views/inc/sitemap.jsp"></jsp:include>
   </div>
->>>>>>> refs/heads/security
 </body>
 
 </html>

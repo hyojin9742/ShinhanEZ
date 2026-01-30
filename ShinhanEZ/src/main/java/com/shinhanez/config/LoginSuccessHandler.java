@@ -11,11 +11,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import com.shinhanez.admin.domain.Admins;
+import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 
-public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
+public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+	private final AdminService adminService;
+	
+	public LoginSuccessHandler() {
+		this.adminService = null;
+	};
+	public LoginSuccessHandler(AdminService adminService) {
+		this.adminService = adminService;
+	}
+	
 	@Override
 	public void onAuthenticationSuccess(
 			HttpServletRequest request, 
@@ -28,9 +40,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             HttpSession session = request.getSession();
             ShezUser user = principal.getUser();
             Admins admin = principal.getAdmin();
-            if (admin != null) {
-                session.setAttribute("adminIdx", admin.getAdminIdx());
+            if (user!= null) {
                 session.setAttribute("userId", user.getId());
+            }
+            if(admin != null) {
+            	adminService.lastLogin(admin.getAdminIdx());
+            	session.setAttribute("adminIdx", admin.getAdminIdx());
+            	
             }
             
             super.onAuthenticationSuccess(request, response, authentication);
