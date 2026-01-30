@@ -127,6 +127,7 @@
             text-align: center;
             margin-top: 20px;
             color: #666;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -183,7 +184,7 @@
         <span>토스페이먼츠 보안 결제</span>
     </div>
 
-    <a href="${ctx}/product/detail/${productNo}" class="back-link">
+    <a class="back-link" id="back-btn">
         <i class="bi bi-arrow-left"></i> 돌아가기
     </a>
 </div>
@@ -237,6 +238,13 @@
             }
         });
     });
+    
+ 	// 돌아가기 버튼 클릭
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        history.back();
+    });
+
 </script>
 
 </body>

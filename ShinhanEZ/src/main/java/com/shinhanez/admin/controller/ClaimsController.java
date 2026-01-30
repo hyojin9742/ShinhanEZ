@@ -1,13 +1,21 @@
 package com.shinhanez.admin.controller;
 
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +33,9 @@ import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.service.ClaimsService;
 import com.shinhanez.admin.service.ContractService;
 import com.shinhanez.admin.service.CustomerService;
+import com.shinhanez.common.domain.ClaimFileVO;
+import com.shinhanez.common.service.ClaimFileService;
+import com.shinhanez.common.storage.FileStorage;
 import com.shinhanez.domain.Paging;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +53,11 @@ public class ClaimsController {
 	private final ContractService contractService;
 	// Customer Service DI
 	private final CustomerService customerService;
+	// ClaimFile Service DI
+	private final ClaimFileService claimFileService;
+	// FileStorage DI
+	private final FileStorage fileStorage;
+	
 	
 	// 청구 List
 	@GetMapping({"/",""})
@@ -75,6 +91,8 @@ public class ClaimsController {
 		model.addAttribute("claimsDTO", claimsDTO);
 		model.addAttribute("contracts", contracts);
 		model.addAttribute("customer", customer);
+		// 다운로드 추가
+		model.addAttribute("claimFiles", claimFileService.getFilesByClaimId(claimId));
 		return "admin/claims_view";
 	}
 	
@@ -162,19 +180,73 @@ public class ClaimsController {
 		Map<String, Object> map = new HashMap<>();
 		Contracts contract = contractService.readOneContract(contractId);
 	    map.put("contract", contract);
-		
 	    Customer customer = null;
 	    if (contract != null) {
 	        customer = customerService.findById(contract.getCustomerId());
 	    }
-	    
 	    return Map.of(
 	        "contract", contract,
 	        "customer", customer
 	    );
 	}
 	
+	// 청구고객의 서류 목록 조회
+	@GetMapping("/{claimId}/files")
+	@ResponseBody
+	public ResponseEntity<List<ClaimFileVO>> list(@PathVariable Long claimId){
+		return ResponseEntity.ok(claimFileService.getFilesByClaimId(claimId));
+	}
 	
+	// 서류 다운로드
+	@GetMapping("/{claimId}/files/{fileId}/download")
+	public ResponseEntity<Resource> download(
+			@PathVariable Long claimId,
+			@PathVariable Long fileId){
+		
+		// 1. 메타 조회
+		ClaimFileVO file = claimFileService.getFile(fileId);
+		if(file == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		// 2. claimId 일치 검증
+		if(!claimId.equals(file.getClaimId())) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		// 3. 삭제 여부 체크
+		if("Y".equalsIgnoreCase(file.getIsDeleted())) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		// 4. 파일 스트림 오픈
+		InputStream is = fileStorage.open(file.getStorageKey());
+		Resource resource = new InputStreamResource(is);
+		
+		// 5. 헤더 구성
+		String originName = (file.getOriginalName() == null || file.getOriginalName().isBlank())
+				? "download" : file.getOriginalName();
+		
+		HttpHeaders headers =new HttpHeaders();
+		
+		// content-type
+		String ct = (file.getContentType() == null || file.getContentType().isBlank())
+				? MediaType.APPLICATION_OCTET_STREAM_VALUE
+				:file.getContentType();
+		headers.setContentType(MediaType.parseMediaType(ct));
+				
+		// Content-Disposition (UTF-8)
+		headers.setContentDisposition(ContentDisposition.attachment()
+				.filename(originName, StandardCharsets.UTF_8)
+				.build());
+		
+		// Content-Length
+		if(file.getFileSize() != null) {
+			headers.setContentLength(file.getFileSize());
+		}
+		
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
 	
 	
 } // end of class

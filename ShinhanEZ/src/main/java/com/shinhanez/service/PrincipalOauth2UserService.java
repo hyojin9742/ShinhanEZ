@@ -7,22 +7,37 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.shinhanez.domain.PrincipalOAuth2UserDetails;
+import com.shinhanez.domain.ShezUser;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
-
-    // Mapper는 여기서 안 씁니다. (핸들러에서 쓸 예정)
-
+    
+	private final ShezUserService shezUserService;
+	
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // 1. 구글에서 유저 정보 가져오기
         OAuth2User oauth2User = super.loadUser(userRequest);
-        System.out.println("구글 OAuth2 attributes: " + oauth2User.getAttributes());
-        // 2. 여기서 DB 저장을 하지 않고, 그대로 리턴합니다.
-        // 나중에 핸들러에서 이 정보를 꺼내 쓸 수 있습니다.
-    	return new PrincipalOAuth2UserDetails(oauth2User.getAttributes(), "sub");
+        
+        // 이메일로 DB 조회
+        String email = oauth2User.getAttribute("email");
+        ShezUser existUser = shezUserService.findByEmail(email);
+        
+        // 기존 유저면 DB의 권한, 신규 유저면 ROLE_OAUTH
+        if (existUser != null) {
+            return new PrincipalOAuth2UserDetails(
+                oauth2User.getAttributes(),
+                "sub",
+                existUser.getRole()
+            );
+        } else {
+            return new PrincipalOAuth2UserDetails(
+                oauth2User.getAttributes(),
+                "sub"
+            );
+        }
     }
 }

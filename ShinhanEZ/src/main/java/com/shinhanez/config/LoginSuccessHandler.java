@@ -18,10 +18,7 @@ import com.shinhanez.domain.UserAdminDetails;
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 	
 	private final AdminService adminService;
-	
-	public LoginSuccessHandler() {
-		this.adminService = null;
-	};
+
 	public LoginSuccessHandler(AdminService adminService) {
 		this.adminService = adminService;
 	}
@@ -42,6 +39,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
                 session.setAttribute("userId", user.getId());
             }
             if(admin != null) {
+            	adminService.lastLogin(admin.getAdminIdx());
             	session.setAttribute("adminIdx", admin.getAdminIdx());
             	
             }

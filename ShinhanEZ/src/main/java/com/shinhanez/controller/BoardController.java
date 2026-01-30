@@ -118,14 +118,23 @@ public class BoardController {
 
     // 수정 폼
     @GetMapping("/edit/{idx}")
-    public String editForm(@PathVariable Long idx, HttpSession session,@AuthenticationPrincipal UserAdminDetails details, Model model) {
+    public String editForm(@PathVariable Long idx, Authentication authentication, Model model) {
         ShezUser user = null;
-        if(details != null) {
-        	user = details.getUser();
-        }
-        if (user == null) {
-            return "redirect:/member/login?error=needLogin";
-        }
+        if (authentication != null) {
+        	Object principal = authentication.getPrincipal(); 
+        	
+        	if (principal instanceof UserAdminDetails) { 
+        		// 폼 로그인 사용자 
+        		user = ((UserAdminDetails) principal).getUser(); 
+        		
+    		} else if (principal instanceof OAuth2User) { 
+    			// OAuth2 로그인 사용자 
+    			OAuth2User oauth2User = (OAuth2User) principal;
+    			String email = oauth2User.getAttribute("email");
+    			user = new ShezUser();
+    			user.setId(email);
+			} 
+    	}
         Board board = boardService.getBoard(idx);
 
         // 본인 글이 아니고 관리자도 아니면 접근 거부
@@ -141,12 +150,23 @@ public class BoardController {
 
     // 수정 처리
     @PostMapping("/edit/{idx}")
-    public String edit(@PathVariable Long idx, Board board, HttpSession session, @AuthenticationPrincipal UserAdminDetails details, RedirectAttributes rttr) {
+    public String edit(@PathVariable Long idx, Board board, Authentication authentication, RedirectAttributes rttr) {
         ShezUser user = null;
-        if(details != null) {
-        	user = details.getUser();
-        }
-
+        if (authentication != null) {
+        	Object principal = authentication.getPrincipal(); 
+        	
+        	if (principal instanceof UserAdminDetails) { 
+        		// 폼 로그인 사용자 
+        		user = ((UserAdminDetails) principal).getUser(); 
+        		
+    		} else if (principal instanceof OAuth2User) { 
+    			// OAuth2 로그인 사용자 
+    			OAuth2User oauth2User = (OAuth2User) principal;
+    			String email = oauth2User.getAttribute("email");
+    			user = new ShezUser();
+    			user.setId(email);
+			} 
+    	}
         // 본인 글이 아니고 관리자도 아니면 수정 거부
         Board existingBoard = boardService.getBoard(idx);
         if (!user.getId().equals(existingBoard.getId()) && !"ROLE_ADMIN".equals(user.getRole())) {
@@ -161,12 +181,24 @@ public class BoardController {
 
     // 삭제
     @GetMapping("/delete/{idx}")
-    public String delete(@PathVariable Long idx, HttpSession session, @AuthenticationPrincipal UserAdminDetails details, RedirectAttributes rttr) {
+    public String delete(@PathVariable Long idx, Authentication authentication, RedirectAttributes rttr) {
         ShezUser user = null;
-        if(details != null) {
-        	user = details.getUser();
-        }
-
+        if (authentication != null) {
+        	Object principal = authentication.getPrincipal(); 
+        	
+        	if (principal instanceof UserAdminDetails) { 
+        		// 폼 로그인 사용자 
+        		user = ((UserAdminDetails) principal).getUser(); 
+        		
+    		} else if (principal instanceof OAuth2User) { 
+    			// OAuth2 로그인 사용자 
+    			OAuth2User oauth2User = (OAuth2User) principal;
+    			String email = oauth2User.getAttribute("email");
+    			user = new ShezUser();
+    			user.setId(email);
+			} 
+    	}
+        
         // 본인 글이 아니고 관리자도 아니면 삭제 거부
         Board board = boardService.getBoard(idx);
         if (!user.getId().equals(board.getId()) && !"ROLE_ADMIN".equals(user.getRole())) {

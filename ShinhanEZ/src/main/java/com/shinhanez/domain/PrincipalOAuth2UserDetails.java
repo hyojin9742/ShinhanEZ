@@ -12,10 +12,17 @@ public class PrincipalOAuth2UserDetails implements OAuth2User {
     
     private Map<String, Object> attributes;
     private String nameAttributeKey;
+    private String role;
     
     public PrincipalOAuth2UserDetails(Map<String, Object> attributes, String nameAttributeKey) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
+        this.role = "ROLE_OAUTH";
+    }
+    public PrincipalOAuth2UserDetails(Map<String, Object> attributes, String nameAttributeKey,String role) {
+    	this.attributes = attributes;
+    	this.nameAttributeKey = nameAttributeKey;
+    	this.role = role;
     }
     
     @Override
@@ -25,7 +32,7 @@ public class PrincipalOAuth2UserDetails implements OAuth2User {
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_OAUTH"));
+        return Collections.singleton(new SimpleGrantedAuthority(role));
     }
     
     @Override
@@ -44,5 +51,7 @@ public class PrincipalOAuth2UserDetails implements OAuth2User {
     public String getSub() {
     	return (String) attributes.get("sub");
     }
-    
+    public String getRole() {
+        return role;
+    }
 }

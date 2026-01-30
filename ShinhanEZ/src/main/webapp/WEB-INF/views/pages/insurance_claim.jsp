@@ -161,7 +161,9 @@ pageEncoding="UTF-8"%>
     <!-- //icoBtn_goTop -->
 </div>
 
-<div id="sitemap" class="sitemapArea"></div>
+  <div id="sitemap" class="sitemapArea">
+     <jsp:include page="/WEB-INF/views/inc/sitemap.jsp"></jsp:include>
+  </div>
 
 <div id="contractModalBackdrop" class="contract-modal-backdrop"></div>
 
@@ -252,9 +254,6 @@ pageEncoding="UTF-8"%>
   </div>
 </div>
 
-  <div id="sitemap" class="sitemapArea">
-  	<jsp:include page="/WEB-INF/views/inc/sitemap.jsp"></jsp:include>
-  </div>
 </body>
 
 </html>

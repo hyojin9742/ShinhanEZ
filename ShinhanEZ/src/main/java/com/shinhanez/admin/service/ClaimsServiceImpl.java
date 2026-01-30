@@ -65,6 +65,7 @@ public class ClaimsServiceImpl implements ClaimsService{
 		return claimsMapper.getListContractsByCustomerId(custormerId);
 	}
 
+	// 전화번호로 고객 정보 조회
 	@Override
 	public Customer findCustomerByPhone(String phone) {
 		return claimsMapper.findCustomerByPhone(phone);

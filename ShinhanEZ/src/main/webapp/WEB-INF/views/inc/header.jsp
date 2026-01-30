@@ -30,7 +30,14 @@
 				    </sec:authorize>				
 				    <!-- 일반 사용자 -->
 				    <sec:authorize access="hasRole('USER')">
-				        <a href="/mypage/payments">${principal.user.name }님</a>
+				    	<c:choose>
+				    		<c:when test="${principal.attributes != null }">
+						        <a href="/mypage/payments">${principal.attributes['name'] }님</a>
+				    		</c:when>
+				    		<c:otherwise>
+						        <a href="/mypage/payments">${principal.user.name }님</a>
+				    		</c:otherwise>
+				    	</c:choose>
 				    </sec:authorize>
 				    <sec:authorize access="hasRole('OAUTH')">
 				        <a href="/mypage/payments">${principal.OAuthName }님</a>

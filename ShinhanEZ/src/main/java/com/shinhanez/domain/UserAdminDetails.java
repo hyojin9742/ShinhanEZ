@@ -1,8 +1,10 @@
 package com.shinhanez.domain;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,16 +19,19 @@ public class UserAdminDetails implements UserDetails {
 
     private ShezUser user;
     private Admins admin;
+    private Principal attributes;
 
     // 일반 회원용 생성자
     public UserAdminDetails(ShezUser user) {
         this.user = user;
+        this.attributes = null;
     }
 
     // 관리자용 생성자
     public UserAdminDetails(Admins admin, ShezUser user) {
         this.admin = admin;
         this.user = user;
+        this.attributes = null;
     }
 
     /* ================= 권한 ================= */
@@ -87,6 +92,9 @@ public class UserAdminDetails implements UserDetails {
     }
     public Admins getAdmin() {
         return admin;
+    }
+    public Map<String, Object> getAttributes() { 
+    	return null; // OAuth2User가 아닌 경우 null 반환
     }
     public String getDisplayRoleLabel() {
         switch (admin.getAdminRole()) {

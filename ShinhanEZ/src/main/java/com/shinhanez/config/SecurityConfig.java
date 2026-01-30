@@ -53,10 +53,10 @@ public class SecurityConfig {
                 .antMatchers("/product/list/**","/product/detail/**").permitAll()
                 .antMatchers("/popup/**").permitAll()
                 // 회원 전용 | 간편 로그인 + DB로그인
-                .antMatchers("/board/write/**","/board/edit/**","/board/delete/**").hasRole("USER")
-                .antMatchers("/mypage/**").hasRole("USER")
-                .antMatchers("/product/subscribe/**").hasRole("USER")
-                .antMatchers("/payment/**").hasRole("USER")
+                .antMatchers("/board/write/**","/board/edit/**","/board/delete/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/mypage/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/product/subscribe/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/payment/**").hasAnyRole("USER", "ADMIN")
                 // 관리자 전용
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/admin/**").hasRole("ADMIN")
@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> userInfo
                     .userService(principalOauth2UserService)  // OAuth2 사용자 정보 처리
                 )
-                .successHandler(new OAuth2LoginSuccessHandler(shezUserService, adminService))    // 로그인 성공 핸들러
+                .successHandler(new OAuth2LoginSuccessHandler())    // 로그인 성공 핸들러
             )
             .formLogin(form -> form
                 .loginPage("/member/login")
@@ -117,7 +117,7 @@ public class SecurityConfig {
     }
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
+        return new LoginSuccessHandler(adminService);
     }
     @Bean
     public LoginFailureHandler loginFailureHandler() {
