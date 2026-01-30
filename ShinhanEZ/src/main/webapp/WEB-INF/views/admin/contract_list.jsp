@@ -149,12 +149,6 @@
 		                <form id="contractForm" class="modal-form">
 		                    <div class="modal-grid">
 		                        <div class="form-group">
-		                <sec:authentication property="principal" var="principal"/>
-		                관리자 권한 ${principal.admin.adminRole } | 유저 권한 ${principal.user.role }
-		                관리자 인증권한${principal.authorities }
-		             	<c:forEach items="${principal.authorities }" var="items">
-		             		${items }
-		             	</c:forEach>
 		                            <label class="form-label">계약자명 <span>*</span></label>
 		                            <input type="text" class="form-control" name="customerName" id="customerName" autocomplete="off" required>
 		                            <input type="hidden" id="customerId" name="customerId">
