@@ -16,8 +16,6 @@
   left:50%;
   transform:translate(-50%,-50%);
   width:min(920px, 92vw);
-  max-height:80vh;
-  overflow:auto;
   background:#fff;
   border-radius:14px;
   z-index:9999;
@@ -142,4 +140,8 @@
 .card.option-step2 .card-item+.card-item{
 	padding : 2.3rem;
 }
-
+/* 폼 스타일 추가 */
+.form-group textarea {
+	min-height: 200px;
+    resize: vertical;
+}
