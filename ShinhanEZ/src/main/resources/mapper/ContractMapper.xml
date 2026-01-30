@@ -216,14 +216,15 @@
 	</select>
 	<!-- 상품 -->
 	<select id="searchInsuranceByName" resultType="com.shinhanez.admin.domain.Insurance">
-		SELECT productNo, productName, coverageRange
+		SELECT productNo, productName, basePremium, coverageRange
 		FROM (
 		    SELECT 
-        		productNo,productName, coverageRange
+        		productNo,productName, basePremium, coverageRange
    			FROM (
        	 		SELECT 
             		productno AS productNo,
             		productname AS productName,
+            		basepremium AS basePremium,
             		coveragerange AS coverageRange
        			FROM shez_insurances
         		WHERE STATUS = 'ACTIVE' 

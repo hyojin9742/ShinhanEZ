@@ -1,5 +1,6 @@
 $(document).ready(()=>{
 	let products = [];
+	let selectedBasePremium = 0;
 	/* ajax 처리 */
 	/* 계약 목록 조회 */
 
@@ -212,8 +213,25 @@ $(document).ready(()=>{
 	    });
 	    
 	    riderList.html(rider);
+		// 체크박스 선택시 보험료 변경
+		$('input[name="contractCoverage"]').on('change', calcPremium);
 	}
-			
+	// 기본 보험료 함수
+	function setPremium(productNo){
+		const product = products.find(p =>  p.productNo === productNo);
+		const premiumAmount = $('#premiumAmount');
+		if (!product) return;
+		selectedBasePremium = product.basePremium;
+		premiumAmount.val(product.basePremium);
+	}
+	// 특약 보험료 누적 함수
+	function calcPremium(){
+		const checkedCount = $('input[name="contractCoverage"]:checked').length;
+		const extra = selectedBasePremium / 3 * checkedCount;
+		const total = selectedBasePremium + extra;
+
+		$('#premiumAmount').val(Math.floor(total));
+	}
 	// 자동완성 함수
 	function autocomplete(inputName, resultsId, hiddenId, ajaxUrl, paramName) {
 	    const input = $('#' + inputName);
@@ -294,6 +312,7 @@ $(document).ready(()=>{
 			// 보장내용
 			if (inputName === 'productName') {
 	        	coverageChk(id);
+				setPremium(id);
 	        }
 
 	    });
@@ -370,7 +389,7 @@ $(document).ready(()=>{
 	// 상품 번호로 보험 가져오기
 	function getCoverageById(productId,currentCoverage) {
 		const currentCoverages = currentCoverage.split(',').map(c => c.trim());
-		console.log('currentCoverages : '+currentCoverages);
+		
 		contractService.getProductById(
 			productId,
 			function(coverage) {
