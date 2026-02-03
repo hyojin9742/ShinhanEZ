@@ -78,6 +78,7 @@
 			                            <option value="활성">활성</option>
 			                            <option value="만료">만료</option>
 			                            <option value="해지">해지</option>
+			                            <option value="대기">대기</option>
 			                        </select>
 			                    </div>
 		                	</div>
@@ -137,7 +138,10 @@
            				</select>
 	            	</div>
 	            </div>
-	            
+	            <sec:authentication property="principal" var="principal"/>
+	            관리자 : ${principal.admin }
+	            관리자 이름 : ${principal.admin.adminName }
+	            관리자 번호 : ${principal.admin.adminIdx }
 	            <!-- 모달 -->
 	            <div class="modal-overlay" id="contractModalOverlay"></div>
 		        <div class="modal modal-lg" id="contractModal">

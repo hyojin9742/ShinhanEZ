@@ -75,6 +75,9 @@
 				<when test="criteria.contractStatus == '해지'">
 					AND contract_status = '해지'
 				</when>
+				<when test="criteria.contractStatus == '대기'">
+					AND contract_status = '대기'
+				</when>
 			</choose>
 		</if>
 	</sql>
@@ -122,7 +125,9 @@
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
 		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-		    <include refid="searchCondition"/>
+		    <where>
+			    <include refid="searchCondition"/>
+		    </where>
 		)
 		WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
 	</select>
@@ -135,7 +140,9 @@
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
 		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-		<include refid="searchCondition"/>
+		    <where>
+			    <include refid="searchCondition"/>
+		    </where>
 	</select>
 	
 	<!-- 계약 단건 조회 -->

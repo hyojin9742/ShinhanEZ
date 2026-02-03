@@ -6,6 +6,9 @@ $(document).ready(()=>{
     // 계약 모달 열기
     function openContractModal() {
 	    $('#contractModalOverlay, #contractModal').addClass('active');
+		if (!$('#adminName').val() || $('#adminName').val() == null) {
+	        setAuthAdmin();
+	    }
 	}
 	
 	// 모달 닫기 이벤트
@@ -84,6 +87,28 @@ $(document).ready(()=>{
 	        `;
 
 	        riderList.append(checkboxHtml);
+	    });
+	}
+	// 현재 로그인한 관리자 정보
+	function setAuthAdmin() {
+	    $.ajax({
+	        url: '/admin/contract/rest/auth/adminInfo',
+	        type: 'GET',
+	        success: function(response) {
+	            if (response && response.adminName && response.adminIdx) {
+	                $('#adminName').val(response.adminName);
+	                $('#adminIdx').val(response.adminIdx);
+	            } else {
+	                alert('담당관리자를 목록에서 선택해주세요.');
+	                $('#adminName').val('');
+	                $('#adminIdx').val('');
+	            }
+	        },
+	        error: function() {
+	            alert('담당관리자 정보를 가져올 수 없습니다.');
+	            $('#adminName').val('');
+	            $('#adminIdx').val('');
+	        }
 	    });
 	}
 	// 계약 수정

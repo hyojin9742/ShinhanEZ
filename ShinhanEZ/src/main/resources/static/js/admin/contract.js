@@ -56,6 +56,12 @@ $(document).ready(()=>{
 	    }
 
 	    allList.forEach(contract => {
+			let displayAdminName = null;
+			if(contract.adminName == null){
+				displayAdminName = "";
+			} else {
+				displayAdminName=contract.adminName;
+			}
 	        const row = `
 	            <tr data-contract-id="${contract.contractId}" class="contract-row">
 	                <td>${contract.contractId}</td>
@@ -66,7 +72,7 @@ $(document).ready(()=>{
 	                <td>${contractService.displayTime(contract.expiredDate)}</td>
 	                <td><span class="statusTd">${contract.contractStatus}</span></td>
 	                <td>${contractService.displayTime(contract.updateDate)}</td>
-	                <td>${contract.adminName}</td>
+	                <td>${displayAdminName}</td>
 					<td>
                         <a href="/admin/contract/view?contractId=${contract.contractId}" class="btn btn-sm btn-outline">상세</a>
                         <a href="/admin/contract/rest/update/{contractId}" class="btn btn-sm btn-warning contract-update">수정</a>
@@ -157,15 +163,22 @@ $(document).ready(()=>{
                 <option value="활성">활성</option>
                 <option value="만료">만료</option>
                 <option value="해지">해지</option>
+                <option value="대기">대기</option>
             </select>
 			`;
 			const contractIdHidden = `<input type="hidden" name="contractId" id="contractId"/>`;
-			$('.form-group.contractStatus').html(status);
+			$('.form-group.contractStatus').empty().html(status);
 			$('#contractForm').append(contractIdHidden);
 	        $('.modal-title').text('계약 수정');
 	        $('#saveContract').text('수정').removeClass('registerContract').addClass('modifyContract');
 	        loadContractData(contractId);
 	    } else {
+			const status = `
+				<label class="form-label">계약상태 <span>*</span></label>
+		       	<input type="hidden" name="contractStatus" value="활성">
+		       	<input type="checkbox" value="활성" checked="" disabled="">활성
+			`;
+			$('.form-group.contractStatus').empty().html(status);
 			$('#customerName').prop('readonly',false);
 			$('#insuredName').prop('readonly',false);
 			$('#productName').prop('readonly',false);
@@ -175,6 +188,9 @@ $(document).ready(()=>{
 	        // 폼 초기화
 	        $('#contractForm')[0].reset();
 	        $('.autocomplete-results').hide();
+			if (!$('#adminName').val() || $('#adminName').val() == null) {
+		        setAuthAdmin();
+		    }
 	    }
 	}
 	
@@ -294,8 +310,12 @@ $(document).ready(()=>{
 	    input.on('blur', function () {
 	        setTimeout(() => {
 	            if (input.val() && !hidden.val()) {
-	                alert('목록에서 선택해주세요.');
-	                input.val('');
+					if (inputName === 'adminName') {
+	                    setAuthAdmin();
+	                } else {
+	                    alert('목록에서 선택해주세요.');
+	                    input.val('');
+	                }
 	            }
 	            results.removeClass('active');
 	        }, 150);
@@ -334,6 +354,29 @@ $(document).ready(()=>{
     autocomplete('insuredName', 'insuredResults', 'insuredId', '/admin/contract/search/customers','customerName');
 	autocomplete('productName', 'productResults', 'productId', '/admin/contract/search/insurances','productName');
 	autocomplete('adminName', 'adminResults', 'adminIdx', '/admin/contract/search/admins','adminName');
+	
+	// 현재 로그인한 관리자 정보
+	function setAuthAdmin() {
+	    $.ajax({
+	        url: '/admin/contract/rest/auth/adminInfo',
+	        type: 'GET',
+	        success: function(response) {
+	            if (response && response.adminName && response.adminIdx) {
+	                $('#adminName').val(response.adminName);
+	                $('#adminIdx').val(response.adminIdx);
+	            } else {
+	                alert('담당관리자를 목록에서 선택해주세요.');
+	                $('#adminName').val('');
+	                $('#adminIdx').val('');
+	            }
+	        },
+	        error: function() {
+	            alert('담당관리자 정보를 가져올 수 없습니다.');
+	            $('#adminName').val('');
+	            $('#adminIdx').val('');
+	        }
+	    });
+	}
 	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
@@ -463,6 +506,9 @@ $(document).ready(()=>{
 				$('#adminName').val(data.adminName);
 				$('#adminIdx').val(data.adminIdx);
 				$('#contractStatus').val(data.contractStatus);
+				if (!$('#adminName').val() || $('#adminName').val() == null) {
+			        setAuthAdmin();
+			    }
 		    },
 		    function (err) {
 		        console.error(err);

@@ -88,12 +88,19 @@
     gap: 5px;
 }
 .searchContractDate .form-group:last-child {
-    flex-direction: row;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 2fr 1fr 2fr;
+}
+.searchContractDate .form-label {
+	grid-column: 1 / -1;
+    align-content: flex-end;
 }
 .searchContractDate .form-group span {
     margin: 0 3px;
     white-space: nowrap;
+    align-content: center;
+    text-align: center
 }
 .payment-search .form-group {
     margin-bottom: 0;

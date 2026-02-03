@@ -93,7 +93,20 @@ public class ContractController {
 
         return ResponseEntity.ok(Map.of("updateResult",updateResult));
     }
-	
+	// 로그인한 관리자 인증 객체 정보
+	@GetMapping("/rest/auth/adminInfo")
+	@ResponseBody
+	public Admins authAdmin(Authentication authentication) {
+		Admins admin = null;
+		if (authentication != null) {
+        	Object principal = authentication.getPrincipal();
+        	if (principal instanceof UserAdminDetails) {
+                UserAdminDetails userAdminDetails = (UserAdminDetails) principal;
+                admin = userAdminDetails.getAdmin();
+            }
+    	}
+        return admin;
+	}
 	/* ================================== 자동완성 ================================== */
 	// 계약자, 피보험자 검색
 	@GetMapping(value = "/search/customers", produces = "application/json")

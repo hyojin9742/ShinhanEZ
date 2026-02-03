@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.InsuranceService;
-import com.shinhanez.service.ShezUserService;
 
 /**
  * 보험상품 컨트롤러 (사용자용)
@@ -25,11 +24,9 @@ import com.shinhanez.service.ShezUserService;
 public class ProductController {
 
     private InsuranceService insuranceService;
-    private ShezUserService shezUserService;
     
-    public ProductController(InsuranceService insuranceService, ShezUserService shezUserService) {
+    public ProductController(InsuranceService insuranceService) {
     	this.insuranceService = insuranceService;
-    	this.shezUserService = shezUserService;
     }
 
     /**

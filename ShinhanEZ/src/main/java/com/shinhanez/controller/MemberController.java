@@ -69,35 +69,6 @@ public class MemberController {
         return "member/login";
     }
     
-    /*// 구글 로그인 처리
-    @PostMapping("/googlelogin")
-    public String googlelogin(@RequestParam String email, 
-                        @RequestParam String providerId,
-                        HttpSession session,
-                        Model model) {
-        ShezUser user = userService.findByEmail(email);
-        Admins admin = adminService.readOneAdminById(email);
-        if (user != null) {
-            // 로그인 성공 - 세션에 저장
-        	session.setAttribute("loginUser", user);
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userRole", user.getRole());
-            if(admin != null ) {
-            	adminService.lastLogin(admin.getAdminIdx());
-            	session.setAttribute("adminIdx", admin.getAdminIdx());
-            	session.setAttribute("adminName", admin.getAdminName());
-            	session.setAttribute("adminRole", admin.getAdminRole());            	
-            }
-            // 로그인 성공 → 메인 페이지로 (관리자든 일반유저든)
-            return "redirect:/";
-        } else {
-            // 로그인 실패
-            model.addAttribute("error", "로그인 실패");
-            return "member/login";
-        }
-    }*/
-
     // 회원가입 페이지
     @GetMapping("/join")
     public String joinForm() {

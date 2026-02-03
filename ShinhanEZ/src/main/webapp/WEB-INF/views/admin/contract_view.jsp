@@ -47,6 +47,9 @@
 	                        <c:when test="${contract.contractStatus == '해지'}">
 	                            <span class="badge badge-danger">해지</span>
 	                        </c:when>
+	                        <c:when test="${contract.contractStatus == '대기'}">
+	                            <span class="badge badge-danger">대기</span>
+	                        </c:when>
 	                    </c:choose>
 	                </div>
 	                <div class="card-body">
@@ -169,6 +172,7 @@
 		                                <option value="활성" ${contract.contractStatus == '활성' ? 'selected':''}>활성</option>
 		                                <option value="만료" ${contract.contractStatus == '만료' ? 'selected':''}>만료</option>
 		                                <option value="해지" ${contract.contractStatus == '해지' ? 'selected':''}>해지</option>
+		                                <option value="대기" ${contract.contractStatus == '대기' ? 'selected':''}>대기</option>
 		                            </select>
 		                        </div>
 		                    </div>
