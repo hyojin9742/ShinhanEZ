@@ -38,7 +38,7 @@ $(document).ready(()=>{
 	// 보장 목록 ajax 처리
 	function getCoverageById(productId) {
 		const currentCoverages = $('.currentCoverage').text().split(',').map(c => c.trim());
-		console.log('currentCoverages : '+currentCoverages);
+
 		contractService.getProductById(
 			productId,
 			function(coverage) {

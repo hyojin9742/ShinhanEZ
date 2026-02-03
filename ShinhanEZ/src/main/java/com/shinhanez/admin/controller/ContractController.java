@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +33,7 @@ import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.service.ContractServiceImpl;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
+import com.shinhanez.service.ShezUserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

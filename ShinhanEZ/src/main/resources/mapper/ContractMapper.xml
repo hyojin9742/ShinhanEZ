@@ -121,7 +121,7 @@
 		    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
-		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		    <include refid="searchCondition"/>
 		)
 		WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
@@ -134,7 +134,7 @@
 			INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
-		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		<include refid="searchCondition"/>
 	</select>
 	
@@ -167,7 +167,7 @@
 		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		        INNER JOIN shez_insurances p ON c.product_id = p.productno
-		        INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		        LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		)
 		WHERE contract_id = #{ctrId}
 		]]>

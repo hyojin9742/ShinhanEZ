@@ -12,9 +12,9 @@ CREATE TABLE shez_contracts (
     payment_cycle       VARCHAR2(15)    NOT NULL                -- 납입주기
         CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납', '일시납')),   
     contract_status     VARCHAR2(10)    NOT NULL 
-        CHECK(contract_status IN('활성','만료','해지')),            -- 계약상태
+        CHECK(contract_status IN('활성','만료','해지','대기')),            -- 계약상태
     update_date         DATE            DEFAULT SYSDATE,        -- 수정일
-    admin_idx            NUMBER(30)      NOT NULL,               -- 관리자 번호
+    admin_idx            NUMBER(30),               -- 관리자 번호
     CONSTRAINT pk_shez_contractid PRIMARY KEY (contract_id),
     CONSTRAINT fk_shez_contract_customer FOREIGN KEY (customer_id) REFERENCES shez_customers(customer_id),
     CONSTRAINT fk_shez_contract_insured FOREIGN KEY (insured_id) REFERENCES shez_customers(customer_id),
@@ -129,7 +129,7 @@ FROM (
         INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
         INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
         INNER JOIN shez_insurances p ON c.product_id = p.productno
-        INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+        LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
     )
 WHERE rn BETWEEN 0 + 1 AND 10;
 
@@ -272,6 +272,11 @@ FROM (
     )
 )
 WHERE ROWNUM <= 50;
+-- 사용자 신규 계약 개설
+SELECT * FROM shez_customers WHERE login_id='user1';
+SELECT * FROM shez_customers WHERE name='김민호' AND phone='010-1234-5678';
+SELECT MAX(customer_id) FROM shez_customers;
+
 SELECT * FROM shez_customers ORDER BY customer_id;
 SELECT * FROM shez_admins ORDER BY admin_idx;
 SELECT * FROM shez_insurances ORDER BY productno;

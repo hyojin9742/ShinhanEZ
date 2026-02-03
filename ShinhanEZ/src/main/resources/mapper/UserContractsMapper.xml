@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.shinhanez.mapper.UserContractsMapper">
+    	<select id="getCustomerByLoginId" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE login_id=#{id}
+    	</select>
+    	<select id="getCustomerByNamePhone" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE name=#{name} AND phone=#{phone}
+    	</select>
+    	<select id="getCustomersByName" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE name LIKE #{name}||'%'
+    	</select>
+    	<select id="newCustomerId" resultType="String">
+    		SELECT MAX(customer_id) FROM shez_customers
+    	</select>
+   		<insert id="joinNewCustomer" parameterType="com.shinhanez.admin.domain.Customer">
+	        INSERT INTO shez_customers (customer_id, <if test="loginId != null and loginId != ''">login_id,</if> name, birth_date, gender, phone, email, address, status)
+	        VALUES (#{customerId}, <if test="loginId != null and loginId != ''">#{loginId},</if> #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'Y')
+	    </insert>
+    	<insert id="userRegisterContracts">
+	    	<selectKey keyProperty="contractId" order="BEFORE" resultType="int">
+	  	 		SELECT SEQ_SHEZCONTRACTS.nextval FROM dual
+	  	 	</selectKey>
+    		INSERT INTO shez_contracts 
+				(contract_id, customer_id, insured_id, product_id, contract_coverage,
+				reg_date, expired_date, premium_amount, payment_cycle, contract_status)
+			VALUES 
+				(#{contractId},#{customerId},#{insuredId},#{productId},#{contractCoverage},
+				#{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},'대기')
+    	</insert>
+    </mapper>
