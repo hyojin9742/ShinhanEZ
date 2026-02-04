@@ -478,3 +478,60 @@
     font-size: 12px;
     color: #666;
 }
+/* 사인 캔버스 */
+.signCanvasDiv {
+	display: flex;
+	flex-flow: wrap row;
+}
+.canvasBtn{
+	align-self: end;
+    display: flex;
+}
+.canvasBtn button {
+    font-size: small;
+    padding: 1rem 1rem;
+    width: 80px
+}
+.validSign {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#signName {
+	border: 1px solid #dee2e6;
+    border-radius: 5px;
+    width: 200px;
+    margin-left: 10px;
+    padding: 0 10px
+}
+#signName:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+.reset-sign{
+    background: transparent;
+    border: 1px solid #dee2e6;
+    height: fit-content;
+    color: var(--color-txt01);
+}
+.submit-sign{
+    background: #0d6efd;
+    color: var(--color-white);
+}
+/* 서명 후 폼 잠금 */
+#contractForm.form-locked input[readonly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+#contractForm.form-locked input[type="checkbox"].locked,
+#contractForm.form-locked input[type="radio"].locked {
+    opacity: 0.6;
+}
+
+#contractForm.form-locked select.locked {
+    opacity: 0.7;
+}

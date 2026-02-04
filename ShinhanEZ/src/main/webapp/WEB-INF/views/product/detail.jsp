@@ -177,7 +177,18 @@
                         <div class="form-group extraInsuredInfo">
                				<input type="hidden" name="insuredName" id="insuredName"/>                 
 	        				<input type="hidden" name="insuredId" id="insuredId"/> 
-                        </div>              
+                        </div>
+			            <div class="signCanvasDiv">
+			            	<canvas id="signCanvas" width="742" height="150" style="border: 1px solid #dee2e6;border-radius: 15px;"></canvas>
+			            	<div class="validSign">
+				            	<p>※ 본인은 위 이름을 서명하였음을 확인합니다 <input type="text" name="signName" id="signName" /></p>
+								<div class="canvasBtn">
+									<button class="btn reset-sign">지우기</button>
+									<button class="btn submit-sign">서명 완료</button>
+								</div>
+			            	</div>
+							<input type="hidden" id="signImage" name="signImage">
+			            </div>
 	                </form>
 	            </div>
 	            <div class="modal-footer">

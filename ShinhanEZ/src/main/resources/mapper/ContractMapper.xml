@@ -21,6 +21,9 @@
 	    <result property="updateDate" column="update_date"/>
 	    <result property="adminId" column="admin_id"/>
 	    <result property="adminName" column="admin_name"/>
+	    <result property="signName" column="sign_name"/>
+	    <result property="signImage" column="sign_image"/>
+	    <result property="signedDate" column="signed_date"/>
 	</resultMap>
 	<sql id="searchCondition">
 	    <if test="criteria.searchKeyword != null and criteria.searchKeyword != ''">
@@ -168,7 +171,10 @@
 		        c.update_date,
 		        c.admin_idx,
 		        ad.admin_name AS admin_name,
-		        ad.admin_role AS admin_role
+		        ad.admin_role AS admin_role,
+		        c.sign_name,
+		        c.sign_image,
+		        c.signed_date
 		    FROM 
 		        shez_contracts c
 		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
@@ -176,7 +182,7 @@
 		        INNER JOIN shez_insurances p ON c.product_id = p.productno
 		        LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		)
-		WHERE contract_id = #{ctrId}
+		WHERE contract_id = #{contractId}
 		]]>
 	</select>
 	

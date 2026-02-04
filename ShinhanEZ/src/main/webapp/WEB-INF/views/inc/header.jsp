@@ -23,7 +23,7 @@
 				<span class="links user-name">
 				    <!-- 관리자 -->
 				    <sec:authorize access="hasRole('ADMIN')">
-		          		<a href="/mypage/payments">
+		          		<a href="/mypage/mypage">
 							${principal.admin.adminName }
 							(<sec:authentication property="principal.displayRoleLabel" />)님
 						</a>
@@ -32,15 +32,15 @@
 				    <sec:authorize access="hasRole('USER')">
 				    	<c:choose>
 				    		<c:when test="${principal.attributes != null }">
-						        <a href="/mypage/payments">${principal.attributes['name'] }님</a>
+						        <a href="/mypage/mypage">${principal.attributes['name'] }님</a>
 				    		</c:when>
 				    		<c:otherwise>
-						        <a href="/mypage/payments">${principal.user.name }님</a>
+						        <a href="/mypage/mypage">${principal.user.name }님</a>
 				    		</c:otherwise>
 				    	</c:choose>
 				    </sec:authorize>
 				    <sec:authorize access="hasRole('OAUTH')">
-				        <a href="/mypage/payments">${principal.OAuthName }님</a>
+				        <a href="/mypage/mypage">${principal.OAuthName }님</a>
 			        </sec:authorize>				    			
 		    	</span>
 			    <a href="${ctx}/member/logout" class="links">로그아웃</a>  

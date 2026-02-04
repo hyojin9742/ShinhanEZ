@@ -1,6 +1,7 @@
 package com.shinhanez.admin.domain;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,4 +32,7 @@ public class Contracts {
     private Integer adminIdx;
     private String adminName;
     private String adminRole;
+    private String signName;
+    private String signImage;
+    private LocalDateTime signedDate;
 }

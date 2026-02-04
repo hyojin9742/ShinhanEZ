@@ -57,6 +57,8 @@ public class SecurityConfig {
                 .antMatchers("/mypage/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/product/subscribe/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/payment/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/claims/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/userContract/**").hasAnyRole("USER", "ADMIN")
                 // 관리자 전용
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/admin/**").hasRole("ADMIN")

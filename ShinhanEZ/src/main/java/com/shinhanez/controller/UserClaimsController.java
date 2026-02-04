@@ -75,7 +75,7 @@ public class UserClaimsController {
 			redirectAttributes.addFlashAttribute("msg", "내용 확인 후 다시 시도해 주세요");
 			return "redirect:/page/insurance_claim";			
 		}
-		return "redirect:/mypage/payments";
+		return "redirect:/mypage/mypage";
 	}
 	
 	// 고객 청구리스트 조회

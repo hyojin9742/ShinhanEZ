@@ -57,7 +57,7 @@ $(document).ready(function(){
 							console.error(err.message);
 						});
 	            } else {
-	                console.log("인증된 사용자 정보가 없습니다."); // 에러 처리 확인
+	                console.log("인증된 사용자 정보가 없습니다.");
 	            }
 	        },
 	        error: function(xhr, status, error) {
@@ -133,7 +133,7 @@ $(document).ready(function(){
 	// 특약 보험료 누적 함수
 	function calcPremium(){
 		const basePremium = Number($('#premiumAmount').data('basePremium'));
-		console.log('basepremium => '+basePremium);
+
 		const checkedCount = $('input[name="contractCoverage"]:checked').length;
 		const extra = basePremium / 3 * checkedCount;
 		const total = basePremium + extra;
@@ -398,6 +398,8 @@ $(document).ready(function(){
 		$('.riderList input[type="checkbox"]:checked').each(function () {
 		    contractCoverage += ',' + $(this).val();
 		});
+		const signImage = $("#signImage").val();
+	    const signName = $("#signName").val();
 	    const contractData = {
 	        customerId: customerId,
 	        insuredId: insuredId,
@@ -406,7 +408,9 @@ $(document).ready(function(){
 	        regDate: $('#regDate').val(),
 	        expiredDate: $('#expiredDate').val(),
 	        premiumAmount: $('#premiumAmount').val(),
-	        paymentCycle: $('#paymentCycle').val()
+	        paymentCycle: $('#paymentCycle').val(),
+			signName: signName,
+	        signImage: signImage 
 	    };
 
 	    try {
@@ -424,7 +428,17 @@ $(document).ready(function(){
 	}
 	/* 계약 최종 처리 */
 	async function processContractRegistration() {
-	    try {
+		const signName = $("#signName").val();
+		const signImage = $("#signImage").val();
+		if (!signName || signName.trim() === '') {
+		    alert('서명자 이름을 입력해주세요.');
+		    return;
+		}
+		if (!signImage) {
+		    alert('서명을 완료해주세요.');
+		    return;
+		}
+		try {
 	        // 1. 고객 처리
 	        const customerId = await processCustomer();
 	        // 2. 피보험자 처리
@@ -433,13 +447,15 @@ $(document).ready(function(){
 	            insuredId = await processInsured();
 	        }
 	        // 3. 계약 등록
-	        await registerContract(customerId, insuredId);
+	        const contractResult = await registerContract(customerId, insuredId);
 	        
 	        // 성공 처리
-	        alert('계약이 성공적으로 등록되었습니다.');
-	        closeContractModal();
-	        location.reload();
-	        
+			if (confirm('계약이 성공적으로 등록되었습니다. 계약서를 PDF로 다운로드하시겠습니까?')) {
+	            await downloadContractPdf(contractResult.contractId);
+	        } else {
+		        closeContractModal();
+				location.reload();	
+			}
 	    } catch (error) {
 	        console.error('계약 등록 오류:', error);
 	        alert('계약 등록 중 오류가 발생했습니다: ' + (error.message || '알 수 없는 오류'));
@@ -448,6 +464,35 @@ $(document).ready(function(){
 	$('#saveContract').on('click',function(){
 		processContractRegistration();
 	})
+	
+	/* PDF 다운로드 함수 */
+	function downloadContractPdf(contractId) {
+		return new Promise((resolve, reject) => {
+			const signImage = $("#signImage").val();
+				if (!signImage) {
+			       alert('서명이 없습니다. 서명을 완료해주세요.');
+			       return;
+			   }
+
+			   // 새창에서 PDF 열기
+			   const pdfUrl = `/userContract/downloadPdf/${contractId}`;
+	           const newWindow = window.open(pdfUrl, '_blank');
+			   if (!newWindow) {
+	               // 팝업 차단 시
+	               alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+	               reject(new Error('팝업 차단'));
+	               return;
+	           }
+	           
+	           // 모달 닫기
+	           setTimeout(() => {
+	               closeContractModal();
+	               location.reload();
+	               resolve();
+	           }, 1000);
+		});
+	}
+	
 	// 모달 닫기
 	$('#contractModal').on('click', '.modal-close, #cancelContract', function() {
 		if (confirm('작성 중인 내용이 사라집니다. 계속하시겠습니까?')) {
@@ -477,5 +522,235 @@ $(document).ready(function(){
 		$('.extraInsuredInfo').empty().append(insuredSelf);
 		$('#insuredName').val(userName);
 		$('#insuredId').val(userId);
+		clearSign();
+		unlockForm();
+	}
+	/* 사인 처리 */
+	const canvas = $("#signCanvas")[0];
+	const ctx = canvas.getContext("2d");
+	let drawing = false;
+	let drawCount = 0;
+	
+	$(canvas).on("mousedown", function (e) {
+	    drawing = true;
+	    const pos = getMousePos(e);
+	    ctx.beginPath();
+	    ctx.moveTo(pos.x, pos.y);
+	});
+
+	$(canvas).on("mousemove", function (e) {
+	    if (!drawing) return;
+		drawCount++;
+		ctx.lineWidth = 2;
+		ctx.lineCap = "round";
+		ctx.strokeStyle = "#000";
+	    const pos = getMousePos(e);
+	    ctx.lineTo(pos.x, pos.y);
+	    ctx.stroke();
+	});
+
+	$(canvas).on("mouseup mouseleave", function () {
+	    drawing = false;
+	});
+
+	function getMousePos(e) {
+	    const rect = canvas.getBoundingClientRect();
+	    return {
+	        x: (e.clientX - rect.left) * (canvas.width / rect.width),
+	        y: (e.clientY - rect.top) * (canvas.height / rect.height)
+	    };
+	}
+
+	function saveSign() {
+		$("#signImage").val(canvas.toDataURL("image/png"));
+	}
+	function clearSign(){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		$("#signImage").val("");
+	}
+	$(document).on('click','.reset-sign',function(e){
+		e.preventDefault();
+		clearSign();
+	});
+	$(document).on('click','.submit-sign',function(e){
+		e.preventDefault();
+		const signName = $('#signName').val().trim();
+		if(confirm('서명을 완료하시겠습니까? 완료 후에는 수정할 수 없습니다.')){
+			if (isCanvasEmpty(canvas)) {
+			    alert('서명을 입력해주세요.');
+			    return;
+			} else if(drawCount < 100){
+				alert('서명을 너무 간단하게 입력하셨습니다.');
+				return;
+			} else if(!signName){
+				alert('서명자 이름을 입력해주세요.');
+			    return;
+			}else {
+				saveSign();
+				lockForm();
+				alert('서명 완료되었습니다.');						
+			}
+		}
+	});
+	/* 사인 유효성 검증 */
+	// 캔버스가 비어있는지 확인
+	function isCanvasEmpty(canvas) {
+	    const ctx = canvas.getContext('2d');
+	    const pixelBuffer = new Uint32Array(
+	        ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+	    );
+	    return !pixelBuffer.some(color => color !== 0);
+	}
+	// 폼 잠금 함수
+	function lockForm() {
+	    // 텍스트 입력 필드는 readonly
+	    $('#contractForm input[type="text"]').prop('readonly', true);
+	    $('#contractForm input[type="email"]').prop('readonly', true);
+	    $('#contractForm input[type="tel"]').prop('readonly', true);
+	    $('#contractForm input[type="date"]').prop('readonly', true);
+	    $('#contractForm input[type="number"]').prop('readonly', true);
+	    $('#contractForm textarea').prop('readonly', true);
+	    
+	    // select는 pointer-events로 클릭 방지
+	    $('#contractForm select').css({
+	        'pointer-events': 'none',
+	        'background-color': '#f5f5f5',
+	        'cursor': 'not-allowed'
+	    }).addClass('locked');
+	    
+	    // 체크박스와 라디오는 pointer-events로 클릭 방지
+	    $('#contractForm input[type="checkbox"]').css({
+	        'pointer-events': 'none',
+	        'cursor': 'not-allowed'
+	    }).addClass('locked');
+	    
+	    $('#contractForm input[type="radio"]').css({
+	        'pointer-events': 'none',
+	        'cursor': 'not-allowed'
+	    }).addClass('locked');
+		
+		// 체크박스의 label 클릭 방지
+		$('#contractForm input[type="checkbox"]').each(function() {
+		    const id = $(this).attr('id');
+		    if (id) {
+		        $('#contractForm label[for="' + id + '"]').css({
+		            'pointer-events': 'none',
+		            'cursor': 'not-allowed',
+		            'opacity': '0.6'
+		        }).addClass('locked-label');
+		    }
+		});
+
+		// 라디오 버튼의 label 클릭 방지
+		$('#contractForm input[type="radio"]').each(function() {
+		    const id = $(this).attr('id');
+		    if (id) {
+		        $('#contractForm label[for="' + id + '"]').css({
+		            'pointer-events': 'none',
+		            'cursor': 'not-allowed',
+		            'opacity': '0.6'
+		        }).addClass('locked-label');
+		    }
+		});
+
+		// gender ul 전체도 클릭 방지 (추가)
+		$('.gender').css({
+		    'pointer-events': 'none',
+		    'opacity': '0.6'
+		});
+		
+	    // 서명 캔버스 비활성화
+	    const canvas = $("#signCanvas")[0];
+	    $(canvas).css({
+	        'pointer-events': 'none',
+	        'opacity': '0.7'
+	    });
+	    
+	    // 서명 버튼 숨기기 또는 비활성화
+	    $('.reset-sign, .submit-sign').prop('disabled', true).css({
+	        'opacity': '0.5',
+	        'cursor': 'not-allowed',
+	        'pointer-events': 'none'
+	    });
+	    
+	    // 피보험자 선택 변경 비활성화
+	    $('#insuredType').css({
+	        'pointer-events': 'none',
+	        'background-color': '#f5f5f5',
+	        'cursor': 'not-allowed'
+	    }).addClass('locked');
+	    
+	    // 시각적 표시 추가
+	    $('#contractForm').addClass('form-locked');
+	}
+
+	// 폼 잠금 해제 함수 (모달 닫을 때 사용)
+	function unlockForm() {
+	    // 텍스트 입력 필드 readonly 해제
+	    $('#contractForm input[type="text"]').prop('readonly', false);
+	    $('#contractForm input[type="email"]').prop('readonly', false);
+	    $('#contractForm input[type="tel"]').prop('readonly', false);
+	    $('#contractForm input[type="date"]').prop('readonly', false);
+	    $('#contractForm input[type="number"]').prop('readonly', false);
+	    $('#contractForm textarea').prop('readonly', false);
+	    
+	    // select 활성화
+	    $('#contractForm select').css({
+	        'pointer-events': 'auto',
+	        'background-color': '',
+	        'cursor': ''
+	    }).removeClass('locked');
+	    
+		// 체크박스와 라디오 활성화
+		$('#contractForm input[type="checkbox"]').css({
+		    'pointer-events': 'auto',
+		    'cursor': ''
+		}).removeClass('locked');
+
+		$('#contractForm input[type="radio"]').css({
+		    'pointer-events': 'auto',
+		    'cursor': ''
+		}).removeClass('locked');
+
+		// label 활성화
+		$('.locked-label').css({
+		    'pointer-events': 'auto',
+		    'cursor': '',
+		    'opacity': '1'
+		}).removeClass('locked-label');
+
+		// gender ul 활성화 (추가)
+		$('.gender').css({
+		    'pointer-events': 'auto',
+		    'opacity': '1'
+		});
+		
+	    // 서명 캔버스 활성화
+	    const canvas = $("#signCanvas")[0];
+	    $(canvas).css({
+	        'pointer-events': 'auto',
+	        'opacity': '1'
+	    });
+	    
+	    // 서명 버튼 활성화
+	    $('.reset-sign, .submit-sign').prop('disabled', false).css({
+	        'opacity': '1',
+	        'cursor': '',
+	        'pointer-events': 'auto'
+	    });
+	    
+	    // 피보험자 선택 활성화
+	    $('#insuredType').css({
+	        'pointer-events': 'auto',
+	        'background-color': '',
+	        'cursor': ''
+	    }).removeClass('locked');
+	    
+	    // 시각적 표시 제거
+	    $('#contractForm').removeClass('form-locked');
+	    
+	    // 원래 readonly였던 필드는 다시 readonly로 복원
+	    $('#customerName, #productName').prop('readonly', true);
+	    $('input[name="gender"]').prop('readonly', true);
 	}
 });
