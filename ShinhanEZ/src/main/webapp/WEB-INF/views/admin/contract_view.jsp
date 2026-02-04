@@ -56,7 +56,7 @@
 	                    <table class="payment-info-table">
 	                        <tr>
 	                            <th>계약 ID</th>
-	                            <td colspan="3">${contract.contractId }</td>
+	                            <td colspan="3" data-contract-id="${contract.contractId }">${contract.contractId }</td>
 	                        </tr>
 	                        <tr>
 	                        	<th>계약자 번호</th>
@@ -100,7 +100,9 @@
 	                        </tr>
 	                        <tr>
 	                        	<th>수정일자</th>
-	                        	<td colspan="3"><fmt:formatDate value="${contract.updateDate }" pattern="yyyy-MM-dd"/></td>
+	                        	<td><fmt:formatDate value="${contract.updateDate }" pattern="yyyy-MM-dd"/></td>
+	                        	<th>계약서</th>
+	                        	<td> <button class="btn btn-primary downDocument">다운로드</button> </td>
 	                        </tr>
 	                    </table>
 	                </div>

@@ -133,7 +133,20 @@ $(document).ready(()=>{
 	        }
 		);
     });
-
+	/* 계약서 다운로드 */
+	$('.downDocument').on('click',function(e){
+		e.preventDefault();
+		const contractId = $('.payment-info-table td').data('contract-id');
+		// 새창에서 PDF 열기
+	   const pdfUrl = `/userContract/downloadPdf/${contractId}`;
+	   const newWindow = window.open(pdfUrl, '_blank');
+	   if (!newWindow) {
+	       // 팝업 차단 시
+	       alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+	       reject(new Error('팝업 차단'));
+	       return;
+	   }	           
+	});
 	/* 유틸리티 함수 */
 	// 예외처리
 	function showAlert(type, message) {
@@ -170,4 +183,5 @@ $(document).ready(()=>{
 	    jsonForm.contractCoverage = coverages.join(',');
 	    return jsonForm;
 	}
+	
 }); // /documnet.ready

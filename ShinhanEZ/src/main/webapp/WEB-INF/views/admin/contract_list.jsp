@@ -138,10 +138,6 @@
            				</select>
 	            	</div>
 	            </div>
-	            <sec:authentication property="principal" var="principal"/>
-	            관리자 : ${principal.admin }
-	            관리자 이름 : ${principal.admin.adminName }
-	            관리자 번호 : ${principal.admin.adminIdx }
 	            <!-- 모달 -->
 	            <div class="modal-overlay" id="contractModalOverlay"></div>
 		        <div class="modal modal-lg" id="contractModal">

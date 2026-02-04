@@ -69,6 +69,18 @@ $(document).ready(function(){
 			} else {
 				displayAdminName=contract.adminName;
 			}
+			let statusClass = null;
+			switch(contract.contractStatus) {
+				case '활성':
+					statusClass = "PAID";
+					break;
+				case '만료':
+					statusClass = "OVERDUE";
+					break;
+				default:
+					statusClass = "PENDING";
+			}
+					
 	        const row = `
 	            <tr data-contract-id="${contract.contractId}" class="contract-row">
 	                <td>${contract.customerName}</td>
@@ -76,8 +88,8 @@ $(document).ready(function(){
 	                <td>${contract.productName}</td>
 	                <td>${displayTime(contract.regDate)}</td>
 	                <td>${displayTime(contract.expiredDate)}</td>
-	                <td>${contract.premiumAmount}</td>
-	                <td><span class="status-badge">${contract.contractStatus}</span></td>
+	                <td class="amount">${contract.premiumAmount}</td>
+	                <td><span class="status-badge status-${statusClass}">${contract.contractStatus}</span></td>
 	                <td>${displayAdminName}</td>
 					<td>
 						<button
