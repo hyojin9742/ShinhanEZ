@@ -246,17 +246,38 @@
                 </div>
                 </c:if>
                 <!-- paging -->
-                <!-- TODO 동적 페이징 처리 필요 -->
                 <div class="paging" id="paging">
-                  <div><button class="ico-btn-start" type="button" disabled="disabled"><span>처음</span></button><button
-                      class="ico-btn-prev" type="button" disabled="disabled"><span>이전</span></button>
-                    <ul>
-                      <li class="on"><strong>1</strong><span class="blind">선택됨</span></li>
-                      <li><a href="#">2</a></li>
-                    </ul><button class="ico-btn-next" type="button"><span>다음</span></button><button class="ico-btn-end"
-                      type="button"><span>마지막</span></button>
-                  </div>
-                </div>
+				  <div>
+				    <button class="ico-btn-start" type="button">
+				    	<a href="/board/list?pageNum=1&keyword=${keyword}"><span>처음</span></a>
+			    	</button>
+				    <button class="ico-btn-prev" type="button"
+				            ${paging.hasPrev ? "" : "disabled='disabled'"}>
+				      <span>이전</span>
+				    </button>
+				
+				    <ul>
+				      <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+				        <c:choose>
+				          <c:when test="${i == paging.pageNum}">
+				            <li class="on"><strong>${i}</strong><span class="blind">선택됨</span></li>
+				          </c:when>
+				          <c:otherwise>
+				            <li><a href="/board/list?pageNum=${i}&keyword=${keyword}">${i}</a></li>
+				          </c:otherwise>
+				        </c:choose>
+				      </c:forEach>
+				    </ul>
+				
+				    <button class="ico-btn-next" type="button"
+				            ${paging.hasNext ? "" : "disabled='disabled'"}>
+				      <span>다음</span>
+				    </button>
+				    <button class="ico-btn-end" type="button">
+				      <a href="/board/list?pageNum=${paging.endPage}&keyword=${keyword}"><span>마지막</span></a>
+				    </button>
+				  </div>
+				</div>
                 <!--// paging -->
 
                 <!-- 하단 버튼 영역 -->

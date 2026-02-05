@@ -25,9 +25,6 @@ CREATE TABLE shez_user (
     nation      CHAR(1)         NOT NULL,               -- 내/외국인 (K/F)
     role        VARCHAR2(20)    DEFAULT 'ROLE_USER',    -- 권한 (ROLE_USER, ROLE_ADMIN)
     reg_date    DATE            DEFAULT SYSDATE,        -- 가입일
-    login_naver VARCHAR2(3000),
-    login_google VARCHAR2(3000),
-    login_kakao VARCHAR2(3000),
     provider    VARCHAR2(90)                            -- 간편로그인 provider
 );
 

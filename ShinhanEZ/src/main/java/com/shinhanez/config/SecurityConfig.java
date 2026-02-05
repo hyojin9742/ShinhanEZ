@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .antMatchers("/popup/**").permitAll()
                 // 회원 전용 | 간편 로그인 + DB로그인
                 .antMatchers("/board/write/**","/board/edit/**","/board/delete/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/mypage/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/mypage/**").hasRole("USER")
                 .antMatchers("/product/subscribe/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/payment/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/user/claims/**").hasAnyRole("USER", "ADMIN")

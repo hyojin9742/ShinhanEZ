@@ -33,12 +33,12 @@ public class ProductController {
      * 상품 목록 (추천 상품)
      */
     @GetMapping("/list")
-    public String productList(@RequestParam(defaultValue = "1") int page,
+    public String productList(@RequestParam(defaultValue = "1") int pageNum,
                              @RequestParam(required = false) String category,
                              Model model) {
 
         // 활성화된 상품만 조회
-        Map<String, Object> result = insuranceService.getInsuranceList(page, "ACTIVE", null);
+        Map<String, Object> result = insuranceService.getInsuranceList(pageNum, "ACTIVE", null);
 
         model.addAttribute("products", result.get("list"));
         model.addAttribute("paging", result.get("paging"));

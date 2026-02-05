@@ -23,7 +23,7 @@
 				<span class="links user-name">
 				    <!-- 관리자 -->
 				    <sec:authorize access="hasRole('ADMIN')">
-		          		<a href="/mypage/mypage">
+		          		<a>
 							${principal.admin.adminName }
 							(<sec:authentication property="principal.displayRoleLabel" />)님
 						</a>
