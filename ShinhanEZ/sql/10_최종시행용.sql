@@ -686,7 +686,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C001', 'C001', 4,
-    '주계약, 뇌출혈보장 4,000만원, 뇌경색보장 3,000만원',
+    '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 83),
     54000, '월납', '대기',
     1, '김하윤', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -698,7 +698,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C002', 'C002', 5,
-    '주계약, 심근경색보장 5,000만원, 허혈성심장질환보장 3,000만원',
+    '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -2), ADD_MONTHS(SYSDATE, 116),
     67000, '월납', '대기',
     1, '박지훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -724,7 +724,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C004', 'C024', 7,
-    '주계약, 질병사망보장 8,000만원, 입원비보장 2,000만원',
+    '주계약, 질병사망보장 8000만원, 입원비보장 2000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 114),
     72000, '연납', '대기',
     1, '정민준', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -732,7 +732,7 @@ INSERT INTO shez_contracts (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C005', 'C025', 8,
-    '주계약, 화상진단보장 2,000만원, 입원일당 20만원',
+    '주계약, 화상진단보장 2000만원, 입원일당 20만원',
     ADD_MONTHS(SYSDATE, -4), ADD_MONTHS(SYSDATE, 59),
     39000, '월납', '대기',
     SYSDATE, 1, '최윤서', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -740,7 +740,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C006', 'C026', 9,
-    '주계약, 운전자벌금보장 3,000만원, 교통사고처리지원금 5,000만원',
+    '주계약, 운전자벌금보장 3000만원, 교통사고처리지원금 5000만원',
     ADD_MONTHS(SYSDATE, -2), ADD_MONTHS(SYSDATE, 23),
     46000, '월납', '대기',
     SYSDATE, 1, '한지민', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -748,7 +748,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C007', 'C027', 10,
-    '주계약, 어린이질병보장 3,000만원, 입원비보장 1,000만원',
+    '주계약, 어린이질병보장 3000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -6), ADD_MONTHS(SYSDATE, 119),
     31000, '월납', '대기',
     SYSDATE, 1, '오세훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -756,7 +756,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C008', 'C028', 4,
-    '주계약, 뇌출혈보장 4,000만원, 뇌경색보장 3,000만원',
+    '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 83),
     54000, '월납', '대기',
     SYSDATE, 1, '신예은', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -764,7 +764,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C009', 'C029', 5,
-    '주계약, 심근경색보장 5,000만원, 허혈성심장질환보장 3,000만원',
+    '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -3), ADD_MONTHS(SYSDATE, 116),
     67000, '월납', '대기',
     SYSDATE, 1, '문채원', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -784,7 +784,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C001', 'C001', 4,
-    '주계약, 뇌출혈보장 4,000만원, 뇌경색보장 3,000만원',
+    '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -14), ADD_MONTHS(SYSDATE, 106),
     54000, '월납', '활성',
     1, '김하윤', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -792,7 +792,7 @@ INSERT INTO shez_contracts (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C002', 'C002', 5,
-    '주계약, 심근경색보장 5,000만원, 허혈성심장질환보장 3,000만원',
+    '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -12), ADD_MONTHS(SYSDATE, 108),
     67000, '월납', '활성',
     SYSDATE, 1, '박지훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -808,7 +808,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C004', 'C024', 7,
-    '주계약, 질병사망보장 8,000만원, 입원비보장 2,000만원, 수술비보장 1,500만원',
+    '주계약, 질병사망보장 8000만원, 입원비보장 2000만원, 수술비보장 1500만원',
     ADD_MONTHS(SYSDATE, -18), ADD_MONTHS(SYSDATE, 102),
     72000, '연납', '활성',
     SYSDATE, 1, '정민준', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -816,7 +816,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C005', 'C005', 8,
-    '주계약, 암진단보장 6,000만원, 항암치료보장 2,000만원',
+    '주계약, 암진단보장 6000만원, 항암치료보장 2000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
     83000, '월납', '활성',
     SYSDATE, 1, '최은서', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -824,7 +824,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C006', 'C025', 9,
-    '주계약, 상해사망보장 1억원, 후유장해보장 5,000만원',
+    '주계약, 상해사망보장 1억원, 후유장해보장 5000만원',
     ADD_MONTHS(SYSDATE, -7), ADD_MONTHS(SYSDATE, 113),
     61000, '연납', '활성',
     SYSDATE, 1, '한지민', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -848,7 +848,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C009', 'C009', 12,
-    '주계약, 운전자벌금보장 2,000만원, 변호사선임비보장 500만원',
+    '주계약, 운전자벌금보장 2000만원, 변호사선임비보장 500만원',
     ADD_MONTHS(SYSDATE, -15), ADD_MONTHS(SYSDATE, 45),
     18000, '연납', '활성',
     SYSDATE, 1, '장민호', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -856,7 +856,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C010', 'C027', 13,
-    '주계약, 실손입원비보장 3,000만원, 통원치료비보장 500만원',
+    '주계약, 실손입원비보장 3000만원, 통원치료비보장 500만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
     35000, '월납', '활성',
     SYSDATE, 1, '임수정', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -866,7 +866,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C011', 'C011', 14,
-    '주계약, 치매진단보장 4,000만원, 간병비보장 2,000만원',
+    '주계약, 치매진단보장 4000만원, 간병비보장 2000만원',
     ADD_MONTHS(SYSDATE, -20), ADD_MONTHS(SYSDATE, 100),
     76000, '월납', '활성',
     SYSDATE, 1, '오세훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -874,7 +874,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C012', 'C028', 15,
-    '주계약, 화재손해보장 2억원, 가재도구손해보장 5,000만원',
+    '주계약, 화재손해보장 2억원, 가재도구손해보장 5000만원',
     ADD_MONTHS(SYSDATE, -5), ADD_MONTHS(SYSDATE, 55),
     41000, '연납', '활성',
     SYSDATE, 1, '신민아', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -882,7 +882,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C013', 'C013', 16,
-    '주계약, 상해입원보장 2,000만원, 골절수술보장 1,000만원',
+    '주계약, 상해입원보장 2000만원, 골절수술보장 1000만원',
     ADD_MONTHS(SYSDATE, -13), ADD_MONTHS(SYSDATE, 47),
     29000, '월납', '활성',
     SYSDATE, 1, '김동현', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -890,7 +890,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C014', 'C029', 17,
-    '주계약, 여성암보장 7,000만원, 유방암보장 4,000만원',
+    '주계약, 여성암보장 7000만원, 유방암보장 4000만원',
     ADD_MONTHS(SYSDATE, -16), ADD_MONTHS(SYSDATE, 104),
     88000, '월납', '활성',
     SYSDATE, 1, '한예슬', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -898,7 +898,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C015', 'C015', 18,
-    '주계약, 어린이상해보장 5,000만원, 입원비보장 1,000만원',
+    '주계약, 어린이상해보장 5000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -4), ADD_MONTHS(SYSDATE, 116),
     26000, '월납', '활성',
     SYSDATE, 1, '문채원', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -906,7 +906,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C016', 'C030', 19,
-    '주계약, 질병입원보장 3,000만원, 수술비보장 2,000만원',
+    '주계약, 질병입원보장 3000만원, 수술비보장 2000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
     39000, '월납', '활성',
     SYSDATE, 1, '이종석', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -922,7 +922,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C018', 'C031', 21,
-    '주계약, 상해후유장해보장 1억원, 사망보장 5,000만원',
+    '주계약, 상해후유장해보장 1억원, 사망보장 5000만원',
     ADD_MONTHS(SYSDATE, -17), ADD_MONTHS(SYSDATE, 103),
     69000, '연납', '활성',
     SYSDATE, 1, '조승우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -930,7 +930,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C019', 'C019', 22,
-    '주계약, 뇌혈관질환보장 6,000만원, 재활치료보장 2,000만원',
+    '주계약, 뇌혈관질환보장 6000만원, 재활치료보장 2000만원',
     ADD_MONTHS(SYSDATE, -11), ADD_MONTHS(SYSDATE, 109),
     74000, '월납', '활성',
     SYSDATE, 1, '김태리', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -938,7 +938,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C020', 'C032', 23,
-    '주계약, 노인간병보장 4,000만원, 요양병원입원보장 3,000만원',
+    '주계약, 노인간병보장 4000만원, 요양병원입원보장 3000만원',
     ADD_MONTHS(SYSDATE, -19), ADD_MONTHS(SYSDATE, 101),
     81000, '월납', '활성',
     SYSDATE, 1, '유해진', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -949,7 +949,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C021', 'C021', 4,
-    '주계약, 뇌출혈보장 4,000만원, 뇌경색보장 3,000만원, 재활치료보장 1,000만원',
+    '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원, 재활치료보장 1000만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
     56000, '월납', '활성',
     1, '김서현', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -957,7 +957,7 @@ INSERT INTO shez_contracts (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C022', 'C033', 5,
-    '주계약, 심근경색보장 5,000만원, 허혈성심장질환보장 3,000만원',
+    '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -11), ADD_MONTHS(SYSDATE, 109),
     69000, '월납', '활성',
     SYSDATE, 1, '박민재', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -973,7 +973,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C024', 'C034', 7,
-    '주계약, 질병사망보장 8,000만원, 입원비보장 2,000만원',
+    '주계약, 질병사망보장 8000만원, 입원비보장 2000만원',
     ADD_MONTHS(SYSDATE, -15), ADD_MONTHS(SYSDATE, 105),
     74000, '연납', '활성',
     SYSDATE, 1, '정하늘', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -981,7 +981,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C025', 'C025', 8,
-    '주계약, 암진단보장 6,000만원, 항암치료보장 2,000만원, 입원비보장 1,000만원',
+    '주계약, 암진단보장 6000만원, 항암치료보장 2000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
     85000, '월납', '활성',
     SYSDATE, 1, '서지우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -989,7 +989,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C026', 'C035', 9,
-    '주계약, 상해사망보장 1억원, 후유장해보장 5,000만원',
+    '주계약, 상해사망보장 1억원, 후유장해보장 5000만원',
     ADD_MONTHS(SYSDATE, -7), ADD_MONTHS(SYSDATE, 113),
     63000, '연납', '활성',
     SYSDATE, 1, '윤지호', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -1013,7 +1013,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C029', 'C029', 12,
-    '주계약, 운전자벌금보장 2,000만원, 변호사선임비보장 500만원',
+    '주계약, 운전자벌금보장 2000만원, 변호사선임비보장 500만원',
     ADD_MONTHS(SYSDATE, -14), ADD_MONTHS(SYSDATE, 46),
     19000, '연납', '활성',
     SYSDATE, 1, '백승우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -1021,7 +1021,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C030', 'C037', 13,
-    '주계약, 실손입원비보장 3,000만원, 통원치료비보장 500만원',
+    '주계약, 실손입원비보장 3000만원, 통원치료비보장 500만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
     36000, '월납', '활성',
     SYSDATE, 1, '노윤주', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
@@ -1033,7 +1033,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C031', 'C031', 14,
-    '주계약, 암진단보장 4,000만원, 항암치료보장 1,500만원',
+    '주계약, 암진단보장 4000만원, 항암치료보장 1500만원',
     ADD_MONTHS(SYSDATE, -36), ADD_MONTHS(SYSDATE, -6),
     58000, '월납', '해지',
     1, '김도현', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -6)
@@ -1041,7 +1041,7 @@ INSERT INTO shez_contracts (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C032', 'C038', 15,
-    '주계약, 상해사망보장 8,000만원, 후유장해보장 4,000만원',
+    '주계약, 상해사망보장 8000만원, 후유장해보장 4000만원',
     ADD_MONTHS(SYSDATE, -48), ADD_MONTHS(SYSDATE, -12),
     62000, '연납', '해지',
     SYSDATE, 1, '이민재', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -12)
@@ -1065,7 +1065,7 @@ INSERT INTO shez_contracts VALUES (
 
 INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C035', 'C035', 18,
-    '주계약, 운전자벌금보장 2,000만원, 교통사고처리지원금 4,000만원',
+    '주계약, 운전자벌금보장 2000만원, 교통사고처리지원금 4000만원',
     ADD_MONTHS(SYSDATE, -18), ADD_MONTHS(SYSDATE, -2),
     27000, '연납', '해지',
     SYSDATE, 1, '한유진', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -2)
@@ -1077,7 +1077,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C036', 'C036', 19,
-    '주계약, 암진단보장 3,000만원, 항암치료보장 1,000만원',
+    '주계약, 암진단보장 3000만원, 항암치료보장 1000만원',
     ADD_MONTHS(SYSDATE, -72), ADD_MONTHS(SYSDATE, -12),
     48000, '월납', '만료',
     1, '김민재', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -12)
@@ -1089,7 +1089,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C037', 'C039', 20,
-    '주계약, 상해사망보장 7,000만원, 후유장해보장 3,000만원',
+    '주계약, 상해사망보장 7000만원, 후유장해보장 3000만원',
     ADD_MONTHS(SYSDATE, -84), ADD_MONTHS(SYSDATE, -6),
     52000, '연납', '만료',
     1, '이서준', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -6)
@@ -1125,7 +1125,7 @@ INSERT INTO shez_contracts (
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C040', 'C040', 23,
-    '주계약, 운전자벌금보장 1,500만원, 교통사고처리지원금 3,000만원',
+    '주계약, 운전자벌금보장 1500만원, 교통사고처리지원금 3000만원',
     ADD_MONTHS(SYSDATE, -66), ADD_MONTHS(SYSDATE, -3),
     26000, '연납', '만료',
     1, '한예린', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -3)
