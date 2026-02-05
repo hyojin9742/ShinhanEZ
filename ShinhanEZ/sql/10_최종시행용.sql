@@ -534,21 +534,21 @@ COMMIT;
 INSERT INTO SHEZ_INSURANCES (
     PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM, COVERAGERANGE, COVERAGEPERIOD, STATUS,CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER
 ) VALUES (
-    seq_shezinsuraces.NEXTVAL,'표준 실손 의료보험','실손보험',35000,'입원비보장 3,000만원, 통원치료비보장 500만원, 처방조제비보장 300만원',
+    seq_shezinsuraces.NEXTVAL,'표준 실손 의료보험','실손보험',35000,'입원비보장 3000만원, 통원치료비보장 500만원, 처방조제비보장 300만원',
     120,'INACTIVE', ADD_MONTHS(SYSDATE, -18),ADD_MONTHS(SYSDATE, -18),'황수연','황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES (
     PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM,COVERAGERANGE, COVERAGEPERIOD, STATUS,CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER
 ) VALUES (
-    seq_shezinsuraces.NEXTVAL,'종합 암 진단 보험', '암보험',52000,'암진단비보장 5,000만원, 암수술비보장 2,000만원, 항암치료비보장 3,000만원',
+    seq_shezinsuraces.NEXTVAL,'종합 암 진단 보험', '암보험',52000,'암진단비보장 5000만원, 암수술비보장 2000만원, 항암치료비보장 3000만원',
     240,'INACTIVE',ADD_MONTHS(SYSDATE, -30),ADD_MONTHS(SYSDATE, -30),'김민수','김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES (
     PRODUCTNO, PRODUCTNAME, CATEGORY, BASEPREMIUM,COVERAGERANGE, COVERAGEPERIOD, STATUS,CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER
 ) VALUES (
-    seq_shezinsuraces.NEXTVAL,'운전자 상해 보장 보험','운전자보험',28000,'교통사고상해보장 1,000만원, 후유장해보장 3,000만원, 벌금보장 2,000만원',
+    seq_shezinsuraces.NEXTVAL,'운전자 상해 보장 보험','운전자보험',28000,'교통사고상해보장 1000만원, 후유장해보장 3000만원, 벌금보장 2000만원',
     180,'INACTIVE',ADD_MONTHS(SYSDATE, -48), ADD_MONTHS(SYSDATE, -48),'이서연','이서연'
 );
 INSERT INTO SHEZ_INSURANCES (
@@ -556,61 +556,61 @@ INSERT INTO SHEZ_INSURANCES (
     COVERAGEPERIOD, STATUS, CREATEDDATE, UPDATEDDATE, CREATEDUSER, UPDATEDUSER
 ) VALUES (
     seq_shezinsuraces.NEXTVAL, '프리미엄 실손 의료보험', '실손보험', 42000,
-    '입원비보장 5,000만원, 통원치료비보장 1,000만원, 처방조제비보장 500만원',
+    '입원비보장 5000만원, 통원치료비보장 1000만원, 처방조제비보장 500만원',
     120, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '스탠다드 암 진단 보험', '암보험', 48000,
-    '암진단비보장 4,000만원, 암수술비보장 1,500만원, 항암치료비보장 2,500만원',
+    '암진단비보장 4000만원, 암수술비보장 1500만원, 항암치료비보장 2500만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '프리미엄 암 집중 보험', '암보험', 65000,
-    '암진단비보장 7,000만원, 암수술비보장 3,000만원, 표적항암보장 4,000만원',
+    '암진단비보장 7000만원, 암수술비보장 3000만원, 표적항암보장 4000만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '운전자 종합 보장 보험', '운전자보험', 32000,
-    '교통사고상해보장 2,000만원, 벌금보장 3,000만원, 변호사비보장 2,000만원',
+    '교통사고상해보장 2000만원, 벌금보장 3000만원, 변호사비보장 2000만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '어린이 종합 보장 보험', '어린이보험', 29000,
-    '입원비보장 2,000만원, 상해치료비보장 1,000만원, 질병진단보장 1,500만원',
+    '입원비보장 2000만원, 상해치료비보장 1000만원, 질병진단보장 1500만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '노후 대비 실버 보험', '노후보험', 55000,
-    '치매진단보장 3,000만원, 요양비보장 2,000만원, 간병비보장 1,500만원',
+    '치매진단보장 3000만원, 요양비보장 2000만원, 간병비보장 1500만원',
     300, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '상해 종합 보장 보험', '상해보험', 26000,
-    '상해입원보장 2,000만원, 후유장해보장 3,000만원, 수술비보장 1,500만원',
+    '상해입원보장 2000만원, 후유장해보장 3000만원, 수술비보장 1500만원',
     120, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '여성 맞춤 건강 보험', '건강보험', 37000,
-    '여성질환보장 3,000만원, 유방암보장 4,000만원, 자궁질환보장 2,000만원',
+    '여성질환보장 3000만원, 유방암보장 4000만원, 자궁질환보장 2000만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '남성 건강 집중 보험', '건강보험', 36000,
-    '심혈관질환보장 4,000만원, 뇌혈관질환보장 4,000만원, 간질환보장 2,500만원',
+    '심혈관질환보장 4000만원, 뇌혈관질환보장 4000만원, 간질환보장 2500만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '치아 종합 보장 보험', '치아보험', 19000,
-    '충치치료보장 500만원, 임플란트보장 1,000만원, 교정보장 800만원',
+    '충치치료보장 500만원, 임플란트보장 1000만원, 교정보장 800만원',
     120, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
@@ -618,61 +618,61 @@ INSERT INTO SHEZ_INSURANCES VALUES (
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '간병비 집중 보장 보험', '간병보험', 45000,
-    '간병일당보장 2,000만원, 입원간병보장 1,500만원, 장기요양보장 3,000만원',
+    '간병일당보장 2000만원, 입원간병보장 1500만원, 장기요양보장 3000만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '화재 재산 보호 보험', '재산보험', 33000,
-    '화재손해보장 5,000만원, 폭발손해보장 3,000만원, 붕괴손해보장 2,000만원',
+    '화재손해보장 5000만원, 폭발손해보장 3000만원, 붕괴손해보장 2000만원',
     120, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '여행자 안전 보험', '여행보험', 15000,
-    '상해치료보장 2,000만원, 질병치료보장 1,500만원, 휴대품손해보장 500만원',
+    '상해치료보장 2000만원, 질병치료보장 1500만원, 휴대품손해보장 500만원',
     12, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '반려동물 의료 보험', '펫보험', 22000,
-    '진료비보장 1,000만원, 수술비보장 1,500만원, 입원비보장 800만원',
+    '진료비보장 1000만원, 수술비보장 1500만원, 입원비보장 800만원',
     60, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '주택 종합 보장 보험', '주택보험', 39000,
-    '주택손해보장 6,000만원, 도난손해보장 2,000만원, 배상책임보장 3,000만원',
+    '주택손해보장 6000만원, 도난손해보장 2000만원, 배상책임보장 3000만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '배상 책임 종합 보험', '배상책임보험', 28000,
-    '대인배상보장 5,000만원, 대물배상보장 3,000만원, 법률비용보장 1,000만원',
+    '대인배상보장 5000만원, 대물배상보장 3000만원, 법률비용보장 1000만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '골절 집중 보장 보험', '상해보험', 21000,
-    '골절진단보장 1,500만원, 수술비보장 1,000만원, 입원비보장 800만원',
+    '골절진단보장 1500만원, 수술비보장 1000만원, 입원비보장 800만원',
     120, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '뇌혈관 집중 보험', '건강보험', 47000,
-    '뇌출혈보장 5,000만원, 뇌경색보장 4,000만원, 재활치료보장 2,000만원',
+    '뇌출혈보장 5000만원, 뇌경색보장 4000만원, 재활치료보장 2000만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '이서연', '이서연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '심혈관 안심 보험', '건강보험', 46000,
-    '심근경색보장 5,000만원, 협심증보장 3,000만원, 수술비보장 2,000만원',
+    '심근경색보장 5000만원, 협심증보장 3000만원, 수술비보장 2000만원',
     240, 'ACTIVE', SYSDATE, SYSDATE, '황수연', '황수연'
 );
 
 INSERT INTO SHEZ_INSURANCES VALUES (
     seq_shezinsuraces.NEXTVAL, '종합 생활 안전 보험', '생활보험', 30000,
-    '일상상해보장 2,000만원, 배상책임보장 1,500만원, 법률비용보장 1,000만원',
+    '일상상해보장 2000만원, 배상책임보장 1500만원, 법률비용보장 1000만원',
     180, 'ACTIVE', SYSDATE, SYSDATE, '김민수', '김민수'
 );
 
