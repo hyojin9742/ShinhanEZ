@@ -204,6 +204,10 @@
                 dropdown.classList.remove('show');
                 this.blur();
             }
+            if (e.key === 'Enter') { 
+            	e.preventDefault();
+            	return false;
+            }
         });
     }
 

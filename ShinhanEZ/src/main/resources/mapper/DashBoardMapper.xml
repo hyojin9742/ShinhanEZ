@@ -25,6 +25,7 @@
 	    FROM shez_contracts
 	    where TO_CHAR(reg_date,'YYYY') = #{year}
 	    GROUP BY TO_CHAR(reg_date,'YYYY-MM')
+	    order by reg_date
 	</select>
 	
 	<!--대쉬보드 하단 계약자 리스트 (페이징포함) 불러오기  -->
