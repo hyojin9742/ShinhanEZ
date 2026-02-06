@@ -101,7 +101,7 @@
 	
 	<!-- 전 회원수 불러오기 -->
 	<select id="allUserCount" resultType="Integer">
-		SELECT count(*) alluser FROM shez_user
+		SELECT count(*) alluser FROM shez_user WHERE role = 'ROLE_USER'
 	</select>
 	<!-- 전 고객수 불러오기 -->
 	<select id="allCustomerCount" resultType="Integer">
