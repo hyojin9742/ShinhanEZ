@@ -3,15 +3,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.shinhanez.admin.mapper.AdminMapper">
-	<!-- 기존 DB 평문 PW 암호화 | 임시 -->
-	<select id="findAllAdmins" resultType="com.shinhanez.admin.domain.Admins">
-		SELECT * FROM shez_admins
-	</select>
-	<update id="encodeAdmins">
-		UPDATE shez_admins
-		SET admin_pw = #{pw}
-		WHERE admin_id = #{id}
-	</update>
 	<!-- sql fragment -->
 	<sql id="searchCondition">
 		<where>

@@ -75,8 +75,10 @@
                 			<!-- bbs-view-foot -->
                 			<div class="bbs-view-foot">
                   				<div class="btn-group option-min space-mt-xxl">
-				                    <button type="button" class="btn large grey-outline" onclick="history.back()">
+                  				
+				                    <button type="button" class="btn large grey-outline" onclick="location.href='<%=ctx%>/board/list'">
 				                      	<span>목록</span>
+				                      	
 				                    </button>
 				                    <%-- 본인 글이거나 관리자인 경우에만 수정/삭제 버튼 표시 --%>
 				                   <sec:authorize access="hasAnyRole('USER','ADMIN')">

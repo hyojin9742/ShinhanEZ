@@ -1,6 +1,5 @@
 package com.shinhanez.admin.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shinhanez.admin.domain.Admins;
 import com.shinhanez.admin.service.AdminService;
-import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 
 /**

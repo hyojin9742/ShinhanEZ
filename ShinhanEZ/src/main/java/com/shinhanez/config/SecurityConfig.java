@@ -7,6 +7,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,22 +31,26 @@ public class SecurityConfig {
 
 	private final UserAdminDetailsService userAdminDetailsService; 
     private final PrincipalOauth2UserService principalOauth2UserService;
-    private final ShezUserService shezUserService;
     private final AdminService adminService;
-	
+    
+    // 정적 리소스 필터 제외
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+            .antMatchers(
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/resources/**",
+                "/favicon.ico",
+                "/.well-known/**"
+            );
+    }
     @Bean
     public SecurityFilterChain securityChain(HttpSecurity http) throws Exception {
         http
         	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(auth -> auth
-                // 정적 리소스 허용
-                .antMatchers(
-            		"/.well-known/**",
-            		"/css/**", 
-            		"/js/**", 
-            		"/images/**", 
-            		"/resources/**"
-        		).permitAll()
                 // 공개 페이지
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers("/pages/**").permitAll()
@@ -89,7 +95,8 @@ public class SecurityConfig {
                 .logoutUrl("/member/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true) // 서버 세션 무효화
-                .deleteCookies("JSESSIONID") // 브라우저 세션 삭제
+                .deleteCookies("JSESSIONID","remember-me") // 브라우저 세션 삭제
+                .clearAuthentication(true)
                 .permitAll()
             )
             // 로그인 유지
@@ -98,16 +105,20 @@ public class SecurityConfig {
                 .rememberMeParameter("keepLogin")  			  // 로그인 폼에서 체크박스 name
                 .tokenValiditySeconds(60 * 60 * 24 * 14) 	  // 14일 유지 (초 단위)
                 .userDetailsService(userAdminDetailsService)  // 사용자 정보 서비스
+                .alwaysRemember(false)						  // 명시적으로 체크박스 선택시에만 유지
+                .useSecureCookie(false) 					  // HTTPS 환경이면 true 설정
             )
             .exceptionHandling(ex -> ex
                 .accessDeniedHandler(accessDeniedHandler())
             )
             // 세션 관리
             .sessionManagement(session -> session
+        		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)	
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
                 .expiredUrl("/member/login?error=needLogin")
             );
+        
     	return http.build();
     }
 

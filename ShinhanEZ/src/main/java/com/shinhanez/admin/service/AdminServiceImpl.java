@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shinhanez.admin.domain.Admins;
-import com.shinhanez.admin.domain.Contracts;
 import com.shinhanez.admin.mapper.AdminMapper;
 import com.shinhanez.domain.Paging;
-import com.shinhanez.domain.ShezUser;
 import com.shinhanez.domain.UserAdminDetails;
 
 import lombok.extern.log4j.Log4j2;
@@ -32,23 +30,7 @@ public class AdminServiceImpl implements AdminService {
 		this.mapper = mapper;
 		this.passwordEncoder = passwordEncoder;
 	}
-    // 기존 DB 평문 PW 암호화 | 임시
-	@Override
-	public void encodeAdmins() {
-		List<Admins> adminList = mapper.findAllAdmins();
 
-        for (Admins admin : adminList) {
-            String plainPw = admin.getAdminPw();
-
-            // 이미 암호화된 건 건너뜀
-            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
-                continue;
-            }
-
-            String encodedPw = passwordEncoder.encode(plainPw);
-            mapper.encodeAdmins(admin.getAdminId(), encodedPw);
-        }
-	}
 	// 전체조회
 	@Override
 	public Map<String, Object> readAllAdmins(int pageNum, int pageSize, String searchType, String searchKeyword, String adminRole) {
@@ -87,9 +69,16 @@ public class AdminServiceImpl implements AdminService {
 	// 등록
 	@Transactional
 	@Override
-	public int registerAdmin(Admins admin,HttpSession session) {
-		int register1 = mapper.insertAdmin(admin);
-		int register2 = mapper.insertUser(admin);
+	public int registerAdmin(Admins admin, HttpSession session) {
+		int register1 = 0;
+		int register2 = 0;
+		// 비밀번호 암호화
+        if (admin.getAdminPw() != null && !admin.getAdminPw().isEmpty()) {
+            String encodedPw = passwordEncoder.encode(admin.getAdminPw()) ;
+            admin.setAdminPw(encodedPw);
+            register1 = mapper.insertAdmin(admin);
+            register2 = mapper.insertUser(admin);
+        }
 		if (register1 != 1 || register2 != 1) {
 			throw new RuntimeException("관리자 등록 실패");
 		}
@@ -101,6 +90,10 @@ public class AdminServiceImpl implements AdminService {
 	public int modifyAdmin(Admins admin, HttpSession session, @AuthenticationPrincipal UserAdminDetails details) {
 		Integer adminIdx = (Integer) session.getAttribute("adminIdx");
 		if(admin.getAdminIdx() == adminIdx || hasPermission(admin, details)) {
+				if (admin.getAdminPw() != null && !admin.getAdminPw().isEmpty()) {
+				String encodedPw = passwordEncoder.encode(admin.getAdminPw()) ;
+	            admin.setAdminPw(encodedPw);
+			}
 			int modify1 = mapper.updateAdmin(admin);
 			int modify2 = mapper.updateUser(admin);
 			if(modify1 != 1 || modify2 != 1) {

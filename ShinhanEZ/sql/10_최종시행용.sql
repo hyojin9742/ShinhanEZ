@@ -276,76 +276,76 @@ on shez_claim_files (claim_id, doc_type);
 INSERT INTO shez_user (
     id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date, provider
 ) VALUES (
-    'user1', '1111', 'user1@test.com', '홍길동',DATE '1990-01-01', 'SKT', 'M', '010-1111-1111', 'K','ROLE_USER', SYSDATE, NULL
+    'user1', '$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO', 'user1@test.com', '홍길동',DATE '1990-01-01', 'SKT', 'M', '010-1111-1111', 'K','ROLE_USER', SYSDATE, NULL
 );
 
 INSERT INTO shez_user (
     id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date, provider
 ) VALUES (
-    'user2', '1111', 'user2@test.com', '김영희', DATE '1992-05-10', 'KT', 'F', '010-2222-2222', 'K','ROLE_USER', SYSDATE, NULL
+    'user2', '$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO', 'user2@test.com', '김영희', DATE '1992-05-10', 'KT', 'F', '010-2222-2222', 'K','ROLE_USER', SYSDATE, NULL
 );
 
 INSERT INTO shez_user (
     id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date, provider
 ) VALUES (
-    'user3', '1111', 'user3@test.com', '이철수', DATE '1988-09-23', 'LGU+', 'M', '010-3333-3333', 'K', 'ROLE_USER', SYSDATE, NULL
+    'user3', '$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO', 'user3@test.com', '이철수', DATE '1988-09-23', 'LGU+', 'M', '010-3333-3333', 'K', 'ROLE_USER', SYSDATE, NULL
 );
 
 INSERT INTO shez_user (
     id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date, provider
 ) VALUES (
-    'user4', '1111', 'user4@test.com', '박민지', DATE '1995-12-15', 'SKT', 'F', '010-4444-4444', 'K','ROLE_USER', SYSDATE, NULL
+    'user4', '$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO', 'user4@test.com', '박민지', DATE '1995-12-15', 'SKT', 'F', '010-4444-4444', 'K','ROLE_USER', SYSDATE, NULL
 );
 
 INSERT INTO shez_user (
     id, pw, email, name, birth, telecom, gender, phone, nation, role, reg_date, provider
 ) VALUES (
-    'user5', '1111', 'user5@test.com', '김철수', DATE '1993-07-07', 'KT', 'F', '010-5555-5555', 'K','ROLE_USER', SYSDATE, NULL
+    'user5', '$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO', 'user5@test.com', '김철수', DATE '1993-07-07', 'KT', 'F', '010-5555-5555', 'K','ROLE_USER', SYSDATE, NULL
 );
 INSERT INTO shez_user VALUES
-('user6','1111','user6@test.com','최민수', DATE '1991-03-12','SKT','M','010-6666-6666','K','ROLE_USER',SYSDATE,NULL);
+('user6','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user6@test.com','최민수', DATE '1991-03-12','SKT','M','010-6666-6666','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user7','1111','user7@test.com','한지은', DATE '1994-11-08','KT','F','010-7777-7777','K','ROLE_USER',SYSDATE,NULL);
+('user7','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user7@test.com','한지은', DATE '1994-11-08','KT','F','010-7777-7777','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user8','1111','john.smith@test.com','John Smith', DATE '1989-06-21','LGU+','M','010-8888-8888','F','ROLE_USER',SYSDATE,NULL);
+('user8','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','john.smith@test.com','John Smith', DATE '1989-06-21','LGU+','M','010-8888-8888','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user9','1111','emma.w@test.com','Emma Wilson', DATE '1992-02-14','SKT','F','010-9999-9999','F','ROLE_USER',SYSDATE,NULL);
+('user9','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','emma.w@test.com','Emma Wilson', DATE '1992-02-14','SKT','F','010-9999-9999','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user10','1111','user10@test.com','윤서준', DATE '1987-08-30','KT','M','010-1010-1010','K','ROLE_USER',SYSDATE,NULL);
+('user10','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user10@test.com','윤서준', DATE '1987-08-30','KT','M','010-1010-1010','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user11','1111','alex.k@test.com','Alex Kim', DATE '1990-01-19','LGU+','M','010-1111-2222','F','ROLE_USER',SYSDATE,NULL);
+('user11','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','alex.k@test.com','Alex Kim', DATE '1990-01-19','LGU+','M','010-1111-2222','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user12','1111','user12@test.com','김나래', DATE '1996-04-03','SKT','F','010-1212-1212','K','ROLE_USER',SYSDATE,NULL);
+('user12','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user12@test.com','김나래', DATE '1996-04-03','SKT','F','010-1212-1212','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user13','1111','maria.g@test.com','Maria Garcia', DATE '1985-09-09','KT','F','010-1313-1313','F','ROLE_USER',SYSDATE,NULL);
+('user13','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','maria.g@test.com','Maria Garcia', DATE '1985-09-09','KT','F','010-1313-1313','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user14','1111','user14@test.com','박현우', DATE '1993-12-25','LGU+','M','010-1414-1414','K','ROLE_USER',SYSDATE,NULL);
+('user14','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user14@test.com','박현우', DATE '1993-12-25','LGU+','M','010-1414-1414','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user15','1111','li.wei@test.com','Li Wei', DATE '1991-05-17','SKT','M','010-1515-1515','F','ROLE_USER',SYSDATE,NULL);
+('user15','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','li.wei@test.com','Li Wei', DATE '1991-05-17','SKT','M','010-1515-1515','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user16','1111','user16@test.com','서유진', DATE '1997-07-01','KT','F','010-1616-1616','K','ROLE_USER',SYSDATE,NULL);
+('user16','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user16@test.com','서유진', DATE '1997-07-01','KT','F','010-1616-1616','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user17','1111','daniel.b@test.com','Daniel Brown', DATE '1988-10-11','LGU+','M','010-1717-1717','F','ROLE_USER',SYSDATE,NULL);
+('user17','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','daniel.b@test.com','Daniel Brown', DATE '1988-10-11','LGU+','M','010-1717-1717','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user18','1111','user18@test.com','오지훈', DATE '1990-02-28','SKT','M','010-1818-1818','K','ROLE_USER',SYSDATE,NULL);
+('user18','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user18@test.com','오지훈', DATE '1990-02-28','SKT','M','010-1818-1818','K','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user19','1111','sophia.l@test.com','Sophia Lee', DATE '1994-06-06','KT','F','010-1919-1919','F','ROLE_USER',SYSDATE,NULL);
+('user19','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','sophia.l@test.com','Sophia Lee', DATE '1994-06-06','KT','F','010-1919-1919','F','ROLE_USER',SYSDATE,NULL);
 
 INSERT INTO shez_user VALUES
-('user20','1111','user20@test.com','정민재', DATE '1986-09-14','LGU+','M','010-2020-2020','K','ROLE_USER',SYSDATE,NULL);
+('user20','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','user20@test.com','정민재', DATE '1986-09-14','LGU+','M','010-2020-2020','K','ROLE_USER',SYSDATE,NULL);
 
 COMMIT;
 -- ============================================= 게시판 | 20건 =============================================
@@ -458,76 +458,76 @@ INSERT INTO shez_customers VALUES ('C040',NULL,'노재원',DATE '1978-05-21','M'
 COMMIT;
 -- ============================================= 관리자 | 30건 =============================================
 -- super
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'admin','1111','super','황수연','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'admin','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','super','황수연','보험청구팀');
 
 -- manager (10)
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager1','1111','manager','김민수','계약관리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager2','1111','manager','이서연','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager3','1111','manager','박준호','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager4','1111','manager','최지은','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager5','1111','manager','윤태호','보험청구팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager6','1111','manager','강다은','계약관리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager7','1111','manager','배소영','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager8','1111','manager','임서현','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager9','1111','manager','홍지훈','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager10','1111','manager','전수빈','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager1','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','김민수','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager2','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','이서연','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager3','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','박준호','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager4','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','최지은','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager5','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','윤태호','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager6','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','강다은','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager7','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','배소영','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager8','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','임서현','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager9','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','홍지훈','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'manager10','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager','전수빈','계약관리팀');
 
 -- staff (19)
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff1','1111','staff','정우성','계약관리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff2','1111','staff','한유진','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff3','1111','staff','서지민','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff4','1111','staff','오세훈','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff5','1111','staff','신현수','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff6','1111','staff','문지현','보험청구팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff7','1111','staff','조민재','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff8','1111','staff','노지훈','계약관리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff9','1111','staff','백승우','보험청구팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff10','1111','staff','차은별','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff11','1111','staff','유민석','계약관리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff12','1111','staff','장하늘','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff13','1111','staff','송지안','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff14','1111','staff','남도현','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff15','1111','staff','하윤성','고객지원팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff16','1111','staff','김태윤','보험청구팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff17','1111','staff','서은찬','보험심사팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff18','1111','staff','권지후','보상처리팀');
-INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff19','1111','staff','류성민','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff1','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','정우성','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff2','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','한유진','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff3','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','서지민','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff4','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','오세훈','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff5','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','신현수','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff6','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','문지현','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff7','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','조민재','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff8','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','노지훈','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff9','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','백승우','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff10','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','차은별','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff11','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','유민석','계약관리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff12','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','장하늘','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff13','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','송지안','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff14','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','남도현','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff15','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','하윤성','고객지원팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff16','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','김태윤','보험청구팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff17','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','서은찬','보험심사팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff18','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','권지후','보상처리팀');
+INSERT INTO shez_admins (admin_idx,admin_id, admin_pw, admin_role, admin_name, department)VALUES (seq_shezAdmins.NEXTVAL,'staff19','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff','류성민','보험청구팀');
 
 -- super
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('admin','1111','admin@shinhanez.com','황수연',DATE '1990-01-01','KT','M','01010000001','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('admin','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','admin@shinhanez.com','황수연',DATE '1990-01-01','KT','M','01010000001','K','ROLE_ADMIN');
 
 -- manager
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager1','1111','manager1@shinhanez.com','김민수',DATE '1988-01-01','KT','M','01010000002','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager2','1111','manager2@shinhanez.com','이서연',DATE '1991-01-01','SKT','F','01010000003','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager3','1111','manager3@shinhanez.com','박준호',DATE '1987-01-01','KT','M','01010000004','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager4','1111','manager4@shinhanez.com','최지은',DATE '1992-01-01','LGU','F','01010000005','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager5','1111','manager5@shinhanez.com','윤태호',DATE '1985-01-01','KT','M','01010000006','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager6','1111','manager6@shinhanez.com','강다은',DATE '1993-01-01','SKT','F','01010000007','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager7','1111','manager7@shinhanez.com','배소영',DATE '1989-01-01','LGU','F','01010000008','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager8','1111','manager8@shinhanez.com','임서현',DATE '1990-01-01','KT','F','01010000009','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager9','1111','manager9@shinhanez.com','홍지훈',DATE '1986-01-01','KT','M','01010000010','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager10','1111','manager10@shinhanez.com','전수빈',DATE '1991-01-01','SKT','F','01010000011','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager1','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager1@shinhanez.com','김민수',DATE '1988-01-01','KT','M','01010000002','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager2','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager2@shinhanez.com','이서연',DATE '1991-01-01','SKT','F','01010000003','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager3','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager3@shinhanez.com','박준호',DATE '1987-01-01','KT','M','01010000004','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager4','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager4@shinhanez.com','최지은',DATE '1992-01-01','LGU','F','01010000005','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager5','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager5@shinhanez.com','윤태호',DATE '1985-01-01','KT','M','01010000006','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager6','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager6@shinhanez.com','강다은',DATE '1993-01-01','SKT','F','01010000007','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager7','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager7@shinhanez.com','배소영',DATE '1989-01-01','LGU','F','01010000008','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager8','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager8@shinhanez.com','임서현',DATE '1990-01-01','KT','F','01010000009','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager9','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager9@shinhanez.com','홍지훈',DATE '1986-01-01','KT','M','01010000010','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('manager10','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','manager10@shinhanez.com','전수빈',DATE '1991-01-01','SKT','F','01010000011','K','ROLE_ADMIN');
 
 -- staff
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff1','1111','staff1@shinhanez.com','정우성',DATE '1990-01-01','KT','M','01010000012','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff2','1111','staff2@shinhanez.com','한유진',DATE '1994-01-01','SKT','F','01010000013','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff3','1111','staff3@shinhanez.com','서지민',DATE '1992-01-01','LGU','F','01010000014','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff4','1111','staff4@shinhanez.com','오세훈',DATE '1988-01-01','KT','M','01010000015','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff5','1111','staff5@shinhanez.com','신현수',DATE '1991-01-01','SKT','M','01010000016','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff6','1111','staff6@shinhanez.com','문지현',DATE '1993-01-01','KT','F','01010000017','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff7','1111','staff7@shinhanez.com','조민재',DATE '1989-01-01','KT','M','01010000018','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff8','1111','staff8@shinhanez.com','노지훈',DATE '1992-01-01','SKT','M','01010000019','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff9','1111','staff9@shinhanez.com','백승우',DATE '1988-01-01','KT','M','01010000020','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff10','1111','staff10@shinhanez.com','차은별',DATE '1994-01-01','LGU','F','01010000021','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff11','1111','staff11@shinhanez.com','유민석',DATE '1990-01-01','KT','M','01010000022','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff12','1111','staff12@shinhanez.com','장하늘',DATE '1995-01-01','SKT','F','01010000023','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff13','1111','staff13@shinhanez.com','송지안',DATE '1993-01-01','LGU','F','01010000024','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff14','1111','staff14@shinhanez.com','남도현',DATE '1987-01-01','KT','M','01010000025','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff15','1111','staff15@shinhanez.com','하윤성',DATE '1991-01-01','SKT','M','01010000026','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff16','1111','staff16@shinhanez.com','김태윤',DATE '1989-01-01','KT','M','01010000027','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff17','1111','staff17@shinhanez.com','서은찬',DATE '1994-01-01','LGU','M','01010000028','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff18','1111','staff18@shinhanez.com','권지후',DATE '1992-01-01','KT','M','01010000029','K','ROLE_ADMIN');
-INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff19','1111','staff19@shinhanez.com','류성민',DATE '1988-01-01','KT','M','01010000030','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff1','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff1@shinhanez.com','정우성',DATE '1990-01-01','KT','M','01010000012','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff2','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff2@shinhanez.com','한유진',DATE '1994-01-01','SKT','F','01010000013','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff3','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff3@shinhanez.com','서지민',DATE '1992-01-01','LGU','F','01010000014','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff4','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff4@shinhanez.com','오세훈',DATE '1988-01-01','KT','M','01010000015','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff5','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff5@shinhanez.com','신현수',DATE '1991-01-01','SKT','M','01010000016','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff6','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff6@shinhanez.com','문지현',DATE '1993-01-01','KT','F','01010000017','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff7','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff7@shinhanez.com','조민재',DATE '1989-01-01','KT','M','01010000018','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff8','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff8@shinhanez.com','노지훈',DATE '1992-01-01','SKT','M','01010000019','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff9','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff9@shinhanez.com','백승우',DATE '1988-01-01','KT','M','01010000020','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff10','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff10@shinhanez.com','차은별',DATE '1994-01-01','LGU','F','01010000021','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff11','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff11@shinhanez.com','유민석',DATE '1990-01-01','KT','M','01010000022','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff12','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff12@shinhanez.com','장하늘',DATE '1995-01-01','SKT','F','01010000023','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff13','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff13@shinhanez.com','송지안',DATE '1993-01-01','LGU','F','01010000024','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff14','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff14@shinhanez.com','남도현',DATE '1987-01-01','KT','M','01010000025','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff15','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff15@shinhanez.com','하윤성',DATE '1991-01-01','SKT','M','01010000026','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff16','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff16@shinhanez.com','김태윤',DATE '1989-01-01','KT','M','01010000027','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff17','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff17@shinhanez.com','서은찬',DATE '1994-01-01','LGU','M','01010000028','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff18','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff18@shinhanez.com','권지후',DATE '1992-01-01','KT','M','01010000029','K','ROLE_ADMIN');
+INSERT INTO shez_user (id, pw, email, name, birth, telecom, gender, phone, nation, role)VALUES ('staff19','$2a$10$GuX0ayR2AKzsOooSIbrGt.CZUGmHWDhowBK.MOBM6d5/udR9uQ6hO','staff19@shinhanez.com','류성민',DATE '1988-01-01','KT','M','01010000030','K','ROLE_ADMIN');
 
 COMMIT;
 -- ============================================= 상품 | 23건 =============================================
@@ -1617,7 +1617,7 @@ FROM (
 ) c
 WHERE ROWNUM <= 30;
 
-
+COMMIT;
 -- ============================================= 최종 테이블 확인 ==============================================
 SELECT * FROM shez_user ORDER BY id;
 SELECT * FROM shez_board ORDER BY idx;

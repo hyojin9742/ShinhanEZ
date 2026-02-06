@@ -1,9 +1,6 @@
 package com.shinhanez.controller;
 
 import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shinhanez.admin.domain.Admins;
-import com.shinhanez.admin.service.AdminService;
 import com.shinhanez.domain.ShezUser;
 import com.shinhanez.service.ShezUserService;
 
@@ -36,36 +31,16 @@ public class MemberController {
 
     private final PasswordEncoder passwordEncoder;
     private ShezUserService userService;
-    private AdminService adminService;
     
     @Autowired
-    public MemberController(ShezUserService userService, AdminService adminService, PasswordEncoder passwordEncoder) {
+    public MemberController(ShezUserService userService, PasswordEncoder passwordEncoder) {
     	this.userService = userService;
-    	this.adminService = adminService;
     	this.passwordEncoder = passwordEncoder;
     }
     
-    /* 비밀번호 암호화 처리 임시 메서드 */
-    public void migratePassword() {
-        List<ShezUser> userList = userService.findAll();
-
-        for (ShezUser user : userList) {
-            String plainPw = user.getPw();
-
-            // 이미 암호화된 건 건너뜀
-            if (plainPw.startsWith("$2a$") || plainPw.startsWith("$2b$")) {
-                continue;
-            }
-
-            String encodedPw = passwordEncoder.encode(plainPw);
-            userService.updatePassword(user.getId(), encodedPw);
-        }
-    }
     // 로그인 페이지
     @GetMapping("/login")
     public String loginForm() {
-    	migratePassword();
-    	adminService.encodeAdmins();
         return "member/login";
     }
     
