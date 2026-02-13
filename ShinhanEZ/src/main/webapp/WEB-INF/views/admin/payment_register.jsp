@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">납입일</label>
-                                    <input type="date" class="form-control" name="paymentDate" value="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>">
+                                    <input type="date" class="form-control" name="paymentDate">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">납입기한 *</label>
