@@ -22,6 +22,8 @@ CREATE TABLE shez_board (
     reg_date    DATE            DEFAULT SYSDATE,        -- 등록일
     textarea    VARCHAR2(3000)  NOT NULL,               -- 내용
     cnt         NUMBER          DEFAULT 0,              -- 조회수
+    status          CHAR(1)         DEFAULT 'Y'
+                    CHECK (status IN ('Y', 'N')),       -- 상태 (Y:활성, N:비활성)
     id          VARCHAR2(50)    NOT NULL,               -- 작성자 ID
     CONSTRAINT fk_shez_board_user 
         FOREIGN KEY (id) REFERENCES shez_user(id)
@@ -101,7 +103,8 @@ CREATE TABLE shez_contracts (
     expired_date        DATE            NOT NULL,               -- 만료일
     premium_amount      NUMBER(30)      NOT NULL,               -- 실제 보험료
     payment_cycle       VARCHAR2(15)    NOT NULL                -- 납입주기
-        CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납', '일시납')),   
+        CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납')),
+    payment_method      VARCHAR2(20),                           -- 납입 방법 (자동이체/카드/계좌이체)
     contract_status     VARCHAR2(10)    NOT NULL 
         CHECK(contract_status IN('활성','만료','해지','대기')),    -- 계약상태
     update_date         DATE            DEFAULT SYSDATE,        -- 수정일
@@ -177,7 +180,7 @@ create table shez_claims (
   accident_date         date            not null,          -- 5. 사고일
   claim_date            date            not null,          -- 6. 청구일
   claim_amount          number(15,2)    default 0 not null,-- 7. 청구금액
-  document_list         varchar2(1000),                    -- 8. 서류목록
+  document_list         varchar2(1000),                    -- 8. 특이사항
   paid_at               date,                              -- 9. 지급일
   paid_amount           number(15,2),                      -- 10. 지급액
   status                varchar2(30)    not null,          -- 11. 처리 상태
@@ -350,64 +353,64 @@ INSERT INTO shez_user VALUES
 COMMIT;
 -- ============================================= 게시판 | 20건 =============================================
 INSERT INTO shez_board VALUES
-(1, '첫 번째 게시글입니다', SYSDATE-20, '게시판 더미 데이터 테스트용 글입니다.', 12, 'user1');
+(1, '첫 번째 게시글입니다', SYSDATE-20, '게시판 더미 데이터 테스트용 글입니다.', 12,'Y', 'user1');
 
 INSERT INTO shez_board VALUES
-(2, '보험 가입 문의', SYSDATE-19, '보험 가입 절차가 어떻게 되나요?', 8, 'user2');
+(2, '보험 가입 문의', SYSDATE-19, '보험 가입 절차가 어떻게 되나요?', 8,'Y', 'user2');
 
 INSERT INTO shez_board VALUES
-(3, '계약서 확인 요청', SYSDATE-18, '계약서 PDF 확인 부탁드립니다.', 15, 'user3');
+(3, '계약서 확인 요청', SYSDATE-18, '계약서 PDF 확인 부탁드립니다.', 15,'Y', 'user3');
 
 INSERT INTO shez_board VALUES
-(4, '로그인 오류 발생', SYSDATE-17, '로그인이 안 되는 문제가 있습니다.', 22, 'user4');
+(4, '로그인 오류 발생', SYSDATE-17, '로그인이 안 되는 문제가 있습니다.', 22,'Y', 'user4');
 
 INSERT INTO shez_board VALUES
-(5, '회원정보 수정 방법', SYSDATE-16, '전화번호 수정은 어디서 하나요?', 6, 'user5');
+(5, '회원정보 수정 방법', SYSDATE-16, '전화번호 수정은 어디서 하나요?', 6,'Y', 'user5');
 
 INSERT INTO shez_board VALUES
-(6, '외국인 가입 가능 여부', SYSDATE-15, '외국인도 보험 가입이 가능한가요?', 19, 'user8');
+(6, '외국인 가입 가능 여부', SYSDATE-15, '외국인도 보험 가입이 가능한가요?', 19,'Y', 'user8');
 
 INSERT INTO shez_board VALUES
-(7, '보험료 납부 관련', SYSDATE-14, '보험료 자동이체 설정 방법 문의', 11, 'user6');
+(7, '보험료 납부 관련', SYSDATE-14, '보험료 자동이체 설정 방법 문의', 11,'Y', 'user6');
 
 INSERT INTO shez_board VALUES
-(8, '보장 내용 문의', SYSDATE-13, '이 상품의 보장 범위가 궁금합니다.', 17, 'user7');
+(8, '보장 내용 문의', SYSDATE-13, '이 상품의 보장 범위가 궁금합니다.', 17,'Y', 'user7');
 
 INSERT INTO shez_board VALUES
-(9, '계약 해지 요청', SYSDATE-12, '계약 해지는 어떻게 진행되나요?', 25, 'user9');
+(9, '계약 해지 요청', SYSDATE-12, '계약 해지는 어떻게 진행되나요?', 25,'Y', 'user9');
 
 INSERT INTO shez_board VALUES
-(10, '모바일 이용 문의', SYSDATE-11, '모바일에서도 계약서 확인되나요?', 9, 'user10');
+(10, '모바일 이용 문의', SYSDATE-11, '모바일에서도 계약서 확인되나요?', 9,'Y', 'user10');
 
 INSERT INTO shez_board VALUES
-(11, '관리자 답변 요청', SYSDATE-10, '문의글에 답변이 아직 없어요.', 14, 'user11');
+(11, '관리자 답변 요청', SYSDATE-10, '문의글에 답변이 아직 없어요.', 14,'Y', 'user11');
 
 INSERT INTO shez_board VALUES
-(12, '보험금 청구 방법', SYSDATE-9, '보험금 청구 절차 알려주세요.', 31, 'user12');
+(12, '보험금 청구 방법', SYSDATE-9, '보험금 청구 절차 알려주세요.', 31,'Y', 'user12');
 
 INSERT INTO shez_board VALUES
-(13, '이메일 변경 문의', SYSDATE-8, '이메일 주소 변경하고 싶어요.', 7, 'user13');
+(13, '이메일 변경 문의', SYSDATE-8, '이메일 주소 변경하고 싶어요.', 7,'Y', 'user13');
 
 INSERT INTO shez_board VALUES
-(14, '계약 기간 연장', SYSDATE-7, '계약 기간 연장이 가능한가요?', 18, 'user14');
+(14, '계약 기간 연장', SYSDATE-7, '계약 기간 연장이 가능한가요?', 18,'Y', 'user14');
 
 INSERT INTO shez_board VALUES
-(15, '상품 추천 요청', SYSDATE-6, '30대에게 추천할 보험 있나요?', 27, 'user15');
+(15, '상품 추천 요청', SYSDATE-6, '30대에게 추천할 보험 있나요?', 27,'Y', 'user15');
 
 INSERT INTO shez_board VALUES
-(16, 'PDF 다운로드 오류', SYSDATE-5, '계약서 PDF가 안 열립니다.', 21, 'user16');
+(16, 'PDF 다운로드 오류', SYSDATE-5, '계약서 PDF가 안 열립니다.', 21,'Y', 'user16');
 
 INSERT INTO shez_board VALUES
-(17, '가입 취소 문의', SYSDATE-4, '가입 취소는 어디서 하나요?', 10, 'user17');
+(17, '가입 취소 문의', SYSDATE-4, '가입 취소는 어디서 하나요?', 10,'Y', 'user17');
 
 INSERT INTO shez_board VALUES
-(18, '해외 거주자 보험', SYSDATE-3, '해외 거주 중인데 가입 가능할까요?', 16, 'user18');
+(18, '해외 거주자 보험', SYSDATE-3, '해외 거주 중인데 가입 가능할까요?', 16,'Y', 'user18');
 
 INSERT INTO shez_board VALUES
-(19, '고객센터 운영시간', SYSDATE-2, '고객센터 운영시간이 궁금합니다.', 5, 'user19');
+(19, '고객센터 운영시간', SYSDATE-2, '고객센터 운영시간이 궁금합니다.', 5,'Y', 'user19');
 
 INSERT INTO shez_board VALUES
-(20, '사이트 개선 제안', SYSDATE-1, 'UI가 조금 복잡한 것 같아요.', 13, 'user20');
+(20, '사이트 개선 제안', SYSDATE-1, 'UI가 조금 복잡한 것 같아요.', 13,'Y', 'user20');
 
 COMMIT;
 -- ============================================= 고객 | 40건 =============================================
@@ -682,37 +685,37 @@ COMMIT;
 -- 대기 10건
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C001', 'C001', 4,
     '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 83),
-    54000, '월납', '대기',
+    54000, '월납','자동이체', '대기',
     1, '김하윤', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C002', 'C002', 5,
     '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -2), ADD_MONTHS(SYSDATE, 116),
-    67000, '월납', '대기',
+    67000, '월납','카드', '대기',
     1, '박지훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C003', 'C003', 6,
     '주계약, 골절진단보장 500만원, 통원치료비보장 300만원',
     ADD_MONTHS(SYSDATE, -3), ADD_MONTHS(SYSDATE, 35),
-    28000, '월납', '대기',
+    28000, '월납','계좌이체', '대기',
     1, '이서연', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -720,13 +723,13 @@ INSERT INTO shez_contracts (
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C004', 'C024', 7,
     '주계약, 질병사망보장 8000만원, 입원비보장 2000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 114),
-    72000, '연납', '대기',
+    72000, '연납','계좌이체', '대기',
     1, '정민준', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -734,7 +737,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C005', 'C025', 8,
     '주계약, 화상진단보장 2000만원, 입원일당 20만원',
     ADD_MONTHS(SYSDATE, -4), ADD_MONTHS(SYSDATE, 59),
-    39000, '월납', '대기',
+    39000, '월납','자동이체', '대기',
     SYSDATE, 1, '최윤서', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -742,7 +745,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C006', 'C026', 9,
     '주계약, 운전자벌금보장 3000만원, 교통사고처리지원금 5000만원',
     ADD_MONTHS(SYSDATE, -2), ADD_MONTHS(SYSDATE, 23),
-    46000, '월납', '대기',
+    46000, '월납','카드', '대기',
     SYSDATE, 1, '한지민', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -750,7 +753,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C007', 'C027', 10,
     '주계약, 어린이질병보장 3000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -6), ADD_MONTHS(SYSDATE, 119),
-    31000, '월납', '대기',
+    31000, '월납','계좌이체', '대기',
     SYSDATE, 1, '오세훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -758,7 +761,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C008', 'C028', 4,
     '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 83),
-    54000, '월납', '대기',
+    54000, '월납','자동이체', '대기',
     SYSDATE, 1, '신예은', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -766,7 +769,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C009', 'C029', 5,
     '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -3), ADD_MONTHS(SYSDATE, 116),
-    67000, '월납', '대기',
+    67000, '월납','자동이체','대기',
     SYSDATE, 1, '문채원', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -774,19 +777,19 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C010', 'C030', 6,
     '주계약, 골절진단보장 500만원, 통원치료비보장 300만원',
     ADD_MONTHS(SYSDATE, -1), ADD_MONTHS(SYSDATE, 35),
-    28000, '월납', '대기',
+    28000, '월납','카드', '대기',
     SYSDATE, 1, '유나', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 -- 활성 30건
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C001', 'C001', 4,
     '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원',
     ADD_MONTHS(SYSDATE, -14), ADD_MONTHS(SYSDATE, 106),
-    54000, '월납', '활성',
+    54000, '월납','카드', '활성',
     1, '김하윤', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -794,7 +797,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C002', 'C002', 5,
     '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -12), ADD_MONTHS(SYSDATE, 108),
-    67000, '월납', '활성',
+    67000, '월납','계좌이체', '활성',
     SYSDATE, 1, '박지훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -802,7 +805,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C003', 'C003', 6,
     '주계약, 골절진단보장 500만원, 통원치료비보장 300만원',
     ADD_MONTHS(SYSDATE, -10), ADD_MONTHS(SYSDATE, 50),
-    28000, '월납', '활성',
+    28000, '월납','자동이체' ,'활성',
     SYSDATE, 1, '이서연', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -810,7 +813,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C004', 'C024', 7,
     '주계약, 질병사망보장 8000만원, 입원비보장 2000만원, 수술비보장 1500만원',
     ADD_MONTHS(SYSDATE, -18), ADD_MONTHS(SYSDATE, 102),
-    72000, '연납', '활성',
+    72000, '연납','카드', '활성',
     SYSDATE, 1, '정민준', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -818,7 +821,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C005', 'C005', 8,
     '주계약, 암진단보장 6000만원, 항암치료보장 2000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
-    83000, '월납', '활성',
+    83000, '월납','계좌이체', '활성',
     SYSDATE, 1, '최은서', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -826,7 +829,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C006', 'C025', 9,
     '주계약, 상해사망보장 1억원, 후유장해보장 5000만원',
     ADD_MONTHS(SYSDATE, -7), ADD_MONTHS(SYSDATE, 113),
-    61000, '연납', '활성',
+    61000, '연납','자동이체' ,'활성',
     SYSDATE, 1, '한지민', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -834,7 +837,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C007', 'C007', 10,
     '주계약, 입원일당보장 5만원, 중환자실보장 20만원',
     ADD_MONTHS(SYSDATE, -6), ADD_MONTHS(SYSDATE, 54),
-    32000, '월납', '활성',
+    32000, '월납','카드', '활성',
     SYSDATE, 1, '서준혁', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -842,7 +845,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C008', 'C026', 11,
     '주계약, 치아보철보장 300만원, 치아충전보장 100만원',
     ADD_MONTHS(SYSDATE, -11), ADD_MONTHS(SYSDATE, 49),
-    21000, '월납', '활성',
+    21000, '월납','계좌이체', '활성',
     SYSDATE, 1, '윤서아', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -850,7 +853,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C009', 'C009', 12,
     '주계약, 운전자벌금보장 2000만원, 변호사선임비보장 500만원',
     ADD_MONTHS(SYSDATE, -15), ADD_MONTHS(SYSDATE, 45),
-    18000, '연납', '활성',
+    18000, '연납','자동이체' ,'활성',
     SYSDATE, 1, '장민호', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -858,7 +861,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C010', 'C027', 13,
     '주계약, 실손입원비보장 3000만원, 통원치료비보장 500만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
-    35000, '월납', '활성',
+    35000, '월납','카드', '활성',
     SYSDATE, 1, '임수정', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -868,7 +871,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C011', 'C011', 14,
     '주계약, 치매진단보장 4000만원, 간병비보장 2000만원',
     ADD_MONTHS(SYSDATE, -20), ADD_MONTHS(SYSDATE, 100),
-    76000, '월납', '활성',
+    76000, '월납','계좌이체', '활성',
     SYSDATE, 1, '오세훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -876,7 +879,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C012', 'C028', 15,
     '주계약, 화재손해보장 2억원, 가재도구손해보장 5000만원',
     ADD_MONTHS(SYSDATE, -5), ADD_MONTHS(SYSDATE, 55),
-    41000, '연납', '활성',
+    41000, '연납','자동이체' ,'활성',
     SYSDATE, 1, '신민아', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -884,7 +887,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C013', 'C013', 16,
     '주계약, 상해입원보장 2000만원, 골절수술보장 1000만원',
     ADD_MONTHS(SYSDATE, -13), ADD_MONTHS(SYSDATE, 47),
-    29000, '월납', '활성',
+    29000, '월납','카드', '활성',
     SYSDATE, 1, '김동현', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -892,7 +895,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C014', 'C029', 17,
     '주계약, 여성암보장 7000만원, 유방암보장 4000만원',
     ADD_MONTHS(SYSDATE, -16), ADD_MONTHS(SYSDATE, 104),
-    88000, '월납', '활성',
+    88000, '월납','계좌이체', '활성',
     SYSDATE, 1, '한예슬', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -900,7 +903,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C015', 'C015', 18,
     '주계약, 어린이상해보장 5000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -4), ADD_MONTHS(SYSDATE, 116),
-    26000, '월납', '활성',
+    26000, '월납','자동이체' ,'활성',
     SYSDATE, 1, '문채원', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -908,7 +911,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C016', 'C030', 19,
     '주계약, 질병입원보장 3000만원, 수술비보장 2000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
-    39000, '월납', '활성',
+    39000, '월납','카드', '활성',
     SYSDATE, 1, '이종석', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -916,7 +919,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C017', 'C017', 20,
     '주계약, 실손통원보장 500만원, 처방조제비보장 300만원',
     ADD_MONTHS(SYSDATE, -6), ADD_MONTHS(SYSDATE, 114),
-    33000, '월납', '활성',
+    33000, '월납','계좌이체', '활성',
     SYSDATE, 1, '김지원', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -924,7 +927,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C018', 'C031', 21,
     '주계약, 상해후유장해보장 1억원, 사망보장 5000만원',
     ADD_MONTHS(SYSDATE, -17), ADD_MONTHS(SYSDATE, 103),
-    69000, '연납', '활성',
+    69000, '연납','자동이체' ,'활성',
     SYSDATE, 1, '조승우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -932,7 +935,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C019', 'C019', 22,
     '주계약, 뇌혈관질환보장 6000만원, 재활치료보장 2000만원',
     ADD_MONTHS(SYSDATE, -11), ADD_MONTHS(SYSDATE, 109),
-    74000, '월납', '활성',
+    74000, '월납','카드', '활성',
     SYSDATE, 1, '김태리', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -940,18 +943,18 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C020', 'C032', 23,
     '주계약, 노인간병보장 4000만원, 요양병원입원보장 3000만원',
     ADD_MONTHS(SYSDATE, -19), ADD_MONTHS(SYSDATE, 101),
-    81000, '월납', '활성',
+    81000, '월납','계좌이체', '활성',
     SYSDATE, 1, '유해진', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C021', 'C021', 4,
     '주계약, 뇌출혈보장 4000만원, 뇌경색보장 3000만원, 재활치료보장 1000만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
-    56000, '월납', '활성',
+    56000, '월납','자동이체' ,'활성',
     1, '김서현', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -959,7 +962,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C022', 'C033', 5,
     '주계약, 심근경색보장 5000만원, 허혈성심장질환보장 3000만원',
     ADD_MONTHS(SYSDATE, -11), ADD_MONTHS(SYSDATE, 109),
-    69000, '월납', '활성',
+    69000, '월납','카드', '활성',
     SYSDATE, 1, '박민재', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -967,7 +970,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C023', 'C023', 6,
     '주계약, 골절진단보장 700만원, 통원치료비보장 300만원',
     ADD_MONTHS(SYSDATE, -6), ADD_MONTHS(SYSDATE, 54),
-    30000, '월납', '활성',
+    30000, '월납','계좌이체', '활성',
     SYSDATE, 1, '이도윤', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -975,7 +978,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C024', 'C034', 7,
     '주계약, 질병사망보장 8000만원, 입원비보장 2000만원',
     ADD_MONTHS(SYSDATE, -15), ADD_MONTHS(SYSDATE, 105),
-    74000, '연납', '활성',
+    74000, '연납','자동이체' ,'활성',
     SYSDATE, 1, '정하늘', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -983,7 +986,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C025', 'C025', 8,
     '주계약, 암진단보장 6000만원, 항암치료보장 2000만원, 입원비보장 1000만원',
     ADD_MONTHS(SYSDATE, -9), ADD_MONTHS(SYSDATE, 111),
-    85000, '월납', '활성',
+    85000, '월납','카드', '활성',
     SYSDATE, 1, '서지우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -991,7 +994,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C026', 'C035', 9,
     '주계약, 상해사망보장 1억원, 후유장해보장 5000만원',
     ADD_MONTHS(SYSDATE, -7), ADD_MONTHS(SYSDATE, 113),
-    63000, '연납', '활성',
+    63000, '연납','계좌이체', '활성',
     SYSDATE, 1, '윤지호', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -999,7 +1002,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C027', 'C027', 10,
     '주계약, 입원일당보장 5만원, 중환자실보장 20만원',
     ADD_MONTHS(SYSDATE, -5), ADD_MONTHS(SYSDATE, 55),
-    34000, '월납', '활성',
+    34000, '월납','자동이체' ,'활성',
     SYSDATE, 1, '김나연', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -1007,7 +1010,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C028', 'C036', 11,
     '주계약, 치아보철보장 300만원, 치아충전보장 100만원',
     ADD_MONTHS(SYSDATE, -10), ADD_MONTHS(SYSDATE, 50),
-    22000, '월납', '활성',
+    22000, '월납','카드', '활성',
     SYSDATE, 1, '홍지훈', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -1015,7 +1018,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C029', 'C029', 12,
     '주계약, 운전자벌금보장 2000만원, 변호사선임비보장 500만원',
     ADD_MONTHS(SYSDATE, -14), ADD_MONTHS(SYSDATE, 46),
-    19000, '연납', '활성',
+    19000, '연납','계좌이체', '활성',
     SYSDATE, 1, '백승우', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 
@@ -1023,19 +1026,19 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C030', 'C037', 13,
     '주계약, 실손입원비보장 3000만원, 통원치료비보장 500만원',
     ADD_MONTHS(SYSDATE, -8), ADD_MONTHS(SYSDATE, 112),
-    36000, '월납', '활성',
+    36000, '월납','자동이체' ,'활성',
     SYSDATE, 1, '노윤주', 'R0lGODlhAQABAIAAAAUEBA==', SYSDATE
 );
 -- 해지 5건
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C031', 'C031', 14,
     '주계약, 암진단보장 4000만원, 항암치료보장 1500만원',
     ADD_MONTHS(SYSDATE, -36), ADD_MONTHS(SYSDATE, -6),
-    58000, '월납', '해지',
+    58000, '월납','카드', '해지',
     1, '김도현', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -6)
 );
 
@@ -1043,7 +1046,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C032', 'C038', 15,
     '주계약, 상해사망보장 8000만원, 후유장해보장 4000만원',
     ADD_MONTHS(SYSDATE, -48), ADD_MONTHS(SYSDATE, -12),
-    62000, '연납', '해지',
+    62000, '연납','계좌이체', '해지',
     SYSDATE, 1, '이민재', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -12)
 );
 
@@ -1051,7 +1054,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C033', 'C033', 16,
     '주계약, 입원일당보장 5만원, 중환자실보장 15만원',
     ADD_MONTHS(SYSDATE, -24), ADD_MONTHS(SYSDATE, -3),
-    33000, '월납', '해지',
+    33000, '월납','자동이체' ,'해지',
     SYSDATE, 1, '박서연', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -3)
 );
 
@@ -1059,7 +1062,7 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C034', 'C039', 17,
     '주계약, 치아보철보장 250만원, 치아충전보장 120만원',
     ADD_MONTHS(SYSDATE, -30), ADD_MONTHS(SYSDATE, -9),
-    21000, '월납', '해지',
+    21000, '월납','카드', '해지',
     SYSDATE, 1, '정우성', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -9)
 );
 
@@ -1067,70 +1070,70 @@ INSERT INTO shez_contracts VALUES (
     seq_shezContracts.NEXTVAL, 'C035', 'C035', 18,
     '주계약, 운전자벌금보장 2000만원, 교통사고처리지원금 4000만원',
     ADD_MONTHS(SYSDATE, -18), ADD_MONTHS(SYSDATE, -2),
-    27000, '연납', '해지',
+    27000, '연납','계좌이체', '해지',
     SYSDATE, 1, '한유진', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -2)
 );
 -- 만료 5건
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C036', 'C036', 19,
     '주계약, 암진단보장 3000만원, 항암치료보장 1000만원',
     ADD_MONTHS(SYSDATE, -72), ADD_MONTHS(SYSDATE, -12),
-    48000, '월납', '만료',
+    48000, '월납','자동이체', '만료',
     1, '김민재', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -12)
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C037', 'C039', 20,
     '주계약, 상해사망보장 7000만원, 후유장해보장 3000만원',
     ADD_MONTHS(SYSDATE, -84), ADD_MONTHS(SYSDATE, -6),
-    52000, '연납', '만료',
+    52000, '연납','카드', '만료',
     1, '이서준', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -6)
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C038', 'C038', 21,
     '주계약, 입원일당보장 4만원, 중환자실보장 12만원',
     ADD_MONTHS(SYSDATE, -60), ADD_MONTHS(SYSDATE, -1),
-    29000, '월납', '만료',
+    29000, '월납','계좌이체', '만료',
     1, '박지훈', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -1)
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C039', 'C040', 22,
     '주계약, 치아보철보장 300만원, 치아충전보장 150만원',
     ADD_MONTHS(SYSDATE, -90), ADD_MONTHS(SYSDATE, -18),
-    23000, '월납', '만료',
+    23000, '월납','자동이체' ,'만료',
     1, '정수빈', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -18)
 );
 
 INSERT INTO shez_contracts (
     contract_id, customer_id, insured_id, product_id, contract_coverage,
-    reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
     admin_idx, sign_name, sign_image, signed_date
 ) VALUES (
     seq_shezContracts.NEXTVAL, 'C040', 'C040', 23,
     '주계약, 운전자벌금보장 1500만원, 교통사고처리지원금 3000만원',
     ADD_MONTHS(SYSDATE, -66), ADD_MONTHS(SYSDATE, -3),
-    26000, '연납', '만료',
+    26000, '연납','계좌이체', '만료',
     1, '한예린', 'R0lGODlhAQABAIAAAAUEBA==', ADD_MONTHS(SYSDATE, -3)
 );
--- ============================================= 계약 | 30건 =============================================
+-- ============================================= 납입 | 30건 =============================================
 --  PAID
 INSERT INTO shez_payments (
     payment_id, contract_id, payment_date, due_date, amount, method, status, reg_date
@@ -1241,21 +1244,21 @@ INSERT INTO shez_payments (
     payment_id, contract_id, payment_date, due_date, amount, method, status, reg_date
 ) VALUES (
     payment_seq.NEXTVAL, 13, NULL, SYSDATE + 6,
-    28000, '계좌이체', 'PENDING', SYSDATE
+    28000, '계좌이체',  'PENDING', SYSDATE
 );
 
 INSERT INTO shez_payments (
     payment_id, contract_id, payment_date, due_date, amount, method, status, reg_date
 ) VALUES (
     payment_seq.NEXTVAL, 16, NULL, SYSDATE + 9,
-    72000, '자동이체', 'PENDING', SYSDATE
+    72000, '자동이체',  'PENDING', SYSDATE
 );
 
 INSERT INTO shez_payments (
     payment_id, contract_id, payment_date, due_date, amount, method, status, reg_date
 ) VALUES (
     payment_seq.NEXTVAL, 19, NULL, SYSDATE + 4,
-    39000, '카드', 'PENDING', SYSDATE
+    39000, '카드',  'PENDING', SYSDATE
 );
 
 INSERT INTO shez_payments (
@@ -1290,7 +1293,7 @@ INSERT INTO shez_payments (
     payment_id, contract_id, payment_date, due_date, amount, method, status, reg_date
 ) VALUES (
     payment_seq.NEXTVAL, 5, NULL, SYSDATE - 7,
-    61000, '계좌이체', 'OVERDUE', SYSDATE
+    61000, '계좌이체','OVERDUE', SYSDATE
 );
 
 INSERT INTO shez_payments (
@@ -1351,7 +1354,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C024', 'C031', 1,
     SYSDATE - 20, SYSDATE - 15, 30000,
-    '진단서,영수증,약제비영수증,세부내역서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1361,13 +1364,13 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C025', 'C025', 3,
     SYSDATE - 40, SYSDATE - 35, 42000,
-    '진단서,입원확인서,퇴원확인서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims VALUES (
     seq_claim_id.NEXTVAL, 'C026', 'C033', 5,
     SYSDATE - 18, SYSDATE - 14, 55000,
-    '수술확인서,영수증,입원확인서,퇴원확인서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1377,7 +1380,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C027', 'C027', 7,
     SYSDATE - 25, SYSDATE - 22, 48000,
-    '진단서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1387,7 +1390,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C028', 'C035', 9,
     SYSDATE - 12, SYSDATE - 10, 60000,
-    '입퇴원확인서,영수증', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1397,7 +1400,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C029', 'C036', 12,
     SYSDATE - 60, SYSDATE - 55, 25000,
-    '진단서,영수증,세부내역서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1407,7 +1410,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C030', 'C030', 15,
     SYSDATE - 33, SYSDATE - 30, 70000,
-    '진단서,수술확인서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1417,7 +1420,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C031', 'C038', 18,
     SYSDATE - 14, SYSDATE - 12, 38000,
-    '영수증', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1427,7 +1430,7 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C032', 'C032', 22,
     SYSDATE - 21, SYSDATE - 18, 46000,
-    '진단서,통원확인서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 
 INSERT INTO shez_claims (
@@ -1437,147 +1440,147 @@ INSERT INTO shez_claims (
 ) VALUES (
     'C033', 'C040', 27,
     SYSDATE - 9, SYSDATE - 7, 32000,
-    '진단서', NULL, NULL, 'PENDING', NULL, 1
+    NULL, NULL, NULL, 'PENDING', NULL, 1
 );
 INSERT INTO shez_claims (
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C024','C031', 5, SYSDATE-30, SYSDATE-25, 30000, '진단서', NULL, NULL, 'PENDING', NULL, 1);
+('C024','C031', 5, SYSDATE-30, SYSDATE-25, 30000, NULL, NULL, NULL, 'PENDING', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C024','C031', 5, SYSDATE-20, SYSDATE-18, 20000, '영수증', NULL, NULL, 'PENDING', NULL, 1);
+('C024','C031', 5, SYSDATE-20, SYSDATE-18, 20000, NULL, NULL, NULL, 'PENDING', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES 
-('C025','C025', 8, SYSDATE-40, SYSDATE-35, 45000, '진단서,입원확인서', NULL, NULL, 'PENDING', NULL, 1);
+('C025','C025', 8, SYSDATE-40, SYSDATE-35, 45000, NULL, NULL, NULL, 'PENDING', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C026','C033', 8, SYSDATE-15, SYSDATE-12, 18000, '통원확인서', NULL, NULL, 'PENDING', NULL, 1);
+('C026','C033', 8, SYSDATE-15, SYSDATE-12, 18000, NULL, NULL, NULL, 'PENDING', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C027','C027', 12, SYSDATE-22, SYSDATE-20, 52000, '진단서', NULL, NULL, 'PENDING', NULL, 1);
+('C027','C027', 12, SYSDATE-22, SYSDATE-20, 52000, NULL, NULL, NULL, 'PENDING', NULL, 1);
 --COMPLETED 10건
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C033','C040', 20, SYSDATE-50, SYSDATE-45, 60000, '진단서,영수증',SYSDATE-40, 55000, 'COMPLETED', SYSDATE-40, 1);
+('C033','C040', 20, SYSDATE-50, SYSDATE-45, 60000, NULL,SYSDATE-40, 55000, 'COMPLETED', SYSDATE-40, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C024','C031', 20, SYSDATE-32, SYSDATE-30, 30000, '통원확인서',SYSDATE-28, 30000, 'COMPLETED', SYSDATE-28, 1);
+('C024','C031', 20, SYSDATE-32, SYSDATE-30, 30000, NULL,SYSDATE-28, 30000, 'COMPLETED', SYSDATE-28, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C025','C025', 21, SYSDATE-70, SYSDATE-65, 45000, '입원확인서', SYSDATE-60, 42000, 'COMPLETED', SYSDATE-60, 1);
+('C025','C025', 21, SYSDATE-70, SYSDATE-65, 45000, NULL, SYSDATE-60, 42000, 'COMPLETED', SYSDATE-60, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C026','C033', 21, SYSDATE-24, SYSDATE-22, 26000, '진단서',SYSDATE-20, 25000, 'COMPLETED', SYSDATE-20, 1);
+('C026','C033', 21, SYSDATE-24, SYSDATE-22, 26000, NULL,SYSDATE-20, 25000, 'COMPLETED', SYSDATE-20, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C027','C027', 22, SYSDATE-90, SYSDATE-85, 80000, '수술확인서',SYSDATE-80, 75000, 'COMPLETED', SYSDATE-80, 1);
+('C027','C027', 22, SYSDATE-90, SYSDATE-85, 80000, NULL,SYSDATE-80, 75000, 'COMPLETED', SYSDATE-80, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C028','C035', 22, SYSDATE-18, SYSDATE-16, 22000, '영수증',SYSDATE-14, 20000, 'COMPLETED', SYSDATE-14, 1);
+('C028','C035', 22, SYSDATE-18, SYSDATE-16, 22000, NULL,SYSDATE-14, 20000, 'COMPLETED', SYSDATE-14, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C029','C036', 23, SYSDATE-44, SYSDATE-40, 38000, '진단서', SYSDATE-35, 35000, 'COMPLETED', SYSDATE-35, 1);
+('C029','C036', 23, SYSDATE-44, SYSDATE-40, 38000, NULL, SYSDATE-35, 35000, 'COMPLETED', SYSDATE-35, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C030','C030', 23, SYSDATE-27, SYSDATE-25, 29000, '통원확인서', SYSDATE-22, 29000, 'COMPLETED', SYSDATE-22, 1);
+('C030','C030', 23, SYSDATE-27, SYSDATE-25, 29000, NULL, SYSDATE-22, 29000, 'COMPLETED', SYSDATE-22, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C031','C038', 24, SYSDATE-55, SYSDATE-50, 41000, '진단서',SYSDATE-45, 40000, 'COMPLETED', SYSDATE-45, 1);
+('C031','C038', 24, SYSDATE-55, SYSDATE-50, 41000, NULL,SYSDATE-45, 40000, 'COMPLETED', SYSDATE-45, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C032','C032', 24, SYSDATE-16, SYSDATE-14, 21000, '영수증',SYSDATE-12, 20000, 'COMPLETED', SYSDATE-12, 1);
+('C032','C032', 24, SYSDATE-16, SYSDATE-14, 21000, NULL,SYSDATE-12, 20000, 'COMPLETED', SYSDATE-12, 1);
 --REJECTED 5건
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C028','C035', 12, SYSDATE-60, SYSDATE-55, 40000, '진단서', NULL, NULL, 'REJECTED', NULL, 1);
+('C028','C035', 12, SYSDATE-60, SYSDATE-55, 40000, NULL, NULL, NULL, 'REJECTED', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C029','C036', 15, SYSDATE-25, SYSDATE-22, 35000, '처방전', NULL, NULL, 'REJECTED', NULL, 1);
+('C029','C036', 15, SYSDATE-25, SYSDATE-22, 35000, NULL, NULL, NULL, 'REJECTED', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C030','C030', 15, SYSDATE-18, SYSDATE-15, 28000, '약제비영수증', NULL, NULL, 'REJECTED', NULL, 1);
+('C030','C030', 15, SYSDATE-18, SYSDATE-15, 28000, NULL, NULL, NULL, 'REJECTED', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C031','C038', 18, SYSDATE-33, SYSDATE-30, 47000, '진단서', NULL, NULL, 'REJECTED', NULL, 1);
+('C031','C038', 18, SYSDATE-33, SYSDATE-30, 47000, NULL, NULL, NULL, 'REJECTED', NULL, 1);
 
 INSERT INTO shez_claims(
   customer_id, insured_id, contract_id,
   accident_date, claim_date, claim_amount, document_list,
   paid_at, paid_amount, status, completed_at, admin_idx
 ) VALUES
-('C032','C032', 18, SYSDATE-14, SYSDATE-11, 19000, '처방전', NULL, NULL, 'REJECTED', NULL, 1);
+('C032','C032', 18, SYSDATE-14, SYSDATE-11, 19000, NULL, NULL, NULL, 'REJECTED', NULL, 1);
 COMMIT;
 -- ============================================= 청구 파일 | 30건 =============================================
 INSERT INTO shez_claim_files (

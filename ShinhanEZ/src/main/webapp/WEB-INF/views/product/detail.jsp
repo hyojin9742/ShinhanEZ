@@ -163,7 +163,15 @@
 	                                <option value="분기납">분기납</option>
 	                                <option value="반기납">반기납</option>
 	                                <option value="연납">연납</option>
-	                                <option value="일시납">일시납</option>
+	                            </select>
+	                        </div>
+	                        <div class="form-group">
+	                        	<label class="form-label">납부방법 <span>*</span></label>
+	                        	<select class="form-control" name="paymentMethod" id="paymentMethod" required>
+	                                <option value="">방법선택</option>
+	                                <option value="자동이체">자동이체</option>
+	                                <option value="카드">카드</option>
+	                                <option value="계좌이체">계좌이체</option> 
 	                            </select>
 	                        </div>
 	                    </div>

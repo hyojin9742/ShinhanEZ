@@ -409,6 +409,7 @@ $(document).ready(function(){
 	        expiredDate: $('#expiredDate').val(),
 	        premiumAmount: $('#premiumAmount').val(),
 	        paymentCycle: $('#paymentCycle').val(),
+	        paymentMethod: $('#paymentMethod').val(),
 			signName: signName,
 	        signImage: signImage 
 	    };

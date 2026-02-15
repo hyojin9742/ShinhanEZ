@@ -195,6 +195,15 @@
 		                                <option value="일시납">일시납</option>
 		                            </select>
 		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">납부방법 <span>*</span></label>
+		                        	<select class="form-control" name="paymentMethod" id="paymentMethod" required>
+		                                <option value="">방법선택</option>
+		                                <option value="자동이체">자동이체</option>
+		                                <option value="카드">카드</option>
+		                                <option value="계좌이체">계좌이체</option> 
+		                            </select>
+		                        </div>
 		                       	<div class="form-group">
 		                            <label class="form-label">담당관리자 <span>*</span></label>
 		                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" required>

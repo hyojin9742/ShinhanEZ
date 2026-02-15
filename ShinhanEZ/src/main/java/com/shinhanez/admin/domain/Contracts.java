@@ -26,6 +26,7 @@ public class Contracts {
     private Date expiredDate;
     private Integer premiumAmount;
     private String paymentCycle;
+    private String paymentMethod;
     private String contractStatus;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updateDate;

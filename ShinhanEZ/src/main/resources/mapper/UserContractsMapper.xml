@@ -15,6 +15,7 @@
 		    <result property="expiredDate" column="expired_date"/>
 		    <result property="premiumAmount" column="premium_amount"/>
 		    <result property="paymentCycle" column="payment_cycle"/>
+		    <result property="paymentMethod" column="payment_method"/>
 		    <result property="contractStatus" column="contract_status"/>
 		    <result property="updateDate" column="update_date"/>
 		    <result property="adminId" column="admin_id"/>
@@ -45,11 +46,11 @@
 	  	 	</selectKey>
     		INSERT INTO shez_contracts 
 				(contract_id, customer_id, insured_id, product_id, contract_coverage,
-				reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+				reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status,
 				sign_name,sign_image,signed_date)
 			VALUES 
 				(#{contractId},#{customerId},#{insuredId},#{productId},#{contractCoverage},
-				#{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},'대기',
+				#{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},#{paymentMethod},'대기',
 				#{signName},#{signImage},SYSDATE)
     	</insert>
     	<select id="selectAllContractListByCustomerId" resultMap="contractListMap">

@@ -74,13 +74,13 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             // OAuth2 로그인 설정
-            .oauth2Login(oauth2 -> oauth2
+            /*.oauth2Login(oauth2 -> oauth2
                 .loginPage("/member/login")           // 커스텀 로그인 페이지
                 .userInfoEndpoint(userInfo -> userInfo
                     .userService(principalOauth2UserService)  // OAuth2 사용자 정보 처리
                 )
                 .successHandler(new OAuth2LoginSuccessHandler())    // 로그인 성공 핸들러
-            )
+            )*/
             .formLogin(form -> form
                 .loginPage("/member/login")
                 .loginProcessingUrl("/member/loginProc")

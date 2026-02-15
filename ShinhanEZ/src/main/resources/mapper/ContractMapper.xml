@@ -17,6 +17,7 @@
 	    <result property="expiredDate" column="expired_date"/>
 	    <result property="premiumAmount" column="premium_amount"/>
 	    <result property="paymentCycle" column="payment_cycle"/>
+	    <result property="paymentMethod" column="payment_Method"/>
 	    <result property="contractStatus" column="contract_status"/>
 	    <result property="updateDate" column="update_date"/>
 	    <result property="adminId" column="admin_id"/>
@@ -99,6 +100,7 @@
 		contract_status,
 		premium_amount,
 		payment_cycle,
+		payment_method,
 		update_date,
 		admin_idx,
 		admin_name,
@@ -167,6 +169,7 @@
 		        c.expired_date,
 		        c.premium_amount,
 		        c.payment_cycle,
+		        c.payment_method,
 		        c.contract_status,
 		        c.update_date,
 		        c.admin_idx,
@@ -193,17 +196,17 @@
   	 	</selectKey>
 		INSERT INTO shez_contracts 
 		    (contract_id, customer_id, insured_id, product_id, contract_coverage,
-		    reg_date, expired_date, premium_amount, payment_cycle, contract_status, admin_idx )
+		    reg_date, expired_date, premium_amount, payment_cycle, payment_method, contract_status, admin_idx )
 		VALUES 
 		    (#{contractId},#{customerId},#{insuredId},#{productId},#{contractCoverage},
-		    #{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},#{contractStatus},#{adminIdx})
+		    #{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle}, #{paymentMethod}, #{contractStatus},#{adminIdx})
 	</insert>
 	
 	<!-- 계약 수정 -->
 	<update id="updateContract">
 		UPDATE shez_contracts SET 
 		    contract_coverage = #{contractCoverage}, expired_date = #{expiredDate}, premium_amount = #{premiumAmount}, 
-		    payment_cycle = #{paymentCycle}, contract_status = #{contractStatus}, admin_idx = #{adminIdx}
+		    payment_cycle = #{paymentCycle}, payment_method = #{paymentMethod}, contract_status = #{contractStatus}, admin_idx = #{adminIdx}
 		WHERE contract_id = #{contractId}
 	</update>
 	

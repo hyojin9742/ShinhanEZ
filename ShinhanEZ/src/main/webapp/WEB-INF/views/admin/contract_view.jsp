@@ -89,8 +89,8 @@
 	                        <tr>
 	                        	<th>보험료</th>
 	                        	<td>${contract.premiumAmount }</td>
-	                        	<th>납입주기</th>
-	                        	<td>${contract.paymentCycle }</td>
+	                        	<th>납입주기/방법</th>
+	                        	<td>${contract.paymentCycle }/${contract.paymentMethod }</td>
 	                        </tr>
 	                        <tr>
 	                        	<th>관리자 번호</th>
@@ -162,6 +162,15 @@
 		                                <option value="일시납" ${contract.paymentCycle=='일시납' ? 'selected':'' }>일시납</option>
 		                            </select>
 		                        </div>
+		                        <div class="form-group">
+		                        	<label class="form-label">납부방법 <span>*</span></label>
+		                        	<select class="form-control" name="paymentMethod" id="paymentMethod" required>
+		                                <option value="">방법선택</option>
+		                                <option value="자동이체" ${contract.paymentMethod=='자동이체' ? 'selected':'' }>자동이체</option>
+		                                <option value="카드" ${contract.paymentMethod=='카드' ? 'selected':'' }>카드</option>
+		                                <option value="계좌이체" ${contract.paymentMethod=='계좌이체' ? 'selected':'' }>계좌이체</option> 
+		                            </select>
+		                        </div>		                        
 		                       	<div class="form-group">
 		                            <label class="form-label">담당관리자 <span>*</span></label>
 		                            <input type="text" class="form-control" name="adminName" id="adminName" autocomplete="off" value="${contract.adminName }" required>

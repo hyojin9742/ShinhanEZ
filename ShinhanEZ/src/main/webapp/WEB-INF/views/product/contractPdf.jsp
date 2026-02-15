@@ -188,8 +188,8 @@
 	        <tr>
 	          	<th>보험료</th>
 	            <td>${contract.premiumAmount}</td>
-	            <th>납부주기</th>
-	            <td>${contract.paymentCycle}</td>
+	            <th>납부주기/방법</th>
+	            <td>${contract.paymentCycle}/${contract.paymentMethod}</td>
 	        </tr>
 	        <tr>
 	            <th>계약일</th>
