@@ -340,3 +340,32 @@ WHERE c.customer_id = 'C001' AND contract_status = '활성';
 SELECT * FROM shez_customers ORDER BY customer_id;
 SELECT * FROM shez_admins ORDER BY admin_idx;
 SELECT * FROM shez_insurances ORDER BY productno;
+
+
+SELECT 
+C.customer_id           AS "고객번호",
+    CU.NAME             AS "이름",
+    C.contract_id       AS "계약번호",
+    C.product_id        AS "상품번호",
+    C.payment_cycle     AS "납입주기",
+    C.premium_amount    AS "월보험료(청구액)",
+    P.payment_date      AS "실제납입일",
+    P.due_date          AS "납입기한",
+    NVL(P.amount, 0)    AS "실제납입액",
+    P.method            AS "납입방법",
+    CASE 
+        WHEN P.status = 'PAID'    THEN '완납'
+        WHEN P.status = 'OVERDUE' THEN '연체(미납)'
+        WHEN P.status = 'PENDING' THEN '대기(미납)'
+        ELSE '상태미상'
+    END AS "납부상태"
+FROM 
+    shez_contracts C
+JOIN 
+    shez_payments P ON C.contract_id = P.contract_id
+JOIN    
+    shez_customers CU ON CU.customer_id = C.customer_id
+-- WHERE C.contract_status = '활성' -- (선택) 유지 중인 계약만 보고 싶을 때 주석 해제
+ORDER BY 
+    C.customer_id ASC, 
+    P.due_date DESC;
