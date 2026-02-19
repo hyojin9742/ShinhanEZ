@@ -21,6 +21,9 @@
 	    <result property="updateDate" column="update_date"/>
 	    <result property="adminId" column="admin_id"/>
 	    <result property="adminName" column="admin_name"/>
+	    <result property="signName" column="sign_name"/>
+	    <result property="signImage" column="sign_image"/>
+	    <result property="signedDate" column="signed_date"/>
 	</resultMap>
 	<sql id="searchCondition">
 	    <if test="criteria.searchKeyword != null and criteria.searchKeyword != ''">
@@ -75,6 +78,9 @@
 				<when test="criteria.contractStatus == '해지'">
 					AND contract_status = '해지'
 				</when>
+				<when test="criteria.contractStatus == '대기'">
+					AND contract_status = '대기'
+				</when>
 			</choose>
 		</if>
 	</sql>
@@ -121,8 +127,10 @@
 		    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
-		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-		    <include refid="searchCondition"/>
+		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		    <where>
+			    <include refid="searchCondition"/>
+		    </where>
 		)
 		WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
 	</select>
@@ -134,8 +142,10 @@
 			INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		    INNER JOIN shez_insurances p ON c.product_id = p.productno
-		    INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
-		<include refid="searchCondition"/>
+		    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		    <where>
+			    <include refid="searchCondition"/>
+		    </where>
 	</select>
 	
 	<!-- 계약 단건 조회 -->
@@ -161,15 +171,18 @@
 		        c.update_date,
 		        c.admin_idx,
 		        ad.admin_name AS admin_name,
-		        ad.admin_role AS admin_role
+		        ad.admin_role AS admin_role,
+		        c.sign_name,
+		        c.sign_image,
+		        c.signed_date
 		    FROM 
 		        shez_contracts c
 		        INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
 		        INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
 		        INNER JOIN shez_insurances p ON c.product_id = p.productno
-		        INNER JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+		        LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
 		)
-		WHERE contract_id = #{ctrId}
+		WHERE contract_id = #{contractId}
 		]]>
 	</select>
 	
@@ -216,14 +229,15 @@
 	</select>
 	<!-- 상품 -->
 	<select id="searchInsuranceByName" resultType="com.shinhanez.admin.domain.Insurance">
-		SELECT productNo, productName, coverageRange
+		SELECT productNo, productName, basePremium, coverageRange
 		FROM (
 		    SELECT 
-        		productNo,productName, coverageRange
+        		productNo,productName, basePremium, coverageRange
    			FROM (
        	 		SELECT 
             		productno AS productNo,
             		productname AS productName,
+            		basepremium AS basePremium,
             		coveragerange AS coverageRange
        			FROM shez_insurances
         		WHERE STATUS = 'ACTIVE' 

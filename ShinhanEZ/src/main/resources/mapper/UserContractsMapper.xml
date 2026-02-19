@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.shinhanez.mapper.UserContractsMapper">
+    	<resultMap id="contractListMap" type="com.shinhanez.admin.domain.Contracts">
+		    <id property="contractId" column="contract_id"/>
+		    <result property="customerId" column="customer_id"/>
+		    <result property="customerName" column="customer_name"/>
+		    <result property="insuredId" column="insured_id"/>
+		    <result property="insuredName" column="insured_name"/>
+		    <result property="productId" column="product_id"/>
+		    <result property="productName" column="product_name"/>
+		    <result property="contractCoverage" column="contract_coverage"/>
+		    <result property="regDate" column="reg_date"/>
+		    <result property="expiredDate" column="expired_date"/>
+		    <result property="premiumAmount" column="premium_amount"/>
+		    <result property="paymentCycle" column="payment_cycle"/>
+		    <result property="contractStatus" column="contract_status"/>
+		    <result property="updateDate" column="update_date"/>
+		    <result property="adminId" column="admin_id"/>
+		    <result property="adminName" column="admin_name"/>
+		    <result property="signName" column="sign_name"/>
+		    <result property="signImage" column="sign_image"/>
+		    <result property="signedDate" column="signed_date"/>
+		</resultMap>
+    	<select id="getCustomerByLoginId" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE login_id=#{id}
+    	</select>
+    	<select id="getCustomerByNamePhone" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE name=#{name} AND phone=#{phone}
+    	</select>
+    	<select id="getCustomersByName" resultType="com.shinhanez.admin.domain.Customer">
+    		SELECT * FROM shez_customers WHERE name LIKE #{name}||'%'
+    	</select>
+    	<select id="newCustomerId" resultType="String">
+    		SELECT MAX(customer_id) FROM shez_customers
+    	</select>
+   		<insert id="joinNewCustomer" parameterType="com.shinhanez.admin.domain.Customer">
+	        INSERT INTO shez_customers (customer_id, <if test="loginId != null and loginId != ''">login_id,</if> name, birth_date, gender, phone, email, address, status)
+	        VALUES (#{customerId}, <if test="loginId != null and loginId != ''">#{loginId},</if> #{name}, #{birthDate}, #{gender}, #{phone}, #{email}, #{address}, 'Y')
+	    </insert>
+    	<insert id="userRegisterContracts">
+	    	<selectKey keyProperty="contractId" order="BEFORE" resultType="int">
+	  	 		SELECT SEQ_SHEZCONTRACTS.nextval FROM dual
+	  	 	</selectKey>
+    		INSERT INTO shez_contracts 
+				(contract_id, customer_id, insured_id, product_id, contract_coverage,
+				reg_date, expired_date, premium_amount, payment_cycle, contract_status,
+				sign_name,sign_image,signed_date)
+			VALUES 
+				(#{contractId},#{customerId},#{insuredId},#{productId},#{contractCoverage},
+				#{regDate}, #{expiredDate},#{premiumAmount},#{paymentCycle},'대기',
+				#{signName},#{signImage},SYSDATE)
+    	</insert>
+    	<select id="selectAllContractListByCustomerId" resultMap="contractListMap">
+			SELECT 
+				contract_id,
+				customer_id,
+				customer_name,
+				insured_id,
+				insured_name,
+				product_id,
+				product_name,
+				reg_date,
+				expired_date,
+				contract_status,
+				premium_amount,
+				payment_cycle,
+				update_date,
+				admin_idx,
+				admin_name,
+				admin_role
+			FROM (
+				SELECT 
+				    c.contract_id,
+				    c.customer_id,
+				    cu.name AS customer_name,
+				    c.insured_id,
+				    ins.name AS insured_name,
+				    c.product_id,
+				    p.productname AS product_name,
+				    c.reg_date,
+				    c.expired_date,
+				    c.contract_status,
+				    c.premium_amount,
+				    c.payment_cycle,
+				    c.update_date,
+				    c.admin_idx,
+				    ad.admin_name AS admin_name,
+				    ad.admin_role AS admin_role,
+				    ROW_NUMBER() OVER (ORDER BY c.reg_date DESC, c.contract_id DESC) AS rn
+				FROM 
+				    shez_contracts c
+				    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+				    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+				    INNER JOIN shez_insurances p ON c.product_id = p.productno
+				    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+				WHERE c.customer_id = #{customerId}
+				)
+			WHERE rn BETWEEN #{startRow} + 1 AND #{endRow}
+    	</select>
+    	<select id="countContract">
+    		SELECT COUNT(*) FROM 
+			    shez_contracts c
+			    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+			    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+			    INNER JOIN shez_insurances p ON c.product_id = p.productno
+			    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+			WHERE c.customer_id = #{customerId}
+    	</select>
+    	<select id="countContractByStatus">
+    		SELECT COUNT(*) FROM 
+			    shez_contracts c
+			    INNER JOIN shez_customers cu ON c.customer_id = cu.customer_id
+			    INNER JOIN shez_customers ins ON c.insured_id = ins.customer_id
+			    INNER JOIN shez_insurances p ON c.product_id = p.productno
+			    LEFT JOIN shez_admins ad ON c.admin_idx = ad.admin_idx
+			WHERE c.customer_id = #{customerId} AND contract_status = #{contractStatus}
+    	</select>
+    </mapper>

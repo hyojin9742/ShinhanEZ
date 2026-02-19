@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan({"com.shinhanez.admin.mapper","com.shinhanez.mapper"})  // MyBatis Mapper 스캔
+@MapperScan({"com.shinhanez.admin.mapper","com.shinhanez.mapper","com.shinhanez.common.mapper"})  // MyBatis Mapper 스캔
 public class ShinhanEZApplication {
 
     public static void main(String[] args) {

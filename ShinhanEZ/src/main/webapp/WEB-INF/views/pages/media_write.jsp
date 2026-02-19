@@ -54,7 +54,7 @@
 	                    <label for="content">내용 *</label>
 	                    <textarea id="textarea" name="textarea" required placeholder="내용을 입력하세요"></textarea>
 	                     <div class="btn-group option-min space-mt-xxl">
-	                       <button type="button" class="btn large grey-outline" onclick="history.back()">
+	                       <button type="button" class="btn large grey-outline" onclick="location.href='<%=ctx%>/board/list'">
 	                         <span>목록</span>
 	                       </button>
 	                       <button type="submit" class="btn large primary">

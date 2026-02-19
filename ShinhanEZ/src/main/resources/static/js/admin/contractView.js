@@ -6,6 +6,9 @@ $(document).ready(()=>{
     // 계약 모달 열기
     function openContractModal() {
 	    $('#contractModalOverlay, #contractModal').addClass('active');
+		if (!$('#adminName').val() || $('#adminName').val() == null) {
+	        setAuthAdmin();
+	    }
 	}
 	
 	// 모달 닫기 이벤트
@@ -38,7 +41,7 @@ $(document).ready(()=>{
 	// 보장 목록 ajax 처리
 	function getCoverageById(productId) {
 		const currentCoverages = $('.currentCoverage').text().split(',').map(c => c.trim());
-		console.log('currentCoverages : '+currentCoverages);
+
 		contractService.getProductById(
 			productId,
 			function(coverage) {
@@ -86,6 +89,28 @@ $(document).ready(()=>{
 	        riderList.append(checkboxHtml);
 	    });
 	}
+	// 현재 로그인한 관리자 정보
+	function setAuthAdmin() {
+	    $.ajax({
+	        url: '/admin/contract/rest/auth/adminInfo',
+	        type: 'GET',
+	        success: function(response) {
+	            if (response && response.adminName && response.adminIdx) {
+	                $('#adminName').val(response.adminName);
+	                $('#adminIdx').val(response.adminIdx);
+	            } else {
+	                alert('담당관리자를 목록에서 선택해주세요.');
+	                $('#adminName').val('');
+	                $('#adminIdx').val('');
+	            }
+	        },
+	        error: function() {
+	            alert('담당관리자 정보를 가져올 수 없습니다.');
+	            $('#adminName').val('');
+	            $('#adminIdx').val('');
+	        }
+	    });
+	}
 	// 계약 수정
 	$(document).on('click', '#saveContract', function() {
 		const form = $('#contractForm');
@@ -108,7 +133,20 @@ $(document).ready(()=>{
 	        }
 		);
     });
-
+	/* 계약서 다운로드 */
+	$('.downDocument').on('click',function(e){
+		e.preventDefault();
+		const contractId = $('.payment-info-table td').data('contract-id');
+		// 새창에서 PDF 열기
+	   const pdfUrl = `/userContract/downloadPdf/${contractId}`;
+	   const newWindow = window.open(pdfUrl, '_blank');
+	   if (!newWindow) {
+	       // 팝업 차단 시
+	       alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+	       reject(new Error('팝업 차단'));
+	       return;
+	   }	           
+	});
 	/* 유틸리티 함수 */
 	// 예외처리
 	function showAlert(type, message) {
@@ -145,4 +183,5 @@ $(document).ready(()=>{
 	    jsonForm.contractCoverage = coverages.join(',');
 	    return jsonForm;
 	}
+	
 }); // /documnet.ready

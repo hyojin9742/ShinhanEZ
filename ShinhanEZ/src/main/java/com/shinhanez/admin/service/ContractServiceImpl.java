@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.shinhanez.admin.domain.Customer;
 import com.shinhanez.admin.domain.Insurance;
 import com.shinhanez.admin.mapper.ContractMapper;
 import com.shinhanez.domain.Paging;
+import com.shinhanez.domain.UserAdminDetails;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -75,13 +77,13 @@ public class ContractServiceImpl implements ContractService {
 	// 계약 수정
 	@Transactional
 	@Override
-	public int updateContract(Contracts contract, HttpSession session) {
+	public int updateContract(Contracts contract, @AuthenticationPrincipal UserAdminDetails details) {
 		log.info("수정 서비스 : "+contract);
 		validateContract(contract);
-		Integer sessionAdminIdx = (Integer)session.getAttribute("adminIdx");
+		Integer authAdminIdx = details.getAdmin().getAdminIdx();
 		int updateResult;
-		if(contract.getAdminIdx() == sessionAdminIdx
-				|| hasPermission(contract, session)) {
+		if(contract.getAdminIdx() == authAdminIdx
+				|| hasPermission(contract, details)) {
 			updateResult = mapper.updateContract(contract);
 			if(updateResult != 1) {
 				throw new RuntimeException("수정에 실패했습니다.");
@@ -120,17 +122,17 @@ public class ContractServiceImpl implements ContractService {
 		return mapper.selectAllContractList(1, 10, criteria);
 	}
 	// 권한 체크
-	public boolean hasPermission(Contracts contract, HttpSession session) {
-		String adminRole = (String) session.getAttribute("adminRole");
+	public boolean hasPermission(Contracts contract, @AuthenticationPrincipal UserAdminDetails details) {
+		String adminRole = details.getAdmin().getAdminRole();
 		String targetRole = mapper.selectOneContract(contract.getContractId()).getAdminRole();
 		if(adminRole == null || targetRole == null ) {
 			return false;
 		}
 		switch (adminRole) {
         case "super":
-            return "manager".equals(targetRole) || "staff".equals(targetRole);
+            return true;
         case "manager":
-            return "staff".equals(targetRole);
+            return "manager".equals(targetRole) || "staff".equals(targetRole);
         default:
             return false;
 		}

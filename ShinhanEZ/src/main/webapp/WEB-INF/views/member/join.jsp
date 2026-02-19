@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,7 +14,13 @@
 		alert('회원가입 실패! 다시 입력해주세요');	
 	</script>
 </c:if>
+<c:if test="${param.msg=='oauth' }">
+	<script type="text/javascript">
+		alert('상세정보 입력이 필요합니다.');	
+	</script>
+</c:if>
 <body class="sub">
+	<sec:authentication property="principal" var="principal"/>
   <div id="wrap">
 
     <div id="skip">
@@ -47,8 +54,8 @@
                       <div class="form_item id">
                       <c:choose>
 						    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
-						    <c:when test="${not empty googleEmail}">
-						        <input type="text" name="id" id="id" placeholder="아이디" value="${googleEmail}" required readonly="readonly">
+						    <c:when test="${principal != null && principal ne 'anonymousUser'}">
+						        <input type="text" name="id" id="id" placeholder="아이디" value="${principal.email}" required readonly="readonly">
 						    </c:when>
 						
 						    <%-- 2. 그 외 (이름이 없을 때) --%>
@@ -66,8 +73,8 @@
                       <div class="form_item email">
                         <c:choose>
 						    
-						    <c:when test="${not empty googleEmail}">
-						        <input type="text" name="email" id="email" placeholder="이메일" value="${googleEmail}" required readonly="readonly">
+						    <c:when test="${principal != null && principal != 'anonymousUser'}">
+						        <input type="text" name="email" id="email" placeholder="이메일" value="${principal.email}" required readonly="readonly">
 						    </c:when>
 						
 						    <%-- 2. 그 외 (이름이 없을 때) --%>
@@ -79,8 +86,8 @@
                     </div>
                   			<c:choose>
 							    <%-- 1. 이름이 있을 때 (값이 채워진 상태) --%>
-							    <c:when test="${not empty googleProviderId}">
-							        <input type="hidden" name="provider" id="provider" placeholder="제공" value="${googleProviderId}">
+							    <c:when test="${principal != null && principal != 'anonymousUser'}">
+							        <input type="hidden" name="provider" id="provider" placeholder="제공" value="${principal.sub}">
 							    </c:when>    
 							</c:choose>
                     
@@ -102,8 +109,8 @@
                         
                         <c:choose>
 						    
-						    <c:when test="${not empty googleName}">
-						        <input type="text" name="name" id="name" placeholder="이름" value="${googleName}" required readonly="readonly">
+						    <c:when test="${principal != null && principal != 'anonymousUser'}">
+						        <input type="text" name="name" id="name" placeholder="이름" value="${principal.OAuthName}" required readonly="readonly">
 						    </c:when>
 						
 						    <%-- 2. 그 외 (이름이 없을 때) --%>

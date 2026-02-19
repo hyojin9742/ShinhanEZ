@@ -46,11 +46,6 @@ public class AdminSearchController {
     public String search(@RequestParam(required = false) String keyword,
                         HttpSession session, Model model) {
 
-        // 관리자 체크
-        if (session.getAttribute("adminId") == null) {
-            return "redirect:/member/login";
-        }
-
         if (keyword == null || keyword.trim().isEmpty()) {
             return "redirect:/admin/index";
         }

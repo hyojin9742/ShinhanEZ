@@ -46,7 +46,7 @@ public class ClaimsMapperTests {
 	@Test
 	void ClaimsListTest() {
 		ClaimsCriteria claimsCriteria = new ClaimsCriteria();
-		claimsCriteria.setPageNum(2);
+		claimsCriteria.setPageNum(1);
 		claimsCriteria.setPageSize(10);
 		List<ClaimsDTO> Claimslist = claimsMapper.getClaimList(claimsCriteria);
 		Claimslist.forEach((claimsDTO) -> {
@@ -67,7 +67,7 @@ public class ClaimsMapperTests {
 	@Test
 	void ClaimsGetTest() {
 		// 임시테스트 Num = claimsId = 1
-		Long num = 1L;
+		Long num = 24L;
 		ClaimsDTO claimsDTO = claimsMapper.getClaim(num);
 		log.info("단건조회 결과........."+claimsDTO);
 	}

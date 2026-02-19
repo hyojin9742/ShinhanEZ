@@ -47,13 +47,16 @@
 	                        <c:when test="${contract.contractStatus == '해지'}">
 	                            <span class="badge badge-danger">해지</span>
 	                        </c:when>
+	                        <c:when test="${contract.contractStatus == '대기'}">
+	                            <span class="badge badge-danger">대기</span>
+	                        </c:when>
 	                    </c:choose>
 	                </div>
 	                <div class="card-body">
 	                    <table class="payment-info-table">
 	                        <tr>
 	                            <th>계약 ID</th>
-	                            <td colspan="3">${contract.contractId }</td>
+	                            <td colspan="3" data-contract-id="${contract.contractId }">${contract.contractId }</td>
 	                        </tr>
 	                        <tr>
 	                        	<th>계약자 번호</th>
@@ -97,7 +100,9 @@
 	                        </tr>
 	                        <tr>
 	                        	<th>수정일자</th>
-	                        	<td colspan="3"><fmt:formatDate value="${contract.updateDate }" pattern="yyyy-MM-dd"/></td>
+	                        	<td><fmt:formatDate value="${contract.updateDate }" pattern="yyyy-MM-dd"/></td>
+	                        	<th>계약서</th>
+	                        	<td> <button class="btn btn-primary downDocument">다운로드</button> </td>
 	                        </tr>
 	                    </table>
 	                </div>
@@ -169,6 +174,7 @@
 		                                <option value="활성" ${contract.contractStatus == '활성' ? 'selected':''}>활성</option>
 		                                <option value="만료" ${contract.contractStatus == '만료' ? 'selected':''}>만료</option>
 		                                <option value="해지" ${contract.contractStatus == '해지' ? 'selected':''}>해지</option>
+		                                <option value="대기" ${contract.contractStatus == '대기' ? 'selected':''}>대기</option>
 		                            </select>
 		                        </div>
 		                    </div>

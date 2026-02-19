@@ -6,11 +6,15 @@
 <head id="inc-head">
 	<%@ include file="/WEB-INF/views/inc/head.jsp" %>
 </head>
+<!-- 에러메세지 처리 -->
 <c:if test="${param.join == 'success'}">
 	<script>alert('회원가입 성공! 로그인 해주세요.');</script>
 </c:if>
+<c:if test="${param.error == 'needLogin'}">
+	<script>alert('로그인이 필요합니다.');</script>
+</c:if>
 <c:if test="${param.error == 'auth'}">
-	<script>alert('관리자 권한이 필요합니다.');</script>
+	<script>alert('접근 권한이 없습니다.');</script>
 </c:if>
 <body class="sub">
   <div id="wrap">
@@ -43,10 +47,12 @@
         
             <div class="panel_area">
               <!-- 패널1: ID 로그인 -->
-              <form action="${ctx}/member/login" class="panel panel_id" id="panel_id" method="post">
+              <form action="${ctx}/member/loginProc" class="panel panel_id" id="panel_id" method="post">
                 <div class="panel_inner">
-                  <c:if test="${not empty error}">
-                    <div class="error_msg" style="color:red; text-align:center; margin-bottom:15px;">${error}</div>
+                  <c:if test="${param.error=='loginfail'}">
+                    <div class="error_msg" style="color:red; text-align:center; margin-bottom:15px;">
+                    	아이디 또는 비밀번호가 일치하지 않습니다.
+                   	</div>
                   </c:if>
                   <div class="input_item id">
                     <input type="text" name="id" id="id" placeholder=" " autocomplete="username">

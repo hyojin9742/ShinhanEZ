@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <% String ctx = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -143,7 +144,9 @@
 		}
 	</style>
 </head>
-
+<c:if test="${param.error == 'permission'}">
+	<script>alert('권한이 없습니다.');</script>
+</c:if>
 <body class="sub">
 
   <div id="wrap">
@@ -243,27 +246,46 @@
                 </div>
                 </c:if>
                 <!-- paging -->
-                <!-- TODO 동적 페이징 처리 필요 -->
                 <div class="paging" id="paging">
-                  <div><button class="ico-btn-start" type="button" disabled="disabled"><span>처음</span></button><button
-                      class="ico-btn-prev" type="button" disabled="disabled"><span>이전</span></button>
-                    <ul>
-                      <li class="on"><strong>1</strong><span class="blind">선택됨</span></li>
-                      <li><a href="#">2</a></li>
-                    </ul><button class="ico-btn-next" type="button"><span>다음</span></button><button class="ico-btn-end"
-                      type="button"><span>마지막</span></button>
-                  </div>
-                </div>
+				  <div>
+				    <button class="ico-btn-start" type="button">
+				    	<a href="/board/list?pageNum=1&keyword=${keyword}"><span>처음</span></a>
+			    	</button>
+				    <button class="ico-btn-prev" type="button"
+				            ${paging.hasPrev ? "" : "disabled='disabled'"}>
+				      <span>이전</span>
+				    </button>
+				
+				    <ul>
+				      <c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+				        <c:choose>
+				          <c:when test="${i == paging.pageNum}">
+				            <li class="on"><strong>${i}</strong><span class="blind">선택됨</span></li>
+				          </c:when>
+				          <c:otherwise>
+				            <li><a href="/board/list?pageNum=${i}&keyword=${keyword}">${i}</a></li>
+				          </c:otherwise>
+				        </c:choose>
+				      </c:forEach>
+				    </ul>
+				
+				    <button class="ico-btn-next" type="button"
+				            ${paging.hasNext ? "" : "disabled='disabled'"}>
+				      <span>다음</span>
+				    </button>
+				    <button class="ico-btn-end" type="button">
+				      <a href="/board/list?pageNum=${paging.endPage}&keyword=${keyword}"><span>마지막</span></a>
+				    </button>
+				  </div>
+				</div>
                 <!--// paging -->
 
                 <!-- 하단 버튼 영역 -->
                 <div class="bbs-btn-area">
-                  <c:if test="${not empty sessionScope.loginUser}">
-                    <a href="<%=ctx%>/board/write" class="btn large primary">
-                      <i class="bi bi-pencil"></i> 글쓰기
-                    </a>
-                  </c:if>
-                  <a href="<%=ctx%>/customer/inquiry" class="btn large blue-outline">
+                  <a href="<%=ctx%>/board/write" class="btn large primary">
+                    <i class="bi bi-pencil"></i> 글쓰기
+                  </a>
+                  <a href="<%=ctx%>/board/list" class="btn large blue-outline">
                     <i class="bi bi-chat-dots"></i> 고객문의
                   </a>
                 </div>

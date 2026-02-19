@@ -60,9 +60,9 @@ $(document).ready(function () {
 $(function () {
   var cookiedata = document.cookie || "";
 
-  if (cookiedata.indexOf("mainPopup=ok") < 0) {
+  /*if (cookiedata.indexOf("mainPopup=ok") < 0) {
     getPopup();
-  }
+  }*/
 
   async function getPopup() {
     if (window.commUtil && typeof commUtil.getPopupCnt === "function") {

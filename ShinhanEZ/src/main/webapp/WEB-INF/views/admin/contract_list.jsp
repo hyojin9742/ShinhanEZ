@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -77,6 +78,7 @@
 			                            <option value="활성">활성</option>
 			                            <option value="만료">만료</option>
 			                            <option value="해지">해지</option>
+			                            <option value="대기">대기</option>
 			                        </select>
 			                    </div>
 		                	</div>
@@ -136,7 +138,6 @@
            				</select>
 	            	</div>
 	            </div>
-	            
 	            <!-- 모달 -->
 	            <div class="modal-overlay" id="contractModalOverlay"></div>
 		        <div class="modal modal-lg" id="contractModal">

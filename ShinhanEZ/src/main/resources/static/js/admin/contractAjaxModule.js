@@ -36,7 +36,7 @@ let contractService = (function(){
 				if (callback) {
 					callback(result);
 				} else { 
-					if (error) error(response.message || '데이터 조회 실패'); 
+					if (error) error(result.message || '데이터 조회 실패'); 
 				} 
 			},
 			error: function (xhr, status, error) {

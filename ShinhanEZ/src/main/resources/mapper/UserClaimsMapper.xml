@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.mapper.UserClaimsMapper">
+
+<!-- 계약 리스트 -->
+<select id="selectContractsByUserId"
+        parameterType="string"
+        resultType="com.shinhanez.admin.domain.Contracts">
+
+  SELECT
+    c.contract_id       AS contractId,
+    c.customer_id       AS customerId,
+    cu.name             AS customerName,
+    c.insured_id        AS insuredId,
+    iu.name             AS insuredName,
+    p.productname       AS productName,
+    c.product_id        AS productId,
+    c.contract_coverage AS contractCoverage,
+    c.reg_date          AS regDate,
+    c.expired_date      AS expiredDate,
+    c.premium_amount    AS premiumAmount,
+    c.payment_cycle     AS paymentCycle,
+    c.contract_status   AS contractStatus,
+    c.update_date       AS updateDate
+  FROM shez_contracts c
+  JOIN shez_customers cu ON c.customer_id = cu.customer_id
+  JOIN shez_customers iu ON c.insured_id = iu.customer_id
+  JOIN shez_insurances p ON c.product_id = p.productno
+  WHERE cu.login_id = #{userId}
+    AND cu.status = 'Y'
+  ORDER BY c.reg_date DESC
+
+
+</select>
+
+<!-- 계약 단일조회 -->
+<select id="selectContractDetailByUserId"
+        parameterType="map"
+        resultType="com.shinhanez.admin.domain.Contracts">
+
+	  SELECT
+	      c.contract_id        AS contractId,
+	      c.customer_id        AS customerId,
+	      cu.name              AS customerName,
+	      c.insured_id         AS insuredId,
+	      iu.name              AS insuredName,
+	      c.product_id         AS productId,
+	      c.contract_coverage  AS contractCoverage,
+	      c.reg_date           AS regDate,
+	      c.expired_date       AS expiredDate,
+	      c.premium_amount     AS premiumAmount,
+	      c.payment_cycle      AS paymentCycle,
+	      c.contract_status    AS contractStatus,
+	      c.update_date        AS updateDate
+	  FROM shez_contracts c
+	  JOIN shez_customers cu
+	    ON c.customer_id = cu.customer_id
+	  JOIN shez_customers iu
+	    ON c.insured_id = iu.customer_id
+	  WHERE cu.login_id = #{userId}
+	    AND c.contract_id = #{contractId}
+
+</select>
+
+<!-- 청구 등록 -->
+<insert id="insertClaim" parameterType="com.shinhanez.admin.domain.ClaimsDTO">
+  INSERT INTO shez_claims (
+    customer_id,
+    insured_id,
+    contract_id,
+    accident_date,
+    claim_date,
+    claim_amount,
+    document_list,
+    status
+  )
+  VALUES (
+    #{customerId},
+    #{insuredId},
+    #{contractId},
+    #{accidentDate},
+    SYSDATE,
+    #{claimAmount},
+    #{documentList},
+    'PENDING'
+  )
+</insert>
+
+<!-- 고객 청구 리스트조회 -->
+<select id="getClaimsList"
+        parameterType="string"
+        resultType="com.shinhanez.admin.domain.ClaimsDTO">
+
+    SELECT
+        c.CLAIM_ID        AS claimId,
+        c.STATUS          AS status,
+        cust.NAME         AS customerName,
+        ins.NAME          AS insuredName,
+        c.ACCIDENT_DATE   AS accidentDate,
+        c.CLAIM_DATE      AS claimDate,
+        c.CLAIM_AMOUNT    AS claimAmount,
+        adm.ADMIN_NAME    AS adminName
+    FROM SHEZ_CLAIMS c
+    JOIN SHEZ_CUSTOMERS cust ON cust.CUSTOMER_ID = c.CUSTOMER_ID
+    JOIN SHEZ_CUSTOMERS ins  ON ins.CUSTOMER_ID  = c.INSURED_ID
+    LEFT JOIN SHEZ_ADMINS adm ON adm.ADMIN_IDX = c.ADMIN_IDX
+    WHERE cust.LOGIN_ID = #{userId}
+    ORDER BY c.CLAIM_ID DESC
+    
+</select>
+
+</mapper>

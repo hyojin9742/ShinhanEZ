@@ -1,5 +1,7 @@
 package com.shinhanez.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +13,9 @@ import com.shinhanez.domain.ShezUser;
  */
 @Mapper
 public interface ShezUserMapper {
-    
+	List<ShezUser> findAll();
+    // 기존 DB 평문 PW 암호화 | 임시
+	int updatePassword(@Param("id") String id, @Param("pw") String pw);
     // 회원가입
     int insert(ShezUser user);
     

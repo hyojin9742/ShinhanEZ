@@ -1,45 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!-- header -->
 <div class="topWrap">
-  <div class="inner-wrap">
-    <h1 class="logo">
-      <a href="${ctx}/">
-        <span class="sr-only">신한EZ손해보험</span>
-      </a>
-    </h1>
-    <nav class="utilList" role="navigation" aria-label="관련 사이트 선택">
-      <div class="linkGroup">
-      <c:choose>
-      	<c:when test="${empty sessionScope.loginUser}">
-        	<a href="${ctx}/member/login" class="links">로그인</a>      	
-      	</c:when>
-      	<c:otherwise>
-      		<c:if test="${sessionScope.userRole == 'ROLE_ADMIN'}">
-                <a href="${ctx}/admin" class="links link-admin">관리자페이지</a>
-            </c:if>
-      		<span class="links user-name">
-      			<c:choose>
-      				<c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
-      					<c:choose>
-			                <c:when test="${sessionScope.adminRole == 'super'}">
-			                    <span><a href="/mypage/payments">${sessionScope.adminName}(관리자)님</a></span>
-			                </c:when>
-			                <c:when test="${sessionScope.adminRole == 'manager'}">
-			                    <span><a href="/mypage/payments">${sessionScope.adminName}(매니저)님</a></span>
-			                </c:when>
-			                <c:otherwise>
-			                    <span><a href="/mypage/payments">${sessionScope.adminName}(스태프)님</a></span>
-			                </c:otherwise>
-			            </c:choose>
-     				</c:when>
-      				<c:otherwise><a href="/mypage/payments">${sessionScope.userName}님</a></c:otherwise>
-      			</c:choose>
-      		</span>
-        	<a href="${ctx}/member/logout" class="links">로그아웃</a>   		
-      	</c:otherwise>
-      </c:choose>
+	<div class="inner-wrap">
+		<h1 class="logo">
+			<a href="${ctx}/">
+				<span class="sr-only">신한EZ손해보험</span>
+			</a>
+		</h1>
+	<nav class="utilList" role="navigation" aria-label="관련 사이트 선택">
+		<div class="linkGroup">
+			<sec:authorize access="isAnonymous()">
+				<a href="${ctx}/member/login" class="links">로그인</a>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal" var="principal" />
+			    <sec:authorize access="hasRole('ADMIN')">
+				    <a href="${ctx}/admin" class="links link-admin">관리자페이지</a>
+				</sec:authorize>
+				<span class="links user-name">
+				    <!-- 관리자 -->
+				    <sec:authorize access="hasRole('ADMIN')">
+		          		<a>
+							${principal.admin.adminName }
+							(<sec:authentication property="principal.displayRoleLabel" />)님
+						</a>
+				    </sec:authorize>				
+				    <!-- 일반 사용자 -->
+				    <sec:authorize access="hasRole('USER')">
+				    	<c:choose>
+				    		<c:when test="${principal.attributes != null }">
+						        <a href="/mypage/mypage">${principal.attributes['name'] }님</a>
+				    		</c:when>
+				    		<c:otherwise>
+						        <a href="/mypage/mypage">${principal.user.name }님</a>
+				    		</c:otherwise>
+				    	</c:choose>
+				    </sec:authorize>
+				    <sec:authorize access="hasRole('OAUTH')">
+				        <a href="/mypage/mypage">${principal.OAuthName }님</a>
+			        </sec:authorize>				    			
+		    	</span>
+			    <a href="${ctx}/member/logout" class="links">로그아웃</a>  
+			</sec:authorize>
         <a href="#" class="links">소비자포털</a>
         <a href="#" class="links">공시실</a>
         <a href="#" class="links">기업고객

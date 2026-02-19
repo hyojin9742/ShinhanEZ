@@ -160,6 +160,38 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+			<!-- paging -->
+			<div class="paging" id="paging">
+				<div>
+					<button class="ico-btn-start" type="button">
+						<a href="/product/list?pageNum=1"><span>처음</span></a>
+			    	</button>
+				    <button class="ico-btn-prev" type="button"
+						${paging.hasPrev ? "" : "disabled='disabled'"}>
+						<span>이전</span>
+				    </button>
+				    <ul>
+						<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+						<c:choose>
+							<c:when test="${i == paging.pageNum}">
+								<li class="on"><strong>${i}</strong><span class="blind">선택됨</span></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="/product/list?pageNum=${i}">${i}</a></li>
+							</c:otherwise>
+						</c:choose>
+						</c:forEach>
+					</ul>
+				    <button class="ico-btn-next" type="button"
+				      ${paging.hasNext ? "" : "disabled='disabled'"}>
+				      <span>다음</span>
+				    </button>
+				    <button class="ico-btn-end" type="button">
+				      <a href="/product/list?pageNum=${paging.endPage}"><span>마지막</span></a>
+				    </button>
+				</div>
+			</div>
+			<!--// paging -->
         </main>
 
         <footer id="footer" class="footer">
