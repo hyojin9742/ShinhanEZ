@@ -112,7 +112,7 @@
                                 <td>
                                     <a href="${ctx}/admin/payment/view/${payment.paymentId}" class="btn btn-sm btn-outline">상세</a>
                                     <a href="${ctx}/admin/payment/edit/${payment.paymentId}" class="btn btn-sm btn-warning">수정</a>
-                                    <a href="${ctx}/admin/payment/delete/${payment.paymentId}" class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+                                    <!-- <a href="${ctx}/admin/payment/delete/${payment.paymentId}" class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a> -->
                                 </td>
                             </tr>
                             </c:forEach>

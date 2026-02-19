@@ -17,7 +17,7 @@
 	    <result property="expiredDate" column="expired_date"/>
 	    <result property="premiumAmount" column="premium_amount"/>
 	    <result property="paymentCycle" column="payment_cycle"/>
-	    <result property="paymentMethod" column="payment_Method"/>
+	    <result property="paymentMethod" column="payment_method"/>
 	    <result property="contractStatus" column="contract_status"/>
 	    <result property="updateDate" column="update_date"/>
 	    <result property="adminId" column="admin_id"/>
@@ -118,6 +118,7 @@
 		    c.expired_date,
 		    c.contract_status,
 		    c.premium_amount,
+			c.payment_method,		    
 		    c.payment_cycle,
 		    c.update_date,
 		    c.admin_idx,

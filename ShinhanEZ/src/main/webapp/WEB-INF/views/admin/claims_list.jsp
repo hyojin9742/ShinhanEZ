@@ -100,10 +100,10 @@
                                     </a>
 
                                     <!-- 삭제: POST /admin/claims/{claimId}/delete 로 맞추는게 안전 -->
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                    <!-- <button type="button" class="btn btn-sm btn-outline-danger"
                                             onclick="deleteClaim('${c.claimId}')" title="삭제">
                                         <i class="bi bi-trash"></i>
-                                    </button>
+                                    </button> -->
                                 </td>
                             </tr>
                         </c:forEach>
@@ -169,7 +169,7 @@
 			  	<!-- 키워드 검색폼 -->
 			  	<form method="get" action="${ctx}/admin/claims" class="search-row search-right">
 			      	<input type="hidden" name="pageSize" value="${claimsCriteria.pageSize}" />
-			      	<div class="form-group">
+			      	<div class="form-group inputKeyword">
 			          	<input type="text"
 			                 name="keyword"
 			                 class="form-control input-md"

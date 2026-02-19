@@ -74,18 +74,29 @@
                             <td>${board.cnt}</td>
                         </tr>
                         <tr>
+                            <th>상태</th>
+                            <c:choose>
+                            	<c:when test="${board.status == 'Y' }">
+                            		<td>활성</td>
+                            	</c:when>
+                            	<c:otherwise>
+                            		<td>비활성</td>
+                            	</c:otherwise>
+                            </c:choose>
+                        </tr>
+                        <tr>
                             <th>내용</th>
                             <td class="view-content">${board.textarea}</td>
                         </tr>
                     </table>
 
                     <div class="btn-area">
-                        <a href="${ctx}/admin/notice/edit?idx=${board.idx}" class="btn btn-primary">수정</a>
+                        <a href="${ctx}/admin/notice/list" class="btn btn-secondary">목록</a>
                         <form action="${ctx}/admin/notice/delete" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
                             <input type="hidden" name="idx" value="${board.idx}">
                             <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
-                        <a href="${ctx}/admin/notice/list" class="btn btn-secondary">목록</a>
+						<a href="${ctx}/admin/notice/edit?idx=${board.idx}" class="btn btn-primary">수정</a>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,8 @@ CREATE TABLE shez_contracts (
     expired_date        DATE            NOT NULL,               -- 만료일
     premium_amount      NUMBER(30)      NOT NULL,               -- 실제 보험료
     payment_cycle       VARCHAR2(15)    NOT NULL                -- 납입주기
-        CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납', '일시납')),   
+        CHECK(payment_cycle IN('월납', '분기납', '반기납', '연납')),
+    payment_method      VARCHAR2(20),                           -- 납입 방법 (자동이체/카드/계좌이체)
     contract_status     VARCHAR2(10)    NOT NULL 
         CHECK(contract_status IN('활성','만료','해지','대기')),    -- 계약상태
     update_date         DATE            DEFAULT SYSDATE,        -- 수정일
@@ -108,6 +109,7 @@ reg_date,
 expired_date,
 contract_status,
 premium_amount,
+payment_method,
 payment_cycle,
 update_date,
 admin_idx,
@@ -126,6 +128,7 @@ FROM (
         c.expired_date,
         c.contract_status,
         c.premium_amount,
+        c.payment_method,
         c.payment_cycle,
         c.update_date,
         c.admin_idx,

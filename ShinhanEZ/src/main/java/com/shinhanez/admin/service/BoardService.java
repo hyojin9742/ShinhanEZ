@@ -57,6 +57,46 @@ public class BoardService {
 
         return result;
     }
+    // 목록 조회 (페이징, 검색)
+    public Map<String, Object> getBoardListwithStatus(int pageNum, String keyword) {
+    	
+    	int pageSize = 10;
+    	int blockSize = 10;
+    	
+    	// 검색 조건 파라미터
+    	Map<String, Object> params = new HashMap<>();
+    	params.put("keyword", keyword);
+    	
+    	// 전체 개수 조회
+    	int totalDB = boardMapper.countBoardwithStatus(params);
+    	
+    	// 페이징 계산
+    	Paging paging = new Paging(pageNum, pageSize, totalDB, blockSize);
+    	
+    	Map<String, Object> pagingMap = new HashMap<>();
+    	pagingMap.put("pageNum", paging.getPageNum());
+    	pagingMap.put("startPage", paging.getStartPage());
+    	pagingMap.put("endPage", paging.getEndPage());
+    	pagingMap.put("totalPages", paging.getTotalPages());
+    	pagingMap.put("hasPrev", paging.hasPrev());
+    	pagingMap.put("hasNext", paging.hasNext());
+    	
+    	int startRow = (pageNum - 1) * pageSize + 1;
+    	int endRow = pageNum * pageSize;
+    	
+    	params.put("startRow", startRow);
+    	params.put("endRow", endRow);
+    	
+    	// 목록 조회
+    	List<Board> list = boardMapper.selectBoardListwithStatus(params);
+    	
+    	// 결과 리턴
+    	Map<String, Object> result = new HashMap<>();
+    	result.put("list", list);
+    	result.put("paging", pagingMap);
+    	
+    	return result;
+    }
 
     // 상세 조회
     public Board getBoard(Long idx) {

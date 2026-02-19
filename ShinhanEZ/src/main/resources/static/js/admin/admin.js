@@ -76,7 +76,7 @@ $(document).ready(()=>{
 	        pgUl.append(`<li><a href="#" data-page="${paging.startPage - 1}">&laquo;</a></li>`);
 	    }
 		
-	    for (let i = pageInfo.pageNum; i <= pageInfo.endPage; i++) {
+	    for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
 	        const activePage = i === pageInfo.pageNum ? 'activePage' : '';
 	        pgUl.append(`<li><a href="#" class="${activePage}" data-page="${i}">${i}</a></li>`);
 	    }

@@ -14,6 +14,9 @@
         textarea.form-control { min-height: 300px; resize: vertical; }
         .btn-area { margin-top: 30px; text-align: center; }
         .btn-area .btn { margin: 0 5px; }
+        .form-group.titleStatusWrap {display: flex;}
+        .titleStatusWrap .form-group:first-child{width: 80%;margin-bottom: 0;}
+        .titleStatusWrap .form-group:last-child{width: 19%; margin-left: 1%;margin-bottom: 0;}
     </style>
 </head>
 
@@ -44,21 +47,28 @@
                 <div class="card-body">
                     <form action="${ctx}/admin/notice/edit" method="post">
                         <input type="hidden" name="idx" value="${board.idx}">
-
-                        <div class="form-group">
-                            <label class="form-label">제목 *</label>
-                            <input type="text" class="form-control" name="title" value="${board.title}" required>
-                        </div>
-
+						<div class="form-group titleStatusWrap">
+	                        <div class="form-group">
+	                            <label class="form-label">제목 *</label>
+	                            <input type="text" class="form-control" name="title" value="${board.title}" required>
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="form-label">상태</label>
+	                            <select class="form-control" name="status" required>
+	                                <option ${board.status=="Y"? "selected":""} value="Y">활성</option>
+	                                <option ${board.status=="N"? "selected":""} value="N">비활성</option>
+		                        </select>
+	                        </div>
+						</div>
                         <div class="form-group">
                             <label class="form-label">내용 *</label>
                             <textarea class="form-control" name="textarea" required>${board.textarea}</textarea>
                         </div>
 
                         <div class="btn-area">
-                            <button type="submit" class="btn btn-primary">수정</button>
-                            <a href="${ctx}/admin/notice/view?idx=${board.idx}" class="btn btn-outline">취소</a>
                             <a href="${ctx}/admin/notice/list" class="btn btn-secondary">목록</a>
+                            <a href="${ctx}/admin/notice/view?idx=${board.idx}" class="btn btn-outline">취소</a>
+							<button type="submit" class="btn btn-primary">수정</button>
                         </div>
 
                     </form>

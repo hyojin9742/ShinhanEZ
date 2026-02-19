@@ -69,6 +69,7 @@
                             <th style="width:100px; text-align: center;">작성자</th>
                             <th style="width:80px; text-align: center;">조회수</th>
                             <th style="width:120px; text-align: center;">등록일</th>
+                            <th style="width:120px; text-align: center;">상태</th>                            
                             <th style="width:140px; text-align: center;">관리</th>
                         </tr>
                         </thead>
@@ -118,7 +119,7 @@
 
         list.forEach(item => {
             const dateStr = item.regDate ? new Date(item.regDate).toISOString().substring(0, 10) : '-';
-
+			const statusData = item.status == 'Y'? "활성" : "비활성";
             html += `
             <tr>
                 <td style="text-align:center;"><strong>\${item.idx}</strong></td>
@@ -126,6 +127,7 @@
                 <td style="text-align:center;">\${item.id}</td>
                 <td style="text-align:center;">\${item.cnt}</td>
                 <td style="text-align:center;">\${dateStr}</td>
+                <td style="text-align:center;">\${statusData}</td>
                 <td>
                     <div class="btn-group-inline">
                         <a href="${ctx}/admin/notice/view?idx=\${item.idx}" class="btn btn-sm btn-outline" title="상세"><i class="bi bi-eye"></i></a>

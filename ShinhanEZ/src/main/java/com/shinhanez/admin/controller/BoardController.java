@@ -35,7 +35,7 @@ public class BoardController {
     public Map<String, Object> getNoticeList(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "") String keyword) {
-        return boardService.getBoardList(pageNum, keyword);
+        return boardService.getBoardListwithStatus(pageNum, keyword);
     }
 
     // 상세보기
