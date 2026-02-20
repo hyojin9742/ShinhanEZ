@@ -56,14 +56,14 @@
     <!-- 등록 -->
     <insert id="insert">
         INSERT INTO shez_payments (payment_id, contract_id, payment_date, due_date, amount, method, status)
-        VALUES (payment_seq.NEXTVAL, #{contractId}, #{paymentDate}, #{dueDate}, #{amount}, #{method}, #{status})
+        VALUES (payment_seq.NEXTVAL, #{contractId}, #{paymentDate, jdbcType=DATE}, #{dueDate}, #{amount}, #{method}, #{status})
     </insert>
     
     <!-- 수정 -->
     <update id="update">
         UPDATE shez_payments
         SET contract_id = #{contractId},
-            payment_date = #{paymentDate},
+            payment_date = #{paymentDate, jdbcType=DATE},
             due_date = #{dueDate},
             amount = #{amount},
             method = #{method},

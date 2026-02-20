@@ -60,10 +60,10 @@
 		<if test="criteria.dateCriteria != null and criteria.startDate != null and criteria.endDate != null">
 			<choose>
 				<when test="criteria.dateCriteria == 'regDate'">
-					AND c.reg_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}
+					AND c.reg_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}+1
 				</when>
 				<when test="criteria.dateCriteria == 'expiredDate'">
-					AND c.expired_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}
+					AND c.expired_date BETWEEN #{criteria.startDate} AND #{criteria.endDate}+1
 				</when>
 			</choose>
 		</if>
