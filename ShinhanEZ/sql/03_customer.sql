@@ -23,6 +23,8 @@ CREATE TABLE shez_customers (
                         CHECK (status IN ('Y', 'N')),       -- 상태 (Y:활성, N:비활성)
     reg_date        DATE            DEFAULT SYSDATE         -- 등록일
 );
+
+select * from shez_customers;
 ALTER TABLE shez_customers add CONSTRAINT uq_shez_customer_uniqueId
 UNIQUE (login_id);
 alter table shez_customers add constraint fk_shez_customer_loginId

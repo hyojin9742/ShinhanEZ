@@ -62,7 +62,7 @@ on shez_claims (status, claim_date desc, claim_id desc);
 --   - claim_id는 트리거가 자동 생성
 --   - completed만 paid_at/paid_amount/completed_at 세팅
 -- =========================================================
-
+commit;
 insert into shez_claims (customer_id, insured_id, contract_id, accident_date, claim_date, claim_amount, document_list, paid_at, paid_amount, status, completed_at, admin_idx) values ('C001', 'C001', 1, date '2025-01-01', date '2025-01-03',  500000, 'ID_CARD,ACCIDENT_REPORT', null, null,'PENDING', null, 1);
 insert into shez_claims (customer_id, insured_id, contract_id, accident_date, claim_date, claim_amount, document_list, paid_at, paid_amount, status, completed_at, admin_idx) values ('C002', 'C002', 2, date '2025-01-02', date '2025-01-04', 1200000, 'ID_CARD,MEDICAL_REPORT', null, null, 'PENDING', null, 2);
 insert into shez_claims (customer_id, insured_id, contract_id, accident_date, claim_date, claim_amount, document_list, paid_at, paid_amount, status, completed_at, admin_idx) values ('C003', 'C003', 3, date '2025-01-03', date '2025-01-05',  800000, 'ID_CARD', null, null, 'PENDING', null, 3);
@@ -98,6 +98,7 @@ select * from shez_claims order by claim_date desc, claim_id desc;
 
 -- 상세 조회
 select * from shez_claims where claim_id = 1;
+select * from shez_claims;
 
 -- =========================================================
 -- 8) update / delete (basic)
