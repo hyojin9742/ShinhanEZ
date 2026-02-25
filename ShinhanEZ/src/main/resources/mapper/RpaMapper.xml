@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shinhanez.admin.mapper.RpaMapper">
+	<select id="contracts" resultType="com.shinhanez.admin.domain.RpaDTO">
+		SELECT 
+			C.contract_id,
+		    C.customer_id,
+		    CU.name,
+		    CU.birth_date,
+		    CU.GENDER,
+		    C.product_id as "productNo",
+		    I.productName,
+		    I.category as "productCategory",
+		    C.reg_date,    
+		    C.expired_date,    
+		    C.update_date, 
+		    C.premium_amount,
+		    C.payment_cycle,
+		    C.contract_status
+		FROM 
+		    shez_contracts C
+		JOIN 
+		    SHEZ_INSURANCES I ON C.product_id= I.productNo
+		JOIN    
+		    shez_customers CU ON CU.customer_id = C.customer_id
+		ORDER BY 
+		    C.contract_id ASC
+	</select>
+	
+	
+	<select id="payments" resultType="com.shinhanez.admin.domain.RpaDTO">
+		SELECT 
+		    payment_id,
+		    contract_id,
+		    payment_date, 
+		    due_date, 
+		    amount,
+		    status
+		FROM shez_payments
+	</select>
+	<select id="claims" resultType="com.shinhanez.admin.domain.RpaDTO">
+		SELECT 
+		    claim_id,
+		    contract_id,
+		    claim_date, 
+		    claim_amount, 
+		    paid_at, 
+		    paid_amount,
+			status
+		FROM shez_claims
+	</select>
+	
+    
+
+</mapper>
