@@ -59,6 +59,7 @@ public class SecurityConfig {
                 .antMatchers("/board/list/**","/board/view/**").permitAll()
                 .antMatchers("/product/list/**","/product/detail/**").permitAll()
                 .antMatchers("/popup/**").permitAll()
+                .antMatchers("/ws/**").permitAll()
                 // 회원 전용 | 간편 로그인 + DB로그인
                 .antMatchers("/board/write/**","/board/edit/**","/board/delete/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/mypage/**").hasRole("USER")

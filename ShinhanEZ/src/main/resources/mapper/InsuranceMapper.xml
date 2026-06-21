@@ -101,4 +101,17 @@
     								where PRODUCTNO= #{productNo}
     
     </update>
+
+    <!-- 상태별 목록 -->
+    <select id="findByStatus" parameterType="String" resultType="com.shinhanez.admin.domain.Insurance">
+        SELECT productno AS productNo, productname AS productName, category,
+               basepremium AS basePremium, coveragerange AS coverageRange,
+               coverageperiod AS coveragePeriod, status,
+               createddate AS createdDate, updateddate AS updatedDate,
+               createduser AS createdUser, updateduser AS updatedUser
+        FROM shez_insurances
+        WHERE status = #{status}
+        ORDER BY productno DESC
+    </select>
+
 </mapper>

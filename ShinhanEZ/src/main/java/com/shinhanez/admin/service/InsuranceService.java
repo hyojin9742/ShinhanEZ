@@ -85,4 +85,8 @@ public class InsuranceService {
 		params.put("endRow", 10);
 		return insuranceMapper.selectInsuranceList(params);
 	}
+
+	public List<Insurance> findByStatus(String status) {
+		return insuranceMapper.findByStatus(status);
+	}
 }

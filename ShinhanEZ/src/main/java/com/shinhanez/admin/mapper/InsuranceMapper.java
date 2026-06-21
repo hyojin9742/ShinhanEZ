@@ -26,4 +26,6 @@ public interface InsuranceMapper {
     // 고객 삭제
     int delete(Insurance insurance);
 
+    List<Insurance> findByStatus(String status);
+
 }

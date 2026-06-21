@@ -86,3 +86,6 @@
   });
 </script>
 <!--//footer-->
+
+<!-- 챗봇 위젯 -->
+<%@ include file="/WEB-INF/views/chatbot/chatbot-widget.jsp" %>
